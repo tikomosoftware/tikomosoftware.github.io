@@ -145,6 +145,15 @@ h3 {
     position: relative;
 }
 
+.no-image-placeholder {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+    user-select: none;
+}
+
 .product-info h3 {
     font-size: 2rem;
     font-weight: 700;
