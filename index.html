@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tikomo software | Personal Software Studio</title>
+    <meta name="description" content="tikomo software - Windows Tools and Web Services by a Freelance Developer">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <!-- <img src="logo.png" alt="tikomo software Logo" class="hero-logo"> -->
+            <h1>tikomo software</h1>
+            <p>自分の使いやすいソフトウェア作って公開しています。</p>
+            <!-- <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="#products" class="btn btn-primary">プロダクトを見る</a>
+                <a href="#about" class="btn btn-outline">開発者について</a>
+            </div> -->
+        </div>
+    </header>
+
+    <main>
+
+        <section id="products" class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-info">
+                    <span class="section-label">Featured Software</span>
+                    <h3>Komic Viewer</h3>
+                    <p class="product-desc">
+                        軽量で使いやすいコミック・マンガビューアー
+                    </p>
+                    <ul class="feature-list">
+                        <li>多彩な表示モード: 単ページ・見開き表示に対応</li>
+                        <li>豊富な対応形式: ZIP, RAR, CBZ, CBR形式をサポート</li>
+                        <li>ダークテーマ: 目に優しいダークインターフェース</li>
+                        <li>直感的操作: マウス・キーボード・ホイールでの快適なナビゲーション</li>
+                        <li>フルスクリーン対応: 集中して読書を楽しめる</li>
+                        <li>ドラッグ&ドロップ: ファイルを簡単に開ける</li>
+                    </ul>
+                    <div class="download-buttons">
+                        <a href="https://www.vector.co.jp/" class="btn btn-vector" target="_blank">Vector</a>
+                        <!-- <a href="#" class="btn btn-msstore">Microsoft Store</a> -->
+                        <a href="https://github.com/tikomosoftware/KomicViewer-release/releases" class="btn btn-github"
+                            target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <div class="product-visual">
+                    <img src="images/komicviewer.png" alt="Komic Viewer Screenshot" class="zoomable-image"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Product 2: Web Services -->
+        <!-- <section class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-visual">
+                    <div style="text-align:center; color: #94a3b8;">
+                        <span style="font-size: 3rem; display:block;">🌐</span>
+                        Web Tool UI
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="section-label">Web Service</span>
+                    <h3>Utility Web Tools</h3>
+                    <p class="product-desc">
+                        インストール不要で使える、日常の「ちょっとした作業」を助けるブラウザツール群。
+                        JSON整形やBase64変換など、開発者に必要なツールをまとめています。
+                    </p>
+                    <ul class="feature-list">
+                        <li><strong>JSON Formatter:</strong> バリデーション付き整形ツール</li>
+                        <li><strong>Color Picker:</strong> 直感的なカラーパレット生成</li>
+                        <li>完全クライアントサイド処理でセキュア</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">ツール一覧へ</a>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- About Developer -->
+        <section id="about" class="developer-section">
+            <div class="container">
+                <div class="dev-profile">
+                    <img src="logo.png" alt="Developer Avatar" class="dev-avatar">
+                    <div class="dev-content">
+                        <span class="dev-role">Freelance Software Engineer</span>
+                        <h3>tikomo</h3>
+                        <p>
+                            フリーランスのエンジニアとして活動しています。
+                            このところAI関係のツールを使ってどこまでできるか確認しています。
+                            ...現時点で自分よりAIのほうが優秀だなぁと感じています。
+                        </p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">C# / .NET</span> <!-- <span class="tech-badge">TypeScript</span>
+                            <span class="tech-badge">React</span>
+                            <span class="tech-badge">WPF</span>
+                            <span class="tech-badge">Python</span> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="contact-cta">
+            <div class="container">
+                <h2>Connect & Request</h2>
+                <p style="margin: 1rem 0 2rem; color: var(--secondary-color);">
+                    ソフトウェアの不具合報告や、開発のご依頼はお気軽にご連絡ください。
+                </p>
+                <a href="mailto:tikomo@gmail.com" class="btn btn-primary">tikomo@gmail.com</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 tikomo software. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div id="caption"></div>
+    </div>
+
+    <script>
+        console.log("tikomo software loaded.");
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            const captionText = document.getElementById("caption");
+            const zoomableImages = document.querySelectorAll(".zoomable-image");
+            const closeBtn = document.querySelector(".close-modal");
+
+            // Add click event to all zoomable images
+            zoomableImages.forEach(img => {
+                img.addEventListener('click', function () {
+                    modal.style.display = "block";
+                    modalImg.src = this.src;
+                    captionText.innerHTML = this.alt;
+                });
+            });
+
+            // Close function
+            function closeModal() {
+                modal.style.display = "none";
+            }
+
+            // Close when clicking X
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeModal);
+            }
+
+            // Close when clicking outside of the image (on the overlay)
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', function (event) {
+                if (event.key === "Escape" && modal.style.display === "block") {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,433 @@
+:root {
+    /* Color Palette - Trust & Technology */
+    --bg-body: #ffffff;
+    --bg-light: #f8fafc;
+    /* Very light slate for section backgrounds */
+    --bg-white: #ffffff;
+
+    --primary-color: #2563eb;
+    /* Strong Royal Blue */
+    --primary-dark: #1e40af;
+    --secondary-color: #64748b;
+    /* Slate Grey for secondary text */
+    --text-main: #0f172a;
+    /* Dark Slate for headings */
+    --text-body: #334155;
+
+    --accent-light: #dbellf;
+    --border-subtle: #e2e8f0;
+
+    /* Spacing */
+    --container-width: 1024px;
+    --section-spacing: 6rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-body);
+    line-height: 1.75;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.2s;
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Typography */
+h1,
+h2,
+h3 {
+    color: var(--text-main);
+    line-height: 1.3;
+}
+
+.section-label {
+    display: block;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    color: var(--secondary-color);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* Header / Hero */
+.hero {
+    padding: 6rem 0 4rem;
+    text-align: center;
+    /* Custom User Blue */
+    background: #3C516D;
+    color: white;
+    /* Default text color for hero */
+}
+
+.product-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* border-radius: 12px; Removed as requested */
+    /* transition: transform 0.3s ease; Removed to avoid conflict with zoom class */
+    border: 2px solid #cbd5e1;
+    /* Thicker, clearly visible border (Slate-300) */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    /* Stronger 'lifted' shadow */
+}
+
+.hero-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    /* Ensure logo stands out */
+    padding: 2px;
+    /* Small border effect */
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    color: white;
+    /* Override default heading color */
+}
+
+.hero p {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.9);
+    /* Slight opacity for secondary text */
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+/* Feature Sections (Product Highlight) */
+.product-showcase {
+    background-color: var(--bg-white);
+    padding: var(--section-spacing) 0;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.product-showcase:last-of-type {
+    border-bottom: none;
+}
+
+.showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.product-visual {
+    background: var(--bg-light);
+    aspect-ratio: 16/10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+    position: relative;
+}
+
+.product-info h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.product-desc {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+}
+
+.feature-list {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.feature-list li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 0.95rem;
+}
+
+.feature-list li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    color: white;
+}
+
+.btn-outline {
+    border: 1px solid var(--border-subtle);
+    color: var(--text-body);
+    background: white;
+}
+
+.btn-outline:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-vector {
+    background-color: #00A63F;
+    /* Vector Green */
+    color: white;
+}
+
+.btn-vector:hover {
+    background-color: #008f35;
+    color: white;
+}
+
+.btn-msstore {
+    background-color: #000000;
+    /* MS Store Black */
+    color: white;
+}
+
+.btn-msstore:hover {
+    background-color: #333333;
+    color: white;
+}
+
+.btn-github {
+    background-color: #24292e;
+    /* GitHub Dark Grey */
+    color: white;
+}
+
+.btn-github:hover {
+    background-color: #444d56;
+    color: white;
+}
+
+.download-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* About / Developer Section */
+.developer-section {
+    background-color: var(--bg-light);
+    padding: var(--section-spacing) 0;
+}
+
+.dev-profile {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    border: 1px solid var(--border-subtle);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.dev-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.dev-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.dev-role {
+    font-size: 0.875rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.tech-stack {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.tech-badge {
+    background: var(--bg-light);
+    padding: 0.25rem 0.75rem;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+/* Contact */
+.contact-cta {
+    text-align: center;
+    padding: 6rem 0;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.875rem;
+    border-top: 1px solid var(--border-subtle);
+    color: var(--secondary-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .showcase-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-visual {
+        order: -1;
+    }
+
+    .dev-profile {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+}
+
+/* Zoomable Image Styles */
+.zoomable-image {
+    cursor: zoom-in;
+    transition: 0.3s;
+}
+
+.zoomable-image:hover {
+    opacity: 0.9;
+}
+
+/* Modal Styles */
+.image-modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1000;
+    /* Sit on top */
+    padding-top: 50px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.85);
+    /* Black w/ opacity */
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation-name: zoom;
+    animation-duration: 0.3s;
+}
+
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+    font-size: 1.1rem;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Zoom Animation */
+@keyframes zoom {
+    from {
+        transform: scale(0.8);
+        opacity: 0
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1
+    }
+}
+
+/* Responsive Modal */
+@media only screen and (max-width: 700px) {
+    .modal-content {
+        width: 95%;
+    }
+}
