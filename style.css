@@ -313,6 +313,19 @@ h3 {
     color: var(--secondary-color);
 }
 
+/* Badge container for shields.io badges */
+.badge-container {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.badge-container img {
+    height: 20px;
+    border-radius: 3px;
+}
+
 /* Contact */
 .contact-cta {
     text-align: center;
