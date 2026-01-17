@@ -189,6 +189,13 @@ h3 {
     margin: 0;
 }
 
+.story-divider {
+    border: 0;
+    border-top: 1px solid var(--border-subtle);
+    margin: 1rem 0;
+    opacity: 0.5;
+}
+
 
 .feature-list {
     list-style: none;
