@@ -44,6 +44,13 @@
                     <p class="product-desc">
                         軽量で使いやすいコミック・マンガビューアー
                     </p>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            ローカルに保存した多くのアーカイブを、ストレスなく、なおかつ「めくる」感覚を大切にしながら閲覧できるツールが欲しくて開発しました。
+                            多機能さよりも、起動の速さと直感的な操作感にこだわっています。
+                        </p>
+                    </div>
                     <ul class="feature-list">
                         <li><strong>多彩な表示モード:</strong> 単ページ・見開き表示に対応</li>
                         <li><strong>豊富な対応形式:</strong> ZIP, RAR, CBZ, CBR形式をサポート</li>
@@ -60,7 +67,10 @@
                     </div>
                 </div>
                 <div class="product-visual">
-                    <div class="no-image-placeholder">NO IMAGE</div>
+                    <div style="text-align:center; color: #94a3b8;">
+                        <span style="font-size: 3rem; display:block;">🖥️</span>
+                        Windows App
+                    </div>
                 </div>
             </div>
         </section>
@@ -68,6 +78,12 @@
         <!-- Product: KoClip2 -->
         <section class="product-showcase">
             <div class="container showcase-grid">
+                <div class="product-visual">
+                    <div style="text-align:center; color: #94a3b8;">
+                        <span style="font-size: 3rem; display:block;">⚙️</span>
+                        Windows Utility
+                    </div>
+                </div>
                 <div class="product-info">
                     <span class="section-label">Desktop Utility</span>
                     <h3>KoClip2</h3>
@@ -80,6 +96,13 @@
                         クリップボードにコピーされた画像を自動的に指定フォルダに保存するWindows用ツール。
                         .NETで完全再実装され、Webp保存に対応。
                     </p>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            技術資料の作成や開発中の画面記録の際、スクリーンショットを「撮って、保存して、名前をつける」という繰り返しに煩わしさを感じていました。
+                            コピーした瞬間に裏側で自動保存されるワークフローを構築するために開発しました。
+                        </p>
+                    </div>
                     <ul class="feature-list">
                         <li><strong>自動画像保存:</strong> クリップボード監視で画像を自動保存</li>
                         <li><strong>多彩な形式:</strong> BMP, JPEG, PNG, WebPに対応</li>
@@ -91,8 +114,83 @@
                             target="_blank">GitHub</a>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Product: UpscaleIco -->
+        <section class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-info">
+                    <span class="section-label">Python Utility</span>
+                    <h3>UpscaleIco</h3>
+                    <div class="badge-container">
+                        <img src="https://img.shields.io/badge/Python-3.9+-yellow" alt="Python 3.9+">
+                        <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
+                    </div>
+                    <p class="product-desc">
+                        低解像度のICOファイルを高品質なPNG（最大512x512）へ拡大・変換するツール。
+                    </p>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            古いソフトウェアのアイコン素材を現代の高解像度ディスプレイでも綺麗に表示したかったのですが、
+                            単純な拡大ではぼやけてしまうため、アルゴリズムを選択して綺麗に抽出できるスクリプトを作成しました。
+                        </p>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>高品質拡大:</strong> Lanczos補間による滑らかな拡大</li>
+                        <li><strong>ドット絵対応:</strong> Nearest Neighborによるエッジ維持</li>
+                        <li>アルファチャンネル（透明度）を保持した変換</li>
+                    </ul>
+                    <div class="download-buttons">
+                        <a href="https://github.com/tikomosoftware/UpscaleIco" class="btn btn-github"
+                            target="_blank">GitHub</a>
+                    </div>
+                </div>
                 <div class="product-visual">
-                    <div class="no-image-placeholder">NO IMAGE</div>
+                    <div style="text-align:center; color: #94a3b8;">
+                        <span style="font-size: 3rem; display:block;">🐍</span>
+                        Python Script
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product: PngToIco -->
+        <section class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-visual">
+                    <div style="text-align:center; color: #94a3b8;">
+                        <span style="font-size: 3rem; display:block;">📦</span>
+                        Icon Tool
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="section-label">Python Utility</span>
+                    <h3>PngToIco</h3>
+                    <div class="badge-container">
+                        <img src="https://img.shields.io/badge/Python-3.9+-yellow" alt="Python 3.9+">
+                        <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
+                    </div>
+                    <p class="product-desc">
+                        1つのPNG画像からマルチサイズ対応のWindowsアイコン(ICO)を生成するツール。
+                    </p>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            自作ソフトのアイコンを作成する際、複数の解像度を1つのICOにまとめる作業が手間に感じていました。
+                            「画像をドラッグ＆ドロップするだけで完了」する究極にシンプルなワークフローを目指して開発しました。
+                        </p>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>一括生成:</strong> 256px〜16pxまでの全サイズを内包</li>
+                        <li><strong>簡単操作:</strong> バッチファイルへのドラッグ＆ドロップで変換</li>
+                        <li>LANCZOS補間による高品質な縮小処理</li>
+                    </ul>
+                    <div class="download-buttons">
+                        <a href="https://github.com/tikomosoftware/PngToIco" class="btn btn-github"
+                            target="_blank">GitHub</a>
+                    </div>
                 </div>
             </div>
         </section>
