@@ -18,17 +18,39 @@
     <!-- Hero Section -->
     <header class="hero">
         <div class="container">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                <span class="theme-icon">☀️</span>
+            </button>
             <!-- <img src="logo.png" alt="tikomo software Logo" class="hero-logo"> -->
             <h1>tikomo software</h1>
             <p>自分の使いやすいソフトウェア作って公開しています。</p>
-            <!-- <div style="display: flex; gap: 1rem; justify-content: center;">
-                <a href="#products" class="btn btn-primary">プロダクトを見る</a>
-                <a href="#about" class="btn btn-outline">開発者について</a>
-            </div> -->
         </div>
     </header>
 
+    <!-- Category Navigation -->
+    <nav class="category-nav">
+        <div class="container">
+            <div class="category-buttons">
+                <a href="#windows-apps" class="category-btn">
+                    <span class="category-icon">🖥️</span>
+                    <span>Windows Apps</span>
+                </a>
+                <a href="#python-tools" class="category-btn">
+                    <span class="category-icon">🐍</span>
+                    <span>Python Tools</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
     <main>
+
+        <!-- Windows Apps Section -->
+        <div id="windows-apps" class="category-section">
+            <div class="container">
+                <h2 class="category-title">Windows Apps</h2>
+            </div>
+        </div>
 
         <section id="products" class="product-showcase">
             <div class="container showcase-grid">
@@ -53,7 +75,7 @@
                             多機能さよりも、起動の速さと直感的な操作感にこだわっています。
                         </p>
                         <hr class="story-divider">
-                        <h4>真実</h4>
+                        <h4>本当は...</h4>
                         <p>
                             KiroでWindowsアプリを作る検証のためにそこそこ複雑なアプリを作ろうと思って作ってみました。
                             慣れているのでWindowsフォームにしたのですが指示が悪かったためUI部分をコードで実装する作りになって
@@ -117,10 +139,10 @@
                             コピーした瞬間に裏側で自動保存されるワークフローを構築するために開発しました。
                         </p>
                         <hr class="story-divider">
-                        <h4>真実</h4>
+                        <h4>本当は...</h4>
                         <p>
                             Kiroで以前作成していたDelphiのアプリをC#にコンバートができるかの検証のために作成してみました。
-                            一度作成したアプリを別の言語で作成するのは、なかなか気が進まなかったのでAIの助けを借りていい機会だと思いやってみました。
+                            一度作成したアプリを別の言語で作成するのは、なかなか腰が重くなってたのでAIの助けを借りていい機会だと思いやってみました。
                             Web系のアプリのレガシーから最新環境へのコンバートは結構いい感じにできたのでWindowsアプリはどうかと思っていたのですが...
                             結果いけました。しかし...ここでも問題が...今回も指示が悪くまたUI部分をコードで実装する作りになってしまいVisual Studio 2026
                             communityのデザイナーの利点がなくなってしまいました。日本語しか話してません。
@@ -165,7 +187,7 @@
                             「フォルダを投げ込むだけで終わる」という究極のシンプルさと、マルチコアを活かした爆速な処理スピードを両立させるために開発しました。
                         </p>
                         <hr class="story-divider">
-                        <h4>真実</h4>
+                        <h4>本当は...</h4>
                         <p>
                             以前作成していたDelphiのアプリを新規でAntiGravityを使ってC#のWindowsアプリを作成してみました。
                             仕様は以前のアプリの仕様そのままで、今回はC#で作成したい、作成後VisualStudio2026での編集を考慮してデザイナで変更できるようにしてほしいと
@@ -194,6 +216,66 @@
                 </div>
             </div>
         </section>
+
+        <!-- Product: KoFolderSync -->
+        <section class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-visual">
+                    <div style="text-align:center; color: #94a3b8;">
+                        <span style="font-size: 3rem; display:block;">🔄</span>
+                        Windows Utility
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="section-label">Windows Utility</span>
+                    <h3>KoFolderSync</h3>
+                    <div class="badge-container">
+                        <img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows">
+                        <img src="https://img.shields.io/badge/.NET-10.0-purple.svg" alt=".NET 10.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
+                        <img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0">
+                    </div>
+                    <p class="product-desc">
+                        シンプルで使いやすいフォルダ同期アプリケーション。
+                        ソースフォルダから同期先フォルダへファイルを効率的にコピーし、オプションで完全同期（ミラーリング）も可能です。
+                    </p>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            バックアップや複数のフォルダを同期する際、既存のツールでは設定が複雑だったり、
+                            シンプルな操作で素早く同期できるツールが欲しくて開発しました。
+                            ドラッグ&ドロップ対応で直感的に使え、並列処理による高速同期を実現しています。
+                        </p>
+                        <hr class="story-divider">
+                        <h4>本当は...</h4>
+                        <p>
+                            必要に迫られて作成、VisualStudio2026,Kiro,Antigravityを交互に使っても破綻しないのか検証も行う。
+                            VisualStudio2026で作成した日本語のコメントやREADME.mdがKiro,Antigravityで開くと文字化け？してしまっていた。
+                            結局途中からVisualStudio2026を使うのをやめ、Kiro,Antigravityで開発を行った。
+                            やっぱり日本語しか話してません。
+                        </p>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>高速並列処理:</strong> マルチスレッドで効率的にファイルをコピー</li>
+                        <li><strong>完全同期モード:</strong> ミラーリングで同期先を完全一致させる</li>
+                        <li><strong>ドラッグ&ドロップ:</strong> フォルダを簡単に設定可能</li>
+                        <li><strong>途中停止機能:</strong> 同期を安全に中断できる</li>
+                        <li><strong>設定の自動保存:</strong> 前回の設定を記憶して再利用</li>
+                        <li><strong>詳細なログ:</strong> 進捗状況とエラーを確認できる</li>
+                    </ul>
+                    <div class="download-buttons">
+                        <a href="https://github.com/tikomosoftware/KoFolderSync-release" class="btn btn-github"
+                            target="_blank">GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Python Tools Section -->
+        <div id="python-tools" class="category-section">
+            <div class="container">
+                <h2 class="category-title">Python Tools</h2>
+            </div>
+        </div>
 
         <!-- Product: UpscaleIco -->
         <section class="product-showcase">
@@ -353,6 +435,30 @@
     <script>
         console.log("tikomo software loaded.");
 
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.querySelector('.theme-icon');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to dark mode
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        // Image Modal
         document.addEventListener('DOMContentLoaded', () => {
             const modal = document.getElementById("imageModal");
             const modalImg = document.getElementById("modalImage");

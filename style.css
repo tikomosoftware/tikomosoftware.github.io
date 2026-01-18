@@ -17,9 +17,29 @@
     --accent-light: #dbellf;
     --border-subtle: #e2e8f0;
 
+    --hero-bg: #3C516D;
+    --category-bg: #5a6f8a;
+
     /* Spacing */
     --container-width: 1024px;
     --section-spacing: 6rem;
+}
+
+[data-theme="dark"] {
+    --bg-body: #0f172a;
+    --bg-light: #1e293b;
+    --bg-white: #1e293b;
+
+    --primary-color: #60a5fa;
+    --primary-dark: #3b82f6;
+    --secondary-color: #94a3b8;
+    --text-main: #f1f5f9;
+    --text-body: #cbd5e1;
+
+    --border-subtle: #334155;
+
+    --hero-bg: #1e293b;
+    --category-bg: #334155;
 }
 
 * {
@@ -28,11 +48,16 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Noto Sans JP', sans-serif;
     background-color: var(--bg-body);
     color: var(--text-body);
     line-height: 1.75;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -69,10 +94,106 @@ h3 {
 .hero {
     padding: 6rem 0 4rem;
     text-align: center;
-    /* Custom User Blue */
-    background: #3C516D;
+    background: var(--hero-bg);
     color: white;
-    /* Default text color for hero */
+    position: relative;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+.theme-icon {
+    font-size: 1.5rem;
+    display: block;
+    line-height: 1;
+}
+
+/* Category Navigation */
+.category-nav {
+    background-color: var(--bg-light);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 1.5rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .category-nav {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.category-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-white);
+    border: 2px solid var(--border-subtle);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-weight: 600;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.category-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .category-btn:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+.category-icon {
+    font-size: 1.25rem;
+}
+
+/* Category Section Headers */
+.category-section {
+    background: var(--category-bg);
+    padding: 1.5rem 0;
+    margin-top: 0;
+}
+
+.category-title {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+    letter-spacing: -0.02em;
 }
 
 .product-visual img {
@@ -143,6 +264,10 @@ h3 {
     border: 1px solid var(--border-subtle);
     overflow: hidden;
     position: relative;
+}
+
+[data-theme="dark"] .product-visual img {
+    border-color: var(--border-subtle);
 }
 
 .no-image-placeholder {
@@ -240,7 +365,7 @@ h3 {
 .btn-outline {
     border: 1px solid var(--border-subtle);
     color: var(--text-body);
-    background: white;
+    background: var(--bg-white);
 }
 
 .btn-outline:hover {
@@ -298,7 +423,7 @@ h3 {
     display: flex;
     align-items: flex-start;
     gap: 2rem;
-    background: white;
+    background: var(--bg-white);
     padding: 2.5rem;
     border-radius: 16px;
     border: 1px solid var(--border-subtle);
@@ -386,6 +511,19 @@ footer {
         flex-direction: column;
         text-align: center;
         align-items: center;
+    }
+
+    .category-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .category-btn {
+        justify-content: center;
+    }
+
+    .category-title {
+        font-size: 1.5rem;
     }
 }
 
