@@ -39,6 +39,10 @@
                     <span class="category-icon">🐍</span>
                     <span>Python Tools</span>
                 </a>
+                <a href="#web-services" class="category-btn">
+                    <span class="category-icon">🌐</span>
+                    <span>Web Services</span>
+                </a>
             </div>
         </div>
     </nav>
@@ -528,7 +532,70 @@
             </div>
         </section>
 
-        <!-- Product 2: Web Services -->
+        <!-- Web Services Section -->
+        <div id="web-services" class="category-section">
+            <div class="container">
+                <h2 class="category-title">Web Services</h2>
+            </div>
+        </div>
+
+        <!-- Product: Hono Dummy API -->
+        <section class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-info">
+                    <span class="section-label">Web Service</span>
+                    <h3>Dummy REST API</h3>
+                    <div class="badge-container">
+                        <img src="https://img.shields.io/badge/Platform-Web-blue" alt="Platform Web">
+                        <img src="https://img.shields.io/badge/Framework-Hono-orange" alt="Framework Hono">
+                        <img src="https://img.shields.io/badge/Deploy-Vercel-black" alt="Deploy Vercel">
+                        <img src="https://img.shields.io/badge/License-Open_Source-green" alt="License Open Source">
+                    </div>
+                    <p class="product-desc">
+                        開発者がテスト目的で使用できる、ダミーREST APIエンドポイントを提供するWebサービス。
+                        Honoフレームワークで構築され、Vercelにサーバーレスデプロイされています。
+                    </p>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            フロントエンド開発やAPIクライアントのテスト時に、手軽に使えるダミーAPIが欲しかったため開発しました。
+                            JSONPlaceholderのような既存サービスを参考にしつつ、日本語対応や特殊エンドポイント（遅延、ステータスコード）などの機能を追加しています。
+                        </p>
+                        <hr class="story-divider">
+                        <h4>Honoフレームワークを試してみたかった</h4>
+                        <p>
+                            軽量で高速なHonoフレームワークを使ってみたくて、このプロジェクトを作成しました。
+                            Vercelへのデプロイも簡単で、サーバーレス環境での運用がスムーズにできています。
+                            Swagger UIも統合されているので、APIのドキュメントも自動生成されます。
+                        </p>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>複数のリソースタイプ:</strong> ユーザー、投稿、コメント、商品、Todo</li>
+                        <li><strong>完全なCRUD操作:</strong> GET、POST、PUT、DELETE対応</li>
+                        <li><strong>ページネーション＆ソート:</strong> クエリパラメータでデータ制御</li>
+                        <li><strong>特殊エンドポイント:</strong> 遅延シミュレーション、ステータスコードテスト、ランダムデータ生成</li>
+                        <li><strong>Swagger UI:</strong> インタラクティブなAPIドキュメント</li>
+                        <li><strong>バイリンガル:</strong> 日本語と英語のエラーメッセージ</li>
+                    </ul>
+                    <div class="download-buttons">
+                        <a href="https://dummy-rest-api-beta.vercel.app/" class="btn btn-primary"
+                            target="_blank">サービスを開く</a>
+                        <a href="https://dummy-rest-api-beta.vercel.app/api-docs" class="btn btn-outline"
+                            target="_blank">Swagger UI</a>
+                        <!-- <a href="https://github.com/tikomosoftware/DummyRestApi" class="btn btn-github"
+                            target="_blank">GitHub</a> -->
+                    </div>
+                </div>
+                <div class="product-visual">
+                    <div style="text-align:center; color: #94a3b8;">
+                        <span style="font-size: 3rem; display:block;">🔌</span>
+                        REST API Service
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product 2: Web Services (Commented Out) -->
         <!-- <section class="product-showcase">
             <div class="container showcase-grid">
                 <div class="product-visual">
@@ -569,7 +636,11 @@
                             （ここ十年以上Webの開発がメインでWindowsアプリを作ってみたくなったのも理由の一つです（笑））
                         </p>
                         <div class="tech-stack">
-                            <span class="tech-badge">C# / .NET</span> <!-- <span class="tech-badge">TypeScript</span>
+                            <span class="tech-badge">8085(8bit)</span>
+                            <span class="tech-badge">M37702(16bit)</span>
+                            <span class="tech-badge">から始まり...今なら...AIって書くかなぁ（笑）</span>
+                            <!-- <span class="tech-badge">C# / .NET</span> 
+                            <span class="tech-badge">TypeScript</span>
                             <span class="tech-badge">React</span>
                             <span class="tech-badge">WPF</span>
                             <span class="tech-badge">Python</span> -->
