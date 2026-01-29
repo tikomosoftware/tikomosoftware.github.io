@@ -228,10 +228,7 @@
         <section class="product-showcase">
             <div class="container showcase-grid">
                 <div class="product-visual">
-                    <div style="text-align:center; color: #94a3b8;">
-                        <span style="font-size: 3rem; display:block;">🔄</span>
-                        Windows Utility
-                    </div>
+                    <img src="images/kofoldersync.png" alt="KoFolderSync Screenshot" class="zoomable-image">
                 </div>
                 <div class="product-info">
                     <span class="section-label">Windows Utility</span>
@@ -240,9 +237,8 @@
                         <img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows">
                         <img src="https://img.shields.io/badge/.NET-10.0-purple.svg" alt=".NET 10.0"><img
                             src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
-                        <img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0">
-                        `<img
-                            src="https://img.shields.io/badge/Tool-Antigravity%20commit%201.14.2%20Fast%20Gemini%202%20Flash%20-blueviolet"
+                        <img src="https://img.shields.io/badge/Version-1.0.1-orange" alt="Version 1.0.1">
+                        <img src="https://img.shields.io/badge/Tool-Antigravity%20commit%201.14.2%20Fast%20Gemini%202%20Flash%20-blueviolet"
                             alt="Tool: Antigravity commit 1.14.2 Fast Gemini 2 Flash">
                         <img src="https://img.shields.io/badge/Tool-Kiro%200.8.140%20Auto-blueviolet"
                             alt="Tool: Kiro 0.8.140 Auto">
@@ -293,8 +289,8 @@
                         <img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows">
                         <img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0">
                         <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
-                        <img src="https://img.shields.io/badge/Version-0.1.0--alpha-orange" alt="Version 0.1.0-alpha">
-                        <img src="https://img.shields.io/badge/Status-Alpha-red" alt="Status Alpha">
+                        <img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0">
+                        <img src="https://img.shields.io/badge/Status-Stable-green" alt="Status Stable">
                         <img src="https://img.shields.io/badge/Tool-Antigravity%20commit%201.14.2%20Fast%20Gemini%202%20Flash%20-blueviolet"
                             alt="Tool: Antigravity commit 1.14.2 Fast Gemini 2 Flash">
                         <img src="https://img.shields.io/badge/Tool-Kiro%200.8.140%20Auto-blueviolet"
@@ -346,10 +342,7 @@
         <section class="product-showcase">
             <div class="container showcase-grid">
                 <div class="product-visual">
-                    <div style="text-align:center; color: #94a3b8;">
-                        <span style="font-size: 3rem; display:block;">📖</span>
-                        Windows Utility
-                    </div>
+                    <img src="images/koreadingabook.png" alt="KoReadingABook Screenshot" class="zoomable-image">
                 </div>
                 <div class="product-info">
                     <span class="section-label">Utility Tool</span>
@@ -358,24 +351,24 @@
                         <img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows">
                         <img src="https://img.shields.io/badge/.NET-10.0-purple" alt=".NET 10.0">
                         <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
-                        <img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0">
+                        <img src="https://img.shields.io/badge/Version-1.0.1-orange" alt="Version 1.0.1">
                         <img src="https://img.shields.io/badge/Tool-Antigravity%20commit%201.14.2%20Fast%20Gemini%202%20Flash%20-blueviolet"
                             alt="Tool: Antigravity commit 1.14.2 Fast Gemini 2 Flash">
                     </div>
                     <p class="product-desc">
-                        PCの操作をシミュレートするユーティリティツール。定期的にウィンドウをアクティブ化し、マウスを自動移動することで、ユーザーがPCを操作している状態を維持します。
+                        読書中や離席中にPCがスリープしたり、チャットツールのステータスが「離席中」になったりするのを防ぐために開発しました。
+                        マウスの自動移動と定期的なウィンドウ切り替えにより、人が操作している状態をシミュレートします。
                     </p>
                     <div class="background-story">
                         <h4>作成の経緯</h4>
                         <p>
-                            長時間の作業中にスクリーンセーバーが起動したり、自動ロックがかかったりするのを防ぎたいという需要から開発しました。
+                            物理的にマウスを動かすデバイスもありますが、ソフトウェアでスマートに解決したくて作りました。
                             シンプルな操作で、PCがアクティブな状態を保つことができます。
                         </p>
                         <hr class="story-divider">
-                        <h4>...</h4>
+                        <h4>本をゆっくり読みたいだけなんだ...</h4>
                         <p>
-                            本を読みたい...
-                            これも日本語で指示してます。
+                            これも日本語で指示してます。Antigravityの優秀さがよくわかる、シンプルながらも実用的なツールです。
                         </p>
                     </div>
                     <ul class="feature-list">
@@ -765,15 +758,17 @@
             // Add click event to all zoomable images
             zoomableImages.forEach(img => {
                 img.addEventListener('click', function () {
-                    modal.style.display = "block";
+                    modal.style.display = "flex";
                     modalImg.src = this.src;
                     captionText.innerHTML = this.alt;
+                    document.body.style.overflow = "hidden"; // Prevent background scrolling
                 });
             });
 
             // Close function
             function closeModal() {
                 modal.style.display = "none";
+                document.body.style.overflow = ""; // Restore scrolling
             }
 
             // Close when clicking X
@@ -790,7 +785,7 @@
 
             // Close on Escape key
             document.addEventListener('keydown', function (event) {
-                if (event.key === "Escape" && modal.style.display === "block") {
+                if (event.key === "Escape" && modal.style.display === "flex") {
                     closeModal();
                 }
             });
