@@ -229,12 +229,66 @@
             </div>
         </section>
 
-        <!-- Product: KoFolderSync -->
+        <!-- Product: KoThumb Mini -->
         <section class="product-showcase">
             <div class="container showcase-grid">
                 <div class="product-visual">
-                    <img src="images/kofoldersync.png" alt="KoFolderSync Screenshot" class="zoomable-image">
+                    <img src="images/kothumbmini.png" alt="KoThumb Mini Screenshot" class="zoomable-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div
+                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                        <span style="font-size: 3rem; display:block;">🖼️</span>
+                        Windows App
+                    </div>
                 </div>
+                <div class="product-info">
+                    <span class="section-label">Windows Utility</span>
+                    <h3>KoThumb Mini</h3>
+                    <div class="badge-container">
+                        <img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows">
+                        <img src="https://img.shields.io/badge/.NET-9.0-purple.svg" alt=".NET 9.0">
+                        <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
+                        <img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0">
+                        <img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity">
+                    </div>
+                    <p class="product-desc">
+                        究極にシンプルな画像一括リサイズ・変換ツール。
+                        「フォルダを指定する」という手間さえも削ぎ落とし、デスクトップの隅に置いて「落とすだけ」で使えるミニマルなツールです。
+                    </p>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            KoThumb2よりもさらに手軽に、直感的にリサイズを行いたくて開発しました。
+                            設定画面を開く手間すら惜しいとき、あらかじめ決めた設定で「ポイッ」と画像を投げるだけで完了する。
+                            そんな日常の動作に溶け込むツールを目指しました。
+                        </p>
+                        <hr class="story-divider">
+                        <h4>KoThumb2からの引き算、そしてデザインへのこだわり</h4>
+                        <p>
+                            KoThumb2を作った後、もっとシンプルにできるんじゃないかと思い、機能を削ぎ落としてUIを磨き上げました。
+                            今回はWPFを採用し、グラスモーフィズム（半透明のぼかし）を取り入れたモダンな外観に仕上げています。
+                            これもAntigravityを使って、日本語での対話だけで作成しました。
+                            機能は最小限ですが、その分「迷わない」快適さがあります。
+                        </p>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>究極のシンプルさ:</strong> ウィンドウに画像をドロップするだけで即座に処理開始</li>
+                        <li><strong>美しくモダンなUI:</strong> ダークモードとグラスモーフィズムを採用したスタイリッシュな外観</li>
+                        <li><strong>高速並列リサイズ:</strong> .NET 9.0とImageSharpによる軽快な動作</li>
+                        <li><strong>自動保存:</strong> 元ファイルの隣に `resized` フォルダを自動生成して保存</li>
+                        <li><strong>設定不要の快適さ:</strong> 迷わせないための「引き算」の設計</li>
+                    </ul>
+                    <div class="download-buttons">
+                        <a href="https://github.com/tikomosoftware/KoThumbMini" class="btn btn-github"
+                            target="_blank">GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product: KoFolderSync -->
+        <section class="product-showcase">
+            <div class="container showcase-grid">
                 <div class="product-info">
                     <span class="section-label">Windows Utility</span>
                     <h3>KoFolderSync</h3>
@@ -281,12 +335,21 @@
                             target="_blank">GitHub</a>
                     </div>
                 </div>
+                <div class="product-visual">
+                    <img src="images/kofoldersync.png" alt="KoFolderSync Screenshot" class="zoomable-image">
+                </div>
             </div>
         </section>
 
         <!-- Product: KoExplorer -->
         <section class="product-showcase">
             <div class="container showcase-grid">
+                <div class="product-visual">
+                    <div style="text-align:center; color: #94a3b8;">
+                        <span style="font-size: 3rem; display:block;">🖼️</span>
+                        Windows App
+                    </div>
+                </div>
                 <div class="product-info">
                     <span class="section-label">Image Viewer</span>
                     <h3>KoExplorer</h3>
@@ -313,7 +376,7 @@
                         <hr class="story-divider">
                         <h4>うーん...新しい技術スタックだとWindowsアプリはきついかも</h4>
                         <p>
-                            C#14, WPF, CommunityToolkit.Mvvmを使ってもAIで開発できるかやってみたかった。
+                            C#14, WPF, CommunityToolkit.Mvvmを使ってもAIで開発できるかやってみたかった.
                             WindowsFormより引っかかった感じです。どうにもならない感じになって解決するのに...
                             デバッグの考え方や、ログ出して確認する方法まで指示必要がありましたがなんとか山を越えた感じです。
                             最初AntiGravityで作成し大枠は終了、クレジットがなくなったのでその後動くようにするまでは
@@ -334,21 +397,12 @@
                             target="_blank">GitHub</a>
                     </div>
                 </div>
-                <div class="product-visual">
-                    <div style="text-align:center; color: #94a3b8;">
-                        <span style="font-size: 3rem; display:block;">🖼️</span>
-                        Windows App
-                    </div>
-                </div>
             </div>
         </section>
 
         <!-- Product: KoReadingABook -->
         <section class="product-showcase">
             <div class="container showcase-grid">
-                <div class="product-visual">
-                    <img src="images/koreadingabook.png" alt="KoReadingABook Screenshot" class="zoomable-image">
-                </div>
                 <div class="product-info">
                     <span class="section-label">Utility Tool</span>
                     <h3>KoReadingABook</h3>
@@ -389,12 +443,25 @@
                             target="_blank">GitHub</a>
                     </div>
                 </div>
+                <div class="product-visual">
+                    <img src="images/koreadingabook.png" alt="KoReadingABook Screenshot" class="zoomable-image">
+                </div>
             </div>
         </section>
 
         <!-- Product: KoScreenPresenterAssist -->
         <section class="product-showcase">
             <div class="container showcase-grid">
+                <div class="product-visual">
+                    <img src="images/KoScreenPresenterAssist.png" alt="KoScreenPresenterAssist Screenshot"
+                        class="zoomable-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div
+                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                        <span style="font-size: 3rem; display:block;">🎨</span>
+                        Presentation Tool
+                    </div>
+                </div>
                 <div class="product-info">
                     <span class="section-label">Presentation Tool</span>
                     <h3>KoScreenPresenterAssist</h3>
@@ -434,16 +501,6 @@
                     <div class="download-buttons">
                         <a href="https://github.com/tikomosoftware/KoScreenPresenterAssist/releases"
                             class="btn btn-github" target="_blank">GitHub</a>
-                    </div>
-                </div>
-                <div class="product-visual">
-                    <img src="images/KoScreenPresenterAssist.png" alt="KoScreenPresenterAssist Screenshot"
-                        class="zoomable-image"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div
-                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-                        <span style="font-size: 3rem; display:block;">🎨</span>
-                        Presentation Tool
                     </div>
                 </div>
             </div>
