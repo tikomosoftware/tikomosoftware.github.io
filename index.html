@@ -631,9 +631,12 @@
                         <li><strong>読書進捗保存:</strong> 最後に読んだページを自動記憶</li>
                         <li><strong>ダークテーマ:</strong> ライト/ダーク切り替え対応</li>
                     </ul>
+                    <p class="install-notice" style="font-size: 0.8rem; color: #94a3b8; margin-top: 1rem;">
+                        ※本アプリはPlayストア外公開です。インストールには「提供元不明のアプリのインストール」を許可する必要があります。
+                    </p>
                     <div class="download-buttons">
-                        <a href="https://github.com/tikomosoftware/KomicViewer/releases/tag/android-v1.0.0"
-                            class="btn btn-github" target="_blank">GitHub (APK)</a>
+                        <a href="./apks/KomicViewer-v1.0.1.apk" class="btn btn-primary" download>直接ダウンロード (APK)</a>
+                        <a href="#" class="btn btn-github disabled" style="opacity: 0.5; pointer-events: none;">GitHub (Private)</a>
                     </div>
                 </div>
                 <div class="product-visual">
@@ -641,6 +644,62 @@
                         style="text-align:center; color: #94a3b8; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
                         <span style="font-size: 3rem; display:block;">📱</span>
                         Android App
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Product: iBeacon Scanner -->
+        <section class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-visual">
+                    <div
+                        style="text-align:center; color: #94a3b8; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                        <span style="font-size: 3rem; display:block;">📡</span>
+                        Android App
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="section-label">Android App</span>
+                    <h3>iBeacon Scanner</h3>
+                    <div class="badge-container">
+                        <img src="https://img.shields.io/badge/Platform-Android-brightgreen" alt="Platform Android">
+                        <img src="https://img.shields.io/badge/Framework-Flutter-02569B" alt="Framework Flutter">
+                        <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
+                        <img src="https://img.shields.io/badge/Version-1.0.5-orange" alt="Version 1.0.5">
+                        <img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity">
+                    </div>
+                    <p class="product-desc">
+                        Bluetooth Low Energy (BLE) を利用して、周囲のiBeaconをリアルタイムに検出し解析するスキャナーアプリ。
+                        UUID/Major/Minor/RSSIの表示に加え、バックグラウンド検知と通知機能を搭載しています。
+                    </p>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            以前、Java (Android SDK) で開発していたiBeaconスキャンツールを、モダンなフレームワークである Flutter 
+                            でどこまで再現できるか検証するために開発しました。「昔の技術で作れたものを、今の流行りで作り直せるか？」という挑戦がスタート地点です。
+                        </p>
+                        <hr class="story-divider">
+                        <h4>最新のAndroid BLE事情を肌で感じる</h4>
+                        <p>
+                            昔に比べて格段に厳しくなったAndroidのバックグラウンド制限や、最新のBLEスタックの挙動を深く理解することが当初の目標でした。
+                            Antigravityとの共同開発により、フォアグラウンドサービスや通知、電波の不安定さを考慮した「30秒ルール」など、
+                            最新OSでも確実かつスマートに動作するスキャナーを構築することができ、当初の目標を達成できました。日本語で指示してます。
+                        </p>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>リアルタイムスキャンの可視化:</strong> 検出した全ビーコンのパラメータと推定距離を表示</li>
+                        <li><strong>バックグラウンド動作:</strong> Androidフォアグラウンドサービスによる確実な監視</li>
+                        <li><strong>スマート通知:</strong> 新しいビーコンを検知した際にポップアップで通知</li>
+                        <li><strong>重複検知制御:</strong> 電波が不安定な場合でも連続通知を抑えるお掃除タイマー機能</li>
+                        <li><strong>データ自動同期:</strong> バックグラウンドで見つけた情報を自動的にリストへ統合</li>
+                    </ul>
+                    <p class="install-notice" style="font-size: 0.8rem; color: #94a3b8; margin-top: 1rem;">
+                        ※本アプリはPlayストア外公開です。インストールには「提供元不明のアプリのインストール」を許可する必要があります。
+                    </p>
+                    <div class="download-buttons">
+                        <a href="./apks/iBeaconScanner-v1.0.5.apk" class="btn btn-primary" download>直接ダウンロード (APK)</a>
+                        <a href="#" class="btn btn-github disabled" style="opacity: 0.5; pointer-events: none;">GitHub (Private)</a>
                     </div>
                 </div>
             </div>
