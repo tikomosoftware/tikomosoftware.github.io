@@ -23,7 +23,7 @@
         <div class="container">
             <!-- <img src="logo.png" alt="tikomo software Logo" class="hero-logo"> -->
             <h1>tikomo software</h1>
-            <p>自分の使いやすいソフトウェア作って公開しています。</p>
+            <p>自分の欲しいソフトウェア作って公開しています。</p>
         </div>
     </header>
 
@@ -636,7 +636,8 @@
                     </p>
                     <div class="download-buttons">
                         <a href="./apks/KomicViewer-v1.0.1.apk" class="btn btn-primary" download>直接ダウンロード (APK)</a>
-                        <a href="#" class="btn btn-github disabled" style="opacity: 0.5; pointer-events: none;">GitHub (Private)</a>
+                        <a href="#" class="btn btn-github disabled" style="opacity: 0.5; pointer-events: none;">GitHub
+                            (Private)</a>
                     </div>
                 </div>
                 <div class="product-visual">
@@ -648,7 +649,7 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- Product: iBeacon Scanner -->
         <section class="product-showcase">
             <div class="container showcase-grid">
@@ -676,15 +677,18 @@
                     <div class="background-story">
                         <h4>作成の経緯</h4>
                         <p>
-                            以前、Java (Android SDK) で開発していたiBeaconスキャンツールを、モダンなフレームワークである Flutter 
+                            以前、Java (Android SDK) で開発していたiBeaconスキャンツールを、モダンなフレームワークである Flutter
                             でどこまで再現できるか検証するために開発しました。「昔の技術で作れたものを、今の流行りで作り直せるか？」という挑戦がスタート地点です。
                         </p>
                         <hr class="story-divider">
-                        <h4>最新のAndroid BLE事情を肌で感じる</h4>
+                        <h4>Android OSごとのBLE挙動を紐解く</h4>
                         <p>
-                            昔に比べて格段に厳しくなったAndroidのバックグラウンド制限や、最新のBLEスタックの挙動を深く理解することが当初の目標でした。
-                            Antigravityとの共同開発により、フォアグラウンドサービスや通知、電波の不安定さを考慮した「30秒ルール」など、
-                            最新OSでも確実かつスマートに動作するスキャナーを構築することができ、当初の目標を達成できました。日本語で指示してます。
+                            Androidのバージョンが進むにつれ、バックグラウンドでのBLEスキャンはOSごとの「作法」が大きく変わり、できること・できないことが複雑に変化してきました。
+                            本プロジェクトの真の目的は、それら最新のバックグラウンド検出の仕組みを深く把握し、一貫した動作を実現することにありました。
+                        </p>
+                        <p>
+                            Antigravityとの対話を通じて、各バージョンに対応したフォアグラウンドサービスや通知、さらには電波の不安定さを考慮した「30秒ルール」など、
+                            最新のAndroid環境下で確実に動作するスキャナーを構築することができ、当初の目標を達成できました。日本語で指示してます。
                         </p>
                     </div>
                     <ul class="feature-list">
@@ -699,7 +703,8 @@
                     </p>
                     <div class="download-buttons">
                         <a href="./apks/iBeaconScanner-v1.0.5.apk" class="btn btn-primary" download>直接ダウンロード (APK)</a>
-                        <a href="#" class="btn btn-github disabled" style="opacity: 0.5; pointer-events: none;">GitHub (Private)</a>
+                        <a href="#" class="btn btn-github disabled" style="opacity: 0.5; pointer-events: none;">GitHub
+                            (Private)</a>
                     </div>
                 </div>
             </div>
@@ -1004,8 +1009,10 @@
                         <p>
                             フリーランスのエンジニアとして活動しています。
                             最近はAIを使ってコード書かずに日本語で開発するようにしています。
-                            Web系はいい感じに使えているのでWindowsアプリはどうかなぁと思っていろいろ試してみてます。
+                            Web系はいい感じに使えているのでWindowsアプリはどうかなぁと思っていろいろ試してました。
                             （ここ十年以上Webの開発がメインでWindowsアプリを作ってみたくなったのも理由の一つです（笑））
+                            ・2026/01時点ではWindowsアプリやスマフォアプリも開発環境（RAD）いれずに作れるようになってます。
+
                         </p>
                         <div class="tech-stack">
                             <span class="tech-badge">8085(8bit)</span>
