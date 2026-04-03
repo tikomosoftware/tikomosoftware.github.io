@@ -655,19 +655,68 @@
             </div>
         </section>
 
-        <!-- Product: iBeacon Scanner -->
+        <!-- Product: iBeacon Scanner AltBeacon -->
         <section class="product-showcase">
             <div class="container showcase-grid">
                 <div class="product-visual">
-                    <img src="images/ibeacon_scanner.jpg" alt="iBeacon Scanner Screenshot"
-                        class="zoomable-image"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div
-                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                    <div style="text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%; display: flex;">
                         <span style="font-size: 3rem; display:block;">📡</span>
                         Android App
                     </div>
                 </div>
+                <div class="product-info">
+                    <span class="section-label">Android App</span>
+                    <h3>iBeacon Scanner (Kotlin + AltBeacon)</h3>                    <div class="badge-container">
+                        <img src="https://img.shields.io/badge/Platform-Android-brightgreen" alt="Platform Android">
+                        <img src="https://img.shields.io/badge/Language-Kotlin-7F52FF" alt="Language Kotlin">
+                        <img src="https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4" alt="UI Jetpack Compose">
+                        <img src="https://img.shields.io/badge/BLE-AltBeacon-orange" alt="BLE AltBeacon">
+                        <img src="https://img.shields.io/badge/License-Apache%202.0-green" alt="License Apache 2.0">
+                        <img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0">
+                        <img src="https://img.shields.io/badge/Tool-Kiro%20Auto-blueviolet" alt="Tool: Kiro Auto">
+                    </div>
+                    <p class="product-desc">
+                        Kotlin + Jetpack Compose + AltBeacon で構築したAndroidネイティブのiBeaconスキャナー。
+                        UUID指定フィルター・距離フィルター・バックグラウンド検出通知に対応しています。
+                    </p>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            以前 Java (Android SDK) で開発していたiBeaconスキャンツールを、Kotlinで書き直しました。
+                            最近はJavaではなくKotlinが主流になっているため、モダンな言語に移行することが主な目的です。
+                            合わせて最新のAndroid環境でも動作するよう、権限周りも最新のAPIに対応させています。
+                        </p>
+                        <hr class="story-divider">
+                        <h4>Kotlinネイティブ + AltBeacon...バックグラウンド検出の壁</h4>
+                        <p>
+                            画面オン・アプリバックグラウンド状態での検出は実現できましたが、
+                            Xiaomi端末では画面オフ時に「screen is off, force suspend scan」でスキャンが強制停止されることが判明。
+                            これは端末側の制限でアプリでは回避できないことを確認しました。
+                        </p>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>UUID指定モード:</strong> 特定UUIDのビーコンのみ検出するフィルター機能</li>
+                        <li><strong>距離フィルター:</strong> 指定距離以内のビーコンのみ表示</li>
+                        <li><strong>バックグラウンド検出:</strong> 画面オン・アプリバックグラウンド状態での検出に対応</li>
+                        <li><strong>新規検出通知:</strong> 新しいビーコン検出時にローカル通知を表示（30秒タイムアウト）</li>
+                        <li><strong>Apple / Aplix対応:</strong> 両メーカーのiBeaconフォーマットに対応</li>
+                        <li><strong>商用利用無料:</strong> AltBeacon（Apache 2.0）使用</li>
+                    </ul>
+                    <p class="install-notice" style="font-size: 0.8rem; color: #94a3b8; margin-top: 1rem;">
+                        ※本アプリはPlayストア外公開です。インストールには「提供元不明のアプリのインストール」を許可する必要があります。
+                    </p>
+                    <div class="download-buttons">
+                        <a href="./apks/iBeaconScanner-kotalt-v1.0.0.apk" class="btn btn-primary" download>直接ダウンロード (APK)</a>
+                        <a href="https://github.com/tikomosoftware/ibeacon_scanner_kotlin_alt" class="btn btn-github"
+                            target="_blank">GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product: iBeacon Scanner -->
+        <section class="product-showcase">
+            <div class="container showcase-grid">
                 <div class="product-info">
                     <span class="section-label">Android App</span>
                     <h3>iBeacon Scanner</h3>
@@ -713,6 +762,16 @@
                         <a href="./apks/iBeaconScanner-v1.0.7.apk" class="btn btn-primary" download>直接ダウンロード (APK)</a>
                         <a href="#" class="btn btn-github disabled" style="opacity: 0.5; pointer-events: none;">GitHub
                             (Private)</a>
+                    </div>
+                </div>
+                <div class="product-visual">
+                    <img src="images/ibeacon_scanner.jpg" alt="iBeacon Scanner Screenshot"
+                        class="zoomable-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div
+                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                        <span style="font-size: 3rem; display:block;">📡</span>
+                        Android App
                     </div>
                 </div>
             </div>
@@ -1016,11 +1075,7 @@
                         <h3>tikomo</h3>
                         <p>
                             フリーランスのエンジニアとして活動しています。
-                            最近はAIを使ってコード書かずに日本語で開発するようにしています。
-                            Web系はいい感じに使えているのでWindowsアプリはどうかなぁと思っていろいろ試してました。
-                            （ここ十年以上Webの開発がメインでWindowsアプリを作ってみたくなったのも理由の一つです（笑））
-                            ・2026/01時点ではWindowsアプリやスマフォアプリについても開発環境（RAD）いれずに作れるようになりました（凄い時代ですね...）。
-
+                            今はAIを使って日本語のみで開発するようにしています。
                         </p>
                         <div class="tech-stack">
                             <span class="tech-badge">8085(8bit)</span>
