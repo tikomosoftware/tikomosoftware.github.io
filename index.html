@@ -23,7 +23,7 @@
         <div class="container">
             <!-- <img src="logo.png" alt="tikomo software Logo" class="hero-logo"> -->
             <h1>tikomo software</h1>
-            <p>自分の欲しいソフトウェア作って公開しています。</p>
+            <p>自分の欲しいソフトウェア作ってます。</p>
         </div>
     </header>
 
@@ -643,13 +643,11 @@
                     </div>
                 </div>
                 <div class="product-visual">
-                    <img src="images/komicviewer_android.jpg" alt="Komic Viewer for Android Screenshot"
-                        class="zoomable-image"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div
-                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-                        <span style="font-size: 3rem; display:block;">📱</span>
-                        Android App
+                    <div class="screenshots-container" style="display: flex; gap: 10px; justify-content: center;">
+                        <img src="images/komicviewer_android_01.jpg" alt="Komic Viewer Screenshot 1" class="zoomable-image"
+                            style="max-width: 45%; height: auto; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                        <img src="images/komicviewer_android_02.jpg" alt="Komic Viewer Screenshot 2" class="zoomable-image"
+                            style="max-width: 45%; height: auto; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
                     </div>
                 </div>
             </div>
@@ -659,14 +657,17 @@
         <section class="product-showcase">
             <div class="container showcase-grid">
                 <div class="product-visual">
-                    <div style="text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%; display: flex;">
-                        <span style="font-size: 3rem; display:block;">📡</span>
-                        Android App
+                    <div class="screenshots-container" style="display: flex; gap: 10px; justify-content: center;">
+                        <img src="images/ibeacon_scanner_01.jpg" alt="iBeacon Scanner Screenshot 1" class="zoomable-image"
+                            style="max-width: 45%; height: auto; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                        <img src="images/ibeacon_scanner_02.jpg" alt="iBeacon Scanner Screenshot 2" class="zoomable-image"
+                            style="max-width: 45%; height: auto; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
                     </div>
                 </div>
                 <div class="product-info">
                     <span class="section-label">Android App</span>
-                    <h3>iBeacon Scanner (Kotlin + AltBeacon)</h3>                    <div class="badge-container">
+                    <h3>iBeacon Scanner (Kotlin + AltBeacon)</h3>
+                    <div class="badge-container">
                         <img src="https://img.shields.io/badge/Platform-Android-brightgreen" alt="Platform Android">
                         <img src="https://img.shields.io/badge/Language-Kotlin-7F52FF" alt="Language Kotlin">
                         <img src="https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4" alt="UI Jetpack Compose">
@@ -687,11 +688,11 @@
                             合わせて最新のAndroid環境でも動作するよう、権限周りも最新のAPIに対応させています。
                         </p>
                         <hr class="story-divider">
-                        <h4>Kotlinネイティブ + AltBeacon...バックグラウンド検出の壁</h4>
+                        <h4>BLE関係は権限も含めてどんどん厳しくなってますね</h4>
                         <p>
-                            画面オン・アプリバックグラウンド状態での検出は実現できましたが、
-                            Xiaomi端末では画面オフ時に「screen is off, force suspend scan」でスキャンが強制停止されることが判明。
-                            これは端末側の制限でアプリでは回避できないことを確認しました。
+                            画面オン・アプリバックグラウンド状態での検出は今でも実現できましたが、
+                            画面オフ時にでスキャンが強制停止されることがあり。
+                            これはテストで使用した端末側の制限でアプリでは回避できないっぽい...。
                         </p>
                     </div>
                     <ul class="feature-list">
@@ -706,7 +707,8 @@
                         ※本アプリはPlayストア外公開です。インストールには「提供元不明のアプリのインストール」を許可する必要があります。
                     </p>
                     <div class="download-buttons">
-                        <a href="./apks/iBeaconScanner-kotalt-v1.0.0.apk" class="btn btn-primary" download>直接ダウンロード (APK)</a>
+                        <a href="./apks/iBeaconScanner-1.0.0-release.apk" class="btn btn-primary" download>直接ダウンロード
+                            (APK)</a>
                         <a href="https://github.com/tikomosoftware/ibeacon_scanner_kotlin_alt" class="btn btn-github"
                             target="_blank">GitHub</a>
                     </div>
@@ -714,69 +716,69 @@
             </div>
         </section>
 
-        <!-- Product: iBeacon Scanner -->
+        <!-- Product: BLE Scanner Kotlin -->
         <section class="product-showcase">
             <div class="container showcase-grid">
                 <div class="product-info">
                     <span class="section-label">Android App</span>
-                    <h3>iBeacon Scanner</h3>
+                    <h3>BLE Scanner (Kotlin)</h3>
                     <div class="badge-container">
                         <img src="https://img.shields.io/badge/Platform-Android-brightgreen" alt="Platform Android">
-                        <img src="https://img.shields.io/badge/Framework-Flutter-02569B" alt="Framework Flutter">
+                        <img src="https://img.shields.io/badge/Language-Kotlin-7F52FF" alt="Language Kotlin">
+                        <img src="https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4" alt="UI Jetpack Compose">
+                        <img src="https://img.shields.io/badge/BLE-Generic-blue" alt="BLE Generic">
                         <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
-                        <img src="https://img.shields.io/badge/Version-1.0.7-orange" alt="Version 1.0.7">
+                        <img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0">
                         <img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity">
                     </div>
                     <p class="product-desc">
-                        Bluetooth Low Energy (BLE) を利用して、周囲のiBeaconをリアルタイムに検出し解析するスキャナーアプリ。
-                        UUID/Major/Minor/RSSIの表示に加え、バックグラウンド検知と通知機能を搭載しています。
+                        Androidネイティブ（Kotlin + Jetpack Compose）で構築された汎用的なBluetooth (BLE) スキャナーアプリ。
+                        iBeaconやEddystoneなどの解析に加え、独自フォーマットの解析にも対応しています。
                     </p>
                     <div class="background-story">
                         <h4>作成の経緯</h4>
                         <p>
-                            以前、Java (Android SDK) で開発していたiBeaconスキャンツールを、モダンなフレームワークである Flutter
-                            でどこまで再現できるか検証するために開発しました。「昔の技術で作れたものを、今の流行りで作り直せるか？」という挑戦がスタート地点です。
+                            実は、本格的なiBeaconスキャナーを開発する一歩手前で「まずは周囲のBluetooth(BLE)の状態を正確に把握したい」という想いから生まれたアプリです。
+                            iBeaconのスキャンロジックを組み上げる前の、いわば「土台」として動作確認や状況把握のために開発した経緯があります。
+                            当時はJavaで実装していましたが、今回、iBeaconスキャナーと同様に最新のKotlin + Jetpack Compose環境へ移植・再設計を行いました。
                         </p>
                         <hr class="story-divider">
-                        <h4>Android OSごとのBLE挙動を紐解く</h4>
+                        <h4>Antigravity をフル活用した初のAndroid開発プロジェクト</h4>
                         <p>
-                            Androidのバージョンが進むにつれ、バックグラウンドでのBLEスキャンはOSごとの「作法」が大きく変わり、できること・できないことが複雑に変化してきました。
-                            本プロジェクトの真の目的は、それら最新のバックグラウンド検出の仕組みを深く把握し、一貫した動作を実現することにありました。
-                        </p>
-                        <p>
-                            Antigravityとの対話を通じて、各バージョンに対応したフォアグラウンドサービスや通知、さらには電波の不安定さを考慮した「30秒ルール」など、
-                            最新のAndroid環境下で確実に動作するスキャナーを構築することができ、当初の目標を達成できました。日本語で指示してます。
+                            AIコーディングエージェント「Antigravity」との共同作業で開発。
+                            複雑なBLEのスキャンロジックや、GitHub Actions による「ビルド・署名・リリース」の全自動化を
+                            すべて「指示」だけで構築しました。
+                            GitHub Actions から直接APKをダウンロードできる仕組みも実装しています。
                         </p>
                     </div>
                     <ul class="feature-list">
-                        <li><strong>リアルタイムスキャンの可視化:</strong> 検出した全ビーコンのパラメータと推定距離を表示</li>
-                        <li><strong>バックグラウンド動作:</strong> Androidフォアグラウンドサービスによる確実な監視</li>
-                        <li><strong>スマート通知:</strong> 新しいビーコンを検知した際にポップアップで通知</li>
-                        <li><strong>重複検知制御:</strong> 電波が不安定な場合でも連続通知を抑えるお掃除タイマー機能</li>
-                        <li><strong>データ自動同期:</strong> バックグラウンドで見つけた情報を自動的にリストへ統合</li>
+                        <li><strong>汎用BLEスキャン:</strong> 手に届く範囲の全BLEデバイスを一覧表示</li>
+                        <li><strong>ビーコン解析:</strong> iBeacon, Eddystone（AltBeacon含む）を自動判別</li>
+                        <li><strong>独自パケット解析:</strong> Aplixなどの特定メーカー独自データの詳細表示に対応</li>
+                        <li><strong>バックグラウンド動作:</strong> Foreground Serviceを使用し画面オフでもスキャン維持</li>
+                        <li><strong>デバッグ機能:</strong> 計測データのグラフ化や一括ログ表示に対応</li>
+                        <li><strong>CI/CD自動配信:</strong> GitHub Actions による最新ビルドの自動提供</li>
                     </ul>
                     <p class="install-notice" style="font-size: 0.8rem; color: #94a3b8; margin-top: 1rem;">
                         ※本アプリはPlayストア外公開です。インストールには「提供元不明のアプリのインストール」を許可する必要があります。
                     </p>
                     <div class="download-buttons">
-                        <a href="./apks/iBeaconScanner-v1.0.7.apk" class="btn btn-primary" download>直接ダウンロード (APK)</a>
-                        <a href="#" class="btn btn-github disabled" style="opacity: 0.5; pointer-events: none;">GitHub
-                            (Private)</a>
+                        <a href="./apks/ble_scanner-1.0.0-release.apk" class="btn btn-primary" download>直接ダウンロード
+                            (APK)</a>
+                        <a href="https://github.com/tikomosoftware/ble_scanner_kotlin" class="btn btn-github"
+                            target="_blank">GitHub</a>
                     </div>
                 </div>
                 <div class="product-visual">
-                    <img src="images/ibeacon_scanner.jpg" alt="iBeacon Scanner Screenshot"
-                        class="zoomable-image"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div
-                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-                        <span style="font-size: 3rem; display:block;">📡</span>
-                        Android App
+                    <div class="screenshots-container" style="display: flex; gap: 10px; justify-content: center;">
+                        <img src="images/ble_scanner_01.jpg" alt="BLE Scanner Screenshot 1" class="zoomable-image"
+                            style="max-width: 45%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                        <img src="images/ble_scanner_02.jpg" alt="BLE Scanner Screenshot 2" class="zoomable-image"
+                            style="max-width: 45%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
                     </div>
                 </div>
             </div>
         </section>
-
 
         <!-- Python Tools Section -->
         <div id="python-tools" class="category-section">
