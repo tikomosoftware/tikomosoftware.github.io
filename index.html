@@ -73,7 +73,7 @@
                         <img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows">
                         <img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0">
                         <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
-                        <img src="https://img.shields.io/badge/Version-1.1-orange" alt="Version 1.1">
+                        <img src="https://img.shields.io/badge/Version-1.3-orange" alt="Version 1.3">
                         <img src="https://img.shields.io/badge/Tool-Kiro%200.8.140%20Auto-blueviolet"
                             alt="Tool: Kiro 0.8.140 Auto">
                     </div>
@@ -98,10 +98,11 @@
                     <ul class="feature-list">
                         <li><strong>多彩な表示モード:</strong> 単ページ・見開き表示に対応</li>
                         <li><strong>豊富な対応形式:</strong> ZIP, RAR, CBZ, CBR形式をサポート</li>
-                        <li><strong>多彩な画像形式:</strong> JPEG, PNG, GIF, BMP, WebPに対応</li>
-                        <li><strong>ダークテーマ:</strong> 目に優しいダークインターフェース</li>
-                        <li><strong>直感的操作:</strong> マウス・キーボード・ホイールでの快適なナビゲーション</li>
-                        <li><strong>フルスクリーン対応:</strong> 集中して読書を楽しめる</li>
+                        <li><strong>多彩な画像形式:</strong> JPEG, PNG, GIF, BMP, WebP, AVIFに対応</li>
+                        <li><strong>テーマ切り替え:</strong> ライト・ダークテーマ対応</li>
+                        <li><strong>直感的操作:</strong> マウス・キーボード・ホイール・ツールバースクロールバーでの快適なナビゲーション</li>
+                        <li><strong>フルスクリーン対応:</strong> 自動非表示ツールバー付きで集中して読書を楽しめる</li>
+                        <li><strong>最前面表示:</strong> 他のウィンドウの上に常に表示可能</li>
                         <li><strong>ドラッグ&ドロップ:</strong> ファイルを簡単に開ける</li>
                     </ul>
                     <div class="download-buttons">
@@ -358,23 +359,26 @@
             </div>
         </section>
 
-        <!-- Product: KoExplorer -->
+        <!-- Product: Image Explorer -->
         <section class="product-showcase">
             <div class="container showcase-grid">
                 <div class="product-visual">
-                    <div style="text-align:center; color: #94a3b8;">
+                    <img src="images/imageexplorer.png" alt="Image Explorer Screenshot" class="zoomable-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div
+                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
                         <span style="font-size: 3rem; display:block;">🖼️</span>
                         Windows App
                     </div>
                 </div>
                 <div class="product-info">
                     <span class="section-label">Image Viewer</span>
-                    <h3>KoExplorer</h3>
+                    <h3>Image Explorer</h3>
                     <div class="badge-container">
                         <img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows">
                         <img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0">
                         <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
-                        <img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0">
+                        <img src="https://img.shields.io/badge/Version-1.1.0-orange" alt="Version 1.1.0">
                         <img src="https://img.shields.io/badge/Status-Stable-green" alt="Status Stable">
                         <img src="https://img.shields.io/badge/Tool-Antigravity%20commit%201.14.2%20Fast%20Gemini%202%20Flash%20-blueviolet"
                             alt="Tool: Antigravity commit 1.14.2 Fast Gemini 2 Flash">
@@ -384,6 +388,7 @@
                     <p class="product-desc">
                         Windowsエクスプローラー風のインターフェースで画像を快適に閲覧できる高速イメージビューアー
                     </p>
+
                     <div class="background-story">
                         <h4>作成の経緯</h4>
                         <p>
@@ -1106,6 +1111,16 @@
                     ソフトウェアの不具合報告や、開発のご依頼はお気軽にご連絡ください。
                 </p>
                 <a href="mailto:tikomo@gmail.com" class="btn btn-primary">tikomo@gmail.com</a>
+                <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center;">
+                    <a href="https://github.com/tikomosoftware" target="_blank" class="btn btn-github" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        GitHub
+                    </a>
+                    <a href="https://zenn.dev/como" target="_blank" class="btn btn-github" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <svg height="20" width="20" viewBox="0 0 88 88" fill="currentColor"><path d="M0 79.8L32.4 22c.6-1 2-1 2.5 0l10.4 18.2L22.8 79.8c-.6 1-2 1-2.5 0L0 79.8zm49.3 0L81.7 22c.6-1 2-1 2.5 0l3.8 6.6-32.4 51.2c-.6 1-2 1-2.5 0l-3.8-6.6 0 6.6z"/></svg>
+                        Zenn
+                    </a>
+                </div>
             </div>
         </section>
 
