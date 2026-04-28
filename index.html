@@ -1067,6 +1067,59 @@
             </div>
         </section>
 
+        <!-- Product: WebSite Life Checker (CLI) -->
+        <section class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-info">
+                    <span class="section-label">Python CLI Tool</span>
+                    <h3>WebSite Life Checker (CLI)</h3>
+                    <div class="badge-container">
+                        <img src="https://img.shields.io/badge/Python-3.8+-yellow" alt="Python 3.8+">
+                        <img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows">
+                        <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
+                        <img src="https://img.shields.io/badge/Version-1.1.0-orange" alt="Version 1.1.0">
+                    </div>
+                    <p class="product-desc">
+                        WebサイトとPostgreSQLデータベースの可用性を24時間365日監視する、軽量かつ高性能なPython CLIツール。
+                        並列処理による効率的な監視と、リアルタイムのコンソールダッシュボードで障害を即座に検知します。
+                    </p>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            運用中のWebサービスやデータベースの死活監視を、複雑なツールなしでシンプルに行いたくて開発しました。
+                            JSON設定ファイルを編集するだけで監視対象を追加でき、5分でセットアップが完了します。
+                            バッチファイルによるワンクリック操作で、Windows環境での運用も快適です。
+                        </p>
+                        <hr class="story-divider">
+                        <h4>シンプルだけど実用的な監視ツール</h4>
+                        <p>
+                            大規模な監視ツールは設定が複雑で、ちょっとした監視には大げさすぎる。
+                            「設定して起動するだけ」で使える軽量な監視ツールを目指しました。
+                            ホットリロードや自動復旧検知など、運用に必要な機能はしっかり搭載しています。
+                        </p>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>Webサイト監視:</strong> HTTPS生存確認、応答時間測定、カスタムステータスコード対応</li>
+                        <li><strong>DB監視:</strong> PostgreSQL接続テスト（Azure, AWS, GCP等クラウド対応）</li>
+                        <li><strong>リアルタイム表示:</strong> 色付きコンソールダッシュボードで状態を一目で把握</li>
+                        <li><strong>HTMLダッシュボード:</strong> 稼働率統計・応答時間分析を美しいレポートで出力</li>
+                        <li><strong>ホットリロード:</strong> サービス停止なしで設定変更を反映</li>
+                        <li><strong>柔軟な実行:</strong> 継続監視モードとOne Shot実行を選択可能</li>
+                    </ul>
+                    <div class="download-buttons">
+                        <a href="https://github.com/tikomosoftware/WebSiteLifeChecker" class="btn btn-github"
+                            target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <div class="product-visual">
+                    <div style="text-align:center; color: #94a3b8;">
+                        <span style="font-size: 3rem; display:block;">🩺</span>
+                        Health Monitor CLI
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Web Services Section -->
         <div id="web-services" class="category-section">
             <div class="container">
@@ -1122,7 +1175,11 @@
                     </div>
                 </div>
                 <div class="product-visual">
-                    <div style="text-align:center; color: #94a3b8;">
+                    <img src="images/dummy_rest_api.png" alt="Dummy REST API Screenshot"
+                        class="zoomable-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div
+                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
                         <span style="font-size: 3rem; display:block;">🔌</span>
                         REST API Service
                     </div>
@@ -1134,7 +1191,11 @@
         <section class="product-showcase">
             <div class="container showcase-grid">
                 <div class="product-visual">
-                    <div style="text-align:center; color: #94a3b8;">
+                    <img src="images/create_uuid.png" alt="UUID生成ツール Screenshot"
+                        class="zoomable-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div
+                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
                         <span style="font-size: 3rem; display:block;">🔑</span>
                         UUID Generator
                     </div>
@@ -1297,6 +1358,73 @@
                             target="_blank">サービスを開く</a>
                         <a href="https://github.com/tikomosoftware/ReactAndVue_dependency_audit_web" class="btn btn-github"
                             target="_blank">GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product: WebSite Life Checker Web -->
+        <section class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-info">
+                    <span class="section-label">Web Service</span>
+                    <h3>WebSite Life Checker Web</h3>
+                    <div class="badge-container">
+                        <img src="https://img.shields.io/badge/Platform-Web-blue" alt="Platform Web">
+                        <img src="https://img.shields.io/badge/Framework-Next.js%2015-black" alt="Framework Next.js 15">
+                        <img src="https://img.shields.io/badge/React-19-61DAFB" alt="React 19">
+                        <img src="https://img.shields.io/badge/Deploy-Vercel-black" alt="Deploy Vercel">
+                        <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
+                    </div>
+                    <p class="product-desc">
+                        Python版 WebSite Life Checker をWeb化した死活監視ダッシュボード。
+                        ブラウザからリアルタイムでWebサイトの稼働状況を確認でき、Vercel Cron Jobsによる5分間隔の自動ヘルスチェックに対応しています。
+                    </p>
+
+                    <div
+                        style="background: #fefce8; border-left: 4px solid #eab308; padding: 1rem; margin: 1rem 0; border-radius: 4px;">
+                        <p style="color: #854d0e; font-weight: bold; margin: 0;">【技術検証版】</p>
+                        <p style="color: #a16207; font-size: 0.9rem; margin: 0.5rem 0 0 0;">
+                            本サービスはPython CLI版のWeb移植における技術検証（PoC）として公開しています。本番運用向けではなく、データの永続化や通知機能などは未実装です。
+                        </p>
+                    </div>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            CLI版のHealth Monitorは便利でしたが、「PCを開かなくてもスマホからサッと確認したい」という場面が増えてきました。
+                            そこで、Next.js + Vercel の構成でWeb版を開発し、どこからでもアクセスできるダッシュボードを実現しました。
+                        </p>
+                        <hr class="story-divider">
+                        <h4>CLI版からWeb版への移植</h4>
+                        <p>
+                            Python版の監視ロジックをTypeScriptに移植し、Vercel Cron Jobsで定期実行する構成にしました。
+                            ダッシュボードUIから監視対象の追加・編集もでき、手動チェックもワンクリックで実行可能です。
+                            Tailwind CSS v4 を使ったモダンなUIに仕上げています。
+                        </p>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>リアルタイムダッシュボード:</strong> Webサイトの稼働状況をブラウザで一目で確認</li>
+                        <li><strong>自動ヘルスチェック:</strong> Vercel Cron Jobsによる5分間隔の定期監視</li>
+                        <li><strong>手動チェック:</strong> ワンクリックで即座にヘルスチェックを実行</li>
+                        <li><strong>監視対象管理:</strong> ダッシュボードUIから監視対象を追加・編集可能</li>
+                        <li><strong>レスポンスタイム計測:</strong> 各サイトの応答時間を計測・表示</li>
+                        <li><strong>チェック履歴:</strong> 過去のヘルスチェック結果を履歴として確認</li>
+                    </ul>
+                    <div class="download-buttons">
+                        <a href="https://web-site-life-checker.vercel.app/" class="btn btn-primary"
+                            target="_blank">サービスを開く</a>
+                        <a href="https://github.com/tikomosoftware/WebSiteLifeChecker" class="btn btn-github"
+                            target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <div class="product-visual">
+                    <img src="images/web_site_checker.png" alt="WebSite Life Checker Web Screenshot"
+                        class="zoomable-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div
+                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                        <span style="font-size: 3rem; display:block;">📊</span>
+                        Web Dashboard
                     </div>
                 </div>
             </div>
