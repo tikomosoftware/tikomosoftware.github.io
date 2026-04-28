@@ -1528,6 +1528,23 @@
                     closeModal();
                 }
             });
+
+            // Wrap background-story and feature-list in details for collapsibility
+            const wrapWithDetails = (selector, summaryText) => {
+                document.querySelectorAll(selector).forEach(el => {
+                    const details = document.createElement('details');
+                    details.className = 'collapsible-section';
+                    const summary = document.createElement('summary');
+                    summary.textContent = summaryText;
+                    
+                    el.parentNode.insertBefore(details, el);
+                    details.appendChild(summary);
+                    details.appendChild(el);
+                });
+            };
+
+            wrapWithDetails('.background-story', '作成の経緯・開発ストーリーを読む');
+            wrapWithDetails('.feature-list', '主な機能・特徴を見る');
         });
     </script>
 </body>
