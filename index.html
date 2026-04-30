@@ -1444,6 +1444,85 @@
             </div>
         </section>
 
+        <!-- Product: AI FAQ ChatBot ChromaDB -->
+        <section class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-visual">
+                    <img src="images/ai_faq_chatbot_chromadb.png" alt="AI FAQ ChatBot ChromaDB Screenshot"
+                        class="zoomable-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div
+                        style="display:none; text-align:center; color: #94a3b8; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                        <span style="font-size: 3rem; display:block;">🤖</span>
+                        AI ChatBot
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="section-label">Web Service</span>
+                    <h3>AI FAQ ChatBot</h3>
+                    <div class="badge-container">
+                        <img src="https://img.shields.io/badge/Platform-Web-blue" alt="Platform Web">
+                        <img src="https://img.shields.io/badge/AI-RAG%20%2B%20Hugging%20Face-orange" alt="AI RAG + Hugging Face">
+                        <img src="https://img.shields.io/badge/Framework-Next.js%2014-black" alt="Framework Next.js 14">
+                        <img src="https://img.shields.io/badge/Deploy-Vercel-black" alt="Deploy Vercel">
+                        <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
+                        <img src="https://img.shields.io/badge/Tool-Kiro%200.8.140%20Auto-blueviolet"
+                            alt="Tool: Kiro 0.8.140 Auto">
+                    </div>
+                    <p class="product-desc">
+                        RAG（検索拡張生成）ベースのAI FAQチャットボット。
+                        事前にベクトル化したFAQデータに対してコサイン類似度で検索を行い、Hugging FaceのLLMでユーザーの質問に最適な回答を生成します。
+                    </p>
+
+                    <div
+                        style="background: #fefce8; border-left: 4px solid #eab308; padding: 1rem; margin: 1rem 0; border-radius: 4px;">
+                        <p style="color: #854d0e; font-weight: bold; margin: 0;">【技術検証版】</p>
+                        <p style="color: #a16207; font-size: 0.9rem; margin: 0.5rem 0 0 0;">
+                            本サービスはRAGを使ったFAQチャットボットの技術検証（PoC）として公開しています。
+                            RAGデータを調整することで、さまざまなサイトやサービスのFAQ対応に応用できる汎用的な仕組みを目指しています。
+                        </p>
+                    </div>
+                    <div class="background-story">
+                        <h4>作成の経緯</h4>
+                        <p>
+                            以前作成していたチャットボットが、使用していたAIサービスの変更によりモデルが動かなくなってしまいました。
+                            せっかくなのでRAGデータを入れ替えて、別のWebサービスとして作り直すことにしました。
+                        </p>
+                        <hr class="story-divider">
+                        <h4>ベクトルDBもRAGデータ作成もAIに任せれば怖くない</h4>
+                        <p>
+                            ベクトルデータベースの構築やRAGデータの作成は、自力でやろうとすると知識がないとかなりキビしい領域です。
+                            しかしAIを使えばそのあたりの懸念はほぼ考えなくてよく、指示するだけで進められるので本当に楽です。
+                            今回は既存サービスで使用していたモデルが動かなくなったため、別のモデルへの切り替えが必要になり、
+                            その対応に少し手間取りました。モデル変更がなければもっとスマートに実装が進んだと思います。
+                            今回も日本語で指示してます。
+                        </p>
+                        <hr class="story-divider">
+                        <h4>ベクトル検索の仕組み</h4>
+                        <p>当初はChromaDBをベクトルDBとして使用する予定でしたが、Vercelのサーバーレス環境ではChromaDB（SQLiteベース）が動作しないため、JSONファイルベースのインメモリベクトル検索方式を採用しています。</p>
+                        <ol style="margin: 0.5rem 0; padding-left: 1.5rem; font-size: 0.95rem;">
+                            <li>FAQデータをHugging Face APIでベクトル化</li>
+                            <li>ベクトルデータをjson保存</li>
+                            <li>実行時はJSONファイルをメモリに読み込み</li>
+                            <li>ユーザーの質問をHugging Faceでベクトル化し、コサイン類似度で検索</li>
+                            <li>検索結果をLLMに渡して回答を生成</li>
+                        </ol>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>RAG搭載:</strong> インメモリベクトル検索で、登録データに基づいた高精度な回答</li>
+                        <li><strong>セマンティック検索:</strong> キーワード一致ではなく、コサイン類似度による自然言語検索</li>
+                        <li><strong>多言語Embedding:</strong> paraphrase-multilingual-MiniLM-L12-v2で日本語に対応</li>
+                        <li><strong>高速レスポンス:</strong> Vercelサーバーレス環境での快適な応答</li>
+                        <li><strong>無料運用:</strong> Hugging Face無料枠のみで動作</li>
+                    </ul>
+                    <div class="download-buttons">
+                        <a href="https://chat-chroma-db.vercel.app/" class="btn btn-primary"
+                            target="_blank">サービスを開く</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Dev Notes Section (Commented Out)
         <div id="dev-notes" class="category-section">
             <div class="container">
@@ -1540,11 +1619,12 @@
                         <span class="dev-role">Freelance Software Engineer</span>
                         <h3>tikomo</h3>
                         <p>
-                            組み込みの頃からずっとコードを書いてきて、いろんな言語や分野を経験してきました。
-                            ですが正直、今はAIのほうが優秀だと感じています。長い間いろいろなコードを書いてきたのですが...それが現実な感じです。
-                            今は自分の経験を活かしてAIに指示を出し、日本語だけでソフトウェアを作っています。
+                            長い間プログラムを書いてきて、いろんな言語や分野を経験してきました。
+                            今はその経験を活かしてAIを使って、日本語でソフトウェアを作っています。
+                            正直、今は自分で書くよりAIのほうが優秀だと感じています。
+                            <br>
                             このサイトでは、その開発の過程や試行錯誤を記録として残しています。
-                            <br>...さみしいですがプログラミングって、もう趣味になるのかなぁ。
+                            <br>人が書くプログラミングは趣味になりそうな感じですね...
                         </p>
                         <div class="tech-stack">
                             <div class="tech-group">
