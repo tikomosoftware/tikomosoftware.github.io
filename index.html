@@ -79,6 +79,19 @@
         </div>
     </nav>
 
+    <section class="project-overview" aria-labelledby="project-overview-title">
+        <div class="container">
+            <div class="overview-heading">
+                <span class="section-label">Portfolio Index</span>
+                <h2 id="project-overview-title">Projects</h2>
+                <p>増えてきたアプリやツールを、カテゴリ別に素早く見渡せるようにまとめました。</p>
+            </div>
+            <div class="overview-stats" aria-label="Project statistics"></div>
+            <div class="overview-tabs" aria-label="Project categories"></div>
+            <div class="project-card-grid" aria-live="polite"></div>
+        </div>
+    </section>
+
     <main>
 
         <!-- Windows Apps Section -->
@@ -1934,6 +1947,104 @@
 
             wrapWithDetails('.background-story', '作成の経緯・開発ストーリーを読む');
             wrapWithDetails('.feature-list', '主な機能・特徴を見る');
+
+            const buildProjectDirectory = () => {
+                const grid = document.querySelector('.project-card-grid');
+                const tabs = document.querySelector('.overview-tabs');
+                const stats = document.querySelector('.overview-stats');
+
+                if (!grid || !tabs || !stats) return;
+
+                const sections = Array.from(document.querySelectorAll('main .product-showcase'));
+                const products = sections.map((section, index) => {
+                    const heading = section.querySelector('.product-info h3');
+                    if (!heading) return null;
+
+                    let cursor = section.previousElementSibling;
+                    while (cursor && !cursor.classList.contains('category-section')) {
+                        cursor = cursor.previousElementSibling;
+                    }
+
+                    const categoryTitle = cursor?.querySelector('.category-title')?.textContent.trim() || 'Projects';
+                    const categoryId = cursor?.id || 'projects';
+                    const title = heading.textContent.trim();
+                    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `project-${index + 1}`;
+                    const id = `project-${slug}`;
+                    section.id = section.id || id;
+
+                    return {
+                        section,
+                        id: section.id,
+                        title,
+                        label: section.querySelector('.section-label')?.textContent.trim() || categoryTitle,
+                        description: section.querySelector('.product-desc')?.textContent.replace(/\s+/g, ' ').trim() || '',
+                        image: section.querySelector('.product-visual img')?.getAttribute('src') || '',
+                        categoryTitle,
+                        categoryId,
+                        links: Array.from(section.querySelectorAll('.download-buttons a')).slice(0, 3).map(link => ({
+                            href: link.href,
+                            text: link.textContent.trim()
+                        }))
+                    };
+                }).filter(Boolean);
+
+                const categories = Array.from(new Map(products.map(product => [
+                    product.categoryId,
+                    {
+                        id: product.categoryId,
+                        title: product.categoryTitle,
+                        count: products.filter(item => item.categoryId === product.categoryId).length
+                    }
+                ])).values());
+
+                stats.innerHTML = `
+                    <div><strong>${products.length}</strong><span>Projects</span></div>
+                    <div><strong>${categories.length}</strong><span>Categories</span></div>
+                    <div><strong>${products.filter(product => product.links.length).length}</strong><span>Released</span></div>
+                `;
+
+                tabs.innerHTML = [
+                    `<button class="overview-tab is-active" type="button" data-filter="all">All</button>`,
+                    ...categories.map(category =>
+                        `<button class="overview-tab" type="button" data-filter="${category.id}">${category.title}<span>${category.count}</span></button>`
+                    )
+                ].join('');
+
+                grid.innerHTML = products.map(product => `
+                    <article class="project-card" data-category="${product.categoryId}">
+                        <a class="project-card-link" href="#${product.id}" aria-label="${product.title} の詳細へ">
+                            <div class="project-card-media">
+                                ${product.image
+                                    ? `<img src="${product.image}" alt="">`
+                                    : `<span>${product.categoryTitle}</span>`}
+                            </div>
+                            <div class="project-card-body">
+                                <span class="project-card-kicker">${product.label}</span>
+                                <h3>${product.title}</h3>
+                                <p>${product.description}</p>
+                            </div>
+                        </a>
+                        ${product.links.length
+                            ? `<div class="project-card-actions">${product.links.map(link =>
+                                `<a href="${link.href}" target="_blank" rel="noopener">${link.text}</a>`
+                            ).join('')}</div>`
+                            : ''}
+                    </article>
+                `).join('');
+
+                tabs.addEventListener('click', event => {
+                    const button = event.target.closest('.overview-tab');
+                    if (!button) return;
+
+                    const filter = button.dataset.filter;
+                    tabs.querySelectorAll('.overview-tab').forEach(tab => tab.classList.toggle('is-active', tab === button));
+                    grid.querySelectorAll('.project-card').forEach(card => {
+                        card.hidden = filter !== 'all' && card.dataset.category !== filter;
+                    });
+                });
+            };
+
+            buildProjectDirectory();
 
             // Contact email obfuscation
             const contactBtn = document.getElementById('contact-email');
