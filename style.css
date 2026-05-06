@@ -808,49 +808,41 @@ footer {
     border-radius: 4px;
 }
 
-/* Modern portfolio refresh */
+/* Modern portfolio refresh — Navy Blue & Clean */
 :root {
-    --bg-body: #f6f4ef;
+    --bg-body: #f8fafc;
     --bg-light: #ffffff;
     --bg-white: #ffffff;
-    --primary-color: #0d9488;
-    --primary-dark: #0f766e;
-    --secondary-color: #667085;
-    --text-main: #161616;
-    --text-body: #3f3f46;
-    --accent-warm: #f59e0b;
-    --accent-coral: #e76f51;
-    --border-subtle: #dedbd2;
-    --hero-bg: #101820;
-    --category-bg: #1f2937;
+    --primary-color: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary-color: #64748b;
+    --text-main: #0f172a;
+    --text-body: #475569;
+    --border-subtle: #e2e8f0;
+    --hero-bg: #0f1729;
+    --category-bg: #1e293b;
     --container-width: 1180px;
     --section-spacing: 4rem;
-    --surface-shadow: 0 24px 60px rgba(18, 24, 32, 0.09);
+    --surface-shadow: 0 16px 40px rgba(15, 23, 41, 0.08);
 }
 
 [data-theme="dark"] {
-    --bg-body: #111315;
-    --bg-light: #181b1f;
-    --bg-white: #1e2227;
-    --primary-color: #14b8a6;
-    --primary-dark: #0d9488;
-    --secondary-color: #a1a1aa;
-    --text-main: #f4f4f5;
-    --text-body: #d4d4d8;
-    --accent-warm: #fbbf24;
-    --accent-coral: #fb7185;
-    --border-subtle: #343941;
-    --hero-bg: #101820;
-    --category-bg: #1f2937;
-    --surface-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+    --bg-body: #1a2742;
+    --bg-light: #213352;
+    --bg-white: #253d5e;
+    --primary-color: #38bdf8;
+    --primary-dark: #0ea5e9;
+    --secondary-color: #a8b8cc;
+    --text-main: #f1f5f9;
+    --text-body: #d1dae6;
+    --border-subtle: #2e4a6e;
+    --hero-bg: #142236;
+    --category-bg: #1e3450;
+    --surface-shadow: 0 16px 40px rgba(10, 20, 40, 0.35);
 }
 
 body {
-    background:
-        linear-gradient(90deg, rgba(15, 118, 110, 0.06) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(231, 111, 81, 0.05) 1px, transparent 1px),
-        var(--bg-body);
-    background-size: 44px 44px;
+    background: var(--bg-body);
 }
 
 .container {
@@ -858,14 +850,14 @@ body {
 }
 
 .hero {
-    min-height: 58vh;
+    min-height: auto;
     display: flex;
     align-items: center;
-    padding: 7rem 0 5rem;
+    padding: 5rem 0 3.5rem;
     overflow: hidden;
     background:
-        linear-gradient(135deg, rgba(15, 118, 110, 0.32), transparent 38%),
-        linear-gradient(315deg, rgba(245, 158, 11, 0.2), transparent 42%),
+        linear-gradient(135deg, rgba(37, 99, 235, 0.25), transparent 40%),
+        linear-gradient(315deg, rgba(56, 189, 248, 0.15), transparent 45%),
         var(--hero-bg);
 }
 
@@ -873,12 +865,12 @@ body {
     content: "";
     position: absolute;
     inset: auto 0 0;
-    height: 7px;
-    background: linear-gradient(90deg, var(--primary-color), var(--accent-warm), var(--accent-coral));
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), #38bdf8);
 }
 
 .hero h1 {
-    font-size: clamp(2.7rem, 7vw, 5.6rem);
+    font-size: clamp(2rem, 5vw, 3.2rem);
     letter-spacing: 0;
     margin-bottom: 1rem;
 }
@@ -951,7 +943,7 @@ body {
 }
 
 .overview-heading h2 {
-    font-size: clamp(2rem, 4vw, 3.4rem);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
     letter-spacing: 0;
     margin-bottom: 0.6rem;
 }
@@ -1130,7 +1122,7 @@ body {
 
 .category-title {
     color: var(--text-main);
-    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-size: clamp(1.4rem, 3vw, 2rem);
     text-align: left;
 }
 
@@ -1140,7 +1132,7 @@ body {
     width: 72px;
     height: 4px;
     margin-top: 0.7rem;
-    background: linear-gradient(90deg, var(--primary-color), var(--accent-warm));
+    background: linear-gradient(90deg, var(--primary-color), #38bdf8);
 }
 
 .product-showcase {
@@ -1158,7 +1150,7 @@ body {
 }
 
 .product-info h3 {
-    font-size: clamp(1.65rem, 3vw, 2.35rem);
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
     letter-spacing: 0;
 }
 
@@ -1242,4 +1234,147 @@ body {
         padding-top: 1.5rem;
         padding-bottom: 1.5rem;
     }
+}
+
+/* ===== サブページ用追加スタイル ===== */
+
+/* サブページのヒーロー（コンパクト版） */
+.hero--sub {
+    padding: 1.5rem 0;
+    min-height: auto;
+    display: flex;
+    align-items: center;
+}
+
+.site-logo-link {
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 800;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+}
+
+.site-logo-link:hover {
+    opacity: 1;
+    color: white;
+}
+
+/* ページヒーロー（カテゴリページのタイトル部分） */
+.page-hero {
+    background: var(--bg-light);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 3rem 0 2.5rem;
+}
+
+.page-hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin: 0.5rem 0 0.75rem;
+    letter-spacing: -0.02em;
+}
+
+.page-hero p {
+    color: var(--secondary-color);
+    font-size: 1rem;
+    max-width: 600px;
+}
+
+/* アクティブなナビボタン */
+.category-btn.active-page {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: color-mix(in srgb, var(--primary-color) 8%, var(--bg-white));
+}
+
+/* 公開停止・技術検証ノーティス */
+.notice {
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.notice--suspended {
+    background: #fef2f2;
+    border-left: 4px solid #ef4444;
+}
+
+.notice--poc {
+    background: #fefce8;
+    border-left: 4px solid #eab308;
+}
+
+.notice__title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin: 0 0 0.35rem;
+    color: #991b1b;
+}
+
+.notice--poc .notice__title {
+    color: #854d0e;
+}
+
+.notice__body {
+    font-size: 0.875rem;
+    margin: 0;
+    color: #b91c1c;
+    line-height: 1.6;
+}
+
+.notice--poc .notice__body {
+    color: #a16207;
+}
+
+[data-theme='dark'] .notice--suspended {
+    background: rgba(239,68,68,0.1);
+    border-color: #ef4444;
+}
+
+[data-theme='dark'] .notice--suspended .notice__title {
+    color: #fca5a5;
+}
+
+[data-theme='dark'] .notice--suspended .notice__body {
+    color: #fca5a5;
+}
+
+[data-theme='dark'] .notice--poc {
+    background: rgba(234,179,8,0.1);
+    border-color: #eab308;
+}
+
+[data-theme='dark'] .notice--poc .notice__title {
+    color: #fde68a;
+}
+
+[data-theme='dark'] .notice--poc .notice__body {
+    color: #fde68a;
+}
+
+/* btn-github disabled */
+.btn.btn-github.disabled, .btn.btn-github[style*='pointer-events: none'] {
+    opacity: 0.45;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+/* カテゴリセクションヘッダー（サブページ用） */
+.category-section-header {
+    padding: 3rem 0 0.5rem;
+}
+
+.category-section-header .category-title {
+    color: var(--text-main);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    text-align: left;
+}
+
+.category-section-header .category-title::after {
+    content: '';
+    display: block;
+    width: 72px;
+    height: 4px;
+    margin-top: 0.7rem;
+    background: linear-gradient(90deg, var(--primary-color), #38bdf8);
 }

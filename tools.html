@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools | tikomo software</title>
+    <meta name="description" content="tikomo software のツール一覧。Python・Dart製のCLIツールなど。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero hero--sub">
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><span class="theme-icon">☀️</span></button>
+    <div class="container">
+        <a href="index.html" class="site-logo-link">tikomo software</a>
+    </div>
+</header>
+<nav class="category-nav"><div class="container"><div class="category-buttons"><a href="windows.html" class="category-btn"><span class="category-icon">🖥️</span><span>Windows Apps</span></a>
+            <a href="android.html" class="category-btn"><span class="category-icon">📱</span><span>Android Apps</span></a>
+            <a href="tools.html" class="category-btn active-page"><span class="category-icon">🛠️</span><span>Tools</span></a>
+            <a href="web.html" class="category-btn"><span class="category-icon">🌐</span><span>Web Services</span></a>
+            </div></div></nav>
+<main>
+<div class="page-hero">
+    <div class="container">
+        <span class="section-label">Tools</span>
+        <h1>🛠️ Tools</h1>
+        <p>Python・Dart で開発したCLIツール・スクリプト一覧です。</p>
+    </div>
+</div>
+<section id="upscale-ico" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Python Utility</span>
+            <h3>Upscale Ico</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Python-3.9+-yellow" alt="Python 3.9+"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"></div>
+            <p class="product-desc">低解像度のICOファイルを高品質なPNG（最大512x512）へ拡大・変換するツール。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>古いソフトウェアのアイコン素材を現代の高解像度ディスプレイでも綺麗に表示したかったのですが、単純な拡大ではぼやけてしまうため、アルゴリズムを選択して綺麗に抽出できるスクリプトを作成しました。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>高品質拡大:</strong> Lanczos補間による滑らかな拡大</li><li><strong>ドット絵対応:</strong> Nearest Neighborによるエッジ維持</li><li>アルファチャンネル（透明度）を保持した変換</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/UpscaleIco" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+        <div class="product-visual"><div style="text-align:center;color:#94a3b8"><span style="font-size:3rem;display:block">🐍</span>Python Script</div></div>
+    </div>
+</section>
+<section id="png-to-ico" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-visual"><div style="text-align:center;color:#94a3b8"><span style="font-size:3rem;display:block">📦</span>Icon Tool</div></div>
+        <div class="product-info">
+            <span class="section-label">Python Utility</span>
+            <h3>Png To Ico</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Python-3.9+-yellow" alt="Python 3.9+"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"></div>
+            <p class="product-desc">1つのPNG画像からマルチサイズ対応のWindowsアイコン(ICO)を生成するツール。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>自作ソフトのアイコンを作成する際、複数の解像度を1つのICOにまとめる作業が手間に感じていました。「画像をドラッグ＆ドロップするだけで完了」する究極にシンプルなワークフローを目指して開発しました。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>一括生成:</strong> 256px〜16pxまでの全サイズを内包</li><li><strong>簡単操作:</strong> バッチファイルへのドラッグ＆ドロップで変換</li><li>LANCZOS補間による高品質な縮小処理</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/PngToIco" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+    </div>
+</section>
+<section id="flutter-audit-cli" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Security Audit Tool</span>
+            <h3>Flutter Dependency Audit Tool</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Cross--platform-blue" alt="Platform Cross-platform"><img src="https://img.shields.io/badge/Language-Dart-0175C2" alt="Language Dart"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0"><img src="https://img.shields.io/badge/Status-Suspended-red" alt="Status Suspended"><img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity"></div>
+            <p class="product-desc"><div class="notice notice--suspended"><p class="notice__title">【公開一時停止中】</p><p class="notice__body">現在、CLI 版から Web 版への移行作業を行っているため、一時的に公開を停止しております。</p></div><p class="product-desc">Flutterプロジェクトの依存パッケージを自動で監査し、セキュリティ・更新状況を4つのカテゴリに分類してレポートを生成するCLIツール。</p></p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>Flutterには公式のセキュリティ監査コマンドが存在しないため、開発現場での優先度判断を自動化するために開発しました。「どれが緊急で、どれは後回しでいいのか」を4つのカテゴリに自動分類し、意思決定をサポートします。</p><hr class="story-divider"><h4>Flutter SDK がなくても監査可能</h4><p>pubspec.yaml と pubspec.lock の2ファイルだけで動作する「File Mode」を搭載しているのが最大の特徴です。ソースコード全体やプロジェクト環境を共有することなく、この2ファイルさえあれば、手元の環境ですぐに監査レポートを作成できる実用性を重視しました。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>カテゴリ分類:</strong> セキュリティリスク、技術負債、バグ修正を自動判別</li><li><strong>Markdownレポート:</strong> 報告書としてそのまま使える美しいレポートを生成</li><li><strong>2つのモード:</strong> プロジェクト全体を精査する Project Mode と、ファイルのみで動く File Mode</li><li><strong>シングルバイナリ:</strong> Dart SDK不要で動く exe/バイナリ配布に対応</li><li><strong>セキュリティアドバイザリ:</strong> 脆弱性の詳細（CVSSスコア、CVE ID）を自動取得</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/flutter_audit/releases" class="btn btn-github disabled" target="_blank">GitHub (Suspended)</a></div>
+        </div>
+        <div class="product-visual"><img src="images/flutter_audit.png" alt="Flutter Dependency Audit Tool Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">🔍</span>CLI Audit Tool</div></div>
+    </div>
+</section>
+<section id="web-audit-cli" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-visual"><img src="images/web_audit_cli.png" alt="Web Dependency Audit CLI Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">🔍</span>CLI Audit Tool</div></div>
+        <div class="product-info">
+            <span class="section-label">Security & Maintenance Audit</span>
+            <h3>Web Dependency Audit CLI</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Language-TypeScript-3178C6" alt="Language TypeScript"><img src="https://img.shields.io/badge/Runtime-Node.js-339933" alt="Runtime Node.js"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0"><img src="https://img.shields.io/badge/Status-Suspended-red" alt="Status Suspended"><img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity"></div>
+            <p class="product-desc"><div class="notice notice--suspended"><p class="notice__title">【公開一時停止中】</p><p class="notice__body">現在、より利便性の高い Web アプリ版への移行作業を行っているため、CLI 版の公開を一時停止しております。</p></div><p class="product-desc">React, Vue, Next.js, Nuxt などの Web フロントエンドプロジェクト向けに特化した、依存パッケージ監査ツール。npm audit よりも詳細で分かりやすい「4カテゴリ分類」のレポートにより、セキュリティリスクと技術負債の優先順位付けをサポートします。</p></p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>Flutter版（Flutter Dependency Audit Tool）での成功を受け、同様のコンセプトを Web フロントエンド開発にも適用するために開発しました。膨大な依存パッケージの中から、どれが「今すぐ直すべき脆弱性」で、どれが「計画的な更新」で済むのかを自動で判別します。</p><hr class="story-divider"><h4>実用的な File Mode</h4><p>プロジェクト全体の環境がなくても、package.json と lockfile の2ファイルさえあれば監査が可能です。機密性の高いソースコードを共有することなく、ファイルを受け取るだけでその場でセキュリティ・メンテナンス状況を可視化できる、プロフェッショナルな現場での利用を想定したツールです。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>4カテゴリ分類:</strong> 脆弱性、メジャー更新、マイナー更新、最新に自動分類</li><li><strong>マルチエコシステム:</strong> npm (package-lock.json) と Yarn v1 (yarn.lock) に対応</li><li><strong>セキュリティ連携:</strong> GitHub Advisory Database から最新の脆弱性情報を取得</li><li><strong>フレームワーク監視:</strong> 主要フレームワークの本体アップデートも個別にチェック</li><li><strong>Markdownレポート:</strong> 報告書やチーム共有に使える構造化レポートを生成</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/ReactAndVue_dependency_audit" class="btn btn-github disabled" target="_blank">GitHub (Suspended)</a></div>
+        </div>
+    </div>
+</section>
+</main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 tikomo software. All rights reserved.</p>
+        </div>
+    </footer>
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage" alt="">
+        <div id="caption"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

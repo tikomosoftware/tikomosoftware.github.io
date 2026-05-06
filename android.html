@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Apps | tikomo software</title>
+    <meta name="description" content="tikomo software のAndroidアプリ一覧。Flutter・Kotlin製のモバイルアプリ。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero hero--sub">
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><span class="theme-icon">☀️</span></button>
+    <div class="container">
+        <a href="index.html" class="site-logo-link">tikomo software</a>
+    </div>
+</header>
+<nav class="category-nav"><div class="container"><div class="category-buttons"><a href="windows.html" class="category-btn"><span class="category-icon">🖥️</span><span>Windows Apps</span></a>
+            <a href="android.html" class="category-btn active-page"><span class="category-icon">📱</span><span>Android Apps</span></a>
+            <a href="tools.html" class="category-btn"><span class="category-icon">🛠️</span><span>Tools</span></a>
+            <a href="web.html" class="category-btn"><span class="category-icon">🌐</span><span>Web Services</span></a>
+            </div></div></nav>
+<main>
+<div class="page-hero">
+    <div class="container">
+        <span class="section-label">Android Apps</span>
+        <h1>📱 Android Apps</h1>
+        <p>Flutter・Kotlin / Jetpack Compose で開発したAndroidアプリ一覧です。</p>
+    </div>
+</div>
+<section id="komicviewer-android" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Android App</span>
+            <h3>Komic Viewer for Android</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Android-brightgreen" alt="Platform Android"><img src="https://img.shields.io/badge/Framework-Flutter-02569B" alt="Framework Flutter"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0"><img src="https://img.shields.io/badge/Tool-Kiro%20Auto-blueviolet" alt="Tool: Kiro Auto"></div>
+            <p class="product-desc">Windows版Komic ViewerのAndroid版。Flutterで構築した軽量コミックビューアーです。ZIP/CBZ形式のコミックをスマートフォンで快適に閲覧できます。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>Windows版のKomic Viewerをスマートフォンでも使いたくなり、Flutterで開発しました。Androidアプリが作れるか検証も兼ねています。結果、スペックの作成からビルド・リリースまですべて完結できました。</p><hr class="story-divider"><h4>FlutterでAndroidアプリ...イケた</h4><p>Flutterは初めてでしたが、仕様を伝えるだけでアプリが形になっていくのは新鮮でした。ピンチズーム、ページスライダー、本棚機能、読み方向切り替えなど、コミックビューアーとして必要な機能を一通り実装できています。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>本棚機能:</strong> 開いたコミックを自動登録、グリッド/リスト表示切り替え</li><li><strong>対応形式:</strong> ZIP, CBZ, EPUB形式をサポート</li><li><strong>読み方向:</strong> 右開き（右→左）/ 左開き（左→右）切り替え対応</li><li><strong>ピンチズーム:</strong> 2本指で1x〜4xまで拡大可能</li><li><strong>ページスライダー:</strong> スライダーで素早くページ移動</li><li><strong>読書進捗保存:</strong> 最後に読んだページを自動記憶</li><li><strong>ダークテーマ:</strong> ライト/ダーク切り替え対応</li></ul>
+            </details>
+            <div class="download-buttons"><a href="./apks/KomicViewer-v1.0.1.apk" class="btn btn-primary" target="_blank">直接ダウンロード (APK)</a></div>
+        </div>
+        <div class="product-visual"><div class="screenshots-container" style="display:flex;gap:10px;justify-content:center"><img src="images/komicviewer_android_01.jpg" alt="Komic Viewer Screenshot 1" class="zoomable-image" style="max-width:45%;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.2)"><img src="images/komicviewer_android_02.jpg" alt="Komic Viewer Screenshot 2" class="zoomable-image" style="max-width:45%;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.2)"></div></div>
+    </div>
+</section>
+<section id="ibeacon-scanner" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-visual"><div class="screenshots-container" style="display:flex;gap:10px;justify-content:center"><img src="images/ibeacon_scanner_01.jpg" alt="iBeacon Scanner Screenshot 1" class="zoomable-image" style="max-width:45%;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.2)"><img src="images/ibeacon_scanner_02.jpg" alt="iBeacon Scanner Screenshot 2" class="zoomable-image" style="max-width:45%;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.2)"></div></div>
+        <div class="product-info">
+            <span class="section-label">Android App</span>
+            <h3>iBeacon Scanner (Kotlin + AltBeacon)</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Android-brightgreen" alt="Platform Android"><img src="https://img.shields.io/badge/Language-Kotlin-7F52FF" alt="Language Kotlin"><img src="https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4" alt="UI Jetpack Compose"><img src="https://img.shields.io/badge/BLE-AltBeacon-orange" alt="BLE AltBeacon"><img src="https://img.shields.io/badge/License-Apache%202.0-green" alt="License Apache 2.0"><img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0"><img src="https://img.shields.io/badge/Tool-Kiro%20Auto-blueviolet" alt="Tool: Kiro Auto"></div>
+            <p class="product-desc">Kotlin + Jetpack Compose + AltBeacon で構築したAndroidネイティブのiBeaconスキャナー。UUID指定フィルター・距離フィルター・バックグラウンド検出通知に対応しています。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>以前 Java (Android SDK) で開発していたiBeaconスキャンツールを、Kotlinで書き直しました。最近はJavaではなくKotlinが主流になっているため、モダンな言語に移行することが主な目的です。合わせて最新のAndroid環境でも動作するよう、権限周りも最新のAPIに対応させています。</p><hr class="story-divider"><h4>BLE関係は権限も含めてどんどん厳しくなってますね</h4><p>画面オン・アプリバックグラウンド状態での検出は今でも実現できましたが、画面オフ時にスキャンが強制停止されることがあり。これはテストで使用した端末側の制限でアプリでは回避できないっぽい...</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>UUID指定モード:</strong> 特定UUIDのビーコンのみ検出するフィルター機能</li><li><strong>距離フィルター:</strong> 指定距離以内のビーコンのみ表示</li><li><strong>バックグラウンド検出:</strong> 画面オン・アプリバックグラウンド状態での検出に対応</li><li><strong>新規検出通知:</strong> 新しいビーコン検出時にローカル通知を表示（30秒タイムアウト）</li><li><strong>Apple / Aplix対応:</strong> 両メーカーのiBeaconフォーマットに対応</li><li><strong>商用利用無料:</strong> AltBeacon（Apache 2.0）使用</li></ul>
+            </details>
+            <div class="download-buttons"><a href="./apks/iBeaconScanner-1.0.0-release.apk" class="btn btn-primary" target="_blank">直接ダウンロード (APK)</a></div>
+        </div>
+    </div>
+</section>
+<section id="ble-scanner" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Android App</span>
+            <h3>BLE Scanner (Kotlin)</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Android-brightgreen" alt="Platform Android"><img src="https://img.shields.io/badge/Language-Kotlin-7F52FF" alt="Language Kotlin"><img src="https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4" alt="UI Jetpack Compose"><img src="https://img.shields.io/badge/BLE-Generic-blue" alt="BLE Generic"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0"><img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity"></div>
+            <p class="product-desc">Androidネイティブ（Kotlin + Jetpack Compose）で構築された汎用的なBluetooth (BLE) スキャナーアプリ。iBeaconやEddystoneなどの解析に加え、独自フォーマットの解析にも対応しています。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>本格的なiBeaconスキャナーを開発する一歩手前で「まずは周囲のBluetooth(BLE)の状態を正確に把握したい」という想いから生まれたアプリです。iBeaconのスキャンロジックを組み上げる前の、いわば「土台」として動作確認や状況把握のために開発した経緯があります。当時はJavaで実装していましたが、今回、iBeaconスキャナーと同様に最新のKotlin + Jetpack Compose環境へ移植・再設計を行いました。</p><hr class="story-divider"><h4>Antigravity をフル活用した初のAndroid開発プロジェクト</h4><p>AIコーディングエージェント「Antigravity」との共同作業で開発。複雑なBLEのスキャンロジックや、GitHub Actions による「ビルド・署名・リリース」の全自動化をすべて「指示」だけで構築しました。GitHub Actions から直接APKをダウンロードできる仕組みも実装しています。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>汎用BLEスキャン:</strong> 手に届く範囲の全BLEデバイスを一覧表示</li><li><strong>ビーコン解析:</strong> iBeacon, Eddystone（AltBeacon含む）を自動判別</li><li><strong>独自パケット解析:</strong> Aplixなどの特定メーカー独自データの詳細表示に対応</li><li><strong>バックグラウンド動作:</strong> Foreground Serviceを使用し画面オフでもスキャン維持</li><li><strong>デバッグ機能:</strong> 計測データのグラフ化や一括ログ表示に対応</li><li><strong>CI/CD自動配信:</strong> GitHub Actions による最新ビルドの自動提供</li></ul>
+            </details>
+            <div class="download-buttons"><a href="./apks/ble_scanner-1.0.0-release.apk" class="btn btn-primary" target="_blank">直接ダウンロード (APK)</a></div>
+        </div>
+        <div class="product-visual"><div class="screenshots-container" style="display:flex;gap:10px;justify-content:center"><img src="images/ble_scanner_01.jpg" alt="BLE Scanner Screenshot 1" class="zoomable-image" style="max-width:45%;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.2)"><img src="images/ble_scanner_02.jpg" alt="BLE Scanner Screenshot 2" class="zoomable-image" style="max-width:45%;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.2)"></div></div>
+    </div>
+</section>
+<section id="sound-viewer" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-visual"><img src="images/sound_viewer.png" alt="Sound Viewer Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">🔊</span>Sound Visualizer</div></div>
+        <div class="product-info">
+            <span class="section-label">Android App</span>
+            <h3>Sound Viewer</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Android-brightgreen" alt="Platform Android"><img src="https://img.shields.io/badge/Framework-Flutter-02569B" alt="Framework Flutter"><img src="https://img.shields.io/badge/License-Private-lightgrey" alt="License Private"><img src="https://img.shields.io/badge/Tool-Kiro%20Auto-blueviolet" alt="Tool: Kiro Auto"></div>
+            <p class="product-desc">デバイスのマイクから取得した周囲の音声をリアルタイムで解析し、音量に応じて画面中央のネオンブルーの円を動的に変化させるAndroid向けビジュアライザーアプリです。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>15年ほど前にJavaで同じようなAndroid音声ビジュアライザーを作っていたことがあります。当時はフーリエ変換のライブラリを自分で探し回り、使い方を調べながら苦労して実装していました。今回は「フーリエ変換を行って音声を可視化したい」という表現だけで、AIが妥当なライブラリを選択し、アプリとして実装できるのかを確認したくて作成しました。</p><hr class="story-divider"><h4>15年前の苦労が嘘みたいだ...</h4><p>結果、さらっと動くものが出来上がってしまい、正直ちょっと感動しました。あの頃ライブラリ選定だけで何日も費やしていたのが嘘のようです。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>リアルタイム音声解析:</strong> noise_meterによるマイク音声のリアルタイム取得</li><li><strong>FFT解析:</strong> ffteaによる周波数帯域（20Hz〜200Hz）の振幅抽出</li><li><strong>動的ビジュアル:</strong> 振幅に応じた円のサイズ変化・グローエフェクト</li><li><strong>滑らかな描画:</strong> AnimationControllerによる60fpsの補間描画</li><li><strong>ライフサイクル管理:</strong> バックグラウンド時の自動停止・復帰に対応</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/SoundView" class="btn btn-github" target="_blank">GitHub（Kiro）</a><a href="https://github.com/tikomosoftware/SoundView-codex" class="btn btn-github" target="_blank">GitHub (Codex GPT-5.5)</a></div>
+        </div>
+    </div>
+</section>
+</main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 tikomo software. All rights reserved.</p>
+        </div>
+    </footer>
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage" alt="">
+        <div id="caption"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

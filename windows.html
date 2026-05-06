@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Apps | tikomo software</title>
+    <meta name="description" content="tikomo software のWindowsアプリ一覧。コミックビューアー、画像ツール、ユーティリティなど。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero hero--sub">
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><span class="theme-icon">☀️</span></button>
+    <div class="container">
+        <a href="index.html" class="site-logo-link">tikomo software</a>
+    </div>
+</header>
+<nav class="category-nav"><div class="container"><div class="category-buttons"><a href="windows.html" class="category-btn active-page"><span class="category-icon">🖥️</span><span>Windows Apps</span></a>
+            <a href="android.html" class="category-btn"><span class="category-icon">📱</span><span>Android Apps</span></a>
+            <a href="tools.html" class="category-btn"><span class="category-icon">🛠️</span><span>Tools</span></a>
+            <a href="web.html" class="category-btn"><span class="category-icon">🌐</span><span>Web Services</span></a>
+            </div></div></nav>
+<main>
+<div class="page-hero">
+    <div class="container">
+        <span class="section-label">Windows Apps</span>
+        <h1>🖥️ Windows Apps</h1>
+        <p>C# / .NET で開発したWindowsデスクトップアプリケーション一覧です。</p>
+    </div>
+</div>
+<section id="komic-viewer" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Featured Software</span>
+            <h3>Komic Viewer</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.3-orange" alt="Version 1.3"><img src="https://img.shields.io/badge/Tool-Kiro%200.8.140%20Auto-blueviolet" alt="Tool: Kiro"></div>
+            <p class="product-desc">軽量で使いやすいコミック・マンガビューアー</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>ローカルに保存した多くのアーカイブを、ストレスなく、なおかつ「めくる」感覚を大切にしながら閲覧できるツールが欲しくて開発しました。多機能さよりも、起動の速さと直感的な操作感にこだわっています。</p><hr class="story-divider"><h4>うーん...WindowsアプリをAIでやってみたかった...作れるようになってるな</h4><p>KiroでWindowsアプリを作る検証のためにそこそこ複雑なアプリを作ろうと思って作ってみました。慣れているのでWindowsフォームにしたのですが指示が悪かったためUI部分をコードで実装する作りになってしまいVisual Studio 2026 communityのデザイナーの利点がなくなってしまいました。しかしKiroのみでWindowsアプリが作れることが証明できたので良しとします。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>多彩な表示モード:</strong> 単ページ・見開き表示に対応</li><li><strong>豊富な対応形式:</strong> ZIP, RAR, CBZ, CBR形式をサポート</li><li><strong>多彩な画像形式:</strong> JPEG, PNG, GIF, BMP, WebP, AVIFに対応</li><li><strong>テーマ切り替え:</strong> ライト・ダークテーマ対応</li><li><strong>直感的操作:</strong> マウス・キーボード・ホイール・ツールバースクロールバーでの快適なナビゲーション</li><li><strong>フルスクリーン対応:</strong> 自動非表示ツールバー付きで集中して読書を楽しめる</li><li><strong>最前面表示:</strong> 他のウィンドウの上に常に表示可能</li><li><strong>ドラッグ&ドロップ:</strong> ファイルを簡単に開ける</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://www.vector.co.jp/soft/winnt/art/se528369.html" class="btn btn-vector" target="_blank">Vector</a><a href="https://apps.microsoft.com/detail/9nhzps0nw2n2?hl=ja-JP&gl=JP" class="btn btn-msstore" target="_blank">Microsoft Store</a><a href="https://github.com/tikomosoftware/KomicViewer/releases" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+        <div class="product-visual"><img src="images/komicviewer.png" alt="Komic Viewer Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">🖥️</span>Windows App</div></div>
+    </div>
+</section>
+<section id="koclip2" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-visual"><div style="text-align:center;color:#94a3b8"><span style="font-size:3rem;display:block">⚙️</span>Windows Utility</div></div>
+        <div class="product-info">
+            <span class="section-label">Desktop Utility</span>
+            <h3>KoClip2</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-2.0.2-orange" alt="Version 2.0.2"><img src="https://img.shields.io/badge/Tool-Kiro%200.8.140%20Auto-blueviolet" alt="Tool: Kiro"></div>
+            <p class="product-desc">クリップボードにコピーされた画像を自動的に指定フォルダに保存するWindows用ツール。.NETで完全再実装され、Webp保存やグレースケール変換に対応。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>技術資料の作成や開発中の画面記録の際、スクリーンショットを「撮って、保存して、名前をつける」という繰り返しに煩わしさを感じていました。コピーした瞬間に裏側で自動保存されるワークフローを構築するために開発しました。</p><hr class="story-divider"><h4>Delphiからのコンバート...イケるんだ...</h4><p>Kiroで以前作成していたDelphiのアプリをC#にコンバートができるかの検証のために作成してみました。一度作成したアプリを別の言語で作成するのは、なかなか腰が重くなってたのでAIの助けを借りていい機会だと思いやってみました。結果いけました。しかし...ここでも問題が...今回も指示が悪くまたUI部分をコードで実装する作りになってしまいVisual Studio 2026 communityのデザイナーの利点がなくなってしまいました。UIがモダンなのはうそですWindowsFormで昔な感じです(💦)</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>自動画像保存:</strong> クリップボード監視で画像を自動保存</li><li><strong>多彩な形式:</strong> BMP, JPEG, PNG, WebPに対応</li><li><strong>柔軟な設定:</strong> 保存先やファイル名、品質設定を自由にカスタマイズ</li><li><strong>モダン機能:</strong> グレースケール変換、Windows 11対応UI、サウンド通知</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://www.vector.co.jp/soft/winnt/util/se528617.html" class="btn btn-vector" target="_blank">Vector</a><a href="https://github.com/tikomosoftware/KoClip2/releases" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+    </div>
+</section>
+<section id="kothumb2" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Windows Utility</span>
+            <h3>KoThumb2</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-2.0.0-orange" alt="Version 2.0.0"></div>
+            <p class="product-desc">大量の画像をドラッグ＆ドロップで素早くリサイズ・変換するためのデスクトップアプリ。SNS投稿やブログ作成に最適な、高速・高品質な画像処理ツールです。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>大量の画像をリサイズする際、既存のツールでは処理が遅かったり、設定が複雑だったりすることがありました。「フォルダを投げ込むだけで終わる」という究極のシンプルさと、マルチコアを活かした爆速な処理スピードを両立させるために開発しました。</p><hr class="story-divider"><h4>Delphiからのコンバートより最初から作ったほうが早いという...矛盾...</h4><p>以前作成していたDelphiのアプリを新規でAntiGravityを使ってC#のWindowsアプリを作成してみました。仕様は以前のアプリの仕様そのままで、今回はC#で作成したい、作成後VisualStudio2026での編集を考慮してデザイナで変更できるようにしてほしいと指示しました。Kiroと違って仕様を決めて作成してもらいました。一番驚いたのはスピードでKiroに比べてめちゃくちゃ早かったです。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>とにかく高速:</strong> マルチコアCPUをフル活用した並列処理</li><li><strong>きれいに縮小:</strong> ImageSharp採用でボケの少ない高品質リサイズ</li><li><strong>多彩な設定:</strong> 幅・高さ・長辺基準のリサイズとWebP/JPG/PNG変換</li><li><strong>かしこい機能:</strong> 柔軟なリネームルール、サブフォルダ構造の維持</li><li><strong>使いやすさ:</strong> 最前面表示、処理ログからの即時プレビュー対応</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://www.vector.co.jp/soft/winnt/art/se528493.html" class="btn btn-vector" target="_blank">Vector</a><a href="https://github.com/tikomosoftware/KoThumb2/releases" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+        <div class="product-visual"><img src="images/kothumb2.png" alt="KoThumb2 Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">🖥️</span>Windows App</div></div>
+    </div>
+</section>
+<section id="kothumb-mini" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-visual"><img src="images/kothumbmini.png" alt="KoThumb Mini Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">🖼️</span>Windows App</div></div>
+        <div class="product-info">
+            <span class="section-label">Windows Utility</span>
+            <h3>KoThumb Mini</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0"><img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity"></div>
+            <p class="product-desc">究極にシンプルな画像一括リサイズ・変換ツール。「フォルダを指定する」という手間さえも削ぎ落とし、デスクトップの隅に置いて「落とすだけ」で使えるミニマルなツールです。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>KoThumb2よりもさらに手軽に、直感的にリサイズを行いたくて開発しました。設定画面を開く手間すら惜しいとき、あらかじめ決めた設定で「ポイッ」と画像を投げるだけで完了する。そんな日常の動作に溶け込むツールを目指しました。</p><hr class="story-divider"><h4>KoThumb2からの引き算、そしてデザインへのこだわり</h4><p>KoThumb2を作った後、もっとシンプルにできるんじゃないかと思い、機能を削ぎ落としてUIを磨き上げました。今回はWPFを採用し、グラスモーフィズム（半透明のぼかし）を取り入れたモダンな外観に仕上げています。機能は最小限ですが、その分「迷わない」快適さがあります。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>究極のシンプルさ:</strong> ウィンドウに画像をドロップするだけで即座に処理開始</li><li><strong>美しくモダンなUI:</strong> ダークモードとグラスモーフィズムを採用したスタイリッシュな外観</li><li><strong>高速並列リサイズ:</strong> .NET 9.0とImageSharpによる軽快な動作</li><li><strong>自動保存:</strong> 元ファイルの隣に resized フォルダを自動生成して保存</li><li><strong>設定不要の快適さ:</strong> 迷わせないための「引き算」の設計</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://www.vector.co.jp/soft/winnt/art/se528494.html" class="btn btn-vector" target="_blank">Vector</a><a href="https://github.com/tikomosoftware/KoThumbMini" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+    </div>
+</section>
+<section id="kofoldersync" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Windows Utility</span>
+            <h3>KoFolderSync</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-10.0-purple" alt=".NET 10.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.0.1-orange" alt="Version 1.0.1"></div>
+            <p class="product-desc">シンプルで使いやすいフォルダ同期アプリケーション。ソースフォルダから同期先フォルダへファイルを効率的にコピーし、オプションで完全同期（ミラーリング）も可能です。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>バックアップや複数のフォルダを同期する際、既存のツールでは設定が複雑だったり、シンプルな操作で素早く同期できるツールが欲しくて開発しました。ドラッグ&ドロップ対応で直感的に使え、並列処理による高速同期を実現しています。</p><hr class="story-divider"><h4>スクリプトでもよかったけどWindowsアプリにしてみた</h4><p>必要に迫られて作成、VisualStudio2026,Kiro,Antigravityを交互に使っても破綻しないのか検証も行う。VisualStudio2026で作成した日本語のコメントやREADME.mdがKiro,Antigravityで開くと文字化け？してしまっていた。結局途中からVisualStudio2026を使うのをやめ、Kiro,Antigravityで開発を行った。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>高速並列処理:</strong> マルチスレッドで効率的にファイルをコピー</li><li><strong>完全同期モード:</strong> ミラーリングで同期先を完全一致させる</li><li><strong>ドラッグ&ドロップ:</strong> フォルダを簡単に設定可能</li><li><strong>途中停止機能:</strong> 同期を安全に中断できる</li><li><strong>設定の自動保存:</strong> 前回の設定を記憶して再利用</li><li><strong>詳細なログ:</strong> 進捗状況とエラーを確認できる</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/KoFolderSync/releases" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+        <div class="product-visual"><img src="images/kofoldersync.png" alt="KoFolderSync Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">📁</span>Windows App</div></div>
+    </div>
+</section>
+<section id="image-explorer" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-visual"><img src="images/imageexplorer.png" alt="Image Explorer Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">🖼️</span>Windows App</div></div>
+        <div class="product-info">
+            <span class="section-label">Image Viewer</span>
+            <h3>Image Explorer</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.1.0-orange" alt="Version 1.1.0"></div>
+            <p class="product-desc">Windowsエクスプローラー風のインターフェースで画像を快適に閲覧できる高速イメージビューアー</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>エクスプローラーでも画像は見れるけど、もっと快適に閲覧できるツールが欲しくて作成しました。非同期読み込みやキャッシュ機能で大量の画像もスムーズに表示。直感的なUIで操作も簡単です。</p><hr class="story-divider"><h4>うーん...新しい技術スタックだとWindowsアプリはきついかも</h4><p>C#14, WPF, CommunityToolkit.Mvvmを使ってもAIで開発できるかやってみたかった。WindowsFormより引っかかった感じです。どうにもならない感じになって解決するのに...デバッグの考え方や、ログ出して確認する方法まで指示必要がありましたがなんとか山を越えた感じです。最初AntiGravityで作成し大枠は終了、クレジットがなくなったのでその後動くようにするまではKiroを使って作業しました。正直、CommunityToolkit.Mvvmって初めて知りました。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>多様な画像フォーマット:</strong> JPEG, PNG, GIF, BMP, WebP, TIFF対応</li><li><strong>高速表示:</strong> 非同期読み込みとキャッシュで快適な閲覧</li><li><strong>使いやすいUI:</strong> エクスプローラー風の3ペイン構成</li><li><strong>豊富なズーム機能:</strong> 実寸、フィット、幅/高さ合わせなど</li><li><strong>キーボードショートカット:</strong> 効率的な操作が可能</li><li><strong>サムネイル表示:</strong> 画像の一覧を素早く確認</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/KoExplorer/releases" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+    </div>
+</section>
+<section id="koreadingabook" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Utility Tool</span>
+            <h3>KoReadingABook</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-10.0-purple" alt=".NET 10.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.0.1-orange" alt="Version 1.0.1"></div>
+            <p class="product-desc">読書中や離席中にPCがスリープしたり、チャットツールのステータスが「離席中」になったりするのを防ぐために開発しました。マウスの自動移動と定期的なウィンドウ切り替えにより、人が操作している状態をシミュレートします。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>物理的にマウスを動かすデバイスもありますが、ソフトウェアでスマートに解決したくて作りました。シンプルな操作で、PCがアクティブな状態を保つことができます。</p><hr class="story-divider"><h4>本をゆっくり読みたいだけなんだ...</h4><p>シンプルながらも実用的なツールです。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>ランダムウィンドウ切り替え:</strong> 10〜30秒間隔で開いているアプリをランダムにアクティブ化</li><li><strong>スマートな選択:</strong> 現在のアプリとは異なるアプリを選択、設定画面などは除外</li><li><strong>マウス自動移動:</strong> 画面中央付近で円を描くように自動移動</li><li><strong>ユーザー操作優先:</strong> マウスを動かすと10秒間自動移動を一時停止</li><li><strong>簡単操作:</strong> Start/Stopボタンで即座に制御可能</li><li><strong>カスタマイズ可能:</strong> ウィンドウ切り替え間隔を調整可能</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/KoReadingABook/releases" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+        <div class="product-visual"><img src="images/koreadingabook.png" alt="KoReadingABook Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">📖</span>Windows App</div></div>
+    </div>
+</section>
+<section id="koscreenpresenterassist" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-visual"><img src="images/KoScreenPresenterAssist.png" alt="KoScreenPresenterAssist Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">🎨</span>Presentation Tool</div></div>
+        <div class="product-info">
+            <span class="section-label">Presentation Tool</span>
+            <h3>KoScreenPresenterAssist</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0"><img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity"></div>
+            <p class="product-desc">プレゼンテーションや画面共有時に便利な描画・強調表示ツール。画面上に直接描画したり、マウスカーソルを強調・拡大したりすることで、視覚的な説明をサポートします。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>リモート会議や動画制作の際、「画面のどこを指しているのか」を相手により分かりやすく伝えたいという思いから開発しました。シンプルで邪魔にならないツールバーと、瞬時に切り替えられるホットキーで、プレゼンの流れを止めずに使用できます。</p><hr class="story-divider"><h4>プレゼン中に「ここ」を強調したい...</h4><p>画面共有中にマウスカーソルが見失われがちだったので、強調表示や直接書き込みができるツールを作ってみました。ツールバーの半透明処理やホットキーの設定など、細かいところもいい感じに仕上がりました。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>描画モード:</strong> 線や円で画面上に直接書き込み可能（4色対応）</li><li><strong>強調表示モード:</strong> カーソル周辺をスポットライトのように強調</li><li><strong>拡大鏡モード:</strong> カーソル周辺をリアルタイムに拡大表示</li><li><strong>フローティングツールバー:</strong> 邪魔にならない場所に配置・移動可能</li><li><strong>ホットキー対応:</strong> Ctrl+Alt+P/H/Z で瞬時にモード切り替え</li><li><strong>全消去機能:</strong> Escキー一発、またはゴミ箱アイコンですべてクリア</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/KoScreenPresenterAssist/releases" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+    </div>
+</section>
+<section id="redmine-time-tracker" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Windows Tool</span>
+            <h3>Redmine Time Tracker</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.1.0-orange" alt="Version 1.1.0"><img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity"></div>
+            <p class="product-desc">Redmineの作業時間入力、もっと楽にしませんか？毎日の作業時間記録を効率化・自動化するためのデスクトップアプリケーションです。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>以前は、Pythonスクリプトを使ってコマンドラインから時間入力を自動化していました。しかし、実際に使ってみると、登録状況が一目で分からない、どの日に登録したか確認が面倒、コマンドライン操作が直感的ではないといった課題がありました。</p><hr class="story-divider"><h4>GUIアプリへの進化...これだよこれ！</h4><p>カレンダー表示と視覚的な操作ができるGUIアプリケーションを開発しました。結果、月全体の登録状況が一目で分かり、マウスで簡単に操作できるようになりました。登録漏れもすぐに発見できるので、日々の記録作業が劇的に快適になりました。WPFでのモダンなUI実装も、AIの助けを借りることで驚くほどスムーズに進みました。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>月次カレンダービュー:</strong> 1ヶ月の作業記録をカレンダー形式で視覚的に把握</li><li><strong>テンプレート一括登録:</strong> 毎日・毎週の定例タスクをワンクリックで一括登録</li><li><strong>モダンなUI:</strong> Windowsの最新トレンドを取り入れたシンプルで美しいデザイン</li><li><strong>透明性のあるログ:</strong> APIリクエストの内容を確認できるログビューア搭載</li><li><strong>子チケット一括作成:</strong> 階層構造（親子関係）を維持したチケットの一括作成に対応</li><li><strong>幅広いRedmine対応:</strong> Redmine 3.0以降の各バージョンに対応（REST API必須）</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://www.vector.co.jp/soft/winnt/business/se528503.html" class="btn btn-vector" target="_blank">Vector</a><a href="https://github.com/tikomosoftware/RedmineTimeTracker/releases" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+        <div class="product-visual"><img src="images/redminetimetracker.png" alt="Redmine Time Tracker Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">🕒</span>Redmine Tool</div></div>
+    </div>
+</section>
+<section id="komdviewer" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-visual"><img src="images/komdviewer.png" alt="KoMDViewer Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">📝</span>Markdown Editor</div></div>
+        <div class="product-info">
+            <span class="section-label">Markdown Viewer & Editor</span>
+            <h3>KoMDViewer</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0"><img src="https://img.shields.io/badge/Status-Suspended-red" alt="Status Suspended"><img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity"></div>
+            <p class="product-desc"><div class="notice notice--suspended"><p class="notice__title">【公開一時停止中】</p><p class="notice__body">AI（Antigravity）による WinUI 3 アプリ開発の検証として制作し、当初の目的である「AIのみでの開発完遂」を達成したため、現在は公開を停止しております。開発実績として掲載を継続しています。</p></div><p class="product-desc">WinUI 3 と Mica 背景を採用した、シンプルで美しい Markdown ビューアー ＆ エディター。軽量な動作と高品質なレンダリングで、快適な文章作成体験を提供します。</p></p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>「サッと開いて、きれいに読めて、少しだけ直したい」そんな日常の Markdown 操作をストレスなく行えるツールが欲しくて開発しました。機能過多にならず、美しさと使い勝力のバランスを追求しています。</p><hr class="story-divider"><h4>WinUI 3 の美しさを活かしたい...</h4><p>Antigravity を使って、最新の WinUI 3 フレームワークで開発しました。Mica 効果（背景の半透明処理）やモダンなコントロールをフル活用し、Windows 11 に最適化された外観に仕上げています。コードエディター部分には CodeMirror 6 を採用し、ブラウザベースの柔軟性とデスクトップアプリの軽快さを両立させました。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>モダンな外観:</strong> WinUI 3 + Mica 効果による洗練されたデザイン</li><li><strong>高品質レンダリング:</strong> Markdig と highlight.js による美しい表示</li><li><strong>直感的なエディター:</strong> CodeMirror 6 を搭載し、表示・編集をスムーズに切り替え</li><li><strong>PDF 出力:</strong> 表示内容をそのまま高品質な PDF としてエクスポート</li><li><strong>快適な操作性:</strong> ドラッグ＆ドロップ対応、最近開いたファイルの履歴管理</li><li><strong>テーマ対応:</strong> システム設定に連動したライト・ダークテーマ切り替え</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/MDViewer/releases" class="btn btn-github disabled" target="_blank">GitHub (Suspended)</a></div>
+        </div>
+    </div>
+</section>
+</main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 tikomo software. All rights reserved.</p>
+        </div>
+    </footer>
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage" alt="">
+        <div id="caption"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
