@@ -12,27 +12,22 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <header class="hero">
-        <div class="hero-top-bar">
-            <a href="https://github.com/tikomosoftware" target="_blank" rel="noopener noreferrer" class="hero-sns-link-text" aria-label="GitHub"><img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" alt="GitHub">GitHub</a>
-            <a href="https://zenn.dev/como" target="_blank" rel="noopener noreferrer" class="hero-sns-link-text" aria-label="Zenn"><img src="https://www.google.com/s2/favicons?domain=zenn.dev&sz=32" alt="Zenn">Zenn</a>
-            <a href="https://qiita.com/tikomo" target="_blank" class="hero-sns-link-text" aria-label="Qiita"><img src="https://www.google.com/s2/favicons?domain=qiita.com&sz=32" alt="Qiita">Qiita</a>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><span class="theme-icon">☀️</span></button>
-        </div>
-        <div class="container">
-            <a href="index.html" style="text-decoration:none;color:inherit;"><h1>tikomo software</h1></a>
-            <p style="font-size:0.85em;">欲しいと思ったら、まず作ってみる。/ <span style="font-size:0.85em;opacity:0.75;margin-left:0.5em;">Building the tools I wish existed.</span></p>
-            <div class="hero-category-buttons">
-                <a href="windows.html" class="hero-category-btn"><span>🖥️</span><span>Windows Apps</span></a>
-                <a href="android.html" class="hero-category-btn"><span>📱</span><span>Android Apps</span></a>
-                <a href="tools.html" class="hero-category-btn"><span>🛠️</span><span>Tools</span></a>
-                <a href="web.html" class="hero-category-btn active-page"><span>🌐</span><span>Web Services</span></a>
-                <a href="profile.html" class="hero-category-btn"><span>👤</span><span>Profile</span></a>
-            </div>
-        </div>
-    </header>
-    <main>
+<body class="site-page page-web">
+<header class="home-header site-header">
+    <div class="home-shell home-header__inner">
+        <a href="index.html" class="home-brand" aria-label="tikomo software ホーム">
+            <span>tikomo software</span>
+        </a>
+        <nav class="home-nav" aria-label="メインナビゲーション">
+            <a href="windows.html">Windows</a>
+            <a href="android.html">Android</a>
+            <a href="tools.html">Tools</a>
+            <a href="web.html" class="is-current">Web</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+    </div>
+</header>
+<main>
         <div class="page-hero">
             <div class="container">
         <h1>Web Services</h1>
@@ -663,11 +658,16 @@
             </div>
         </section>
     </main>
-    <footer>
-        <div class="container">
-            <p>&copy; 1998-2026 tikomo software. All rights reserved.</p>
+<footer class="home-footer site-footer">
+    <div class="home-shell home-footer__inner">
+        <p>&copy; 1998-2026 tikomo software</p>
+        <div>
+            <a href="https://github.com/tikomosoftware" target="_blank" rel="noopener noreferrer"><img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" alt="" class="footer-link-icon">GitHub</a>
+            <a href="https://zenn.dev/como" target="_blank" rel="noopener noreferrer"><img src="https://www.google.com/s2/favicons?domain=zenn.dev&sz=32" alt="" class="footer-link-icon">Zenn</a>
+            <a href="https://qiita.com/tikomo" target="_blank" rel="noopener noreferrer"><img src="https://www.google.com/s2/favicons?domain=qiita.com&sz=32" alt="" class="footer-link-icon">Qiita</a>
         </div>
-    </footer>
+    </div>
+</footer>
     <div id="imageModal" class="image-modal">
         <span class="close-modal">&times;</span>
         <img class="modal-content" id="modalImage" alt="">

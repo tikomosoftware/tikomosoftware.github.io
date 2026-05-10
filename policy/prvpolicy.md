@@ -33,7 +33,7 @@ permalink: /privacy/
 **5. お問い合わせ**
 本プライバシーポリシーに関するご質問は、以下の連絡先までお願いいたします。
 
-* **連絡先:** [tikomo@gmail.com]
+* **連絡先:** [Contact form](../profile.html#contact)
 
 ---
 
@@ -60,6 +60,6 @@ The Apps use storage access permissions (read/write) on the device only to the e
 **5. Contact Us**
 If you have any questions regarding this Privacy Policy, please contact us at:
 
-* **Contact:** [tikomo@gmail.com]
+* **Contact:** [Contact form](../profile.html#contact)
 
 ---

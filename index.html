@@ -1,97 +1,133 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tikomo software | tikomo software</title>
-    <meta name="description" content="tikomo software - Building the tools I wish existed.">
+    <title>tikomo software | 個人開発の置き場所</title>
+    <meta name="description" content="tikomo software - 個人で作ったWebアプリ、Windowsアプリ、AIを使った実験的なプロトタイプをまとめています。">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<header class="hero">
-    <div class="hero-top-bar">
-        <a href="https://github.com/tikomosoftware" target="_blank" rel="noopener noreferrer" class="hero-sns-link-text" aria-label="GitHub"><img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" alt="GitHub">GitHub</a>
-        <a href="https://zenn.dev/como" target="_blank" rel="noopener noreferrer" class="hero-sns-link-text" aria-label="Zenn"><img src="https://www.google.com/s2/favicons?domain=zenn.dev&sz=32" alt="Zenn">Zenn</a>
-        <a href="https://qiita.com/tikomo" target="_blank" class="hero-sns-link-text" aria-label="Qiita"><img src="https://www.google.com/s2/favicons?domain=qiita.com&sz=32" alt="Qiita">Qiita</a>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><span class="theme-icon">☀️</span></button>
-    </div>
-    <div class="container">
-        <h1>tikomo software</h1>
-        <p style="font-size:0.85em;">欲しいと思ったら、まず作ってみる。/ <span style="font-size:0.85em;opacity:0.75;margin-left:0.5em;">Building the tools I wish existed.</span></p>
-        <div class="hero-category-buttons">
-            <a href="windows.html" class="hero-category-btn"><span>🖥️</span><span>Windows Apps</span></a>
-            <a href="android.html" class="hero-category-btn"><span>📱</span><span>Android Apps</span></a>
-            <a href="tools.html" class="hero-category-btn"><span>🛠️</span><span>Tools</span></a>
-            <a href="web.html" class="hero-category-btn"><span>🌐</span><span>Web Services</span></a>
-            <a href="profile.html" class="hero-category-btn"><span>👤</span><span>Profile</span></a>
-        </div>
+<body class="home-page">
+<header class="home-header">
+    <div class="home-shell home-header__inner">
+        <a href="index.html" class="home-brand" aria-label="tikomo software ホーム">
+            <span>tikomo software</span>
+        </a>
+        <nav class="home-nav" aria-label="メインナビゲーション">
+            <a href="windows.html">Windows</a>
+            <a href="android.html">Android</a>
+            <a href="tools.html">Tools</a>
+            <a href="web.html">Web</a>
+            <a href="profile.html">Profile</a>
+        </nav>
     </div>
 </header>
+
 <main>
-<section class="pickup-section">
-    <div class="container">
-        <div class="overview-heading">
-            <h2>Overview</h2>
-            <div class="overview-card">
-                <p>個人で開発したWebアプリやWindowsアプリをまとめているポートフォリオサイトです。</p>
-                <p>最近はAIエディターやAIエージェントを使いながら、気になった技術や「ちょっと作ってみたい」と思ったアイデアを、実際に動くアプリとして形にしています。Webアプリ、Windowsアプリ、RAGやチャットボット系の実験など、興味のあるものをゆるく作っています。</p>
+    <section class="home-hero">
+        <div class="home-shell home-hero__grid">
+            <div class="home-hero__copy">
+                <p class="home-kicker">Personal software archive</p>
+                <h1>速く作れる時代だけど、<br>ゆっくり作っていきたいな。</h1>
+                <p class="home-lead">
+                    個人で作ったものを、少しずつ置いています。気になった技術や「ちょっと作ってみたい」と思ったアイデアを
+                    AIに助けてもらいながら、”ゆっくり”、”楽しみながら”作ってます。
+                </p>
+            </div>
+            <aside class="home-profile-card" aria-label="プロフィール概要">
+                <img src="images/profile.png" alt="tikomo software" class="home-avatar">
+                <h2>tikomo</h2>
+                <p>AIと作るのが好きな個人開発者です。</p>
+                <span class="home-location">AI assisted making</span>
+            </aside>
+        </div>
+    </section>
+
+    <section class="home-section" aria-labelledby="projects-title">
+        <div class="home-shell">
+            <div class="home-section__heading">
+                <h2 id="projects-title">Projects</h2>
+            </div>
+            <div class="home-project-grid">
+                <article class="home-project-card">
+                    <a href="windows.html#komic-viewer">
+                        <div class="home-project-card__media">
+                            <img src="images/komicviewer.png" alt="Komic Viewer のスクリーンショット" loading="lazy">
+                        </div>
+                        <div class="home-project-card__body">
+                            <h3>Komic Viewer</h3>
+                            <p>軽量で使いやすいコミック・マンガビューアー。</p>
+                            <span>Windowsアプリ</span>
+                        </div>
+                    </a>
+                </article>
+                <article class="home-project-card">
+                    <a href="windows.html#visual-progress-timer">
+                        <div class="home-project-card__media">
+                            <img src="images/visual_progress_timer_windows.png" alt="Visual Progress Timer のスクリーンショット" loading="lazy">
+                        </div>
+                        <div class="home-project-card__body">
+                            <h3>Visual Progress Timer</h3>
+                            <p>残り時間を文字盤の色付きエリアで把握できるタイマー。</p>
+                            <span>Windows / Android</span>
+                        </div>
+                    </a>
+                </article>
+                <article class="home-project-card">
+                    <a href="web.html#neuramnesia">
+                        <div class="home-project-card__media">
+                            <img src="images/neuramnesia.png" alt="NEURAMNESIA のスクリーンショット" loading="lazy">
+                        </div>
+                        <div class="home-project-card__body">
+                            <h3>NEURAMNESIA</h3>
+                            <p>架空の近未来記憶体験マーケットプレイス。</p>
+                            <span>Webサービス</span>
+                        </div>
+                    </a>
+                </article>
             </div>
         </div>
-        <div class="overview-heading" style="margin-top:2rem;">
-            <h2>Featured Projects</h2>
-        </div>
-        <div class="pickup-grid">
-            <article class="pickup-card">
-                <a class="pickup-card-link" href="windows.html#komic-viewer">
-                    <div class="pickup-card-media"><img src="images/komicviewer.png" alt="Komic Viewer" loading="lazy"></div>
-                    <div class="pickup-card-body">
-                        <span class="project-card-kicker">Windows Apps</span>
-                        <h3>Komic Viewer</h3>
-                        <p>軽量で使いやすいコミック・マンガビューアー。ZIP/CBZ/RAR対応、ダーク・ライトテーマ切り替え、フルスクリーン対応。</p>
-                    </div>
-                </a>
-                <div class="pickup-card-footer"><a href="windows.html#komic-viewer" class="btn btn-sm">詳細を見る</a></div>
-            </article>
-            <article class="pickup-card">
-                <a class="pickup-card-link" href="windows.html#koclip2">
-                    <div class="pickup-card-media pickup-card-media--icon"><span>📋</span></div>
-                    <div class="pickup-card-body">
-                        <span class="project-card-kicker">Windows Apps</span>
-                        <h3>KoClip2</h3>
-                        <p>クリップボードにコピーした画像を自動で指定フォルダに保存。WebP保存・グレースケール変換にも対応。</p>
-                    </div>
-                </a>
-                <div class="pickup-card-footer"><a href="windows.html#koclip2" class="btn btn-sm">詳細を見る</a></div>
-            </article>
-            <article class="pickup-card">
-                <a class="pickup-card-link" href="web.html#neuramnesia">
-                    <div class="pickup-card-media"><img src="images/neuramnesia.png" alt="NEURAMNESIA" loading="lazy"></div>
-                    <div class="pickup-card-body">
-                        <span class="project-card-kicker">Web Services</span>
-                        <h3>NEURAMNESIA</h3>
-                        <p>「経験したかった人生を、記憶として購入する」— 架空の近未来記憶体験マーケットプレイスのデモサイト。</p>
-                    </div>
-                </a>
-                <div class="pickup-card-footer"><a href="web.html#neuramnesia" class="btn btn-sm">詳細を見る</a></div>
-            </article>
-        </div>
-    </div>
-</section>
+    </section>
 
-</main>
-    <footer>
-        <div class="container">
-            <p>&copy; 1998-2026 tikomo software. All rights reserved.</p>
+    <section class="home-section home-section--notes" aria-labelledby="notes-title">
+        <div class="home-shell">
+            <div class="home-section__heading">
+                <h2 id="notes-title">Notes</h2>
+            </div>
+            <div class="home-note-grid">
+                <a class="home-note-card" href="https://qiita.com/tikomo/items/d192ecf48c276383c78a" target="_blank" rel="noopener noreferrer">
+                    <span>2026.04.30</span>
+                    <strong>【AIエージェント時代の開発①】アセンブラからAIエージェントへ：私が「書かなくなった」30年と、その先にあるもの</strong>
+                    <small>Qiita / AI駆動開発</small>
+                </a>
+                <a class="home-note-card" href="https://qiita.com/tikomo/items/34293380c761abef60f9" target="_blank" rel="noopener noreferrer">
+                    <span>2026.05.01</span>
+                    <strong>【AIエージェント時代の開発②】「書かない」から「見ない」へ：AIエージェント時代に変わるエンジニアの仕事</strong>
+                    <small>Qiita / AIエージェント</small>
+                </a>
+                <a class="home-note-card" href="https://qiita.com/tikomo/items/622576f0225d1b3c67c4" target="_blank" rel="noopener noreferrer">
+                    <span>2026.05.01</span>
+                    <strong>【AIエージェント時代の開発③】プログラムは、すでに人間のものではないのかもしれない</strong>
+                    <small>Qiita / AI駆動開発</small>
+                </a>
+            </div>
         </div>
-    </footer>
-    <div id="imageModal" class="image-modal">
-        <span class="close-modal">&times;</span>
-        <img class="modal-content" id="modalImage" alt="">
-        <div id="caption"></div>
+    </section>
+</main>
+
+<footer class="home-footer">
+    <div class="home-shell home-footer__inner">
+        <p>&copy; 1998-2026 tikomo software</p>
+        <div>
+            <a href="https://github.com/tikomosoftware" target="_blank" rel="noopener noreferrer"><img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" alt="" class="footer-link-icon">GitHub</a>
+            <a href="https://zenn.dev/como" target="_blank" rel="noopener noreferrer"><img src="https://www.google.com/s2/favicons?domain=zenn.dev&sz=32" alt="" class="footer-link-icon">Zenn</a>
+            <a href="https://qiita.com/tikomo" target="_blank" rel="noopener noreferrer"><img src="https://www.google.com/s2/favicons?domain=qiita.com&sz=32" alt="" class="footer-link-icon">Qiita</a>
+        </div>
     </div>
-    <script src="script.js"></script>
+</footer>
+<script src="script.js"></script>
 </body>
 </html>

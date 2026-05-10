@@ -1,11 +1,10 @@
-// tikomo software - script.js
+// tikomo software - shared interactions
 
-// テーマ切り替え
 const themeToggle = document.getElementById('theme-toggle');
 const themeIcon = document.querySelector('.theme-icon');
 const html = document.documentElement;
 
-const currentTheme = localStorage.getItem('theme') || 'dark';
+const currentTheme = localStorage.getItem('theme') || 'light';
 html.setAttribute('data-theme', currentTheme);
 updateThemeIcon(currentTheme);
 
@@ -20,12 +19,10 @@ if (themeToggle) {
 }
 
 function updateThemeIcon(theme) {
-    if (themeIcon) themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+    if (themeIcon) themeIcon.textContent = theme === 'light' ? 'Light' : 'Dark';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    // 画像モーダル
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
     const captionText = document.getElementById('caption');
@@ -33,10 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.zoomable-image').forEach(img => {
         img.addEventListener('click', function () {
-            if (!modal) return;
+            if (!modal || !modalImg || !captionText) return;
             modal.style.display = 'flex';
             modalImg.src = this.src;
-            captionText.innerHTML = this.alt;
+            captionText.textContent = this.alt;
             document.body.style.overflow = 'hidden';
         });
     });
@@ -49,13 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
     if (modal) {
-        modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+        modal.addEventListener('click', e => {
+            if (e.target === modal) closeModal();
+        });
     }
+
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && modal && modal.style.display === 'flex') closeModal();
     });
 
-    // index.html のタブフィルター
     const tabs = document.getElementById('overview-tabs');
     const grid = document.getElementById('project-card-grid');
     if (tabs && grid) {
@@ -70,12 +69,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // お問い合わせメール難読化
-    const contactBtn = document.getElementById('contact-email');
-    if (contactBtn) {
-        contactBtn.addEventListener('click', e => {
-            e.preventDefault();
-            window.location.href = 'mailto:tikomo@gmail.com';
-        });
+    document.querySelectorAll('.badge-container img').forEach(img => {
+        const replaceWithTextBadge = () => {
+            const label = img.alt || 'Badge';
+            const badge = document.createElement('span');
+            badge.className = 'badge-fallback';
+            badge.textContent = label;
+            img.replaceWith(badge);
+        };
+
+        img.addEventListener('error', replaceWithTextBadge, { once: true });
+        if (img.complete && img.naturalWidth === 0) replaceWithTextBadge();
+    });
+
+    const contactActions = document.getElementById('contact-actions');
+    if (contactActions) {
+        const copyAddressButton = document.getElementById('contact-copy-address');
+        const copyStatus = document.getElementById('contact-copy-status');
+        const getRecipient = () => ['tikomo', 'gmail'].join('@').replace('gmail', 'gmail.com');
+
+        if (copyAddressButton) {
+            copyAddressButton.addEventListener('click', async () => {
+                const recipient = getRecipient();
+                try {
+                    await navigator.clipboard.writeText(recipient);
+                    if (copyStatus) copyStatus.textContent = '宛先をコピーしました。';
+                } catch {
+                    if (copyStatus) copyStatus.textContent = recipient;
+                }
+            });
+        }
     }
 });
