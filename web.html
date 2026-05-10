@@ -568,6 +568,53 @@
                 </div>
             </div>
         </section>
+        <section id="maven-library-checker" class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-info">
+                    <span class="section-label">Web Service</span>
+                    <h3>Maven Library Checker</h3>
+                    <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Web-blue"
+                            alt="Platform Web"><img src="https://img.shields.io/badge/Framework-Next.js%2014-black"
+                            alt="Framework Next.js 14"><img src="https://img.shields.io/badge/TypeScript-5-3178C6"
+                            alt="TypeScript 5"><img src="https://img.shields.io/badge/Tailwind%20CSS-3.3-38B2AC"
+                            alt="Tailwind CSS 3.3"><img src="https://img.shields.io/badge/Deploy-Vercel-black"
+                            alt="Deploy Vercel"><img src="https://img.shields.io/badge/License-MIT-green"
+                            alt="License MIT"></div>
+                    <p class="product-desc">Maven Central Repositoryから指定ライブラリの最新バージョンを取得し、更新状況を視覚的に確認できるWebツール。複数ライブラリの一括チェックに対応し、Javaプロジェクトの依存管理を効率化します。</p>
+                    <details class="collapsible-section">
+                        <summary>作成の経緯・開発ストーリーを読む</summary>
+                        <div class="background-story">
+                            <h4>作成の経緯</h4>
+                            <p>Javaプロジェクトで使用しているMavenライブラリのバージョンを手軽に確認したくて開発しました。最初はPython CLIツールとして作成し、その後ブラウザから手軽に使えるWeb版に展開しました。</p>
+                            <hr class="story-divider">
+                            <h4>CLI版からWeb版へ</h4>
+                            <p>Python CLI版の機能をNext.js + TypeScriptに移植し、Maven Central Repository APIと連携するWebアプリとして再構築しました。環境構築不要でブラウザからすぐに使えるのが利点です。</p>
+                        </div>
+                    </details>
+                    <details class="collapsible-section">
+                        <summary>主な機能・特徴を見る</summary>
+                        <ul class="feature-list">
+                            <li><strong>バージョン検索:</strong> Maven Central Repositoryから最新バージョン情報をリアルタイム取得</li>
+                            <li><strong>一括チェック:</strong> 複数ライブラリを同時にチェック可能</li>
+                            <li><strong>更新状況の可視化:</strong> 更新あり・変更なし・新規を色分けで一目表示</li>
+                            <li><strong>groupId:artifactId形式:</strong> Maven標準の記法でライブラリを指定</li>
+                            <li><strong>レスポンシブデザイン:</strong> デスクトップ・モバイル対応</li>
+                        </ul>
+                    </details>
+                    <div class="download-buttons"><a href="https://maven-lib-checker-web.vercel.app/"
+                            class="btn btn-primary" target="_blank">サービスを開く</a><a
+                            href="https://github.com/tikomo/MavenLibCheckerWeb" class="btn btn-github"
+                            target="_blank">GitHub</a></div>
+                </div>
+                <div class="product-visual"><img src="images/MavenLibraryChecker.png" alt="Maven Library Checker Screenshot"
+                        class="zoomable-image"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div
+                        style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%">
+                        <span style="font-size:3rem;display:block">☕</span>Maven Library Checker</div>
+                </div>
+            </div>
+        </section>
     </main>
     <footer>
         <div class="container">
