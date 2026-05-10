@@ -10,9 +10,11 @@
     --primary-dark: #1e40af;
     --secondary-color: #64748b;
     /* Slate Grey for secondary text */
-    --text-main: #0f172a;
+    --text-main: #243244;
     /* Dark Slate for headings */
     --text-body: #334155;
+    --accent-color: #f97316;
+    --accent-soft: #ffedd5;
 
     --accent-light: #dbellf;
     --border-subtle: #e2e8f0;
@@ -26,14 +28,14 @@
 }
 
 [data-theme="dark"] {
-    --bg-body: #0f172a;
+    --bg-body: #111827;
     --bg-light: #1e293b;
     --bg-white: #1e293b;
 
     --primary-color: #60a5fa;
     --primary-dark: #3b82f6;
     --secondary-color: #94a3b8;
-    --text-main: #f1f5f9;
+    --text-main: #f3f4f6;
     --text-body: #cbd5e1;
 
     --border-subtle: #334155;
@@ -162,12 +164,12 @@ h3 {
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgba(17, 24, 39, 0.05);
     overflow: visible;
 }
 
 [data-theme="dark"] .category-nav {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 4px rgba(17, 24, 39, 0.3);
 }
 
 .category-buttons {
@@ -195,11 +197,11 @@ h3 {
     border-color: var(--primary-color);
     color: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(17, 24, 39, 0.1);
 }
 
 [data-theme="dark"] .category-btn:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 6px -1px rgba(17, 24, 39, 0.5);
 }
 
 .category-icon {
@@ -232,7 +234,7 @@ h3 {
     /* transition: transform 0.3s ease; Removed to avoid conflict with zoom class */
     border: 2px solid #cbd5e1;
     /* Thicker, clearly visible border (Slate-300) */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(17, 24, 39, 0.1), 0 4px 6px -2px rgba(17, 24, 39, 0.05);
     /* Stronger 'lifted' shadow */
 }
 
@@ -241,7 +243,7 @@ h3 {
     height: 80px;
     margin-bottom: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 6px -1px rgba(17, 24, 39, 0.3);
     background-color: white;
     /* Ensure logo stands out */
     padding: 2px;
@@ -322,6 +324,8 @@ h3 {
 .background-story {
     background-color: var(--bg-light);
     border-left: 4px solid var(--primary-color);
+    border: 1px solid var(--border-subtle);
+    border-left-width: 4px;
     padding: 1rem;
     margin-bottom: 1.5rem;
     border-radius: 4px;
@@ -344,9 +348,9 @@ h3 {
 
 .story-divider {
     border: 0;
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid color-mix(in srgb, var(--primary-color) 18%, var(--border-subtle));
     margin: 1rem 0;
-    opacity: 0.5;
+    opacity: 1;
 }
 
 /* Collapsible Sections */
@@ -365,7 +369,7 @@ h3 {
     gap: 0.5rem;
     transition: color 0.2s;
     user-select: none;
-    border-bottom: 1px dashed var(--border-subtle);
+    border-bottom: 1px dashed color-mix(in srgb, var(--primary-color) 32%, var(--border-subtle));
 }
 
 .collapsible-section summary::before {
@@ -400,17 +404,21 @@ h3 {
 
 .feature-list li {
     margin-bottom: 0.5rem;
-    padding-left: 1.5rem;
+    padding-left: 1.35rem;
     position: relative;
     font-size: 0.95rem;
 }
 
 .feature-list li::before {
-    content: "笨・;
+    content: "";
     position: absolute;
-    left: 0;
-    color: var(--primary-color);
-    font-weight: bold;
+    left: 0.15rem;
+    top: 0.72em;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--accent-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 18%, transparent);
 }
 
 .btn {
@@ -581,9 +589,9 @@ footer {
     text-align: center;
     padding: 2rem;
     font-size: 0.875rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: 1px solid var(--border-subtle);
     color: var(--secondary-color);
-    background: #0f1a2e;
+    background: var(--bg-light);
 }
 
 /* Responsive */
@@ -642,10 +650,10 @@ footer {
     /* Full height */
     overflow: hidden;
     /* Disable scroll in modal itself */
-    background-color: rgb(0, 0, 0);
+    background-color: #111827;
     /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.9);
-    /* Black w/ opacity */
+    background-color: rgba(17, 24, 39, 0.92);
+    /* Dark slate with opacity */
     backdrop-filter: blur(8px);
     display: none;
     /* Initially none, logic will handle this */
@@ -659,7 +667,7 @@ footer {
     max-width: 95%;
     max-height: 80vh;
     object-fit: contain;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 20px 50px rgba(17, 24, 39, 0.7);
     animation-name: zoom;
     animation-duration: 0.3s;
     border: 2px solid rgba(255, 255, 255, 0.1);
@@ -750,12 +758,12 @@ footer {
 
 .note-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 24px -10px rgba(17, 24, 39, 0.1);
     border-color: var(--primary-color);
 }
 
 [data-theme="dark"] .note-card:hover {
-    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 12px 24px -10px rgba(17, 24, 39, 0.5);
 }
 
 .note-badge {
@@ -819,10 +827,12 @@ footer {
     --primary-color: #2563eb;
     --primary-dark: #1d4ed8;
     --secondary-color: #64748b;
-    --text-main: #0f172a;
+    --text-main: #243244;
     --text-body: #475569;
+    --accent-color: #f97316;
+    --accent-soft: #ffedd5;
     --border-subtle: #e2e8f0;
-    --hero-bg: #0f1729;
+    --hero-bg: #1f2937;
     --category-bg: #1e293b;
     --container-width: 1180px;
     --section-spacing: 4rem;
@@ -830,18 +840,20 @@ footer {
 }
 
 [data-theme="dark"] {
-    --bg-body: #151e2e;
-    --bg-light: #1a2540;
-    --bg-white: #1e2d4a;
-    --primary-color: #38bdf8;
-    --primary-dark: #0ea5e9;
-    --secondary-color: #a8b8cc;
-    --text-main: #f1f5f9;
-    --text-body: #d1dae6;
-    --border-subtle: #2e4a6e;
-    --hero-bg: #142236;
-    --category-bg: #1e3450;
-    --surface-shadow: 0 16px 40px rgba(10, 20, 40, 0.35);
+    --bg-body: #f3f6fa;
+    --bg-light: #f8fafc;
+    --bg-white: #ffffff;
+    --primary-color: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary-color: #64748b;
+    --text-main: #243244;
+    --text-body: #475569;
+    --accent-color: #f97316;
+    --accent-soft: #ffedd5;
+    --border-subtle: #dbe4ee;
+    --hero-bg: #2563eb;
+    --category-bg: #e8eef7;
+    --surface-shadow: 0 16px 40px rgba(15, 23, 41, 0.08);
 }
 
 body {
@@ -1141,7 +1153,7 @@ body {
     width: 72px;
     height: 4px;
     margin-top: 0.7rem;
-    background: linear-gradient(90deg, var(--primary-color), #38bdf8);
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
 }
 
 .product-showcase {
@@ -1155,7 +1167,7 @@ body {
     align-items: start;
     padding-top: 2rem;
     padding-bottom: 2rem;
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid color-mix(in srgb, var(--primary-color) 28%, var(--border-subtle));
 }
 
 .product-info h3 {
@@ -1182,6 +1194,9 @@ body {
 .background-story {
     border-left: 0;
     border-top: 3px solid var(--primary-color);
+    background: color-mix(in srgb, var(--bg-white) 76%, var(--primary-color) 4%);
+    border: 1px solid color-mix(in srgb, var(--primary-color) 18%, var(--border-subtle));
+    border-top-width: 3px;
     border-radius: 8px;
 }
 
@@ -1313,8 +1328,8 @@ body {
 }
 
 .notice--poc {
-    background: #fefce8;
-    border-left: 4px solid #eab308;
+    background: #fff7ed;
+    border-left: 4px solid var(--accent-color);
 }
 
 .notice__title {
@@ -1325,7 +1340,7 @@ body {
 }
 
 .notice--poc .notice__title {
-    color: #854d0e;
+    color: #9a3412;
 }
 
 .notice__body {
@@ -1336,33 +1351,33 @@ body {
 }
 
 .notice--poc .notice__body {
-    color: #a16207;
+    color: #7c2d12;
 }
 
 [data-theme='dark'] .notice--suspended {
-    background: rgba(239,68,68,0.1);
+    background: #fef2f2;
     border-color: #ef4444;
 }
 
 [data-theme='dark'] .notice--suspended .notice__title {
-    color: #fca5a5;
+    color: #991b1b;
 }
 
 [data-theme='dark'] .notice--suspended .notice__body {
-    color: #fca5a5;
+    color: #b91c1c;
 }
 
 [data-theme='dark'] .notice--poc {
-    background: rgba(234,179,8,0.1);
-    border-color: #eab308;
+    background: #fff7ed;
+    border-color: var(--accent-color);
 }
 
 [data-theme='dark'] .notice--poc .notice__title {
-    color: #fde68a;
+    color: #c2410c;
 }
 
 [data-theme='dark'] .notice--poc .notice__body {
-    color: #fde68a;
+    color: #9a3412;
 }
 
 /* btn-github disabled */
@@ -1389,7 +1404,7 @@ body {
     width: 72px;
     height: 4px;
     margin-top: 0.7rem;
-    background: linear-gradient(90deg, var(--primary-color), #38bdf8);
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
 }
 
 /* About Intro */
@@ -1429,21 +1444,24 @@ body {
     align-items: center;
     gap: 0.4rem;
     padding: 0.4rem 0.9rem;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.55);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.75);
+    background: #1d4ed8;
+    color: white;
     font-size: 0.8rem;
-    font-weight: 500;
+    font-weight: 700;
     text-decoration: none;
     transition: all 0.2s;
     white-space: nowrap;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(10px);
 }
 
 .hero-category-btn:hover {
-    background: rgba(255, 255, 255, 0.14);
-    border-color: rgba(255, 255, 255, 0.35);
+    background: #1e40af;
+    border-color: rgba(255, 255, 255, 0.82);
     color: white;
+    transform: translateY(-1px);
 }
 
 .hero-category-btn.active-page {
@@ -1490,18 +1508,22 @@ body {
     align-items: center;
     gap: 0.3rem;
     padding: 0.45rem 0.75rem;
-    border: 1px solid rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.52);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
+    background: #1d4ed8;
     backdrop-filter: blur(12px);
-    color: rgba(255, 255, 255, 0.6);
+    color: white;
     font-size: 0.85rem;
+    font-weight: 700;
     text-decoration: none;
     transition: color 0.2s;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 .hero-sns-link-text:hover {
-    color: rgba(255, 255, 255, 1);
+    background: #1e40af;
+    border-color: rgba(255, 255, 255, 0.82);
+    color: white;
 }
 
 .hero-sns-link-text img {
