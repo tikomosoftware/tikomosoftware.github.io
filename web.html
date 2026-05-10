@@ -615,6 +615,54 @@
                 </div>
             </div>
         </section>
+        <section id="vulnerability-monitor" class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-info">
+                    <span class="section-label">Web Service</span>
+                    <h3>Vulnerability Monitor</h3>
+                    <div class="badge-container">
+                        <img src="https://img.shields.io/badge/Platform-Web-blue" alt="Platform Web">
+                        <img src="https://img.shields.io/badge/Framework-Next.js%2014-black" alt="Framework Next.js 14">
+                        <img src="https://img.shields.io/badge/TypeScript-5-3178C6" alt="TypeScript 5">
+                        <img src="https://img.shields.io/badge/Tailwind%20CSS-3.4-38B2AC" alt="Tailwind CSS 3.4">
+                        <img src="https://img.shields.io/badge/Deploy-Vercel-black" alt="Deploy Vercel">
+                        <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
+                    </div>
+                    <p class="product-desc">JVN・JVN iPediaから最新の脆弱性情報を取得し、キーワードベースでフィルタリングして表示するWebアプリケーション。監視したい技術名をキーワードとして登録しておくことで、関連する脆弱性情報を素早く確認できます。</p>
+                    <details class="collapsible-section">
+                        <summary>作成の経緯・開発ストーリーを読む</summary>
+                        <div class="background-story">
+                            <h4>作成の経緯</h4>
+                            <p>使用している技術スタックに関連する脆弱性情報を定期的に確認したいというニーズから開発しました。JVN・JVN iPediaのAPIを活用し、キーワードフィルタリングで必要な情報だけを素早く確認できる仕組みを実現しています。</p>
+                            <hr class="story-divider">
+                            <h4>セキュリティ監視の手間を減らしたい</h4>
+                            <p>脆弱性情報は日々更新されますが、全件を追うのは現実的ではありません。Apache・Spring・Reactなど使用中の技術名をキーワードとして登録しておくだけで、関連する脆弱性だけを絞り込んで確認できます。キーワードはブラウザのローカルストレージに保存されるため、次回以降もそのまま使えます。</p>
+                        </div>
+                    </details>
+                    <details class="collapsible-section">
+                        <summary>主な機能・特徴を見る</summary>
+                        <ul class="feature-list">
+                            <li><strong>脆弱性情報取得:</strong> JVN・JVN iPediaから過去30日間の脆弱性情報をリアルタイム取得</li>
+                            <li><strong>キーワードフィルタリング:</strong> 技術名・製品名でOR条件の絞り込み検索</li>
+                            <li><strong>深刻度別表示:</strong> Critical / High / Medium / Low を色分けで一目表示</li>
+                            <li><strong>統計情報:</strong> 深刻度別件数・24時間以内・7日以内・30日以内の集計</li>
+                            <li><strong>JSONエクスポート:</strong> フィルタリング結果をJSON形式でダウンロード</li>
+                            <li><strong>キーワード自動保存:</strong> ブラウザのローカルストレージに設定を保持</li>
+                        </ul>
+                    </details>
+                    <div class="download-buttons">
+                        <a href="https://maven-lib-checker-web.vercel.app/" class="btn btn-primary" target="_blank">サービスを開く</a>
+                        <a href="https://github.com/tikomo/VulnerabilityCheckerWeb" class="btn btn-github" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <div class="product-visual">
+                    <img src="images/vulnerability_monitor.png" alt="Vulnerability Monitor Screenshot" class="zoomable-image"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%">
+                        <span style="font-size:3rem;display:block">🛡️</span>Vulnerability Monitor</div>
+                </div>
+            </div>
+        </section>
     </main>
     <footer>
         <div class="container">
