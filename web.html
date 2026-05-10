@@ -92,102 +92,53 @@
                 </div>
             </div>
         </section>
-        <section id="dummy-rest-api" class="product-showcase">
+        <section id="jwt-analyzer" class="product-showcase">
             <div class="container showcase-grid">
                 <div class="product-info">
                     <span class="section-label">Web Service</span>
-                    <h3>Dummy REST API</h3>
+                    <h3>JWT Analyzer</h3>
                     <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Web-blue"
-                            alt="Platform Web"><img src="https://img.shields.io/badge/Framework-Hono-orange"
-                            alt="Framework Hono"><img src="https://img.shields.io/badge/Deploy-Vercel-black"
-                            alt="Deploy Vercel"><img src="https://img.shields.io/badge/License-Open_Source-green"
-                            alt="License Open Source"></div>
-                    <p class="product-desc">開発者がテスト目的で使用できる、ダミーREST
-                        APIエンドポイントを提供するWebサービス。Honoフレームワークで構築され、Vercelにサーバーレスデプロイされています。</p>
-                    <details class="collapsible-section">
-                        <summary>作成の経緯・開発ストーリーを読む</summary>
-                        <div class="background-story">
-                            <h4>作成の経緯</h4>
-                            <p>フロントエンド開発やAPIクライアントのテスト時に、手軽に使えるダミーAPIが欲しかったため開発しました。JSONPlaceholderのような既存サービスを参考にしつつ、日本語対応や特殊エンドポイント（遅延、ステータスコード）などの機能を追加しています。
-                            </p>
-                            <hr class="story-divider">
-                            <h4>Honoフレームワークを試してみたかった</h4>
-                            <p>軽量で高速なHonoフレームワークを使ってみたくて、このプロジェクトを作成しました。Vercelへのデプロイも簡単で、サーバーレス環境での運用がスムーズにできています。Swagger
-                                UIも統合されているので、APIのドキュメントも自動生成されます。</p>
-                        </div>
-                    </details>
-                    <details class="collapsible-section">
-                        <summary>主な機能・特徴を見る</summary>
-                        <ul class="feature-list">
-                            <li><strong>複数のリソースタイプ:</strong> ユーザー、投稿、コメント、商品、Todo</li>
-                            <li><strong>完全なCRUD操作:</strong> GET、POST、PUT、DELETE対応</li>
-                            <li><strong>ページネーション＆ソート:</strong> クエリパラメータでデータ制御</li>
-                            <li><strong>特殊エンドポイント:</strong> 遅延シミュレーション、ステータスコードテスト、ランダムデータ生成</li>
-                            <li><strong>Swagger UI:</strong> インタラクティブなAPIドキュメント</li>
-                            <li><strong>バイリンガル:</strong> 日本語と英語のエラーメッセージ</li>
-                        </ul>
-                    </details>
-                    <div class="download-buttons"><a href="https://dummy-rest-api-beta.vercel.app/"
-                            class="btn btn-primary" target="_blank">サービスを開く</a><a
-                            href="https://dummy-rest-api-beta.vercel.app/api-docs" class="btn btn-outline"
-                            target="_blank">Swagger UI</a></div>
-                </div>
-                <div class="product-visual"><img src="images/dummy_rest_api.png" alt="Dummy REST API Screenshot"
-                        class="zoomable-image"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div
-                        style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%">
-                        <span style="font-size:3rem;display:block">🔌</span>REST API Service</div>
-                </div>
-            </div>
-        </section>
-        <section id="create-uuid" class="product-showcase">
-            <div class="container showcase-grid">
-                <div class="product-info">
-                    <span class="section-label">Web Service</span>
-                    <h3>UUID生成ツール</h3>
-                    <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Web-blue"
-                            alt="Platform Web"><img src="https://img.shields.io/badge/Framework-Next.js-black"
-                            alt="Framework Next.js"><img src="https://img.shields.io/badge/Deploy-Vercel-black"
+                            alt="Platform Web"><img src="https://img.shields.io/badge/Framework-Next.js%2014-black"
+                            alt="Framework Next.js 14"><img src="https://img.shields.io/badge/TypeScript-5-3178C6"
+                            alt="TypeScript 5"><img src="https://img.shields.io/badge/Tailwind%20CSS-3.4-38B2AC"
+                            alt="Tailwind CSS 3.4"><img src="https://img.shields.io/badge/Deploy-Vercel-black"
                             alt="Deploy Vercel"><img src="https://img.shields.io/badge/License-MIT-green"
-                            alt="License MIT"><img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet"
-                            alt="Tool: Antigravity"></div>
-                    <p class="product-desc">シンプルで高速なUUID生成ツール。ボタン一つで5つのUUIDを即座に生成し、ワンクリックでコピーが可能です。Next.js
-                        15を採用したモダンなシングルページアプリケーションです。</p>
+                            alt="License MIT"></div>
+                    <p class="product-desc">サーバーにデータを送信することなく、ブラウザ内でJWTトークンを安全に解析・デコード・生成できるWebツール。100%クライアントサイド処理でプライバシーを保護します。</p>
                     <details class="collapsible-section">
                         <summary>作成の経緯・開発ストーリーを読む</summary>
                         <div class="background-story">
                             <h4>作成の経緯</h4>
-                            <p>開発作業中にUUIDが必要になる場面が多く、広告がなくシンプルで、なおかつデザインの優れたツールが欲しくて開発しました。「開いてすぐ生成、すぐコピー」という効率性を最優先に設計しています。
-                            </p>
+                            <p>開発中にJWTの中身を確認したい場面は多いですが、既存のオンラインツールにトークンを貼り付けるのはセキュリティ上のリスクがあります。そこで、完全にクライアントサイドで動作し、トークンが外部に送信されない安全なJWT解析ツールを開発しました。</p>
                             <hr class="story-divider">
-                            <h4>Next.js 15 の練習も兼ねて</h4>
-                            <p>最新の Next.js 15 (App Router) を使って、どこまでシンプルかつプレミアムな質感のツールが作れるか試してみました。Vanilla CSS
-                                でのグラスモフィズム（透かし）デザインの採用など、見た目にもこだわっています。</p>
+                            <h4>jwt.io風のUIを目指して</h4>
+                            <p>jwt.io のような直感的なレイアウトを参考に、左側に入力・右側にデコード結果を表示するUIを実装しました。JWT解析だけでなく、ヘッダー・ペイロードの編集や新しいJWT生成にも対応しています。</p>
                         </div>
                     </details>
                     <details class="collapsible-section">
                         <summary>主な機能・特徴を見る</summary>
                         <ul class="feature-list">
-                            <li><strong>ワンクリック生成:</strong> 瞬時に5つのUUIDを生成</li>
-                            <li><strong>簡単コピー:</strong> 視覚的なフィードバック付きのコピー機能</li>
-                            <li><strong>モダンデザイン:</strong> ガラスのような透明感のある美しいUI</li>
-                            <li><strong>高速ロード:</strong> サーバーレスデプロイによる爆速なレスポンス</li>
+                            <li><strong>JWT解析:</strong> ヘッダー・ペイロード・署名をリアルタイムでデコード</li>
+                            <li><strong>JWT生成:</strong> HS256 / HS384 / HS512 / none アルゴリズムで新しいJWTを生成</li>
+                            <li><strong>ヘッダー・ペイロード編集:</strong> デコードした内容をJSON形式で直接編集</li>
+                            <li><strong>サンプルトークン:</strong> 基本・豊富なクレーム・期限切れ・署名なしの4種類を用意</li>
+                            <li><strong>セキュリティ警告:</strong> 本番トークン使用に対する組み込み警告とベストプラクティス</li>
+                            <li><strong>ダーク/ライトモード:</strong> テーマ切り替えに対応</li>
                         </ul>
                     </details>
-                    <div class="download-buttons"><a href="https://create-uuid.vercel.app/" class="btn btn-primary"
-                            target="_blank">サービスを開く</a><a href="https://github.com/tikomosoftware/CreateUUID"
+                    <div class="download-buttons"><a href="https://jwt-checker.vercel.app/" class="btn btn-primary"
+                            target="_blank">サービスを開く</a><a href="https://github.com/tikomo/JwtChecker"
                             class="btn btn-github" target="_blank">GitHub</a></div>
                 </div>
-                <div class="product-visual"><img src="images/create_uuid.png" alt="UUID生成ツール Screenshot"
+                <div class="product-visual"><img src="images/jwt_checker.png" alt="JWT Analyzer Screenshot"
                         class="zoomable-image"
                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                     <div
                         style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%">
-                        <span style="font-size:3rem;display:block">🔑</span>UUID Generator</div>
+                        <span style="font-size:3rem;display:block">🔐</span>JWT Analyzer</div>
                 </div>
             </div>
-        </section>
+        </section>        
         <section id="flutter-dependency-audit-web" class="product-showcase">
             <div class="container showcase-grid">
                 <div class="product-info">
@@ -463,6 +414,157 @@
                     <div
                         style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%">
                         <span style="font-size:3rem;display:block">🤖</span>ReAct AI ChatBot</div>
+                </div>
+            </div>
+        </section>
+        <section id="dummy-rest-api" class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-info">
+                    <span class="section-label">Web Service</span>
+                    <h3>Dummy REST API</h3>
+                    <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Web-blue"
+                            alt="Platform Web"><img src="https://img.shields.io/badge/Framework-Hono-orange"
+                            alt="Framework Hono"><img src="https://img.shields.io/badge/Deploy-Vercel-black"
+                            alt="Deploy Vercel"><img src="https://img.shields.io/badge/License-Open_Source-green"
+                            alt="License Open Source"></div>
+                    <p class="product-desc">開発者がテスト目的で使用できる、ダミーREST
+                        APIエンドポイントを提供するWebサービス。Honoフレームワークで構築され、Vercelにサーバーレスデプロイされています。</p>
+                    <details class="collapsible-section">
+                        <summary>作成の経緯・開発ストーリーを読む</summary>
+                        <div class="background-story">
+                            <h4>作成の経緯</h4>
+                            <p>フロントエンド開発やAPIクライアントのテスト時に、手軽に使えるダミーAPIが欲しかったため開発しました。JSONPlaceholderのような既存サービスを参考にしつつ、日本語対応や特殊エンドポイント（遅延、ステータスコード）などの機能を追加しています。
+                            </p>
+                            <hr class="story-divider">
+                            <h4>Honoフレームワークを試してみたかった</h4>
+                            <p>軽量で高速なHonoフレームワークを使ってみたくて、このプロジェクトを作成しました。Vercelへのデプロイも簡単で、サーバーレス環境での運用がスムーズにできています。Swagger
+                                UIも統合されているので、APIのドキュメントも自動生成されます。</p>
+                        </div>
+                    </details>
+                    <details class="collapsible-section">
+                        <summary>主な機能・特徴を見る</summary>
+                        <ul class="feature-list">
+                            <li><strong>複数のリソースタイプ:</strong> ユーザー、投稿、コメント、商品、Todo</li>
+                            <li><strong>完全なCRUD操作:</strong> GET、POST、PUT、DELETE対応</li>
+                            <li><strong>ページネーション＆ソート:</strong> クエリパラメータでデータ制御</li>
+                            <li><strong>特殊エンドポイント:</strong> 遅延シミュレーション、ステータスコードテスト、ランダムデータ生成</li>
+                            <li><strong>Swagger UI:</strong> インタラクティブなAPIドキュメント</li>
+                            <li><strong>バイリンガル:</strong> 日本語と英語のエラーメッセージ</li>
+                        </ul>
+                    </details>
+                    <div class="download-buttons"><a href="https://dummy-rest-api-beta.vercel.app/"
+                            class="btn btn-primary" target="_blank">サービスを開く</a><a
+                            href="https://dummy-rest-api-beta.vercel.app/api-docs" class="btn btn-outline"
+                            target="_blank">Swagger UI</a></div>
+                </div>
+                <div class="product-visual"><img src="images/dummy_rest_api.png" alt="Dummy REST API Screenshot"
+                        class="zoomable-image"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div
+                        style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%">
+                        <span style="font-size:3rem;display:block">🔌</span>REST API Service</div>
+                </div>
+            </div>
+        </section>
+        <section id="create-uuid" class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-info">
+                    <span class="section-label">Web Service</span>
+                    <h3>UUID生成ツール</h3>
+                    <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Web-blue"
+                            alt="Platform Web"><img src="https://img.shields.io/badge/Framework-Next.js-black"
+                            alt="Framework Next.js"><img src="https://img.shields.io/badge/Deploy-Vercel-black"
+                            alt="Deploy Vercel"><img src="https://img.shields.io/badge/License-MIT-green"
+                            alt="License MIT"><img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet"
+                            alt="Tool: Antigravity"></div>
+                    <p class="product-desc">シンプルで高速なUUID生成ツール。ボタン一つで5つのUUIDを即座に生成し、ワンクリックでコピーが可能です。Next.js
+                        15を採用したモダンなシングルページアプリケーションです。</p>
+                    <details class="collapsible-section">
+                        <summary>作成の経緯・開発ストーリーを読む</summary>
+                        <div class="background-story">
+                            <h4>作成の経緯</h4>
+                            <p>開発作業中にUUIDが必要になる場面が多く、広告がなくシンプルで、なおかつデザインの優れたツールが欲しくて開発しました。「開いてすぐ生成、すぐコピー」という効率性を最優先に設計しています。
+                            </p>
+                            <hr class="story-divider">
+                            <h4>Next.js 15 の練習も兼ねて</h4>
+                            <p>最新の Next.js 15 (App Router) を使って、どこまでシンプルかつプレミアムな質感のツールが作れるか試してみました。Vanilla CSS
+                                でのグラスモフィズム（透かし）デザインの採用など、見た目にもこだわっています。</p>
+                        </div>
+                    </details>
+                    <details class="collapsible-section">
+                        <summary>主な機能・特徴を見る</summary>
+                        <ul class="feature-list">
+                            <li><strong>ワンクリック生成:</strong> 瞬時に5つのUUIDを生成</li>
+                            <li><strong>簡単コピー:</strong> 視覚的なフィードバック付きのコピー機能</li>
+                            <li><strong>モダンデザイン:</strong> ガラスのような透明感のある美しいUI</li>
+                            <li><strong>高速ロード:</strong> サーバーレスデプロイによる爆速なレスポンス</li>
+                        </ul>
+                    </details>
+                    <div class="download-buttons"><a href="https://create-uuid.vercel.app/" class="btn btn-primary"
+                            target="_blank">サービスを開く</a><a href="https://github.com/tikomosoftware/CreateUUID"
+                            class="btn btn-github" target="_blank">GitHub</a></div>
+                </div>
+                <div class="product-visual"><img src="images/create_uuid.png" alt="UUID生成ツール Screenshot"
+                        class="zoomable-image"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div
+                        style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%">
+                        <span style="font-size:3rem;display:block">🔑</span>UUID Generator</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="beacon-info-stock" class="product-showcase">
+            <div class="container showcase-grid">
+                <div class="product-info">
+                    <span class="section-label">Web Service</span>
+                    <h3>BeaconInfoStock</h3>
+                    <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Web-blue"
+                            alt="Platform Web"><img src="https://img.shields.io/badge/Framework-Next.js%2015-black"
+                            alt="Framework Next.js 15"><img src="https://img.shields.io/badge/React-19-61DAFB"
+                            alt="React 19"><img src="https://img.shields.io/badge/DB-Supabase-3ECF8E"
+                            alt="DB Supabase"><img src="https://img.shields.io/badge/Deploy-Vercel-black"
+                            alt="Deploy Vercel"><img src="https://img.shields.io/badge/License-Private-red"
+                            alt="License Private"></div>
+                    <p class="product-desc">
+                    <div class="notice notice--poc">
+                        <p class="notice__title">【技術検証版】</p>
+                        <p class="notice__body">本サービスはiBeaconデータのAPI登録とSupabase連携の技術検証（PoC）として公開しています。</p>
+                    </div>
+                    <p class="product-desc">iBeacon形式のデータをNext.js API Route経由でSupabaseに登録し、登録済みデータを画面上で確認するWebアプリ。Vercel Cron Jobsによる1日1回の自動ライフチェックにも対応しています。</p>
+                    </p>
+                    <details class="collapsible-section">
+                        <summary>作成の経緯・開発ストーリーを読む</summary>
+                        <div class="background-story">
+                            <h4>作成の経緯</h4>
+                            <p>iBeaconスキャナーアプリで取得したビーコンデータをクラウドに蓄積・確認したいというニーズから開発しました。Next.js API RouteとSupabaseを組み合わせることで、サーバーレスなデータ登録・参照の仕組みを検証しています。</p>
+                            <hr class="story-divider">
+                            <h4>Supabase Free Planの維持対策も兼ねて</h4>
+                            <p>Supabase Free Planはアクティビティが低いとプロジェクトが一時停止されます。Vercel Cron Jobsで毎日1回ライフチェック用のデータを書き込むことで、プロジェクトの停止を防ぐ仕組みも組み込んでいます。</p>
+                        </div>
+                    </details>
+                    <details class="collapsible-section">
+                        <summary>主な機能・特徴を見る</summary>
+                        <ul class="feature-list">
+                            <li><strong>iBeaconデータ登録:</strong> UUID・Major・Minor・コメントをフォームからAPI経由でSupabaseに登録</li>
+                            <li><strong>登録データ一覧:</strong> Supabaseテーブルの最新データをリアルタイムで表示</li>
+                            <li><strong>フィルタリング:</strong> テーブルヘッダーと日付カレンダーによるデータ絞り込み</li>
+                            <li><strong>UUIDマスク表示:</strong> セキュリティ配慮のためUUID後半を自動マスク</li>
+                            <li><strong>自動ライフチェック:</strong> Vercel Cron Jobsによる1日1回のSupabase死活維持</li>
+                            <li><strong>APIリクエスト確認:</strong> リクエスト・レスポンスの内容を画面上で確認可能</li>
+                        </ul>
+                    </details>
+                    <div class="download-buttons"><a href="https://beacon-data-registration-check.vercel.app/"
+                            class="btn btn-primary" target="_blank">サービスを開く</a><a
+                            href="https://github.com/tikomosoftware/BeaconDataRegistrationCheck" class="btn btn-github"
+                            target="_blank">GitHub</a></div>
+                </div>
+                <div class="product-visual"><img src="images/beacon_info_stock.png" alt="BeaconInfoStock Screenshot"
+                        class="zoomable-image"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div
+                        style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%">
+                        <span style="font-size:3rem;display:block">📡</span>Beacon Data Stock</div>
                 </div>
             </div>
         </section>
