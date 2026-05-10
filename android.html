@@ -50,6 +50,27 @@
         <div class="product-visual"><div class="screenshots-container" style="display:flex;gap:10px;justify-content:center"><img src="images/komicviewer_android_01.jpg" alt="Komic Viewer Screenshot 1" class="zoomable-image" style="max-width:45%;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.2)"><img src="images/komicviewer_android_02.jpg" alt="Komic Viewer Screenshot 2" class="zoomable-image" style="max-width:45%;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,.2)"></div></div>
     </div>
 </section>
+<section id="visual-progress-timer-android" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Android App</span>
+            <h3>Visual Progress Timer for Android</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Android-brightgreen" alt="Platform Android"><img src="https://img.shields.io/badge/Framework-Flutter-02569B" alt="Framework Flutter"><img src="https://img.shields.io/badge/Language-Kotlin-7F52FF" alt="Language Kotlin"><img src="https://img.shields.io/badge/License-TBD-lightgrey" alt="License TBD"><img src="https://img.shields.io/badge/Tool-Kiro%20Auto-blueviolet" alt="Tool: Kiro Auto"></div>
+            <p class="product-desc">Windows版 Visual Progress Timer の Android 版。Flutter で実装し、タイマーの状態は絶対的な終了時刻をベースに管理。Flutter UI が非アクティブな状態でも終了通知が発火するよう、Kotlin プラットフォームチャンネル経由で Android の AlarmManager を使用しています。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>一つのことに集中しすぎると時間を忘れてしまうことがよくあって、物理的なビジュアルタイマーが欲しいなと思っていました。購入しようと調べていたのですが、「これ、作れるんじゃないか」と思い立って自分で作ることにしました。Windows版を作った後、スマートフォンでも使いたくなりAndroid版も開発しました。</p><hr class="story-divider"><h4>スマホでも使いたい</h4><p>外出先や手元のスマホでも同じ感覚で使えるように Flutter で実装。バックグラウンドでも通知が届くよう AlarmManager を組み込み、実用的な仕上がりになりました。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>ビジュアルタイマー:</strong> 残り時間を色付きエリアで直感的に把握</li><li><strong>バックグラウンド通知:</strong> AlarmManager によりアプリが非アクティブでも終了通知を発火</li><li><strong>正確なタイマー管理:</strong> 絶対的な終了時刻ベースで時間を管理</li><li><strong>Android 13+ 対応:</strong> 通知パーミッション・正確なアラームパーミッションに対応</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/VisualProgressTimer" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+        <div class="product-visual"><img src="images/visual_progress_timer_android.png" alt="Visual Progress Timer Android Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">⏱️</span>Android App</div></div>
+    </div>
+</section>
+
 <section id="ibeacon-scanner" class="product-showcase">
     <div class="container showcase-grid">
         <div class="product-info">
