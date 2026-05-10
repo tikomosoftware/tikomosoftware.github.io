@@ -257,6 +257,26 @@
         <div class="product-visual"><img src="images/komdviewer.png" alt="KoMDViewer Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">📝</span>Markdown Editor</div></div>
     </div>
 </section>
+<section id="monorepo-viewer" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Developer Tool</span>
+            <h3>Monorepo Viewer</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/Tauri-v2-blue" alt="Tauri v2"><img src="https://img.shields.io/badge/React-TypeScript-61dafb" alt="React TypeScript"><img src="https://img.shields.io/badge/Rust-backend-orange" alt="Rust backend"><img src="https://img.shields.io/badge/Tool-Kiro%20Auto-blueviolet" alt="Tool: Kiro Auto"></div>
+            <p class="product-desc">大規模なローカルリポジトリの Git 履歴をフォルダ単位で素早く確認できる、デスクトップ GUI ツール。モノレポ構成のプロジェクトで、特定フォルダの変更履歴だけを絞り込んで追跡するのに最適です。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>モノレポ構成のリポジトリでは、全体の git log を見ても目的のフォルダの変更が埋もれてしまいます。「このフォルダだけの履歴をサッと確認したい」という日常の不満を解消するために開発しました。</p><hr class="story-divider"><h4>Tauri + Rust + React という新しい組み合わせ</h4><p>デスクトップアプリのバックエンドに Rust、フロントエンドに React + TypeScript、シェルに Tauri v2 という構成で開発しました。Git 操作はローカルの git CLI を呼び出す形で実装しており、軽量かつシンプルな設計になっています。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>リポジトリ全体の履歴表示:</strong> All モードでリポジトリ全体のコミット履歴を一覧表示</li><li><strong>フォルダ別履歴の絞り込み:</strong> ルートフォルダを選択して git log -- &lt;folder&gt; 形式で履歴をフィルタリング</li><li><strong>変更ファイルの確認:</strong> コミットを選択して変更されたファイル一覧を表示</li><li><strong>差分ビューアー:</strong> ファイルを選択してファイル単位の diff を表示（追加・削除の色分け対応）</li><li><strong>リサイズ可能なパネル:</strong> フォルダ・コミット・変更ファイル・diff の各パネルを自由にリサイズ</li><li><strong>軽量設計:</strong> ローカルの git CLI を活用したシンプルなアーキテクチャ</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/MonorepoViewer" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+        <div class="product-visual"><img src="images/MonorepoViewer.png" alt="Monorepo Viewer Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">🌿</span>Developer Tool</div></div>
+    </div>
+</section>
 </main>
     <footer>
         <div class="container">
