@@ -5,22 +5,22 @@
     /* Very light slate for section backgrounds */
     --bg-white: #ffffff;
 
-    --primary-color: #2563eb;
+    --primary-color: #3b82f6;
     /* Strong Royal Blue */
-    --primary-dark: #1e40af;
-    --secondary-color: #64748b;
+    --primary-dark: #2563eb;
+    --secondary-color: #6b7c90;
     /* Slate Grey for secondary text */
     --text-main: #243244;
     /* Dark Slate for headings */
-    --text-body: #334155;
-    --accent-color: #f97316;
-    --accent-soft: #ffedd5;
+    --text-body: #4b5d72;
+    --accent-color: #ea7a2a;
+    --accent-soft: #fff1e6;
 
     --accent-light: #dbellf;
     --border-subtle: #e2e8f0;
 
-    --hero-bg: #3C516D;
-    --category-bg: #5a6f8a;
+    --hero-bg: #3b82f6;
+    --category-bg: #dbeafe;
 
     /* Spacing */
     --container-width: 1024px;
@@ -86,7 +86,7 @@ h3 {
     display: block;
     text-transform: uppercase;
     font-size: 0.875rem;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     color: var(--secondary-color);
     font-weight: 700;
     margin-bottom: 0.5rem;
@@ -323,12 +323,10 @@ h3 {
 
 .background-story {
     background-color: var(--bg-light);
-    border-left: 4px solid var(--primary-color);
     border: 1px solid var(--border-subtle);
-    border-left-width: 4px;
     padding: 1rem;
     margin-bottom: 1.5rem;
-    border-radius: 4px;
+    border-radius: 10px;
 }
 
 .background-story h4 {
@@ -361,7 +359,7 @@ h3 {
 .collapsible-section summary {
     cursor: pointer;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--accent-color);
     padding: 0.5rem 0;
     list-style: none;
     display: flex;
@@ -576,6 +574,7 @@ h3 {
 .badge-container img {
     height: 20px;
     border-radius: 3px;
+    filter: saturate(0.9);
 }
 
 /* Contact */
@@ -821,39 +820,39 @@ footer {
 
 /* Modern portfolio refresh 窶・Navy Blue & Clean */
 :root {
-    --bg-body: #f8fafc;
-    --bg-light: #ffffff;
-    --bg-white: #ffffff;
-    --primary-color: #2563eb;
-    --primary-dark: #1d4ed8;
-    --secondary-color: #64748b;
-    --text-main: #243244;
-    --text-body: #475569;
-    --accent-color: #f97316;
-    --accent-soft: #ffedd5;
-    --border-subtle: #e2e8f0;
-    --hero-bg: #1f2937;
-    --category-bg: #1e293b;
+    --bg-body: #f7f4ef;
+    --bg-light: #fffaf3;
+    --bg-white: #fffdf8;
+    --primary-color: #3b82f6;
+    --primary-dark: #2563eb;
+    --secondary-color: #6b7c90;
+    --text-main: #2f3a4a;
+    --text-body: #526174;
+    --accent-color: #ea7a2a;
+    --accent-soft: #fff1e6;
+    --border-subtle: #e8ded0;
+    --hero-bg: #3b82f6;
+    --category-bg: #dbeafe;
     --container-width: 1180px;
     --section-spacing: 4rem;
     --surface-shadow: 0 16px 40px rgba(15, 23, 41, 0.08);
 }
 
 [data-theme="dark"] {
-    --bg-body: #f3f6fa;
-    --bg-light: #f8fafc;
-    --bg-white: #ffffff;
-    --primary-color: #2563eb;
-    --primary-dark: #1d4ed8;
-    --secondary-color: #64748b;
-    --text-main: #243244;
-    --text-body: #475569;
-    --accent-color: #f97316;
-    --accent-soft: #ffedd5;
-    --border-subtle: #dbe4ee;
-    --hero-bg: #2563eb;
-    --category-bg: #e8eef7;
-    --surface-shadow: 0 16px 40px rgba(15, 23, 41, 0.08);
+    --bg-body: #f7f4ef;
+    --bg-light: #fffaf3;
+    --bg-white: #fffdf8;
+    --primary-color: #3b82f6;
+    --primary-dark: #2563eb;
+    --secondary-color: #6b7c90;
+    --text-main: #2f3a4a;
+    --text-body: #526174;
+    --accent-color: #ea7a2a;
+    --accent-soft: #fff1e6;
+    --border-subtle: #e8ded0;
+    --hero-bg: #3b82f6;
+    --category-bg: #dbeafe;
+    --surface-shadow: 0 16px 40px rgba(47, 58, 74, 0.09);
 }
 
 body {
@@ -870,7 +869,7 @@ body {
     align-items: center;
     padding: 2.5rem 0 2rem;
     overflow: hidden;
-    background: #2563eb;
+    background: var(--hero-bg);
 }
 
 .hero::after {
@@ -1097,7 +1096,7 @@ body {
 .project-card-kicker {
     display: block;
     margin-bottom: 0.45rem;
-    color: var(--primary-color);
+    color: var(--accent-color);
     font-size: 0.72rem;
     font-weight: 800;
     text-transform: uppercase;
@@ -1192,12 +1191,9 @@ body {
 }
 
 .background-story {
-    border-left: 0;
-    border-top: 3px solid var(--primary-color);
     background: color-mix(in srgb, var(--bg-white) 76%, var(--primary-color) 4%);
     border: 1px solid color-mix(in srgb, var(--primary-color) 18%, var(--border-subtle));
-    border-top-width: 3px;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 .collapsible-section summary {
@@ -1291,10 +1287,6 @@ body {
     padding: 1.25rem 0 1rem;
 }
 
-.page-hero .container {
-    padding-left: 0;
-}
-
 .page-hero h1 {
     font-size: clamp(1.1rem, 2vw, 1.4rem);
     margin: 0.25rem 0 0.4rem;
@@ -1318,18 +1310,19 @@ body {
 /* 蜈ｬ髢句●豁｢繝ｻ謚陦捺､懆ｨｼ繝弱・繝・ぅ繧ｹ */
 .notice {
     padding: 1rem 1.25rem;
-    border-radius: 6px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
     margin-bottom: 1rem;
 }
 
 .notice--suspended {
     background: #fef2f2;
-    border-left: 4px solid #ef4444;
+    border-color: color-mix(in srgb, #ef4444 28%, var(--border-subtle));
 }
 
 .notice--poc {
     background: #fff7ed;
-    border-left: 4px solid var(--accent-color);
+    border-color: color-mix(in srgb, var(--accent-color) 28%, var(--border-subtle));
 }
 
 .notice__title {
@@ -1446,19 +1439,19 @@ body {
     padding: 0.4rem 0.9rem;
     border: 1px solid rgba(255, 255, 255, 0.55);
     border-radius: 999px;
-    background: #1d4ed8;
+    background: #2f6fe4;
     color: white;
     font-size: 0.8rem;
     font-weight: 700;
     text-decoration: none;
     transition: all 0.2s;
     white-space: nowrap;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    box-shadow: 0 10px 24px rgba(47, 58, 74, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.24);
     backdrop-filter: blur(10px);
 }
 
 .hero-category-btn:hover {
-    background: #1e40af;
+    background: #2563eb;
     border-color: rgba(255, 255, 255, 0.82);
     color: white;
     transform: translateY(-1px);
@@ -1467,7 +1460,7 @@ body {
 .hero-category-btn.active-page {
     background: rgba(255, 255, 255, 0.92);
     border-color: rgba(255, 255, 255, 0.92);
-    color: #1e293b;
+    color: #2f3a4a;
     font-weight: 700;
 }
 
@@ -1510,18 +1503,18 @@ body {
     padding: 0.45rem 0.75rem;
     border: 1px solid rgba(255, 255, 255, 0.52);
     border-radius: 999px;
-    background: #1d4ed8;
+    background: #2f6fe4;
     backdrop-filter: blur(12px);
     color: white;
     font-size: 0.85rem;
     font-weight: 700;
     text-decoration: none;
     transition: color 0.2s;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    box-shadow: 0 10px 24px rgba(47, 58, 74, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.24);
 }
 
 .hero-sns-link-text:hover {
-    background: #1e40af;
+    background: #2563eb;
     border-color: rgba(255, 255, 255, 0.82);
     color: white;
 }
@@ -1535,6 +1528,26 @@ body {
 /* Pickup Section */
 .pickup-section {
     padding: 3rem 0 2rem;
+}
+
+.overview-card {
+    position: relative;
+    margin-top: 0.85rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--accent-color) 24%, var(--border-subtle));
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--bg-white) 86%, var(--accent-soft));
+    box-shadow: var(--surface-shadow);
+}
+
+.overview-card p {
+    color: var(--text-body);
+    font-size: 0.95rem;
+    line-height: 1.75;
+}
+
+.overview-card p:last-child {
+    margin-top: 0.55rem;
 }
 
 .pickup-grid {
