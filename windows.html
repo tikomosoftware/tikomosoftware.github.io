@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -11,22 +11,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="hero hero--sub">
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><span class="theme-icon">☀️</span></button>
+<header class="hero">
+    <div class="hero-top-bar">
+        <a href="https://github.com/tikomosoftware" target="_blank" rel="noopener noreferrer" class="hero-sns-link-text" aria-label="GitHub"><img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" alt="GitHub">GitHub</a>
+        <a href="https://zenn.dev/como" target="_blank" rel="noopener noreferrer" class="hero-sns-link-text" aria-label="Zenn"><img src="https://www.google.com/s2/favicons?domain=zenn.dev&sz=32" alt="Zenn">Zenn</a>
+        <a href="https://qiita.com/tikomo" target="_blank" class="hero-sns-link-text" aria-label="Qiita"><img src="https://www.google.com/s2/favicons?domain=qiita.com&sz=32" alt="Qiita">Qiita</a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><span class="theme-icon">☀️</span></button>
+    </div>
     <div class="container">
-        <a href="index.html" class="site-logo-link">tikomo software</a>
+        <a href="index.html" style="text-decoration:none;color:inherit;"><h1>tikomo software</h1></a>
+        <p style="font-size:0.85em;">欲しいと思ったら、まず作ってみる。/ <span style="font-size:0.85em;opacity:0.75;margin-left:0.5em;">Building the tools I wish existed.</span></p>
+        <div class="hero-category-buttons">
+            <a href="windows.html" class="hero-category-btn active-page"><span>🖥️</span><span>Windows Apps</span></a>
+            <a href="android.html" class="hero-category-btn"><span>📱</span><span>Android Apps</span></a>
+            <a href="tools.html" class="hero-category-btn"><span>🛠️</span><span>Tools</span></a>
+            <a href="web.html" class="hero-category-btn"><span>🌐</span><span>Web Services</span></a>
+            <a href="profile.html" class="hero-category-btn"><span>👤</span><span>Profile</span></a>
+        </div>
     </div>
 </header>
-<nav class="category-nav"><div class="container"><div class="category-buttons"><a href="windows.html" class="category-btn active-page"><span class="category-icon">🖥️</span><span>Windows Apps</span></a>
-            <a href="android.html" class="category-btn"><span class="category-icon">📱</span><span>Android Apps</span></a>
-            <a href="tools.html" class="category-btn"><span class="category-icon">🛠️</span><span>Tools</span></a>
-            <a href="web.html" class="category-btn"><span class="category-icon">🌐</span><span>Web Services</span></a>
-            </div></div></nav>
 <main>
 <div class="page-hero">
     <div class="container">
-        <span class="section-label">Windows Apps</span>
-        <h1>🖥️ Windows Apps</h1>
+        <h1>Windows Apps</h1>
         <p>C# / .NET で開発したWindowsデスクトップアプリケーション一覧です。</p>
     </div>
 </div>

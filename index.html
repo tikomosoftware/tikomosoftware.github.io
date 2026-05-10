@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tikomo software | tikomo software</title>
-    <meta name="description" content="tikomo software - 自分の欲しいソフトウェアを作って公開しています。">
+    <meta name="description" content="tikomo software - Building the tools I wish existed.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -12,102 +12,73 @@
 </head>
 <body>
 <header class="hero">
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><span class="theme-icon">☀️</span></button>
+    <div class="hero-top-bar">
+        <a href="https://github.com/tikomosoftware" target="_blank" rel="noopener noreferrer" class="hero-sns-link-text" aria-label="GitHub"><img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" alt="GitHub">GitHub</a>
+        <a href="https://zenn.dev/como" target="_blank" rel="noopener noreferrer" class="hero-sns-link-text" aria-label="Zenn"><img src="https://www.google.com/s2/favicons?domain=zenn.dev&sz=32" alt="Zenn">Zenn</a>
+        <a href="https://qiita.com/tikomo" target="_blank" class="hero-sns-link-text" aria-label="Qiita"><img src="https://www.google.com/s2/favicons?domain=qiita.com&sz=32" alt="Qiita">Qiita</a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><span class="theme-icon">☀️</span></button>
+    </div>
     <div class="container">
         <h1>tikomo software</h1>
-        <p>自分の欲しいソフトウェアを作って公開しています。</p>
-        <div class="hero-links">
-            <a href="https://github.com/tikomosoftware" target="_blank" class="hero-link"><svg height="24" width="24" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
-            <a href="https://zenn.dev/como" target="_blank" class="hero-link"><svg height="24" width="24" viewBox="0 0 88 88" fill="currentColor"><path d="M0 79.8L32.4 22c.6-1 2-1 2.5 0l10.4 18.2L22.8 79.8c-.6 1-2 1-2.5 0L0 79.8zm49.3 0L81.7 22c.6-1 2-1 2.5 0l3.8 6.6-32.4 51.2c-.6 1-2 1-2.5 0l-3.8-6.6 0 6.6z"/></svg>Zenn</a>
-            <a href="https://qiita.com/tikomo" target="_blank" class="hero-link"><svg height="24" width="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-4.5 18.9l1.8-3.2A6.3 6.3 0 1 1 18.3 9a6.3 6.3 0 0 1-6.1 7.3l-1.6 2.9A10 10 0 1 0 12 2z"/><path d="M12 7.4a4.6 4.6 0 0 0 0 9.2h.6l1.5-2.6a2 2 0 0 1-2.1.5 2.7 2.7 0 1 1 2.7-2.7v.4l1.6-2.8A4.6 4.6 0 0 0 12 7.4z"/></svg>Qiita</a>
+        <p style="font-size:0.85em;">欲しいと思ったら、まず作ってみる。/ <span style="font-size:0.85em;opacity:0.75;margin-left:0.5em;">Building the tools I wish existed.</span></p>
+        <div class="hero-category-buttons">
+            <a href="windows.html" class="hero-category-btn"><span>🖥️</span><span>Windows Apps</span></a>
+            <a href="android.html" class="hero-category-btn"><span>📱</span><span>Android Apps</span></a>
+            <a href="tools.html" class="hero-category-btn"><span>🛠️</span><span>Tools</span></a>
+            <a href="web.html" class="hero-category-btn"><span>🌐</span><span>Web Services</span></a>
+            <a href="profile.html" class="hero-category-btn"><span>👤</span><span>Profile</span></a>
         </div>
     </div>
 </header>
-<nav class="category-nav"><div class="container"><div class="category-buttons"><a href="windows.html" class="category-btn"><span class="category-icon">🖥️</span><span>Windows Apps</span></a>
-            <a href="android.html" class="category-btn"><span class="category-icon">📱</span><span>Android Apps</span></a>
-            <a href="tools.html" class="category-btn"><span class="category-icon">🛠️</span><span>Tools</span></a>
-            <a href="web.html" class="category-btn"><span class="category-icon">🌐</span><span>Web Services</span></a>
-            </div></div></nav>
 <main>
-<section class="project-overview" aria-labelledby="project-overview-title">
+<section class="pickup-section">
     <div class="container">
         <div class="overview-heading">
-            <span class="section-label">Portfolio Index</span>
-            <h2 id="project-overview-title">Projects</h2>
-            <p>カテゴリ別にプロジェクトを素早く見渡せます。詳細は各カテゴリページへ。</p>
+            <h2>Overview</h2>
+            <p>個人で開発したWebアプリやWindowsアプリをまとめているポートフォリオサイトです。</p>
+            <p>最近はAIエディターやAIエージェントを使いながら、気になった技術や「ちょっと作ってみたい」と思ったアイデアを、実際に動くアプリとして形にしています。Webアプリ、Windowsアプリ、RAGやチャットボット系の実験など、興味のあるものをゆるく作っています。</p>
         </div>
-        <div class="overview-stats">
-            <div><strong>28</strong><span>Projects</span></div>
-            <div><strong>4</strong><span>Categories</span></div>
-            <div><strong>25</strong><span>Released</span></div>
+        <div class="overview-heading" style="margin-top:2rem;">
+            <h2>Featured Projects</h2>
         </div>
-        <div class="overview-tabs" id="overview-tabs">
-            <button class="overview-tab is-active" type="button" data-filter="all">All</button>
-            <button class="overview-tab" type="button" data-filter="windows">Windows Apps<span>10</span></button>
-            <button class="overview-tab" type="button" data-filter="android">Android Apps<span>4</span></button>
-            <button class="overview-tab" type="button" data-filter="tools">Tools<span>4</span></button>
-            <button class="overview-tab" type="button" data-filter="web">Web Services<span>10</span></button>
-        </div>
-        <div class="project-card-grid" id="project-card-grid">
-<article class="project-card" data-category="windows"><a class="project-card-link" href="windows.html#komic-viewer"><div class="project-card-media"><img src="images/komicviewer.png" alt="Komic Viewer" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Windows Apps</span><h3>Komic Viewer</h3><p>軽量で使いやすいコミック・マンガビューアー</p></div></a><div class="project-card-actions"><a href="windows.html#komic-viewer">詳細を見る</a></div></article>
-<article class="project-card" data-category="windows"><a class="project-card-link" href="windows.html#koclip2"><div class="project-card-media"><span>Windows Apps</span></div><div class="project-card-body"><span class="project-card-kicker">Windows Apps</span><h3>KoClip2</h3><p>クリップボード画像を自動保存するWindows用ツール</p></div></a><div class="project-card-actions"><a href="windows.html#koclip2">詳細を見る</a></div></article>
-<article class="project-card" data-category="windows"><a class="project-card-link" href="windows.html#kothumb2"><div class="project-card-media"><img src="images/kothumb2.png" alt="KoThumb2" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Windows Apps</span><h3>KoThumb2</h3><p>大量の画像をD&Dで素早くリサイズ・変換するデスクトップアプリ</p></div></a><div class="project-card-actions"><a href="windows.html#kothumb2">詳細を見る</a></div></article>
-<article class="project-card" data-category="windows"><a class="project-card-link" href="windows.html#kothumb-mini"><div class="project-card-media"><img src="images/kothumbmini.png" alt="KoThumb Mini" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Windows Apps</span><h3>KoThumb Mini</h3><p>落とすだけで使えるミニマルな画像リサイズツール</p></div></a><div class="project-card-actions"><a href="windows.html#kothumb-mini">詳細を見る</a></div></article>
-<article class="project-card" data-category="windows"><a class="project-card-link" href="windows.html#kofoldersync"><div class="project-card-media"><img src="images/kofoldersync.png" alt="KoFolderSync" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Windows Apps</span><h3>KoFolderSync</h3><p>シンプルで使いやすいフォルダ同期アプリ</p></div></a><div class="project-card-actions"><a href="windows.html#kofoldersync">詳細を見る</a></div></article>
-<article class="project-card" data-category="windows"><a class="project-card-link" href="windows.html#image-explorer"><div class="project-card-media"><img src="images/imageexplorer.png" alt="Image Explorer" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Windows Apps</span><h3>Image Explorer</h3><p>エクスプローラー風インターフェースの高速イメージビューアー</p></div></a><div class="project-card-actions"><a href="windows.html#image-explorer">詳細を見る</a></div></article>
-<article class="project-card" data-category="windows"><a class="project-card-link" href="windows.html#koreadingabook"><div class="project-card-media"><img src="images/koreadingabook.png" alt="KoReadingABook" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Windows Apps</span><h3>KoReadingABook</h3><p>読書中のPCスリープ・離席検知を防ぐユーティリティ</p></div></a><div class="project-card-actions"><a href="windows.html#koreadingabook">詳細を見る</a></div></article>
-<article class="project-card" data-category="windows"><a class="project-card-link" href="windows.html#koscreenpresenterassist"><div class="project-card-media"><img src="images/KoScreenPresenterAssist.png" alt="KoScreenPresenterAssist" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Windows Apps</span><h3>KoScreenPresenterAssist</h3><p>プレゼン・画面共有時の描画・強調表示ツール</p></div></a><div class="project-card-actions"><a href="windows.html#koscreenpresenterassist">詳細を見る</a></div></article>
-<article class="project-card" data-category="windows"><a class="project-card-link" href="windows.html#redmine-time-tracker"><div class="project-card-media"><img src="images/redminetimetracker.png" alt="Redmine Time Tracker" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Windows Apps</span><h3>Redmine Time Tracker</h3><p>Redmineの作業時間入力を効率化するデスクトップアプリ</p></div></a><div class="project-card-actions"><a href="windows.html#redmine-time-tracker">詳細を見る</a></div></article>
-<article class="project-card" data-category="windows"><a class="project-card-link" href="windows.html#komdviewer"><div class="project-card-media"><img src="images/komdviewer.png" alt="KoMDViewer" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Windows Apps</span><h3>KoMDViewer</h3><p>WinUI 3採用のMarkdownビューアー＆エディター</p></div></a><div class="project-card-actions"><a href="windows.html#komdviewer">詳細を見る</a></div></article>
-<article class="project-card" data-category="android"><a class="project-card-link" href="android.html#komicviewer-android"><div class="project-card-media"><img src="images/komicviewer_android_01.jpg" alt="Komic Viewer for Android" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Android Apps</span><h3>Komic Viewer for Android</h3><p>ZIP/CBZ形式のコミックをスマートフォンで快適に閲覧</p></div></a><div class="project-card-actions"><a href="android.html#komicviewer-android">詳細を見る</a></div></article>
-<article class="project-card" data-category="android"><a class="project-card-link" href="android.html#ibeacon-scanner"><div class="project-card-media"><img src="images/ibeacon_scanner_01.jpg" alt="iBeacon Scanner" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Android Apps</span><h3>iBeacon Scanner</h3><p>Kotlin+AltBeaconで構築したAndroidネイティブのiBeaconスキャナー</p></div></a><div class="project-card-actions"><a href="android.html#ibeacon-scanner">詳細を見る</a></div></article>
-<article class="project-card" data-category="android"><a class="project-card-link" href="android.html#ble-scanner"><div class="project-card-media"><img src="images/ble_scanner_01.jpg" alt="BLE Scanner" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Android Apps</span><h3>BLE Scanner</h3><p>汎用的なBluetooth(BLE)スキャナーアプリ</p></div></a><div class="project-card-actions"><a href="android.html#ble-scanner">詳細を見る</a></div></article>
-<article class="project-card" data-category="android"><a class="project-card-link" href="android.html#sound-viewer"><div class="project-card-media"><img src="images/sound_viewer.png" alt="Sound Viewer" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Android Apps</span><h3>Sound Viewer</h3><p>音声をリアルタイムで解析・可視化するAndroidアプリ</p></div></a><div class="project-card-actions"><a href="android.html#sound-viewer">詳細を見る</a></div></article>
-<article class="project-card" data-category="tools"><a class="project-card-link" href="tools.html#upscale-ico"><div class="project-card-media"><span>Tools</span></div><div class="project-card-body"><span class="project-card-kicker">Tools</span><h3>Upscale Ico</h3><p>低解像度ICOファイルを高品質PNGへ拡大・変換するツール</p></div></a><div class="project-card-actions"><a href="tools.html#upscale-ico">詳細を見る</a></div></article>
-<article class="project-card" data-category="tools"><a class="project-card-link" href="tools.html#png-to-ico"><div class="project-card-media"><span>Tools</span></div><div class="project-card-body"><span class="project-card-kicker">Tools</span><h3>Png To Ico</h3><p>1つのPNG画像からマルチサイズ対応のICOを生成するツール</p></div></a><div class="project-card-actions"><a href="tools.html#png-to-ico">詳細を見る</a></div></article>
-<article class="project-card" data-category="tools"><a class="project-card-link" href="tools.html#flutter-audit-cli"><div class="project-card-media"><img src="images/flutter_audit.png" alt="Flutter Dependency Audit Tool" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Tools</span><h3>Flutter Dependency Audit Tool</h3><p>Flutterプロジェクトの依存パッケージを自動監査するCLIツール</p></div></a><div class="project-card-actions"><a href="tools.html#flutter-audit-cli">詳細を見る</a></div></article>
-<article class="project-card" data-category="tools"><a class="project-card-link" href="tools.html#web-audit-cli"><div class="project-card-media"><img src="images/web_audit_cli.png" alt="Web Dependency Audit CLI" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Tools</span><h3>Web Dependency Audit CLI</h3><p>React/Vue/Next.js向け依存パッケージ監査CLIツール</p></div></a><div class="project-card-actions"><a href="tools.html#web-audit-cli">詳細を見る</a></div></article>
-<article class="project-card" data-category="web"><a class="project-card-link" href="web.html#dummy-rest-api"><div class="project-card-media"><img src="images/dummy_rest_api.png" alt="Dummy REST API" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Web Services</span><h3>Dummy REST API</h3><p>開発者向けテスト用ダミーREST APIエンドポイント</p></div></a><div class="project-card-actions"><a href="web.html#dummy-rest-api">詳細を見る</a></div></article>
-<article class="project-card" data-category="web"><a class="project-card-link" href="web.html#create-uuid"><div class="project-card-media"><img src="images/create_uuid.png" alt="UUID生成ツール" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Web Services</span><h3>UUID生成ツール</h3><p>シンプルで高速なUUID生成Webツール</p></div></a><div class="project-card-actions"><a href="web.html#create-uuid">詳細を見る</a></div></article>
-<article class="project-card" data-category="web"><a class="project-card-link" href="web.html#flutter-dependency-audit-web"><div class="project-card-media"><img src="images/flutter_dependency_audit.png" alt="Flutter Dependency Audit Web" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Web Services</span><h3>Flutter Dependency Audit Web</h3><p>FlutterプロジェクトのパッケージをブラウザだけでAuditできるWebアプリ</p></div></a><div class="project-card-actions"><a href="web.html#flutter-dependency-audit-web">詳細を見る</a></div></article>
-<article class="project-card" data-category="web"><a class="project-card-link" href="web.html#web-dependency-audit-web"><div class="project-card-media"><img src="images/react_vue_dependency_audit.png" alt="Web Dependency Audit Web" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Web Services</span><h3>Web Dependency Audit Web</h3><p>React/Vue/Next.js向け依存パッケージ監査Webアプリ</p></div></a><div class="project-card-actions"><a href="web.html#web-dependency-audit-web">詳細を見る</a></div></article>
-<article class="project-card" data-category="web"><a class="project-card-link" href="web.html#website-life-checker-web"><div class="project-card-media"><img src="images/web_site_checker.png" alt="WebSite Life Checker Web" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Web Services</span><h3>WebSite Life Checker Web</h3><p>Webサイト死活監視ダッシュボード</p></div></a><div class="project-card-actions"><a href="web.html#website-life-checker-web">詳細を見る</a></div></article>
-<article class="project-card" data-category="web"><a class="project-card-link" href="web.html#ai-faq-chatbot-rag"><div class="project-card-media"><img src="images/ai_faq_chatbot_chromadb.png" alt="AI FAQ ChatBot（RAG版）" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Web Services</span><h3>AI FAQ ChatBot（RAG版）</h3><p>RAGベースのAI FAQチャットボット</p></div></a><div class="project-card-actions"><a href="web.html#ai-faq-chatbot-rag">詳細を見る</a></div></article>
-<article class="project-card" data-category="web"><a class="project-card-link" href="web.html#ai-faq-chatbot-react"><div class="project-card-media"><img src="images/ai_chat_web2.png" alt="AI FAQ ChatBot（ReAct版）" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Web Services</span><h3>AI FAQ ChatBot（ReAct版）</h3><p>ReActパターンに基づく多段階推論AIチャットボット</p></div></a><div class="project-card-actions"><a href="web.html#ai-faq-chatbot-react">詳細を見る</a></div></article>
-<article class="project-card" data-category="web"><a class="project-card-link" href="web.html#jwt-analyzer"><div class="project-card-media"><img src="images/jwt_checker.png" alt="JWT Analyzer" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Web Services</span><h3>JWT Analyzer</h3><p>ブラウザ内で完結する安全なJWT解析・生成ツール</p></div></a><div class="project-card-actions"><a href="web.html#jwt-analyzer">詳細を見る</a></div></article>
-<article class="project-card" data-category="web"><a class="project-card-link" href="web.html#beacon-info-stock"><div class="project-card-media"><img src="images/beacon_info_stock.png" alt="BeaconInfoStock" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Web Services</span><h3>BeaconInfoStock</h3><p>iBeaconデータをSupabaseに登録・確認するWebアプリ</p></div></a><div class="project-card-actions"><a href="web.html#beacon-info-stock">詳細を見る</a></div></article>
-<article class="project-card" data-category="web"><a class="project-card-link" href="web.html#maven-library-checker"><div class="project-card-media"><img src="images/MavenLibraryChecker.png" alt="Maven Library Checker" loading="lazy"></div><div class="project-card-body"><span class="project-card-kicker">Web Services</span><h3>Maven Library Checker</h3><p>Maven Centralから最新バージョンを取得・比較するWebツール</p></div></a><div class="project-card-actions"><a href="web.html#maven-library-checker">詳細を見る</a></div></article>
+        <div class="pickup-grid">
+            <article class="pickup-card">
+                <a class="pickup-card-link" href="windows.html#komic-viewer">
+                    <div class="pickup-card-media"><img src="images/komicviewer.png" alt="Komic Viewer" loading="lazy"></div>
+                    <div class="pickup-card-body">
+                        <span class="project-card-kicker">Windows Apps</span>
+                        <h3>Komic Viewer</h3>
+                        <p>軽量で使いやすいコミック・マンガビューアー。ZIP/CBZ/RAR対応、ダーク・ライトテーマ切り替え、フルスクリーン対応。</p>
+                    </div>
+                </a>
+                <div class="pickup-card-footer"><a href="windows.html#komic-viewer" class="btn btn-sm">詳細を見る</a></div>
+            </article>
+            <article class="pickup-card">
+                <a class="pickup-card-link" href="windows.html#koclip2">
+                    <div class="pickup-card-media pickup-card-media--icon"><span>📋</span></div>
+                    <div class="pickup-card-body">
+                        <span class="project-card-kicker">Windows Apps</span>
+                        <h3>KoClip2</h3>
+                        <p>クリップボードにコピーした画像を自動で指定フォルダに保存。WebP保存・グレースケール変換にも対応。</p>
+                    </div>
+                </a>
+                <div class="pickup-card-footer"><a href="windows.html#koclip2" class="btn btn-sm">詳細を見る</a></div>
+            </article>
+            <article class="pickup-card">
+                <a class="pickup-card-link" href="web.html#neuramnesia">
+                    <div class="pickup-card-media"><img src="images/neuramnesia.png" alt="NEURAMNESIA" loading="lazy"></div>
+                    <div class="pickup-card-body">
+                        <span class="project-card-kicker">Web Services</span>
+                        <h3>NEURAMNESIA</h3>
+                        <p>「経験したかった人生を、記憶として購入する」— 架空の近未来記憶体験マーケットプレイスのデモサイト。</p>
+                    </div>
+                </a>
+                <div class="pickup-card-footer"><a href="web.html#neuramnesia" class="btn btn-sm">詳細を見る</a></div>
+            </article>
         </div>
     </div>
 </section>
-<section id="about" class="developer-section">
-    <div class="container">
-        <div class="dev-profile">
-            <img src="logo.png" alt="tikomo" class="dev-avatar">
-            <div class="dev-content">
-                <span class="dev-role">Freelance Software Engineer</span>
-                <h3>tikomo</h3>
-                <p>長い間プログラムを書いてきて、いろんな言語や分野を経験してきました。今はその経験を活かしてAIを使って、日本語でソフトウェアを作っています。正直、今は自分で書くよりAIのほうが優秀だと感じています。このサイトでは、その開発の過程や試行錯誤を記録として残しています。人が書くプログラミングは趣味になりそうな感じですね...</p>
-                <div class="tech-stack">
-                    <div class="tech-group"><span class="tech-group-label">組み込み</span><span class="tech-badge">8085(8bit)</span><span class="tech-badge">M37702(16bit)</span><span class="tech-badge">C</span><span class="tech-badge">C++</span></div>
-                    <div class="tech-group"><span class="tech-group-label">デスクトップ</span><span class="tech-badge">Delphi</span><span class="tech-badge">VB.NET</span><span class="tech-badge">C# / .NET</span><span class="tech-badge">WPF</span></div>
-                    <div class="tech-group"><span class="tech-group-label">マルチメディア</span><span class="tech-badge">Director</span></div>
-                    <div class="tech-group"><span class="tech-group-label">Web</span><span class="tech-badge">JavaScript</span><span class="tech-badge">Flash (ActionScript)</span><span class="tech-badge">Silverlight</span><span class="tech-badge">PHP</span></div>
-                    <div class="tech-group"><span class="tech-group-label">Android</span><span class="tech-badge">Java</span><span class="tech-badge">Kotlin</span></div>
-                    <div class="tech-group"><span class="tech-group-label">iOS</span><span class="tech-badge">Objective-C</span><span class="tech-badge">Swift</span></div>
-                    <div class="tech-group"><span class="tech-group-label">モダン</span><span class="tech-badge">Python</span><span class="tech-badge">TypeScript</span><span class="tech-badge">React</span><span class="tech-badge">Next.js</span><span class="tech-badge">Flutter / Dart</span><span class="tech-badge">Hono</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section id="contact" class="contact-cta">
-    <div class="container">
-        <h2>Connect &amp; Request</h2>
-        <p style="margin:1rem 0 2rem;color:var(--secondary-color)">不具合の報告や、ちょっとした開発の相談など、お気軽に声をかけてください。</p>
-        <a href="#" id="contact-email" class="btn btn-primary" onclick="return false;">お問い合わせ</a>
-    </div>
-</section>
+
 </main>
     <footer>
         <div class="container">

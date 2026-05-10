@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | tikomo software</title>
+    <meta name="description" content="tikomo software のプロフィール。経歴・技術スタック・お問い合わせ。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero">
+    <div class="hero-top-bar">
+        <a href="https://github.com/tikomosoftware" target="_blank" rel="noopener noreferrer" class="hero-sns-link-text" aria-label="GitHub"><img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" alt="GitHub">GitHub</a>
+        <a href="https://zenn.dev/como" target="_blank" rel="noopener noreferrer" class="hero-sns-link-text" aria-label="Zenn"><img src="https://www.google.com/s2/favicons?domain=zenn.dev&sz=32" alt="Zenn">Zenn</a>
+        <a href="https://qiita.com/tikomo" target="_blank" class="hero-sns-link-text" aria-label="Qiita"><img src="https://www.google.com/s2/favicons?domain=qiita.com&sz=32" alt="Qiita">Qiita</a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><span class="theme-icon">☀️</span></button>
+    </div>
+    <div class="container">
+        <a href="index.html" style="text-decoration:none;color:inherit;"><h1>tikomo software</h1></a>
+        <p style="font-size:0.85em;">欲しいと思ったら、まず作ってみる。<span style="font-size:0.85em;opacity:0.75;margin-left:0.5em;">Building the tools I wish existed.</span></p>
+        <div class="hero-category-buttons">
+            <a href="windows.html" class="hero-category-btn"><span>🖥️</span><span>Windows Apps</span></a>
+            <a href="android.html" class="hero-category-btn"><span>📱</span><span>Android Apps</span></a>
+            <a href="tools.html" class="hero-category-btn"><span>🛠️</span><span>Tools</span></a>
+            <a href="web.html" class="hero-category-btn"><span>🌐</span><span>Web Services</span></a>
+            <a href="profile.html" class="hero-category-btn active-page"><span>👤</span><span>Profile</span></a>
+        </div>
+    </div>
+</header>
+<main>
+<section class="developer-section">
+    <div class="container">
+        <div class="dev-profile">
+            <img src="logo.png" alt="tikomo" class="dev-avatar">
+            <div class="dev-content">
+                <span class="dev-role">Freelance Software Engineer</span>
+                <h3>tikomo</h3>
+                <p>長い間プログラムを書いてきて、いろんな言語や分野を経験してきました。今はその経験を活かしてAIを使って、日本語でソフトウェアを作っています。正直、今は自分で書くよりAIのほうが優秀だと感じています。このサイトでは、その開発の過程や試行錯誤を記録として残しています。人が書くプログラミングは趣味になりそうな感じですね...</p>
+                <div class="tech-stack">
+                    <details class="tech-stack-details">
+                        <summary>技術スタックを見る</summary>
+                        <div class="tech-stack-inner">
+                    <div class="tech-group"><span class="tech-group-label">組み込み</span><span class="tech-badge">8085(8bit)</span><span class="tech-badge">M37702(16bit)</span><span class="tech-badge">C</span><span class="tech-badge">C++</span></div>
+                    <div class="tech-group"><span class="tech-group-label">デスクトップ</span><span class="tech-badge">Delphi</span><span class="tech-badge">VB.NET</span><span class="tech-badge">C# / .NET</span><span class="tech-badge">WPF</span></div>
+                    <div class="tech-group"><span class="tech-group-label">マルチメディア</span><span class="tech-badge">Director</span></div>
+                    <div class="tech-group"><span class="tech-group-label">Web</span><span class="tech-badge">JavaScript</span><span class="tech-badge">Flash (ActionScript)</span><span class="tech-badge">Silverlight</span><span class="tech-badge">PHP</span></div>
+                    <div class="tech-group"><span class="tech-group-label">Android</span><span class="tech-badge">Java</span><span class="tech-badge">Kotlin</span></div>
+                    <div class="tech-group"><span class="tech-group-label">iOS</span><span class="tech-badge">Objective-C</span><span class="tech-badge">Swift</span></div>
+                    <div class="tech-group"><span class="tech-group-label">モダン</span><span class="tech-badge">Python</span><span class="tech-badge">TypeScript</span><span class="tech-badge">React</span><span class="tech-badge">Next.js</span><span class="tech-badge">Flutter / Dart</span><span class="tech-badge">Hono</span></div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="contact" class="contact-cta">
+    <div class="container">
+        <h2>Connect &amp; Request</h2>
+        <p style="margin:1rem 0 2rem;color:var(--secondary-color)">不具合の報告や、ちょっとした開発の相談など、お気軽に声をかけてください。</p>
+        <a href="#" id="contact-email" class="btn btn-primary" onclick="return false;">お問い合わせ</a>
+    </div>
+</section>
+</main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 tikomo software. All rights reserved.</p>
+        </div>
+    </footer>
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage" alt="">
+        <div id="caption"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
