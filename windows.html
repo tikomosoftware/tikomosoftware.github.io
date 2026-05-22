@@ -237,11 +237,11 @@
         <div class="product-info">
             <span class="section-label">Markdown Viewer & Editor</span>
             <h3>KoMDViewer</h3>
-            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0"><img src="https://img.shields.io/badge/Status-Suspended-red" alt="Status Suspended"><img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity"></div>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/.NET-9.0-purple" alt=".NET 9.0"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.1-orange" alt="Version 1.1"><img src="https://img.shields.io/badge/Status-Suspended-red" alt="Status Suspended"><img src="https://img.shields.io/badge/Tool-Antigravity-blueviolet" alt="Tool: Antigravity"></div>
             <p class="product-desc"><div class="notice notice--suspended"><p class="notice__title">【公開一時停止中】</p><p class="notice__body">AI（Antigravity）による WinUI 3 アプリ開発の検証として制作し、当初の目的である「AIのみでの開発完遂」を達成したため、現在は公開を停止しております。開発実績として掲載を継続しています。</p></div><p class="product-desc">WinUI 3 と Mica 背景を採用した、シンプルで美しい Markdown ビューアー ＆ エディター。軽量な動作と高品質なレンダリングで、快適な文章作成体験を提供します。</p></p>
             <details class="collapsible-section">
                 <summary>作成の経緯・開発ストーリーを読む</summary>
-                <div class="background-story"><h4>作成の経緯</h4><p>「サッと開いて、きれいに読めて、少しだけ直したい」そんな日常の Markdown 操作をストレスなく行えるツールが欲しくて開発しました。機能過多にならず、美しさと使い勝力のバランスを追求しています。</p><hr class="story-divider"><h4>WinUI 3 の美しさを活かしたい...</h4><p>Antigravity を使って、最新の WinUI 3 フレームワークで開発しました。Mica 効果（背景の半透明処理）やモダンなコントロールをフル活用し、Windows 11 に最適化された外観に仕上げています。コードエディター部分には CodeMirror 6 を採用し、ブラウザベースの柔軟性とデスクトップアプリの軽快さを両立させました。</p></div>
+                <div class="background-story"><h4>作成の経緯</h4><p>「サッと開いて、きれいに読めて、少しだけ直したい」そんな日常の Markdown 操作をストレスなく行えるツールが欲しくて開発しました。機能過多にならず、美しさと使い勝手のバランスを追求しています。</p><hr class="story-divider"><h4>WinUI 3 の美しさを活かしたい...</h4><p>Antigravity を使って、最新の WinUI 3 フレームワークで開発しました。Mica 効果（背景の半透明処理）やモダンなコントロールをフル活用し、Windows 11 に最適化された外観に仕上げています。コードエディター部分には CodeMirror 6 を採用し、ブラウザベースの柔軟性とデスクトップアプリの軽快さを両立させました。</p></div>
             </details>
             <details class="collapsible-section">
                 <summary>主な機能・特徴を見る</summary>
@@ -270,6 +270,26 @@
             <div class="download-buttons"><a href="https://github.com/tikomosoftware/MonorepoViewer" class="btn btn-github" target="_blank">GitHub</a></div>
         </div>
         <div class="product-visual"><img src="images/MonorepoViewer.png" alt="Monorepo Viewer Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">🌿</span>Developer Tool</div></div>
+    </div>
+</section>
+<section id="plantuml-local-viewer" class="product-showcase">
+    <div class="container showcase-grid">
+        <div class="product-info">
+            <span class="section-label">Developer Tool</span>
+            <h3>PlantUML Local Viewer</h3>
+            <div class="badge-container"><img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform Windows"><img src="https://img.shields.io/badge/Electron-31-47848f" alt="Electron 31"><img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT"><img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version 1.0.0"></div>
+            <p class="product-desc">.pu / .puml ファイルをローカルで開いて PlantUML のシーケンス図を表示する、オフライン完結型のデスクトップビューアーです。PlantUML ソースを外部サーバーに送らず、PC内で SVG に変換します。</p>
+            <details class="collapsible-section">
+                <summary>作成の経緯・開発ストーリーを読む</summary>
+                <div class="background-story"><h4>作成の経緯</h4><p>業務で PlantUML のシーケンス図を扱う機会が多かったのですが、オンラインのレンダラーに業務情報を含むソースを貼り付けるのは避けたい、ローカルで完結するシンプルなビューアーが欲しい、という思いから開発しました。エディタを開かなくても、ファイルをダブルクリックするような感覚で図を確認できることを目指しています。</p><hr class="story-divider"><h4>Electron + 同梱 JRE で「インストール不要」を実現</h4><p>PlantUML JAR と JRE をアプリに同梱することで、配布先 PC に Java や PlantUML を別途インストールする必要のないポータブル EXE として配布できる構成にしました。履歴ペインや拡大縮小、ペイン幅調整など、日常の使い勝手にこだわった作りになっています。</p></div>
+            </details>
+            <details class="collapsible-section">
+                <summary>主な機能・特徴を見る</summary>
+                <ul class="feature-list"><li><strong>ローカル完結:</strong> PlantUML ソースを外部送信せず PC 内で SVG 変換</li><li><strong>幅広い拡張子対応:</strong> .pu / .puml / .plantuml / .iuml に対応</li><li><strong>ドラッグ&ドロップ:</strong> ファイルを放り込むだけで開ける</li><li><strong>履歴ペイン:</strong> 開いたファイルを左ペインに保存、クリックで切り替え・並べ替え可能</li><li><strong>柔軟な表示:</strong> 幅に合わせる / 手動倍率の切り替え、Ctrl + ホイールで拡大縮小</li><li><strong>断片の自動補完:</strong> @startuml / @enduml がない短い断片も自動で描画</li><li><strong>ポータブル EXE:</strong> JRE 同梱で、Java や PlantUML のインストール不要</li></ul>
+            </details>
+            <div class="download-buttons"><a href="https://github.com/tikomosoftware/PlantUMLLocalViewer" class="btn btn-github" target="_blank">GitHub</a></div>
+        </div>
+        <div class="product-visual"><img src="images/plantumllocalviewer.png" alt="PlantUML Local Viewer Screenshot" class="zoomable-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;text-align:center;color:#94a3b8;flex-direction:column;align-items:center;justify-content:center;height:100%"><span style="font-size:3rem;display:block">📊</span>Developer Tool</div></div>
     </div>
 </section>
 </main>
