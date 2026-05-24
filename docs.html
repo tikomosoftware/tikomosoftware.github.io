@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | tikomo software</title>
+    <meta name="description" content="AI活用・AI開発支援の導入ガイド。AIをこれから使い始める人、チームへ展開する担当者、実プロジェクトへ導入する人向けの資料集。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .docs-section {
+            padding: 3.5rem 0;
+        }
+
+        .docs-section + .docs-section {
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 3rem;
+        }
+
+        .docs-section-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .docs-section-title {
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .docs-section-desc {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .docs-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .docs-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .docs-card:hover {
+            transform: translateY(-3px);
+            border-color: color-mix(in srgb, var(--primary-color) 50%, var(--border-subtle));
+            box-shadow: 0 8px 24px rgba(15, 23, 41, 0.08);
+        }
+
+        .docs-card-icon {
+            font-size: 1.75rem;
+            line-height: 1;
+        }
+
+        .docs-card-kicker {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--secondary-color);
+        }
+
+        .docs-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .docs-card p {
+            font-size: 0.875rem;
+            color: var(--text-body);
+            line-height: 1.65;
+            flex: 1;
+        }
+
+        .docs-card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-top: 0.25rem;
+            transition: gap 0.2s;
+        }
+
+        .docs-card-link:hover {
+            gap: 0.55rem;
+        }
+
+        .docs-card-link::after {
+            content: "→";
+        }
+
+        .docs-audience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .docs-audience-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .docs-audience-card h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .docs-audience-card p {
+            font-size: 0.825rem;
+            color: var(--secondary-color);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .docs-audience-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .docs-audience-links a {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .docs-audience-links a::before {
+            content: "›";
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .docs-repo-banner {
+            background: color-mix(in srgb, var(--primary-color) 6%, var(--bg-white));
+            border: 1px solid color-mix(in srgb, var(--primary-color) 20%, var(--border-subtle));
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .docs-repo-banner-text h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.35rem;
+        }
+
+        .docs-repo-banner-text p {
+            font-size: 0.875rem;
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 640px) {
+            .docs-card-grid,
+            .docs-audience-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .docs-repo-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body class="site-page page-docs">
+<header class="home-header site-header">
+    <div class="home-shell home-header__inner">
+        <a href="index.html" class="home-brand" aria-label="tikomo software ホーム">
+            <span>tikomo software</span>
+        </a>
+        <nav class="home-nav" aria-label="メインナビゲーション">
+            <a href="windows.html">Windows</a>
+            <a href="android.html">Android</a>
+            <a href="tools.html">Tools</a>
+            <a href="web.html">Web</a>
+            <a href="docs.html" class="is-current">Docs</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="page-hero">
+        <div class="container">
+            <h1>Docs</h1>
+            <p>主に Claude Code を対象にした、AI活用・AI開発支援の導入ガイドです。まだ書きかけのところも多いですが、少しずつ育てています。</p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- 作った経緯 -->
+        <section class="docs-section">
+            <div class="background-story" style="max-width: 720px;">
+                <h4>この資料を作った経緯</h4>
+                <p>
+                    個人で開発しているぶんには、AIを好き勝手に使えてとても快適です。
+                    でも複数メンバーになった途端、コストが一気に上がるな、と感じていました。
+                    誰がどう使っているかわからない、レビューの基準がバラバラ、情報の扱いも人によって違う。
+                    ある程度ルールを決めないと、AIを使っているのに逆に手間が増える、という状況になりかねない。
+                    そう思って、チームで使うための考え方や手順をまとめてみました。
+                </p>
+            </div>
+        </section>
+
+        <!-- 資料一覧 -->
+        <section class="docs-section" aria-labelledby="materials-title">
+            <span class="docs-section-label">Materials</span>
+            <h2 class="docs-section-title" id="materials-title">資料フォルダ</h2>
+            <p class="docs-section-desc">各フォルダは独立した資料セットです。まだ途中のものもありますが、使えるところから読んでもらえると嬉しいです。</p>
+
+            <div class="docs-card-grid">
+                <div class="docs-card">
+                    <span class="docs-card-kicker">ai-dev-101</span>
+                    <h3>AI活用 基礎ガイド</h3>
+                    <p>AIをこれから使い始める人向けの基礎記事。AIに頼めること・頼んではいけないこと、情報管理と事実確認の基本を扱います。</p>
+                    <a class="docs-card-link" href="https://github.com/tikomosoftware/solo-ai-enablement/tree/main/ai-dev-101" target="_blank" rel="noopener noreferrer">GitHubで読む</a>
+                </div>
+
+                <div class="docs-card">
+                    <span class="docs-card-kicker">ai-dev-101-facilitator</span>
+                    <h3>展開担当者向け資料</h3>
+                    <p>AI活用やAI開発支援をチームへ展開する担当者向け。説明会の設計、ロールアウト計画、導入チェックリストを含みます。</p>
+                    <a class="docs-card-link" href="https://github.com/tikomosoftware/solo-ai-enablement/tree/main/ai-dev-101-facilitator" target="_blank" rel="noopener noreferrer">GitHubで読む</a>
+                </div>
+
+                <div class="docs-card">
+                    <span class="docs-card-kicker">ai-dev-harness</span>
+                    <h3>開発者向けハーネス</h3>
+                    <p>チームでAI開発支援ツールを使うための考え方、ルール、ガイド。Claude CodeやGitHub Copilotを安全に使うための実践的な内容です。</p>
+                    <a class="docs-card-link" href="https://github.com/tikomosoftware/solo-ai-enablement/tree/main/ai-dev-harness" target="_blank" rel="noopener noreferrer">GitHubで読む</a>
+                </div>
+
+                <div class="docs-card">
+                    <span class="docs-card-kicker">ai-dev-advanced</span>
+                    <h3>高機能活用ガイド</h3>
+                    <p>Claude Codeの高機能活用や自動化を検討するための候補一覧。Hooks、MCP、サブエージェントなどを検討する人向けです。</p>
+                    <a class="docs-card-link" href="https://github.com/tikomosoftware/solo-ai-enablement/tree/main/ai-dev-advanced" target="_blank" rel="noopener noreferrer">GitHubで読む</a>
+                </div>
+
+                <div class="docs-card">
+                    <span class="docs-card-kicker">ai-project-template</span>
+                    <h3>プロジェクトテンプレート</h3>
+                    <p>実プロジェクトへコピーして使うためのテンプレート。チームルールや設定ファイルのひな形をまとめています。</p>
+                    <a class="docs-card-link" href="https://github.com/tikomosoftware/solo-ai-enablement/tree/main/ai-project-template" target="_blank" rel="noopener noreferrer">GitHubで読む</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 読者別の入口 -->
+        <section class="docs-section" aria-labelledby="audience-title">
+            <span class="docs-section-label">By Audience</span>
+            <h2 class="docs-section-title" id="audience-title">読者別の入口</h2>
+            <p class="docs-section-desc">あなたの立場に合わせて、読む資料を選んでください。</p>
+
+            <div class="docs-audience-grid">
+                <div class="docs-audience-card">
+                    <h3>🌱 AI初心者</h3>
+                    <p>AIを仕事で使い始める人、非エンジニアを含むチームメンバー向け。</p>
+                    <div class="docs-audience-links">
+                        <a href="https://github.com/tikomosoftware/solo-ai-enablement/tree/main/ai-dev-101" target="_blank" rel="noopener noreferrer">ai-dev-101 を読む</a>
+                    </div>
+                </div>
+
+                <div class="docs-audience-card">
+                    <h3>💻 開発者</h3>
+                    <p>Claude CodeやGitHub Copilotを開発作業に使う人向け。</p>
+                    <div class="docs-audience-links">
+                        <a href="https://github.com/tikomosoftware/solo-ai-enablement/tree/main/ai-dev-harness" target="_blank" rel="noopener noreferrer">ai-dev-harness を読む</a>
+                    </div>
+                </div>
+
+                <div class="docs-audience-card">
+                    <h3>🏢 導入・運用担当者</h3>
+                    <p>チームリーダー、レビュアー、AI活用の展開担当者向け。</p>
+                    <div class="docs-audience-links">
+                        <a href="https://github.com/tikomosoftware/solo-ai-enablement/tree/main/ai-dev-101-facilitator" target="_blank" rel="noopener noreferrer">ai-dev-101-facilitator を読む</a>
+                        <a href="https://github.com/tikomosoftware/solo-ai-enablement/tree/main/ai-project-template" target="_blank" rel="noopener noreferrer">ai-project-template を読む</a>
+                    </div>
+                </div>
+
+                <div class="docs-audience-card">
+                    <h3>🚀 高機能を検討する人</h3>
+                    <p>Claude Codeの基本操作に慣れた開発者、自動化を整備したい人向け。</p>
+                    <div class="docs-audience-links">
+                        <a href="https://github.com/tikomosoftware/solo-ai-enablement/tree/main/ai-dev-advanced" target="_blank" rel="noopener noreferrer">ai-dev-advanced を読む</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+
+    </div>
+</main>
+
+<footer class="home-footer site-footer">
+    <div class="home-shell home-footer__inner">
+        <p>&copy; 1998-2026 tikomo software</p>
+        <div>
+            <a href="https://github.com/tikomosoftware" target="_blank" rel="noopener noreferrer"><img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" alt="" class="footer-link-icon">GitHub</a>
+            <a href="https://zenn.dev/como" target="_blank" rel="noopener noreferrer"><img src="https://www.google.com/s2/favicons?domain=zenn.dev&sz=32" alt="" class="footer-link-icon">Zenn</a>
+            <a href="https://qiita.com/tikomo" target="_blank" rel="noopener noreferrer"><img src="https://www.google.com/s2/favicons?domain=qiita.com&sz=32" alt="" class="footer-link-icon">Qiita</a>
+        </div>
+    </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
