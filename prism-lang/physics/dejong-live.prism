@@ -1,0 +1,11 @@
+-- Interactive :: the de Jong attractor with all four parameters on sliders -- drag them in
+-- the playground to explore the space of attractors live.
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  sin(slider(1.4, -3, 3) * y) - cos(slider(-2.3, -3, 3) * x)
+      ny  <-  sin(slider(2.4, -3, 3) * x) - cos(slider(-2.1, -3, 3) * y)
+      [ Dot{x: nx * 120, y: ny * 120}, ..trace(n - 1, nx, ny, acc) ]
+picture  <-  trace(1500, 0, 0, [])
+main : () !console  <-  show!console "in the playground, drag the four sliders to explore"

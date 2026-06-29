@@ -1,0 +1,10 @@
+include "lib/picture.prism"
+node(k, t)  <-
+  ph <- frac(t * 0.5)
+  r <- (1 - ph) * 150
+  Dot{ x: r * cos(k / 30 * 6.2832 + ph * 4), y: r * sin(k / 30 * 6.2832 + ph * 4), h: 280, a: ph }
+frame(t) : Picture  <-
+  ph    <-  frac(t * 0.5)
+  flash <-  if ph > 0.92 then (ph - 0.92) * 12 else 0
+  pic( concat( [ Circle{x: 0, y: 0, r: 10 + flash * 120, h: 285, a: (0.4 + ph * 0.5) * (1 - flash), fill: 1} ], times(30, k -> node(k, t)) ) )
+main : () !console  <-  show!console "press Animate for a boss charge-up"

@@ -1,0 +1,6 @@
+-- `include` merges every file into ONE flat namespace, so two top-level definitions with the
+-- same name collide. The checker rejects it (rather than silently letting one shadow the other,
+-- which used to be a real footgun -- e.g. a demo's `maxN` constant hiding lib/math's `maxN`).
+include "lib/math.prism"
+clamp(lo, hi)  <-  lo + hi          -- name already provided by lib/math
+main : () !console  <-  show!console "redefining a name an include already provides"

@@ -1,0 +1,6 @@
+-- A data visualizer: a bar chart with a line overlay. Edit `data` to chart your own numbers.
+-- Built on lib/chart.prism.
+include "lib/chart.prism"
+data  <-  [4, 7, 3, 8, 5, 9, 6, 2, 7, 4]
+picture  <-  concat( barChart(data, 40, 14), lineChart(data, 40, 14) )
+main : () !console  <-  show!console "a bar chart (edit `data`)"

@@ -1,0 +1,19 @@
+-- An analog clock -- animated app. Three hands of clearly different length sweep from t at
+-- clock-like ratios (a sped-up demo clock, so all three visibly move): a short hour hand, a
+-- medium minute hand, and a long thin second hand. Pure function of time.
+
+include "lib/picture.prism"
+
+hand(len, ang, hue)  <-  Line{ x1: 0, y1: 0, x2: len * sin(ang), y2: len * cos(ang), h: hue }
+tick(i)  <-
+  a  <-  i / 12 * 6.2832
+  Line{ x1: 140 * sin(a), y1: 140 * cos(a), x2: 158 * sin(a), y2: 158 * cos(a), h: 210 }
+
+frame(t) : Picture  <-
+  pic( concat( [ Circle{x: 0, y: 0, r: 162, h: 210}, Circle{x: 0, y: 0, r: 6, h: 40, fill: 1} ],
+       concat( times(12, i -> tick(i)),
+               [ hand(62, t * 6.2832 / 864, 30),       -- hour (short)
+                 hand(112, t * 6.2832 / 72, 200),      -- minute (medium)
+                 hand(150, t * 6.2832 / 6, 0) ] ) ) )   -- second (long, fast)
+
+main : () !console  <-  show!console "press Animate to start the clock"

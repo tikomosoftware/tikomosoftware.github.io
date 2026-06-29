@@ -1,0 +1,16 @@
+-- Falling snow -- animated particle system. Each flake drifts down (its fall fraction loops
+-- via `frac`, so it reappears at the top), swaying side to side with a little sine. `mod`
+-- spreads the flakes across the width. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  90
+
+flake(k, t)  <-
+  baseX  <-  mod(k * 53, 380) - 190               -- spread across the width
+  fall   <-  frac(t * 0.05 + k * 0.071)           -- 0 (top) .. 1 (bottom), looping
+  Dot{ x: baseX + 20 * sin(t * 0.7 + k), y: 180 - fall * 360, h: 205 }
+
+frame(t) : Picture  <-  pic( times(n, k -> flake(k, t)) )
+
+main : () !console  <-  show!console "press Animate to make it snow"

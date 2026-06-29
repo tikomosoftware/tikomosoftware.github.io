@@ -1,0 +1,8 @@
+include "lib/picture.prism"
+line(k, blink)  <-  Line{ x1: 30 * cos(k / 12 * 6.2832), y1: 30 * sin(k / 12 * 6.2832),
+  x2: (40 + 60 * (1 - blink)) * cos(k / 12 * 6.2832), y2: (40 + 60 * (1 - blink)) * sin(k / 12 * 6.2832), h: 0, a: 1 - blink }
+frame(t) : Picture  <-
+  blink <- frac(t * 2.5)
+  pic( concat( [ Circle{x: 0, y: 0, r: 30 + 50 * (1 - blink), h: 0, a: (1 - blink) * 0.5, fill: 1},
+  Circle{x: 0, y: 0, r: 18, h: 50, a: 1 - blink, fill: 1} ], times(12, k -> line(k, blink)) ) )
+main : () !console  <-  show!console "press Animate for a hit flash"

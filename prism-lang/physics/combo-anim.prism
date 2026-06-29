@@ -1,0 +1,11 @@
+-- A fighting-game combo counter -- animated. The hit count climbs, the number "punches"
+-- (scales up) on each new hit then settles, drifting up with a ring of sparks. Pure in t.
+include "lib/digits.prism"
+frame(t) : Picture  <-
+  hits  <-  mod(floor(t * 4), 99) + 1
+  pop   <-  1 + 0.7 * (1 - frac(t * 4))
+  s     <-  24 * pop
+  rise  <-  frac(t * 4) * 18
+  pic( concat( number2(hits, 0 - s * 1.3, rise, s, 50, 1),
+               times(8, k -> Dot{x: 55 * cos(k * 0.8), y: rise + 55 * sin(k * 0.8), h: 55, a: (1 - frac(t * 4)) * 0.6}) ) )
+main : () !console  <-  show!console "press Animate for a combo counter"

@@ -1,0 +1,13 @@
+-- A Lissajous table: a 4x4 grid of Lissajous figures, cell (col,row) using the frequency ratio
+-- (col+1):(row+1). The classic chart you'd see on an oscilloscope.
+include "lib/picture.prism"
+m  <-  200
+lpt(cx, cy, a, b, i)  <-
+  th  <-  i / m * 6.2832
+  Pt{ x: cx + 36 * sin(a * th), y: cy + 36 * cos(b * th) }
+cell(idx)  <-
+  col  <-  mod(idx, 4)
+  row  <-  floor(idx / 4)
+  Poly{ pts: times(m + 1, i -> lpt(col * 92 - 138, row * 92 - 138, col + 1, row + 1, i)), h: 200 + idx * 8 }
+picture  <-  times(16, idx -> cell(idx))
+main : () !console  <-  show!console "press Draw to see a Lissajous table"

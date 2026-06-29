@@ -1,0 +1,16 @@
+-- Embers rising from a fire -- animated. Sparks rise from the base, spread out and wobble as
+-- they go, and cool from yellow to red on the way up (hue 45 -> 0). Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  64
+
+ember(k, t)  <-
+  rise  <-  frac(t * 0.2 + k * 0.117)
+  Dot{ x: mod(k * 71, 200) - 100 + 34 * sin(t * 2 + k) * rise,   -- spread wider as it rises
+       y: 0 - 130 + rise * 300,
+       h: 45 - rise * 45 }                                        -- yellow -> red (cooling)
+
+frame(t) : Picture  <-  pic( times(n, k -> ember(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch embers rise from a fire"

@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prism playground</title>
+<!--
+  Runs the REAL engine in the browser: Pyodide (CPython compiled to WebAssembly)
+  loads the very same prism.py / check.py used on the command line -- no port, no
+  duplication. Serve this folder (`prism serve`) and open this page; loading from
+  file:// will fail because the engine is fetched over HTTP.
+-->
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+         background: #11141a; color: #d7dce5; }
+  header { padding: 12px 18px; border-bottom: 1px solid #232833; display: flex;
+           align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  header h1 { font-size: 16px; margin: 0; color: #9ad0ff; letter-spacing: .04em; }
+  header .sub { color: #6b7384; font-size: 12px; }
+  header a { color: #7fb3ff; text-decoration: none; }
+  main { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #232833;
+         height: calc(100vh - 52px); }
+  .pane { background: #11141a; display: flex; flex-direction: column; min-width: 0; }
+  .bar { padding: 8px 12px; border-bottom: 1px solid #232833; display: flex; gap: 8px;
+         align-items: center; flex-wrap: wrap; }
+  .bar .label { color: #6b7384; font-size: 12px; margin-right: auto; }
+  select, button { font: inherit; background: #1b2027; color: #d7dce5; border: 1px solid #2c333f;
+                   border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+  button:hover:not(:disabled) { background: #232b35; }
+  button:disabled { opacity: .5; cursor: default; }
+  button.go { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+  button.go:hover:not(:disabled) { background: #2a7bff; }
+  textarea { flex: 1; width: 100%; border: 0; resize: none; padding: 12px;
+             background: #0d1016; color: #e6eaf2; font: inherit; outline: none; tab-size: 2; }
+  #stdin { flex: 0 0 auto; height: 64px; border-top: 1px solid #232833; background: #0b0e13; }
+  #stdinwrap { color: #6b7384; font-size: 11px; padding: 6px 12px 0; }
+  pre#out { flex: 1; margin: 0; padding: 12px; overflow: auto; white-space: pre-wrap;
+            color: #cfe3cf; }
+  #sliders { display: none; }
+  #sliders.on { display: flex; flex-wrap: wrap; gap: 8px 14px; padding: 7px 12px;
+                border-bottom: 1px solid #232833; background: #0b0e13; }
+  .sl { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #9ad0ff; }
+  .sl input { width: 92px; accent-color: #1f6feb; }
+  .sl b { color: #d7dce5; min-width: 30px; font-weight: 600; }
+  .loading { display: flex; align-items: center; gap: 10px; color: #9ad0ff; font-size: 14px; }
+  .spinner { width: 16px; height: 16px; border: 2px solid #2c333f; border-top-color: #9ad0ff;
+             border-radius: 50%; animation: spin .8s linear infinite; flex: 0 0 auto; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ok { color: #7ee787; } .err { color: #ff7b72; } .muted { color: #6b7384; }
+</style>
+</head>
+<body>
+<header>
+  <h1>◭ Prism playground</h1>
+  <span class="sub">the real <code>prism.py</code> / <code>check.py</code>, running in your browser via Pyodide</span>
+  <span class="sub" id="status">booting…</span>
+  <span class="sub" style="margin-left:auto"><a href="docs.html?p=TOUR.md">🎓 guided tour</a> · <a href="docs.html?p=TUTORIAL.md">tutorial</a> · <a href="docs.html?p=REFERENCE.md">reference</a> · <a href="docs.html?p=OVERVIEW.md">docs</a></span>
+</header>
+<main>
+  <section class="pane">
+    <div class="bar">
+      <span class="label">program</span>
+      <input id="search" type="text" placeholder="絞り込み…" title="日本語でも英語でも絞り込めます（例: 桜, 雪, 花火, rose, lorenz）"
+             style="width:110px; font:inherit; background:#1b2027; color:#d7dce5; border:1px solid #2c333f; border-radius:6px; padding:3px 8px;">
+      <select id="examples" title="load an example"></select>
+      <button id="run" disabled>▶ Run</button>
+      <button id="check" disabled>✓ Check</button>
+      <button id="reveal" disabled>◎ Reveal</button>
+      <button id="draw" disabled title="render the program's `picture` value">✎ Draw</button>
+      <button id="anim" disabled title="animate the program's pure `frame(t)` function">▶ Animate</button>
+      <button id="share" title="copy a link that opens this code">🔗 Share</button>
+      <label class="sub" title="vivid colours (and a rainbow spin while animating)"><input type="checkbox" id="vivid"> 🌈 vivid</label>
+      <span class="sub" id="hint" title="recommended action (Ctrl/Cmd+Enter)"></span>
+      <span class="sub" id="saved" title="your code is auto-saved in this browser"></span>
+    </div>
+    <div id="sliders"></div>
+    <textarea id="code" spellcheck="false"></textarea>
+    <div id="stdinwrap">stdin (for read!console) — one value per line:</div>
+    <textarea id="stdin" spellcheck="false"></textarea>
+  </section>
+  <section class="pane">
+    <div class="bar"><span class="label">output</span></div>
+    <pre id="out"><span class="muted">Loading the Python engine… first run may take a few seconds.</span></pre>
+    <canvas id="canvas" style="display:none; flex:1; width:100%; background:#0d1016;"></canvas>
+  </section>
+</main>
+
+<!-- Pyodide is loaded at runtime: a local self-hosted copy (./pyodide/, via
+     `prism fetch-pyodide`) is preferred for offline use; otherwise it falls back to a
+     pinned CDN version. crossorigin enables clearer load errors on the CDN path. -->
+<script>
+const PYODIDE_VERSION = "v0.26.4";
+const CDN_BASE = `https://cdn.jsdelivr.net/pyodide/${PYODIDE_VERSION}/full/`;
+const EXAMPLES = {
+  "divide (effect + failure)":
+`divide(a: Num, b: Num) : Num ?DivByZero  <-
+  b match
+    0  =>  fail DivByZero
+    _  =>  ok (a / b)
+
+main : () !console  <-
+  attempt
+    show!console "10 / 2 = {try divide(10, 2)}"
+    show!console "10 / 0 = {try divide(10, 0)}"
+  rescue
+    DivByZero  =>  show!console "10 / 0 = undefined"`,
+
+  "or-type + exhaustive match":
+`Shape : Circle{ radius: Num }  or  Square{ side: Num }
+
+area(s: Shape) : Num  <-
+  s match
+    Circle{radius}  =>  radius * radius * 3
+    Square{side}    =>  side * side
+
+main : () !console  <-
+  show!console "circle r=2 -> {area(Circle{radius: 2})}"
+  show!console "square s=3 -> {area(Square{side: 3})}"`,
+
+  "capabilities + dispatch":
+`capability Show for T
+  render(x: T) : Text
+
+Num  provides Show
+  render(x)  <-  "a number"
+Text provides Show
+  render(x)  <-  x
+
+describe for T given T: Show (x: T) : Text  <-  render(x)
+
+main : () !console  <-
+  show!console describe(42)
+  show!console describe("hello")`,
+
+  "★ Sierpinski (press Draw)":
+`-- press "Draw": \`picture\` is a pure list of line segments the canvas renders.
+-- A Sierpinski triangle by midpoint recursion -- pure arithmetic, no trigonometry.
+
+mid(a, b)  <-  (a + b) / 2
+
+sierpinski(depth, ax, ay, bx, by, cx, cy, acc)  <-
+  depth match
+    0  =>  [ Line{x1: ax, y1: ay, x2: bx, y2: by},
+             Line{x1: bx, y1: by, x2: cx, y2: cy},
+             Line{x1: cx, y1: cy, x2: ax, y2: ay}, ..acc ]
+    _  =>
+      abx  <-  mid(ax, bx)
+      aby  <-  mid(ay, by)
+      bcx  <-  mid(bx, cx)
+      bcy  <-  mid(by, cy)
+      acx  <-  mid(ax, cx)
+      acy  <-  mid(ay, cy)
+      sierpinski(depth - 1, ax, ay, abx, aby, acx, acy,
+        sierpinski(depth - 1, abx, aby, bx, by, bcx, bcy,
+          sierpinski(depth - 1, acx, acy, bcx, bcy, cx, cy, acc)))
+
+picture  <-  sierpinski(5, 0, 0, 512, 0, 256, 443, [])`,
+
+  "★ Koch snowflake (press Draw)":
+`-- each segment becomes 4 with an outward 60-degree bump (uses sin/cos/pi).
+koch(depth, ax, ay, bx, by, acc)  <-
+  depth match
+    0  =>  [ Line{x1: ax, y1: ay, x2: bx, y2: by}, ..acc ]
+    _  =>
+      dx  <-  bx - ax
+      dy  <-  by - ay
+      cx  <-  ax + dx / 3
+      cy  <-  ay + dy / 3
+      ex  <-  ax + dx * 2 / 3
+      ey  <-  ay + dy * 2 / 3
+      vx  <-  ex - cx
+      vy  <-  ey - cy
+      co  <-  cos(pi / 3)
+      si  <-  sin(pi / 3)
+      px  <-  cx + (vx * co + vy * si)
+      py  <-  cy + (vy * co - vx * si)
+      koch(depth - 1, ax, ay, cx, cy,
+        koch(depth - 1, cx, cy, px, py,
+          koch(depth - 1, px, py, ex, ey,
+            koch(depth - 1, ex, ey, bx, by, acc))))
+
+picture  <-
+  koch(4, 0, 0, 300, 0,
+    koch(4, 300, 0, 150, 260,
+      koch(4, 150, 260, 0, 0, [])))`,
+
+  "★ Pythagoras tree (press Draw)":
+`-- each square sprouts two smaller squares tilted 45 degrees (uses sin/cos/pi).
+pythagoras(depth, x1, y1, x2, y2, acc)  <-
+  dx  <-  x2 - x1
+  dy  <-  y2 - y1
+  x4  <-  x1 - dy
+  y4  <-  y1 + dx
+  x3  <-  x2 - dy
+  y3  <-  y2 + dx
+  sq  <-  [ Line{x1: x1, y1: y1, x2: x2, y2: y2},
+            Line{x1: x2, y1: y2, x2: x3, y2: y3},
+            Line{x1: x3, y1: y3, x2: x4, y2: y4},
+            Line{x1: x4, y1: y4, x2: x1, y2: y1}, ..acc ]
+  depth match
+    0  =>  sq
+    _  =>
+      c   <-  cos(pi / 4)
+      s   <-  sin(pi / 4)
+      wx  <-  x3 - x4
+      wy  <-  y3 - y4
+      tx  <-  x4 + c * (wx * c - wy * s)
+      ty  <-  y4 + c * (wx * s + wy * c)
+      pythagoras(depth - 1, x4, y4, tx, ty,
+        pythagoras(depth - 1, tx, ty, x3, y3, sq))
+
+picture  <-  pythagoras(8, 0, 0, 40, 0, [])`,
+
+  "★ Projectile 2-D physics (press Draw)":
+`-- a projectile under gravity, using the included 2-D physics library.
+include "lib/physics2d.prism"
+
+trace(n, body)  <-
+  n match
+    0  =>  []
+    _  =>
+      p  <-  body.pos
+      (p.y < 0) match
+        true   =>  []
+        false  =>  [ Dot{x: p.x, y: p.y}, ..trace(n - 1, step(body, V{x: 0, y: 0 - 10}, 0.25)) ]
+
+picture  <-  trace(80, B{ pos: V{x: 0, y: 0}, vel: V{x: 20, y: 40} })`,
+
+  "reveal me (no signatures)":
+`ask          <-  try parseNum(read!console)
+greet(name)  <-  show!console "hi {name}"
+add(a, b)    <-  a + b`,
+
+  "a contract that lies (try Check)":
+`-- greetAll touches the console but claims to be pure. Hit Check.
+greetAll(names: List[Text]) : ()  <-
+  map(names, n -> show!console "hi {n}")
+  ()
+
+map for T, U, !e, ?g
+  (xs: List[T], f: (T) -> U !e ?g) : List[U] !e ?g  <-
+    xs match
+      []        =>  []
+      [h, ..t]  =>  [ try f(h), ..try map(t, f) ]`,
+};
+
+const GLUE = `
+import io, sys, os
+sys.path.insert(0, os.getcwd())
+import prism, check
+
+def _cap(fn):
+    out, old = io.StringIO(), sys.stdout
+    sys.stdout = out
+    try: fn()
+    finally: sys.stdout = old
+    return out.getvalue()
+
+def pz_run(src, stdin_text):
+    def go():
+        old_in = sys.stdin
+        sys.stdin = io.StringIO(stdin_text)
+        try:
+            try:
+                genv = prism.build_env(prism.Parser(prism.lex(src)).parse_program())
+                if "main" not in genv.vars:           # no entry point -> guide to the right button
+                    if "picture" in genv.vars:
+                        print("This program has no 'main' to Run. It defines 'picture', so press Draw.")
+                    else:
+                        print("This program has no 'main' to Run. Try Check (verify it) or Reveal (show its contracts).")
+                    return
+                prism.force(genv.get("main"))
+            except (SyntaxError, RuntimeError, NameError, TypeError) as e:
+                print(f"[prism error] {e}")
+        finally:
+            sys.stdin = old_in
+    return _cap(go)
+
+def _via_file(src, entry):
+    with open("_pad.prism", "w", encoding="utf-8") as f:
+        f.write(src)
+    def go():
+        try: entry("_pad.prism")
+        except (SyntaxError, RuntimeError) as e: print(f"[parse error] {e}")
+    return _cap(go)
+
+def pz_check(src):  return _via_file(src, check.check_file)
+def pz_reveal(src): return _via_file(src, check.reveal_file)
+
+import json
+def _shapes_json(pic):
+    # accept either a bare List[Shape] or a Picture record (which carries its shapes
+    # in a 'shapes' field), and lower it to plain JSON the canvas can draw.
+    pic = prism.force(pic)
+    if isinstance(pic, prism.Tagged) and "shapes" in pic.fields:
+        pic = prism.force(pic.fields["shapes"])
+    shapes = []
+    if isinstance(pic, list):
+        for s in pic:
+            s = prism.force(s)
+            if isinstance(s, prism.Tagged):
+                d = {"kind": s.tag}
+                for k, v in s.fields.items():
+                    v = prism.force(v)
+                    if isinstance(v, list):                # e.g. a Poly's list of points
+                        d[k] = [{pk: prism.force(pv) for pk, pv in prism.force(e).fields.items()}
+                                for e in v if isinstance(prism.force(e), prism.Tagged)]
+                    else:
+                        d[k] = v
+                shapes.append(d)
+    return shapes
+
+def pz_picture(src):
+    # evaluate the program's \`picture\` value (a pure list of shapes) and hand it
+    # to the host as JSON; the canvas does the drawing -- the language stays pure.
+    try:
+        pic = prism.value_of(src, "picture")
+    except Exception as e:
+        return json.dumps({"error": str(e)})
+    return json.dumps({"shapes": _shapes_json(pic)})
+
+# animation: the program defines a PURE function frame(t) : Picture (its !-free signature
+# says the animation has no side effects). The host advances t and asks for each frame.
+# The built env is cached per source so we don't re-parse every frame.
+_FRAME = {"src": None, "fn": None}
+def pz_frame(src, t):
+    try:
+        if _FRAME["src"] != src or _FRAME["fn"] is None:
+            genv = prism.build_env(prism.parse_program_with_includes(src))
+            if "frame" not in genv.vars:
+                return json.dumps({"error": "no 'frame' defined"})
+            _FRAME["src"] = src
+            _FRAME["fn"] = prism.force(genv.get("frame"))
+        val = prism.apply_fn(_FRAME["fn"], [float(t)])
+        return json.dumps({"shapes": _shapes_json(val)})
+    except Exception as e:
+        return json.dumps({"error": str(e)})
+`;
+
+const $ = id => document.getElementById(id);
+const statusEl = $("status"), outEl = $("out");
+let pyodide = null;
+
+let animId = null;
+function stopAnim() { if (animId !== null) { cancelAnimationFrame(animId); animId = null; } }
+
+function setStatus(t, cls) { statusEl.textContent = t; statusEl.className = "sub " + (cls||""); }
+function show(text, cls) {
+  stopAnim(); stopFrameAnim();
+  $("canvas").style.display = "none"; outEl.style.display = "block";
+  outEl.textContent = text === "" ? "(no output)" : text;
+  outEl.className = cls || "";
+}
+
+// Draw the shapes, COLOURED (by an explicit `h` hue field, else a rainbow along draw order)
+// and ANIMATED -- revealed a few at a time so the figure draws itself.
+function drawShapes(shapes, animate) {
+  animate = animate !== false;
+  stopAnim(); stopFrameAnim();
+  const cv = $("canvas");
+  outEl.style.display = "none"; cv.style.display = "block";
+  cv.width = cv.clientWidth; cv.height = cv.clientHeight;
+  const ctx = cv.getContext("2d");
+  ctx.fillStyle = "#0d1016"; ctx.fillRect(0, 0, cv.width, cv.height);
+  const n = shapes.length;
+  if (!n) return;
+  // bounding box over all coordinates (computed once, so the view stays put while it draws)
+  let minx = Infinity, miny = Infinity, maxx = -Infinity, maxy = -Infinity;
+  const acc = (x, y) => { minx = Math.min(minx, x); miny = Math.min(miny, y); maxx = Math.max(maxx, x); maxy = Math.max(maxy, y); };
+  for (const s of shapes) accBounds(acc, s);
+  if (!isFinite(minx)) return;
+  const m = 16, sc = Math.min((cv.width - 2*m) / ((maxx - minx) || 1), (cv.height - 2*m) / ((maxy - miny) || 1));
+  const T = (x, y) => [m + (x - minx) * sc, cv.height - m - (y - miny) * sc];
+  const hueOf = (s, i) => (s.h !== undefined) ? s.h : 200 + (i / n) * 300;  // rainbow by index
+  const drawOne = (s, i) => drawPrim(ctx, s, colorStr(hueOf(s, i), s.a), T, sc);
+  if (!animate) { for (let k = 0; k < n; k++) drawOne(shapes[k], k); return; }
+  let i = 0;
+  const perFrame = Math.max(1, Math.ceil(n / 90));   // reveal the whole picture over ~90 frames
+  function frame() {
+    const end = Math.min(n, i + perFrame);
+    for (; i < end; i++) drawOne(shapes[i], i);
+    animId = (i < n) ? requestAnimationFrame(frame) : null;
+  }
+  frame();
+}
+
+// accumulate a shape's coordinates into a bounding-box accumulator (shared by drawShapes + viewOf)
+function accBounds(acc, s) {
+  if (s.kind === "Line") { acc(s.x1, s.y1); acc(s.x2, s.y2); }
+  else if (s.kind === "Dot") acc(s.x, s.y);
+  else if (s.kind === "Circle") { acc(s.x - s.r, s.y - s.r); acc(s.x + s.r, s.y + s.r); }
+  else if (s.kind === "Rect") { acc(s.x, s.y); acc(s.x + s.w, s.y + s.h); }
+  else if (s.kind === "Poly") for (const p of (s.pts || [])) acc(p.x, p.y);
+}
+
+// build a shape's colour string from its hue. "vivid" mode boosts saturation and, while
+// animating, spins the whole palette through the rainbow over time.
+let VIVID = false;
+function colorStr(hue, alpha) {
+  const a = (alpha === undefined) ? 1 : alpha;             // optional `a` field = opacity 0..1
+  const shift = VIVID ? (performance.now() / 25) : 0;
+  return `hsla(${(hue + shift) % 360}, ${VIVID ? 95 : 75}%, ${VIVID ? 60 : 62}%, ${a})`;
+}
+
+// the per-shape draw, shared by the static reveal (drawShapes) and the frame animation.
+// Optional fields: `a` = opacity 0..1 (any shape), `fill` = fill Circle/Poly instead of
+// stroke (soft blobs: glow, fog, confetti, balloons). Without them, shapes render as before.
+function drawPrim(ctx, s, col, T, sc) {
+  ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 1.2;
+  const filled = s.fill !== undefined;
+  if (s.kind === "Line") { const [ax, ay] = T(s.x1, s.y1), [bx, by] = T(s.x2, s.y2);
+    ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke(); }
+  else if (s.kind === "Dot") { const [px, py] = T(s.x, s.y);
+    ctx.beginPath(); ctx.arc(px, py, 2.3, 0, 7); ctx.fill(); }
+  else if (s.kind === "Circle") { const [px, py] = T(s.x, s.y);
+    ctx.beginPath(); ctx.arc(px, py, s.r * sc, 0, 7); if (filled) ctx.fill(); else ctx.stroke(); }
+  else if (s.kind === "Rect") { const [px, py] = T(s.x, s.y + s.h);
+    ctx.fillRect(px, py, s.w * sc, s.h * sc); }
+  else if (s.kind === "Poly") { const pts = s.pts || [];
+    if (pts.length) { ctx.beginPath(); const [x0, y0] = T(pts[0].x, pts[0].y); ctx.moveTo(x0, y0);
+      for (let j = 1; j < pts.length; j++) { const [px, py] = T(pts[j].x, pts[j].y); ctx.lineTo(px, py); }
+      if (filled) { ctx.closePath(); ctx.fill(); } else ctx.stroke(); } }
+}
+
+// a fixed view (transform) covering a set of shapes -- so an animation keeps a steady
+// frame of reference instead of rescaling every tick.
+function viewOf(shapes, cv) {
+  let minx = Infinity, miny = Infinity, maxx = -Infinity, maxy = -Infinity;
+  const acc = (x, y) => { minx = Math.min(minx, x); miny = Math.min(miny, y); maxx = Math.max(maxx, x); maxy = Math.max(maxy, y); };
+  for (const s of shapes) accBounds(acc, s);
+  if (!isFinite(minx)) return null;
+  const m = 16, sc = Math.min((cv.width - 2*m) / ((maxx - minx) || 1), (cv.height - 2*m) / ((maxy - miny) || 1));
+  return { T: (x, y) => [m + (x - minx) * sc, cv.height - m - (y - miny) * sc], sc };
+}
+
+function paintShapes(ctx, shapes, view, cv) {
+  ctx.fillStyle = "#0d1016"; ctx.fillRect(0, 0, cv.width, cv.height);
+  const n = shapes.length;
+  const hueOf = (s, i) => (s.h !== undefined) ? s.h : 200 + (i / n) * 300;
+  for (let i = 0; i < n; i++)
+    drawPrim(ctx, shapes[i], colorStr(hueOf(shapes[i], i), shapes[i].a), view.T, view.sc);
+}
+
+// frame animation: the program defines a pure frame(t) : Picture; the host advances t (in
+// seconds). frame(t) is meant to be PERIODIC over t in [0, 2π] -- we sample one turn to fix
+// the view, then repaint each tick. No mutable state: the picture is a pure function of time.
+let frameOn = false, frameRAF = null;
+function stopFrameAnim() { frameOn = false; if (frameRAF !== null) { cancelAnimationFrame(frameRAF); frameRAF = null; } }
+
+async function animate() {
+  if (!pyodide) return;
+  stopAnim(); stopFrameAnim();
+  const cv = $("canvas"); outEl.style.display = "none"; cv.style.display = "block";
+  cv.width = cv.clientWidth; cv.height = cv.clientHeight;
+  const ctx = cv.getContext("2d");
+  ctx.fillStyle = "#0d1016"; ctx.fillRect(0, 0, cv.width, cv.height);
+  pyodide.globals.set("_src", currentSource());
+  let coords = [];
+  for (let k = 0; k <= 16; k++) {                       // sample one turn to fix the view
+    const t = (k / 16) * 2 * Math.PI;
+    const r = JSON.parse(await pyodide.runPythonAsync("pz_frame(_src, " + t + ")"));
+    if (r.error) { show("Animate needs a pure `frame(t)` returning a picture.\n\n" + r.error, "err"); return; }
+    coords = coords.concat(r.shapes);
+  }
+  const view = viewOf(coords, cv);
+  if (!view) { show("frame(t) produced nothing to draw.", "err"); return; }
+  frameOn = true;
+  const t0 = performance.now();
+  let busy = false;
+  async function loop() {
+    if (!frameOn) return;
+    if (!busy) {
+      busy = true;
+      const t = (performance.now() - t0) / 1000;        // seconds since start
+      try {
+        const r = JSON.parse(await pyodide.runPythonAsync("pz_frame(_src, " + t + ")"));
+        if (frameOn && !r.error) paintShapes(ctx, r.shapes, view, cv);
+      } catch (_) {}
+      busy = false;
+    }
+    if (frameOn) frameRAF = requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+// auto-save the editor to this browser so a reload keeps your work
+const SAVE_KEY = "prism-playground-code";
+let savedTimer = null;
+function saveCode() {
+  try { localStorage.setItem(SAVE_KEY, $("code").value); } catch (_) {}
+  const el = $("saved"); if (!el) return;
+  el.textContent = "✓ saved";
+  clearTimeout(savedTimer); savedTimer = setTimeout(() => { el.textContent = ""; }, 1400);
+}
+function loadSaved() { try { return localStorage.getItem(SAVE_KEY); } catch (_) { return null; } }
+
+// share via URL: the code is encoded into the page's #hash (UTF-8 safe base64), so a link
+// like  playground.html#code=...  opens straight into that program. No server involved.
+function encodeCode(s) { return btoa(unescape(encodeURIComponent(s))); }
+function decodeCode(b) { try { return decodeURIComponent(escape(atob(b))); } catch (_) { return null; } }
+function codeFromHash() {
+  const m = /[#&]code=([^&]+)/.exec(location.hash || "");
+  return m ? decodeCode(m[1]) : null;
+}
+function shareLink() {
+  const url = location.origin + location.pathname + "#code=" + encodeCode($("code").value);
+  const done = () => { const el = $("saved"); if (el) { el.textContent = "✓ link copied"; clearTimeout(savedTimer); savedTimer = setTimeout(() => { el.textContent = ""; }, 1800); } };
+  history.replaceState(null, "", url);                 // also reflect it in the address bar
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, done); else done();
+}
+
+// blank-slate starters, listed first so you can begin a fresh program
+const STARTERS = {
+  "✚ new — hello":   `main : () !console  <-\n  show!console "hello, Prism"\n`,
+  "✚ new — drawing": `-- define picture (a list of shapes), then press Draw\npicture  <-\n  [ Line{x1: 0, y1: 0, x2: 120, y2: 90},\n    Dot{x: 120, y: 90},\n    Circle{x: 60, y: 45, r: 40} ]\n`,
+  "✚ new — blank":   `-- start here\n`,
+};
+
+let allOptionNames = [];
+let loadedName = null;                 // which option's source is actually IN the editor right now
+// rebuild the dropdown to the names matching the filter. A leading placeholder is selected
+// whenever the loaded item isn't in the list, so the box NEVER claims an item that isn't loaded
+// (otherwise filtering could silently switch the shown item while the editor kept the old one).
+function renderOptions(q) {
+  const sel = $("examples"), ql = q.trim().toLowerCase();
+  const names = allOptionNames.filter(n => n.toLowerCase().includes(ql));
+  sel.innerHTML = "";
+  const ph = document.createElement("option");
+  ph.value = ""; ph.textContent = (q.trim() === "") ? "— pick a program —" : ("— " + names.length + " match —");
+  sel.appendChild(ph);
+  for (const n of names) { const o = document.createElement("option"); o.value = n; o.textContent = n; sel.appendChild(o); }
+  sel.value = (loadedName && names.includes(loadedName)) ? loadedName : "";
+}
+
+function fillExamples() {
+  const sel = $("examples");
+  const galleryNames = addGalleryOptions();            // fills galleryPaths, returns the names
+  allOptionNames = [...Object.keys(STARTERS), ...Object.keys(EXAMPLES), ...galleryNames];
+  renderOptions("");
+  $("search").addEventListener("input", () => renderOptions($("search").value));
+  $("search").addEventListener("keydown", e => {        // Enter loads the first matching item
+    if (e.key === "Enter") {
+      const opt = [...sel.options].find(o => o.value);   // first real (non-placeholder) option
+      if (opt) { sel.value = opt.value; sel.dispatchEvent(new Event("change")); }
+    }
+  });
+  sel.addEventListener("change", async () => {
+    const name = sel.value;
+    if (!name) return;                                   // the placeholder -- nothing to load
+    let src = STARTERS[name] ?? EXAMPLES[name];
+    if (src === undefined && galleryPaths[name]) {       // lazy: fetch this one file on demand
+      $("code").value = "-- loading " + name + " …";
+      try {
+        const r = await fetch(galleryPaths[name], { cache: "no-store" });
+        src = EXAMPLES[name] = await r.text();
+      } catch (e) { $("code").value = "-- could not load " + name + " (" + e + ")"; return; }
+    }
+    if (src !== undefined) { $("code").value = src; loadedName = name; refreshSliders(); updateRecommend(); saveCode(); }
+  });
+  // initial editor content: a shared #code= link > your last auto-saved code > the default example
+  const shared = codeFromHash(), saved = loadSaved(), first = Object.keys(EXAMPLES)[0];
+  if (shared != null && shared.trim() !== "")      { $("code").value = shared; loadedName = null; }
+  else if (saved != null && saved.trim() !== "")   { $("code").value = saved;  loadedName = null; }
+  else                                             { $("code").value = EXAMPLES[first]; loadedName = first; }
+  renderOptions("");                                     // reflect what's actually loaded
+}
+
+// ---- live sliders: `slider(default, min, max)` in the source becomes a drag control ----
+const SLIDER_RE = /slider\(\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*\)/g;
+let sliderVals = [], sliderKey = "";
+function refreshSliders() {
+  const specs = [], src = $("code").value;
+  let m; SLIDER_RE.lastIndex = 0;
+  while ((m = SLIDER_RE.exec(src)) !== null) specs.push([+m[1], +m[2], +m[3]]);
+  const key = specs.map(s => s.join(",")).join("|");
+  if (key === sliderKey) return;                  // unchanged set -> keep the current values
+  sliderKey = key;
+  const panel = $("sliders"); panel.innerHTML = ""; sliderVals = [];
+  if (!specs.length) { panel.className = ""; return; }
+  panel.className = "on";
+  specs.forEach(([def, lo, hi], idx) => {
+    sliderVals.push(def);
+    const wrap = document.createElement("label"); wrap.className = "sl";
+    const lab = document.createElement("span"); lab.textContent = "p" + (idx + 1);
+    const val = document.createElement("b"); val.textContent = (+def).toFixed(2);
+    const inp = document.createElement("input");
+    inp.type = "range"; inp.min = lo; inp.max = hi; inp.step = (hi - lo) / 240 || 0.01; inp.value = def;
+    inp.addEventListener("input", () => {
+      sliderVals[idx] = +inp.value; val.textContent = (+inp.value).toFixed(2); scheduleLiveDraw();
+    });
+    wrap.appendChild(lab); wrap.appendChild(inp); wrap.appendChild(val);
+    panel.appendChild(wrap);
+  });
+}
+// the source with each slider(...) replaced by its current value
+function currentSource() {
+  let i = 0;
+  return $("code").value.replace(SLIDER_RE, () => String(sliderVals[i++]));
+}
+let liveBusy = false, livePending = false;
+function scheduleLiveDraw() {
+  if (!pyodide || !recommend($("code").value).includes("draw")) return;
+  if (liveBusy) { livePending = true; return; }
+  liveBusy = true;
+  requestAnimationFrame(async () => {
+    try {
+      pyodide.globals.set("_src", currentSource());
+      const data = JSON.parse(await pyodide.runPythonAsync("pz_picture(_src)"));
+      if (data.shapes) drawShapes(data.shapes, false);   // instant (no reveal) for smooth dragging
+    } catch (_) {}
+    liveBusy = false;
+    if (livePending) { livePending = false; scheduleLiveDraw(); }
+  });
+}
+
+// recommend which action fits the current code: Draw (has `picture`), Run (has `main`),
+// otherwise Check/Reveal. A definition starts at column 0, so anchor the regex to ^.
+function recommend(code) {
+  const r = [];
+  if (/^frame\b/m.test(code))   r.push("anim");
+  if (/^picture\b/m.test(code)) r.push("draw");
+  if (/^main\b/m.test(code))    r.push("run");
+  if (!r.length) r.push("check", "reveal");
+  return r;
+}
+
+const BTN_LABEL = { run: "Run", check: "Check", reveal: "Reveal", draw: "Draw", anim: "Animate" };
+function updateRecommend() {
+  const r = recommend($("code").value);
+  for (const id of ["run", "check", "reveal", "draw", "anim"]) $(id).classList.toggle("go", r.includes(id));
+  $("hint").textContent = "→ " + r.map(i => BTN_LABEL[i]).join(" / ") + "  (Ctrl+Enter)";
+}
+
+// physics / eye-candy gallery: fetched from disk so the .prism files stay the single source.
+const GALLERY = [
+  "physics/dejong-live.prism", "physics/rose-live.prism", "physics/lissajous-live.prism",
+  "fractals/fractal-tree.prism", "fractals/windy-tree.prism", "fractals/fern.prism",
+  "fractals/dragon.prism", "fractals/levy.prism", "fractals/hilbert.prism",
+  "fractals/carpet.prism", "fractals/cantor.prism", "fractals/pythagoras-lean.prism",
+  "fractals/vicsek.prism", "fractals/tsquare.prism", "fractals/koch-square.prism",
+  "fractals/htree.prism", "fractals/htree-pic.prism", "fractals/square-limit.prism", "fractals/koch-antiflake.prism", "fractals/cesaro.prism",
+  "fractals/gosper.prism", "fractals/peano.prism", "fractals/pentaflake.prism",
+  "fractals/plant.prism", "fractals/plant2.prism", "fractals/bush.prism",
+  "fractals/koch-island.prism", "fractals/arrowhead.prism", "fractals/terdragon.prism",
+  "fractals/moore.prism", "fractals/tree3.prism",
+  "fractals/koch-lsys.prism", "fractals/plant-lsys.prism", "fractals/poly-vortex.prism",
+  "fractals/mandelbrot.prism", "fractals/multibrot.prism", "fractals/burning-ship.prism", "fractals/julia.prism",
+  "fractals/tricorn.prism", "fractals/celtic.prism", "fractals/buffalo.prism", "fractals/multibrot3.prism",
+  "fractals/mandelbrot-seahorse.prism", "fractals/mandelbrot-elephant.prism", "fractals/julia-rabbit.prism",
+  "fractals/julia-dendrite.prism", "fractals/newton.prism", "fractals/biomorph.prism",
+  "physics/orbit.prism", "physics/bounce2d.prism", "physics/pendulum.prism",
+  "physics/double-pendulum.prism", "physics/spring.prism", "physics/damped.prism",
+  "physics/colorwheel.prism", "physics/pendulum-anim.prism",
+  "physics/double-pendulum-anim.prism", "physics/orbits-anim.prism", "physics/bounce-anim.prism",
+  "physics/flag-anim.prism", "physics/fluid-anim.prism",
+  "physics/interference-anim.prism", "physics/ripple-rings-anim.prism", "physics/ocean-anim.prism",
+  "physics/drum-anim.prism", "physics/flow-anim.prism",
+  "physics/cube3d-anim.prism", "physics/galaxy-anim.prism", "physics/starfield-anim.prism",
+  "physics/rose-morph-anim.prism", "physics/kaleidoscope-anim.prism",
+  "physics/torus3d-anim.prism", "physics/sphere3d-anim.prism", "physics/fountain-anim.prism",
+  "physics/fireworks-anim.prism", "physics/snow-anim.prism",
+  "physics/rain-anim.prism", "physics/sakura-anim.prism", "physics/leaves-anim.prism",
+  "physics/fireflies-anim.prism", "physics/shooting-stars-anim.prism", "physics/grass-anim.prism",
+  "physics/bubbles-anim.prism", "physics/embers-anim.prism",
+  "physics/fog-anim.prism", "physics/blizzard-anim.prism", "physics/lightning-anim.prism",
+  "physics/confetti-anim.prism", "physics/balloons-anim.prism", "physics/dandelion-anim.prism",
+  "physics/twinkle-anim.prism", "physics/waves-shore-anim.prism",
+  "physics/glow-fireflies-anim.prism", "physics/neon-anim.prism", "physics/caustics-anim.prism",
+  "physics/smoke-anim.prism",
+  "physics/aurora-anim.prism", "physics/sparkler-anim.prism", "physics/firefly-river-anim.prism",
+  "physics/glow-fireworks-anim.prism",
+  "physics/rain-puddle-anim.prism", "physics/river-anim.prism", "physics/campfire-anim.prism",
+  "physics/lanterns-anim.prism", "physics/milkyway-anim.prism",
+  "physics/pendulum-wave-anim.prism", "physics/gears-anim.prism", "physics/dna-anim.prism",
+  "physics/newtons-cradle-anim.prism", "physics/wave-superposition-anim.prism",
+  "physics/astroid.prism", "physics/lituus.prism", "physics/cochleoid.prism", "physics/hyperbolic-spiral.prism",
+  "physics/witch-of-agnesi.prism", "physics/tschirnhausen.prism", "physics/semicubical-parabola.prism",
+  "physics/serpentine.prism", "physics/bicorn.prism", "physics/folium-descartes.prism",
+  "physics/solar-system-anim.prism", "physics/wave3d-anim.prism", "physics/lissajous3d-anim.prism",
+  "physics/octahedron3d-anim.prism", "physics/tetrahedron3d-anim.prism", "physics/torus-knot-anim.prism",
+  "physics/spring3d-anim.prism", "physics/squircle.prism",
+  "physics/loxodrome-anim.prism", "physics/figure8-knot-anim.prism", "physics/mobius-anim.prism",
+  "physics/icosahedron3d-anim.prism", "physics/dodecahedron3d-anim.prism", "physics/conical-spiral-anim.prism",
+  "fractals/sacks-spiral.prism",
+  "physics/lorenz3d.prism", "physics/epicycloid-morph-anim.prism", "physics/rose-garden.prism",
+  "fractals/ulam-spiral.prism", "fractals/collatz-steps.prism", "physics/times-table-anim.prism",
+  "fractals/barnsley-fern.prism", "physics/spirograph-studio.prism",
+  "examples/grapher.prism", "examples/chart-bars.prism", "examples/chart-pie.prism",
+  "examples/collide.prism", "examples/pipe.prism", "examples/effects.prism",
+  "physics/clock-anim.prism", "physics/harmonograph-studio.prism", "fractals/rule110.prism", "fractals/rule30.prism",
+  "fractals/maze.prism", "physics/contour-map.prism", "physics/chord-wheel-anim.prism", "physics/bouncing-logo-anim.prism",
+  "fractals/sort-diagram.prism", "physics/fourier-anim.prism", "physics/lissajous-table.prism",
+  "physics/newton-converge-anim.prism", "fractals/tree-wind-anim.prism", "physics/double-slit.prism",
+  "physics/galaxian-swoop-anim.prism", "physics/slash-trail-anim.prism", "physics/sparkle-burst-anim.prism",
+  "physics/fireball-anim.prism", "physics/magic-circle-anim.prism", "physics/explosion-ring-anim.prism",
+  "physics/coin-spin-anim.prism", "physics/powerup-aura-anim.prism", "physics/lightning-spell-anim.prism",
+  "physics/shield-bubble-anim.prism", "physics/portal-anim.prism", "physics/heal-anim.prism",
+  "physics/muzzle-flash-anim.prism", "physics/laser-beam-anim.prism", "physics/levelup-rays-anim.prism",
+  "physics/freeze-anim.prism", "physics/vortex-pull-anim.prism", "physics/star-trail-anim.prism",
+  "physics/hit-flash-anim.prism", "physics/energy-orb-anim.prism", "physics/spark-shower-anim.prism",
+  "physics/dash-afterimage-anim.prism", "physics/electric-aura-anim.prism", "physics/rune-ring-anim.prism",
+  "physics/starfall-anim.prism", "physics/shockwave-grid-anim.prism", "physics/aura-flame-anim.prism",
+  "physics/boss-charge-anim.prism", "physics/combo-anim.prism", "physics/screen-shake-anim.prism",
+  "physics/hp-bar-anim.prism", "physics/treasure-chest-anim.prism", "examples/digits-demo.prism",
+  "physics/gravity-slingshot.prism", "fractals/voronoi.prism", "fractals/terrain3d.prism",
+  "fractals/life.prism", "fractals/pathfind.prism", "fractals/gray-scott.prism",
+  "physics/dna-helix-anim.prism", "physics/ocean-waves-anim.prism",
+  "fractals/bifurcation.prism", "fractals/pascal-sierpinski.prism", "fractals/chladni.prism",
+  "fractals/truchet.prism", "physics/moire-anim.prism", "physics/plasma-anim.prism",
+  "physics/comet-anim.prism", "physics/jellyfish-anim.prism", "physics/nebula-anim.prism",
+  "physics/tornado-anim.prism", "physics/lava-lamp-anim.prism", "physics/rose-window-anim.prism",
+  "physics/three-body.prism", "physics/binary-star.prism", "physics/vanderpol.prism",
+  "physics/damped-pendulum.prism", "physics/orbit-ellipse.prism", "physics/standing-wave.prism",
+  "physics/projectile-fan.prism",
+  "physics/lorenz.prism", "physics/lorenz-xy.prism", "physics/dejong.prism",
+  "physics/clifford.prism", "physics/henon.prism", "physics/tinkerbell.prism",
+  "physics/rossler.prism", "physics/gingerbread.prism", "physics/gumowski-mira.prism",
+  "physics/svensson.prism", "physics/svensson2.prism", "physics/fractal-dream.prism",
+  "physics/bedhead.prism", "physics/ikeda.prism", "physics/hopalong.prism",
+  "physics/hopalong2.prism", "physics/dejong2.prism", "physics/dejong3.prism",
+  "physics/clifford2.prism", "physics/clifford3.prism", "physics/gumowski2.prism",
+  "physics/tinkerbell2.prism", "physics/lorenz-yz.prism", "physics/duffing.prism",
+  "physics/spiral.prism", "physics/logspiral.prism", "physics/fermat.prism",
+  "physics/involute.prism", "physics/vortex.prism",
+  "physics/lissajous.prism", "physics/lissajous54.prism", "physics/lissajous74.prism",
+  "physics/rose.prism", "physics/rose3.prism", "physics/rose5.prism", "physics/rose6.prism",
+  "physics/rose7.prism", "physics/rose8.prism", "physics/rose9.prism", "physics/rose73.prism",
+  "physics/rose-star.prism", "physics/quadrifolium.prism",
+  "physics/maurer2.prism", "physics/maurerb.prism", "physics/maurerc.prism", "physics/maurerd.prism",
+  "physics/kaleidoscope.prism", "physics/circles-spiral.prism",
+  "physics/epicycloid.prism", "physics/epicycloid7.prism", "physics/hypocycloid.prism",
+  "physics/hypocycloid5.prism", "physics/hypocycloid7.prism", "physics/epitrochoid.prism",
+  "physics/deltoid.prism", "physics/nephroid.prism", "physics/spirograph.prism",
+  "physics/spirograph2.prism", "physics/spirograph3.prism",
+  "physics/limacon-dimpled.prism", "physics/prolate-cycloid.prism", "physics/gerono.prism",
+  "physics/harmonograph.prism", "physics/maurer.prism", "physics/star.prism",
+  "physics/phyllotaxis.prism", "physics/mandala.prism", "physics/ripples.prism",
+  "physics/heart.prism", "physics/cardioid.prism", "physics/lemniscate.prism",
+  "physics/limacon.prism", "physics/trefoil.prism", "physics/gear.prism",
+  "physics/cycloid.prism", "physics/flag.prism", "physics/wave.prism",
+];
+// Add the gallery to the dropdown WITHOUT fetching (lazy). Each file is fetched only when
+// the user actually picks it -- so boot stays fast even with ~120 examples.
+// Japanese labels for the gallery, so the dropdown is browsable in Japanese. The option text
+// shows "★ <日本語>（<english-id>）", and the filter box matches either the Japanese or the id.
+const LABELS = {
+  "dejong-live": "ドジョン（スライダー）", "rose-live": "バラ曲線（スライダー）", "lissajous-live": "リサジュー（スライダー）",
+  "fractal-tree": "再帰の木", "windy-tree": "風になびく木", "fern": "シダ", "dragon": "ドラゴン曲線",
+  "levy": "レヴィC曲線", "hilbert": "ヒルベルト曲線", "carpet": "シェルピンスキーのカーペット", "cantor": "カントール集合",
+  "pythagoras-lean": "ピタゴラスの木（傾き）", "vicsek": "ヴィチェック・フラクタル", "tsquare": "T-スクエア",
+  "koch-square": "コッホ（四角）", "htree": "H木", "htree-pic": "H木（Picture代数）", "square-limit": "エッシャー風スクエアリミット",
+  "koch-antiflake": "コッホ（内向き）", "cesaro": "セサロ曲線", "gosper": "ゴスパー曲線", "peano": "ペアノ曲線",
+  "pentaflake": "ペンタフレーク", "plant": "植物（L-system）", "plant2": "植物2", "bush": "茂み", "koch-island": "コッホ島",
+  "arrowhead": "矢じり曲線", "terdragon": "テラドラゴン", "moore": "ムーア曲線", "tree3": "三分木",
+  "koch-lsys": "コッホ曲線（データ駆動）", "plant-lsys": "植物（データ駆動）", "poly-vortex": "傾いた四角の渦",
+  "mandelbrot": "マンデルブロ集合", "multibrot": "マルチブロ（z⁵）", "burning-ship": "バーニングシップ", "julia": "ジュリア集合",
+  "tricorn": "トリコーン（マンデルバー）", "celtic": "ケルティック", "buffalo": "バッファロー", "multibrot3": "マルチブロ（z³）",
+  "mandelbrot-seahorse": "マンデルブロ拡大：タツノオトシゴの谷", "mandelbrot-elephant": "マンデルブロ拡大：象の谷",
+  "julia-rabbit": "ドゥアディのウサギ（ジュリア）", "julia-dendrite": "樹状ジュリア集合", "newton": "ニュートン・フラクタル（z³−1）",
+  "biomorph": "バイオモルフ",
+  "orbit": "軌道（重力）", "bounce2d": "跳ねるボール", "pendulum": "振り子", "double-pendulum": "二重振り子",
+  "spring": "ばね（単振動）", "damped": "減衰振動", "colorwheel": "色相環",
+  "pendulum-anim": "振り子（アニメ）", "double-pendulum-anim": "二重振り子（アニメ）", "orbits-anim": "惑星の公転",
+  "bounce-anim": "跳ねるボール群", "flag-anim": "旗", "fluid-anim": "流体（波紋）", "interference-anim": "波の干渉",
+  "ripple-rings-anim": "雨だれの輪", "ocean-anim": "海面（遠近）", "drum-anim": "太鼓の膜（定在波）", "flow-anim": "乱流",
+  "cube3d-anim": "3D立方体", "galaxy-anim": "渦巻銀河", "starfield-anim": "ワープ星空", "rose-morph-anim": "バラ曲線（変形）",
+  "kaleidoscope-anim": "万華鏡", "torus3d-anim": "3Dトーラス", "sphere3d-anim": "3D球", "fountain-anim": "噴水",
+  "fireworks-anim": "花火", "snow-anim": "雪", "rain-anim": "雨", "sakura-anim": "桜が舞う", "leaves-anim": "落ち葉",
+  "fireflies-anim": "蛍", "shooting-stars-anim": "流れ星", "grass-anim": "風で揺れる草", "bubbles-anim": "泡",
+  "embers-anim": "火の粉", "fog-anim": "霧", "blizzard-anim": "吹雪", "lightning-anim": "稲妻", "confetti-anim": "紙吹雪",
+  "balloons-anim": "風船", "dandelion-anim": "綿毛", "twinkle-anim": "星のまたたき", "waves-shore-anim": "波打ち際",
+  "three-body": "三体問題", "binary-star": "連星", "vanderpol": "ファンデルポール", "damped-pendulum": "減衰振り子",
+  "orbit-ellipse": "楕円軌道", "standing-wave": "定在波", "projectile-fan": "放物線の扇",
+  "lorenz": "ローレンツ・アトラクタ", "lorenz-xy": "ローレンツ（xy）", "lorenz-yz": "ローレンツ（yz）",
+  "dejong": "ドジョン・アトラクタ", "dejong2": "ドジョン2", "dejong3": "ドジョン3", "clifford": "クリフォード",
+  "clifford2": "クリフォード2", "clifford3": "クリフォード3", "henon": "エノン写像", "tinkerbell": "ティンカーベル",
+  "tinkerbell2": "ティンカーベル2", "rossler": "レスラー", "gingerbread": "ジンジャーブレッドマン",
+  "gumowski-mira": "グモフスキ・ミラ", "gumowski2": "グモフスキ2", "svensson": "スヴェンソン", "svensson2": "スヴェンソン2",
+  "fractal-dream": "フラクタルドリーム", "bedhead": "ベッドヘッド", "ikeda": "池田写像", "hopalong": "ホップアロング",
+  "hopalong2": "ホップアロング2", "duffing": "ダフィング（カオス）",
+  "spiral": "渦巻", "logspiral": "対数螺旋", "fermat": "フェルマー螺旋", "involute": "円のインボリュート",
+  "vortex": "回転する四角", "circles-spiral": "螺旋上の円",
+  "lissajous": "リサジュー曲線", "lissajous54": "リサジュー（5:4）", "lissajous74": "リサジュー（7:4）",
+  "rose": "バラ曲線", "rose3": "バラ曲線（3枚）", "rose5": "バラ曲線（5枚）", "rose6": "バラ曲線（6枚）",
+  "rose7": "バラ曲線（7枚）", "rose8": "バラ曲線（8枚）", "rose9": "バラ曲線（9枚）", "rose73": "バラ曲線（7/3）",
+  "rose-star": "星形バラ", "quadrifolium": "四つ葉", "maurer": "マウラーローズ", "maurer2": "マウラーローズ2",
+  "maurerb": "マウラーローズb", "maurerc": "マウラーローズc", "maurerd": "マウラーローズd",
+  "kaleidoscope": "万華鏡（静止）", "mandala": "曼荼羅（生命の花）", "ripples": "干渉する波紋", "star": "星形多角形",
+  "phyllotaxis": "葉序（ひまわり）", "epicycloid": "外サイクロイド", "epicycloid7": "外サイクロイド（7）",
+  "hypocycloid": "内サイクロイド", "hypocycloid5": "内サイクロイド（5）", "hypocycloid7": "内サイクロイド（7）",
+  "epitrochoid": "エピトロコイド", "deltoid": "デルトイド", "nephroid": "腎臓形（ネフロイド）",
+  "spirograph": "スピログラフ", "spirograph2": "スピログラフ2", "spirograph3": "スピログラフ3",
+  "limacon-dimpled": "リマソン（くぼみ）", "prolate-cycloid": "プロレートサイクロイド", "gerono": "ジェロノのレムニスケート",
+  "harmonograph": "ハーモノグラフ", "heart": "ハート", "cardioid": "カージオイド", "lemniscate": "レムニスケート",
+  "limacon": "リマソン", "trefoil": "三つ葉結び目", "gear": "歯車", "cycloid": "サイクロイド",
+  "flag": "旗（静止）", "wave": "波（サイン合成）",
+  "glow-fireflies-anim": "発光する蛍", "neon-anim": "ネオンサイン", "caustics-anim": "水中の光",
+  "smoke-anim": "煙のたなびき",
+  "aurora-anim": "オーロラ", "sparkler-anim": "線香花火", "firefly-river-anim": "蛍の川",
+  "glow-fireworks-anim": "光の花火",
+  "rain-puddle-anim": "雨の波紋（水たまり）", "river-anim": "流れる川", "campfire-anim": "たき火",
+  "lanterns-anim": "提灯", "milkyway-anim": "天の川",
+  "pendulum-wave-anim": "振り子の波", "gears-anim": "噛み合う歯車", "dna-anim": "DNA二重螺旋",
+  "newtons-cradle-anim": "ニュートンのゆりかご", "wave-superposition-anim": "波の合成",
+  "astroid": "アステロイド（星芒形）", "lituus": "リトゥウス螺旋", "cochleoid": "カタツムリ曲線",
+  "hyperbolic-spiral": "双曲螺旋", "witch-of-agnesi": "アニェージの曲線", "tschirnhausen": "チルンハウゼン三次曲線",
+  "semicubical-parabola": "半立方放物線", "serpentine": "サーペンタイン曲線", "bicorn": "バイコーン（二角帽）",
+  "folium-descartes": "デカルトの葉線",
+  "solar-system-anim": "太陽系", "wave3d-anim": "3D波面", "lissajous3d-anim": "3Dリサジュー結び目",
+  "octahedron3d-anim": "回転する正八面体", "tetrahedron3d-anim": "回転する正四面体",
+  "torus-knot-anim": "トーラス結び目", "spring3d-anim": "3Dばね（コイル）", "squircle": "スクワークル（角丸四角）",
+  "loxodrome-anim": "球面螺旋（航程線）", "figure8-knot-anim": "8の字結び目", "mobius-anim": "メビウスの帯",
+  "icosahedron3d-anim": "回転する正二十面体", "dodecahedron3d-anim": "回転する正十二面体",
+  "conical-spiral-anim": "円錐螺旋", "sacks-spiral": "素数螺旋（ザックス）",
+  "lorenz3d": "ローレンツ・アトラクタ（3D）", "epicycloid-morph-anim": "変形するエピサイクロイド",
+  "rose-garden": "バラ曲線の庭（rhodonea図鑑）",
+  "ulam-spiral": "ウラムの素数螺旋", "collatz-steps": "コラッツの停止時間", "times-table-anim": "掛け算表（剰余乗算）",
+  "barnsley-fern": "バーンズリーのシダ", "spirograph-studio": "スピログラフ工房（スライダー）",
+  "grapher": "関数グラフ電卓（アプリ）", "chart-bars": "棒グラフ＋折れ線（アプリ）", "chart-pie": "円グラフ（アプリ）",
+  "collide": "多重ディスパッチ（衝突）", "pipe": "パイプ演算子 |>", "effects": "効果の粒度（!io）",
+  "clock-anim": "アナログ時計（アプリ）", "harmonograph-studio": "ハーモノグラフ工房（スライダー）",
+  "rule110": "ルール110（セルオートマトン）", "rule30": "ルール30（カオス）",
+  "maze": "迷路（再帰分割）", "contour-map": "等高線マップ", "chord-wheel-anim": "和音ホイール（音楽理論）",
+  "bouncing-logo-anim": "バウンドするロゴ",
+  "sort-diagram": "ソートの可視化（バブルソート）", "fourier-anim": "フーリエ級数（回転円→矩形波）",
+  "lissajous-table": "リサジュー表",
+  "newton-converge-anim": "ニュートン法の収束", "tree-wind-anim": "風に揺れる木", "double-slit": "二重スリット干渉",
+  "galaxian-swoop-anim": "敵のスウープ（ギャラクシアン風）", "slash-trail-anim": "剣の斬撃軌跡",
+  "sparkle-burst-anim": "星が散るキラキラ", "fireball-anim": "跳ねる火球",
+  "magic-circle-anim": "魔法陣", "explosion-ring-anim": "爆発リング", "coin-spin-anim": "回転するコイン",
+  "powerup-aura-anim": "パワーアップのオーラ", "lightning-spell-anim": "雷魔法", "shield-bubble-anim": "シールド（バリア）",
+  "portal-anim": "渦巻くポータル", "heal-anim": "回復エフェクト", "muzzle-flash-anim": "発砲フラッシュ",
+  "laser-beam-anim": "レーザービーム", "levelup-rays-anim": "レベルアップの光", "freeze-anim": "氷結魔法",
+  "vortex-pull-anim": "吸い込み（ヴォルテックス）", "star-trail-anim": "星のトレイル", "hit-flash-anim": "ヒットフラッシュ",
+  "energy-orb-anim": "エネルギー球", "spark-shower-anim": "火花シャワー", "dash-afterimage-anim": "ダッシュ残像",
+  "electric-aura-anim": "電撃オーラ", "rune-ring-anim": "ルーンの輪", "starfall-anim": "流星群（必殺技）",
+  "shockwave-grid-anim": "衝撃波（グリッド）", "aura-flame-anim": "闘気オーラ", "boss-charge-anim": "ボスのチャージ",
+  "combo-anim": "コンボ数字カウンタ", "screen-shake-anim": "画面シェイク", "hp-bar-anim": "HPバー（チップダメージ）",
+  "treasure-chest-anim": "宝箱が開く", "digits-demo": "7セグ数字（lib/digits）",
+  "gravity-slingshot": "重力スリングショット", "voronoi": "ボロノイ図", "terrain3d": "3D地形メッシュ",
+  "life": "ライフゲーム（6世代）", "pathfind": "迷路ソルバ（BFS最短路）",
+  "gray-scott": "反応拡散（チューリング模様・重い）",
+  "dna-helix-anim": "DNA二重らせん", "ocean-waves-anim": "海の波",
+  "bifurcation": "分岐図（ロジスティック写像）", "pascal-sierpinski": "パスカルの三角形 mod 2", "chladni": "クラドニ図形",
+  "truchet": "トルシェタイル", "moire-anim": "モアレ", "plasma-anim": "プラズマ",
+  "comet-anim": "彗星", "jellyfish-anim": "クラゲ", "nebula-anim": "星雲",
+  "tornado-anim": "竜巻", "lava-lamp-anim": "ラバランプ", "rose-window-anim": "バラ窓（ステンドグラス）",
+};
+const galleryPaths = {};
+function addGalleryOptions() {                          // fills galleryPaths, returns the names
+  const names = [];
+  for (const path of GALLERY) {
+    const parts = path.split("/");
+    const leaf = parts[parts.length - 1].replace(".prism", "");
+    const ja = LABELS[leaf];
+    const name = ja ? ("★ " + ja + "（" + leaf + "）") : ("★ " + parts[0] + ": " + leaf);
+    galleryPaths[name] = path; names.push(name);
+  }
+  return names;
+}
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = src; s.crossOrigin = "anonymous";
+    s.onload = resolve; s.onerror = () => reject(new Error("failed to load " + src));
+    document.head.appendChild(s);
+  });
+}
+
+async function loadEngine() {
+  let indexURL = CDN_BASE, source = "CDN";
+  try {                                   // prefer a local self-hosted Pyodide if present
+    const r = await fetch("pyodide/pyodide.js", { method: "HEAD", cache: "no-store" });
+    if (r.ok) { indexURL = "pyodide/"; source = "local"; }
+  } catch (_) {}
+  await loadScript(indexURL + "pyodide.js");
+  const py = await loadPyodide({ indexURL });
+  return { py, source };
+}
+
+function showLoading(msg) {
+  stopAnim();
+  $("canvas").style.display = "none"; outEl.style.display = "block"; outEl.className = "";
+  outEl.innerHTML = `<div class="loading"><span class="spinner"></span><span>${msg}</span></div>`
+    + `<p class="muted" style="margin-top:14px; line-height:1.6">First load fetches the Python `
+    + `runtime (cached afterwards), so this takes a few seconds. Meanwhile you can browse the `
+    + `examples and edit code — <b>Run / Check / Draw</b> light up when it's ready.</p>`;
+}
+async function fetchText(f) {
+  const r = await fetch(f, { cache: "no-store" });
+  if (!r.ok) throw new Error(`could not fetch ${f} (${r.status}) — run "prism serve"`);
+  return { f, t: await r.text() };
+}
+
+async function boot() {
+  fillExamples();
+  showLoading("Downloading the Python runtime (Pyodide)…");
+  try {
+    // fetch the engine + library files in PARALLEL with Pyodide starting up
+    const engineFiles = ["prism.py", "check.py", "lib/physics2d.prism", "lib/draw2d.prism", "lib/turtle.prism", "lib/math.prism", "lib/list.prism", "lib/picture.prism", "lib/lsystem.prism", "lib/escape.prism", "lib/plot.prism", "lib/chart.prism", "lib/ca.prism", "lib/digits.prism"];
+    const filesP = Promise.all(engineFiles.map(fetchText));
+    setStatus("downloading Python (Pyodide)…");
+    const { py, source } = await loadEngine();
+    pyodide = py;
+    setStatus("starting the Prism engine…");
+    showLoading("Starting the Prism engine…");
+    const loaded = await filesP;
+    try { pyodide.FS.mkdir("lib"); } catch (_) {}
+    for (const { f, t } of loaded) pyodide.FS.writeFile(f, t, { encoding: "utf8" });
+    await pyodide.runPythonAsync(GLUE);
+    setStatus(`ready (Pyodide: ${source})`, "ok");
+    ["run", "check", "reveal", "draw", "anim"].forEach(id => $(id).disabled = false);
+    refreshSliders(); updateRecommend();
+    show("Ready — pick an example, then Run / Check / Reveal / Draw.", "muted");
+  } catch (e) {
+    setStatus("failed", "err");
+    show("Could not start the engine:\n" + e + "\n\nServe the folder first:  prism serve\nthen open  http://localhost:8000/playground.html", "err");
+  }
+}
+
+async function call(pyFunc, withStdin) {
+  if (!pyodide) return;
+  show("…", "muted");
+  try {
+    pyodide.globals.set("_src", currentSource());
+    if (withStdin) pyodide.globals.set("_stdin", $("stdin").value);
+    const expr = withStdin ? `${pyFunc}(_src, _stdin)` : `${pyFunc}(_src)`;
+    const result = await pyodide.runPythonAsync(expr);
+    const cls = /\bFAIL\b|\[(prism|parse) error\]/.test(result) ? "err"
+              : /\bOK\b|REVEAL/.test(result) ? "ok" : "";
+    show(result, cls);
+  } catch (e) {
+    show("internal error:\n" + e, "err");
+  }
+}
+
+$("run").addEventListener("click", () => call("pz_run", true));
+$("check").addEventListener("click", () => call("pz_check", false));
+$("reveal").addEventListener("click", () => call("pz_reveal", false));
+let _recT;
+$("code").addEventListener("input", () => { stopFrameAnim(); clearTimeout(_recT); _recT = setTimeout(() => { refreshSliders(); updateRecommend(); saveCode(); }, 250); });
+$("code").addEventListener("keydown", (e) => {     // Ctrl/Cmd+Enter runs the recommended action
+  if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+    e.preventDefault();
+    const btn = $(recommend($("code").value)[0]);
+    if (btn && !btn.disabled) btn.click();
+  }
+});
+$("anim").addEventListener("click", animate);
+$("share").addEventListener("click", shareLink);
+$("vivid").addEventListener("change", () => {       // re-render a still picture so the change shows at once
+  VIVID = $("vivid").checked;
+  if (!frameOn && $("canvas").style.display !== "none" && recommend($("code").value).includes("draw")) $("draw").click();
+});
+$("draw").addEventListener("click", async () => {
+  if (!pyodide) return;
+  show("drawing…", "muted");
+  try {
+    pyodide.globals.set("_src", currentSource());
+    const data = JSON.parse(await pyodide.runPythonAsync("pz_picture(_src)"));
+    if (data.error) { show("Draw needs a `picture` value (a list of shapes).\n\n" + data.error, "err"); return; }
+    drawShapes(data.shapes, true);
+  } catch (e) { show("draw error:\n" + e, "err"); }
+});
+boot();
+</script>
+</body>
+</html>

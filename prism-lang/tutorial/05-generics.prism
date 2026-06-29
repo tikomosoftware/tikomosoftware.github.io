@@ -1,0 +1,14 @@
+-- 05 :: generics as holes. One `map`, polymorphic over the type (T, U), the
+-- effect (e), and the failure (g). The same `map` works pure, effectful, or fallible
+-- -- no mapM, no tryMap. Here it is used purely.
+
+map for T, U, !e, ?g
+  (xs: List[T], f: (T) -> U !e ?g) : List[U] !e ?g  <-
+    xs match
+      []        =>  []
+      [h, ..t]  =>  [ try f(h), ..try map(t, f) ]
+
+double(n: Num) : Num  <-  n * 2
+
+main : () !console  <-
+  show!console "doubled = {map([1, 2, 3], double)}"

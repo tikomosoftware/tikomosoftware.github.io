@@ -1,0 +1,8 @@
+-- The serpentine curve: y = a^2 x / (x^2 + a^2) -- an S-shaped curve studied by Newton.
+include "lib/picture.prism"
+n  <-  240
+pt(i)  <-
+  t  <-  0 - 9 + i / n * 18
+  Pt{ x: t * 20, y: 300 * t / (t * t + 4) }
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 175 } ]
+main : () !console  <-  show!console "press Draw to see a serpentine curve"

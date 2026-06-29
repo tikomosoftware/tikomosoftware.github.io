@@ -1,0 +1,10 @@
+-- A comet -- animated. It sweeps along an elliptical orbit around a star, dragging a tail that
+-- fades and shrinks behind it (the tail is the comet's own past positions). Pure function of time.
+include "lib/picture.prism"
+cx(s)  <-  150 * cos(s * 0.8)
+cy(s)  <-  90 * sin(s * 0.8)
+frame(t) : Picture  <-
+  pic( concat( [ Circle{x: 0, y: 0, r: 13, h: 50, a: 0.9, fill: 1} ],
+               concat( times(16, j -> Circle{x: cx(t - j * 0.05), y: cy(t - j * 0.05), r: 9 - j * 0.5, h: 200, a: (1 - j / 16) * 0.7, fill: 1}),
+                       [ Circle{x: cx(t), y: cy(t), r: 9, h: 55, a: 1, fill: 1} ] ) ) )
+main : () !console  <-  show!console "press Animate for a comet on its orbit"

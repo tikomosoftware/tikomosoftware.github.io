@@ -1,0 +1,19 @@
+-- An ocean surface in perspective, animated: a mesh of rows seen at an angle (far rows are
+-- higher on screen and narrower), rippled by a travelling wave sin(i + j - t). Each row is one
+-- Poly. Pure function of time -- the whole sheet is geometry of t, no mutable state.
+
+include "lib/picture.prism"
+
+nx  <-  20
+nz  <-  13
+
+node(i, jz, t)  <-
+  depth  <-  jz / nz                          -- 0 near .. 1 far
+  persp  <-  0.45 + 0.55 * (1 - depth)         -- near rows are wider
+  wave   <-  14 * sin(i * 0.5 + jz * 0.55 - t)
+  Pt{ x: (i - nx / 2) * 17 * persp, y: jz * 15 - 95 + wave }
+
+frame(t) : Picture  <-
+  pic( times(nz, jz -> Poly{pts: times(nx, i -> node(i, jz, t))}) )
+
+main : () !console  <-  show!console "press Animate to see an ocean surface in perspective"

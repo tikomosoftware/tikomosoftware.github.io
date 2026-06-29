@@ -1,0 +1,9 @@
+-- Eye candy :: a Lissajous curve, x = sin(3s), y = sin(2s) -- the figure traced by
+-- two perpendicular oscillations at a 3:2 frequency ratio.
+
+include "lib/draw2d.prism"
+
+picture  <-  polyline(t -> V{ x: 150 * sin(t * 0.05 * 3),
+                              y: 150 * sin(t * 0.05 * 2) }, 0, 260)
+
+main : () !console  <-  show!console "press Draw to see a Lissajous curve"

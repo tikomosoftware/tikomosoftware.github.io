@@ -1,0 +1,21 @@
+-- A sorting visualization: each ROW is the array after one more bubble-sort pass (top = the
+-- shuffled start), cells coloured by value. The sorted order emerges as a smooth colour gradient
+-- from the bottom up. The shuffle is a deterministic sin-hash; one pass is plain recursion.
+include "lib/picture.prism"
+w  <-  28
+hash(i)  <-  frac(sin(i * 12.9898 + 1.0) * 43758.5453)
+onePass(xs)  <-
+  xs match
+    []           =>  []
+    [a]          =>  [a]
+    [a, b, ..t]  =>  if a > b then [b, ..onePass([a, ..t])] else [a, ..onePass([b, ..t])]
+emitRow(row, i, g)  <-
+  row match
+    []        =>  []
+    [v, ..t]  =>  concat( [ Dot{x: i * 9 - 124, y: 120 - g * 8, h: 100 + v * 8} ], emitRow(t, i + 1, g) )
+build(row, g, maxg)  <-
+  (g > maxg) match
+    true   =>  []
+    false  =>  concat( emitRow(row, 0, g), build(onePass(row), g + 1, maxg) )
+picture  <-  build( times(w, i -> floor(hash(i) * w)), 0, w )
+main : () !console  <-  show!console "press Draw to watch bubble sort (rows = passes)"

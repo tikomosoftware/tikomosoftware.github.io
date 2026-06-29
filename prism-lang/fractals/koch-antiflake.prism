@@ -1,0 +1,30 @@
+-- Fractal :: a Koch ANTI-snowflake. Same as koch.prism but the bumps point INWARD, so the
+-- three Koch sides eat into the triangle instead of growing out of it.
+
+koch(depth, ax, ay, bx, by, acc)  <-
+  depth match
+    0  =>  [Line{x1: ax, y1: ay, x2: bx, y2: by}, ..acc]
+    _  =>
+      dx  <-  bx - ax
+      dy  <-  by - ay
+      cx  <-  ax + dx / 3
+      cy  <-  ay + dy / 3
+      ex  <-  ax + dx * 2 / 3
+      ey  <-  ay + dy * 2 / 3
+      vx  <-  ex - cx
+      vy  <-  ey - cy
+      co  <-  cos(pi / 3)
+      si  <-  sin(pi / 3)
+      px  <-  cx + (vx * co - vy * si)    -- +60 deg rotation -> bump points INWARD here
+      py  <-  cy + (vx * si + vy * co)
+      koch(depth - 1, ax, ay, cx, cy,
+        koch(depth - 1, cx, cy, px, py,
+          koch(depth - 1, px, py, ex, ey,
+            koch(depth - 1, ex, ey, bx, by, acc))))
+
+picture  <-
+  koch(4, 0, 0, 300, 0,
+    koch(4, 300, 0, 150, 260,
+      koch(4, 150, 260, 0, 0, [])))
+
+main : () !console  <-  show!console "press Draw to see a Koch anti-snowflake"

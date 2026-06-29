@@ -1,0 +1,9 @@
+include "lib/picture.prism"
+ring(j, t)  <-
+  p <- frac(t * 0.6 + j * 0.33)
+  Circle{ x: 0, y: 0, r: 20 + p * 80, h: 120, a: (1 - p) * 0.6 }
+spark(k, t)  <-
+  life <- frac(t * 0.8 + k * 0.07)
+  Dot{ x: 70 * cos(k * 1.7) * (1 - life * 0.3), y: 0 - 70 + life * 150, h: 130, a: 1 - life }
+frame(t) : Picture  <-  pic( concat( times(3, j -> ring(j, t)), times(24, k -> spark(k, t)) ) )
+main : () !console  <-  show!console "press Animate for a power-up aura"

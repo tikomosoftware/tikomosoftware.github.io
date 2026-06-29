@@ -1,0 +1,162 @@
+-- Layer B :: a composable Picture algebra (pure Prism -- no language change).
+--
+-- A Picture is a list of absolute-coordinate Shapes (Layer A: what the canvas draws)
+-- PLUS a bounding box, so pictures can be laid out RELATIVE to one another.
+-- The combinators (`over` / `beside` / `above`) are pure values: composition has no
+-- order (the flow voice), so `over(a, b)` is just data, not a sequence of draw commands.
+-- `render` lowers a Picture back to the List[Shape] the canvas already understands.
+
+-- Box{x, y} is the top-left corner; w, h the size.   Picture{shapes, bbox}.
+
+-- general-purpose helpers live in their own libraries; the Picture algebra builds on them
+-- (minN/maxN/frac/mod from math; concat/concatAll/times from list).
+include "lib/math.prism"
+include "lib/list.prism"
+
+-- The drawing vocabulary as one `or` type, so a `match` may return ANY shape and the
+-- checker unifies the arms to `Shape` (see shiftShape). Records stay OPEN: a shape may
+-- still carry an extra `h` hue field at construction -- declaring the variants doesn't
+-- forbid it. The canvas (Layer A) draws exactly these four.
+Point : Pt{ x: Num, y: Num }
+
+Shape : Line{ x1: Num, y1: Num, x2: Num, y2: Num }
+     or Dot{ x: Num, y: Num }
+     or Circle{ x: Num, y: Num, r: Num }
+     or Rect{ x: Num, y: Num, w: Num, h: Num }
+     or Poly{ pts: List[Point] }            -- a polyline / polygon of connected points
+
+-- single-variant records: declaring their fields lets the checker type `box.w`, `p.bbox`, ...
+Box : Box{ x: Num, y: Num, w: Num, h: Num }
+Picture : Picture{ shapes: List[Shape], bbox: Box }
+
+-- a box from two corners (left/top, right/bottom)
+box4(left, top, right, bottom)  <-
+  Box{ x: left, y: top, w: right - left, h: bottom - top }
+
+-- map a point->point function over a list of points
+mapPts(g, pts)  <-
+  pts match
+    []        =>  []
+    [p, ..t]  =>  [g(p), ..mapPts(g, t)]
+
+-- bounding box of a point list (seed with the first point, then grow)
+growPts(acc, pts)  <-
+  pts match
+    []        =>  acc
+    [p, ..t]  =>  growPts(unionBox(acc, box4(p.x, p.y, p.x, p.y)), t)
+
+boxOfPts(pts)  <-
+  pts match
+    []        =>  Box{x: 0, y: 0, w: 0, h: 0}
+    [p, ..t]  =>  growPts(box4(p.x, p.y, p.x, p.y), t)
+
+-- the bounding box of a single shape (one per Shape variant the canvas knows)
+shapeBox(s)  <-
+  s match
+    Line{x1, y1, x2, y2}  =>  box4(minN(x1, x2), minN(y1, y2), maxN(x1, x2), maxN(y1, y2))
+    Dot{x, y}             =>  box4(x, y, x, y)
+    Circle{x, y, r}       =>  box4(x - r, y - r, x + r, y + r)
+    Rect{x, y, w, h}      =>  box4(x, y, x + w, y + h)
+    Poly{pts}             =>  boxOfPts(pts)
+    _                     =>  Box{x: 0, y: 0, w: 0, h: 0}
+
+-- the smallest box covering both
+unionBox(a, b)  <-
+  box4( minN(a.x, b.x), minN(a.y, b.y),
+        maxN(a.x + a.w, b.x + b.w), maxN(a.y + a.h, b.y + b.h) )
+
+-- bounding box of a shape list -- SEED with the first shape's box so an empty
+-- region never drags the origin (0,0) into the bounds.
+growBox(acc, shapes)  <-
+  shapes match
+    []        =>  acc
+    [s, ..t]  =>  growBox(unionBox(acc, shapeBox(s)), t)
+
+boxOf(shapes)  <-
+  shapes match
+    []        =>  Box{x: 0, y: 0, w: 0, h: 0}
+    [s, ..t]  =>  growBox(shapeBox(s), t)
+
+-- constructors ------------------------------------------------------------
+pic(shapes)  <-  Picture{ shapes: shapes, bbox: boxOf(shapes) }
+emptyPic     <-  Picture{ shapes: [], bbox: Box{x: 0, y: 0, w: 0, h: 0} }
+
+-- combinators -------------------------------------------------------------
+over(a, b)  <-                                   -- draw b on top of a (same coords)
+  Picture{ shapes: concat(a.shapes, b.shapes), bbox: unionBox(a.bbox, b.bbox) }
+
+shiftShape(dx, dy, s)  <-
+  s match
+    Line{x1, y1, x2, y2}  =>  Line{x1: x1 + dx, y1: y1 + dy, x2: x2 + dx, y2: y2 + dy}
+    Dot{x, y}             =>  Dot{x: x + dx, y: y + dy}
+    Circle{x, y, r}       =>  Circle{x: x + dx, y: y + dy, r: r}
+    Rect{x, y, w, h}      =>  Rect{x: x + dx, y: y + dy, w: w, h: h}
+    Poly{pts}             =>  Poly{pts: mapPts(p -> Pt{x: p.x + dx, y: p.y + dy}, pts)}
+    _                     =>  s
+
+mapShift(dx, dy, xs)  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  [shiftShape(dx, dy, h), ..mapShift(dx, dy, t)]
+
+translate(dx, dy, p)  <-
+  Picture{ shapes: mapShift(dx, dy, p.shapes),
+           bbox: Box{x: p.bbox.x + dx, y: p.bbox.y + dy, w: p.bbox.w, h: p.bbox.h} }
+
+beside(a, b)  <-  over(a, translate(a.bbox.w, 0, b))    -- b to the right of a
+above(a, b)   <-  over(a, translate(0, a.bbox.h, b))    -- b below a
+
+-- lower a Picture to the List[Shape] the canvas draws
+render(p)  <-  p.shapes
+
+-- affine transforms ------------------------------------------------------
+-- apply a shape->shape function to every shape in a list
+mapShapes(g, xs)  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  [g(h), ..mapShapes(g, t)]
+
+-- scale about the origin (radius and size scale too)
+scaleShape(k, s)  <-
+  s match
+    Line{x1, y1, x2, y2}  =>  Line{x1: x1 * k, y1: y1 * k, x2: x2 * k, y2: y2 * k}
+    Dot{x, y}             =>  Dot{x: x * k, y: y * k}
+    Circle{x, y, r}       =>  Circle{x: x * k, y: y * k, r: r * k}
+    Rect{x, y, w, h}      =>  Rect{x: x * k, y: y * k, w: w * k, h: h * k}
+    Poly{pts}             =>  Poly{pts: mapPts(p -> Pt{x: p.x * k, y: p.y * k}, pts)}
+    _                     =>  s
+
+scale(k, p)  <-
+  Picture{ shapes: mapShapes(sh -> scaleShape(k, sh), p.shapes),
+           bbox: box4(p.bbox.x * k, p.bbox.y * k,
+                      (p.bbox.x + p.bbox.w) * k, (p.bbox.y + p.bbox.h) * k) }
+
+-- rotate a point (x, y) about the origin by an angle whose cos/sin are c, s
+rotX(x, y, c, s)  <-  x * c - y * s
+rotY(x, y, c, s)  <-  x * s + y * c
+
+rotShape(deg, sh)  <-
+  c  <-  cos(deg * pi / 180)
+  s  <-  sin(deg * pi / 180)
+  sh match
+    Line{x1, y1, x2, y2}  =>  Line{x1: rotX(x1, y1, c, s), y1: rotY(x1, y1, c, s),
+                                   x2: rotX(x2, y2, c, s), y2: rotY(x2, y2, c, s)}
+    Dot{x, y}             =>  Dot{x: rotX(x, y, c, s), y: rotY(x, y, c, s)}
+    Circle{x, y, r}       =>  Circle{x: rotX(x, y, c, s), y: rotY(x, y, c, s), r: r}
+    -- a rotated rectangle is no longer axis-aligned -> become a closed Poly of its 4 corners
+    Rect{x, y, w, h}      =>  Poly{pts: [ Pt{x: rotX(x,     y,     c, s), y: rotY(x,     y,     c, s)},
+                                         Pt{x: rotX(x + w, y,     c, s), y: rotY(x + w, y,     c, s)},
+                                         Pt{x: rotX(x + w, y + h, c, s), y: rotY(x + w, y + h, c, s)},
+                                         Pt{x: rotX(x,     y + h, c, s), y: rotY(x,     y + h, c, s)},
+                                         Pt{x: rotX(x,     y,     c, s), y: rotY(x,     y,     c, s)} ]}
+    Poly{pts}             =>  Poly{pts: mapPts(p -> Pt{x: rotX(p.x, p.y, c, s), y: rotY(p.x, p.y, c, s)}, pts)}
+    _                     =>  sh
+
+-- rotation isn't axis-aligned, so the bounding box is recomputed from the rotated shapes
+rotate(deg, p)  <-
+  rotated  <-  mapShapes(sh -> rotShape(deg, sh), p.shapes)
+  Picture{ shapes: rotated, bbox: boxOf(rotated) }
+
+-- art combinators --------------------------------------------------------
+quartet(a, b, c, d)  <-  above(beside(a, b), beside(c, d))   -- 2x2 layout
+cycle(p)  <-  quartet(p, rotate(270, p), rotate(90, p), rotate(180, p))  -- p turned 4 ways

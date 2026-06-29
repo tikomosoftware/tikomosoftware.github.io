@@ -1,0 +1,15 @@
+-- A blizzard -- animated. Lots of snow driven hard sideways by the wind as it falls fast.
+-- `frac` loops each flake, `mod` spreads them. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  130
+
+flake(k, t)  <-
+  f  <-  frac(t * 0.55 + k * 0.041)
+  Dot{ x: mod(k * 37, 560) - 280 + f * 170,        -- strong wind drift to the right
+       y: 200 - f * 400, h: 205, a: 0.85 }
+
+frame(t) : Picture  <-  pic( times(n, k -> flake(k, t)) )
+
+main : () !console  <-  show!console "press Animate for a blizzard"

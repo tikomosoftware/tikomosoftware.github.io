@@ -1,0 +1,16 @@
+-- A rose curve that MORPHS -- animated. The petal parameter k = 3 + 2 sin(t) drifts, so the
+-- bloom continuously opens, folds and reshapes. The whole curve is one Poly. Pure in t.
+
+include "lib/picture.prism"
+
+m  <-  280
+
+pt(i, t)  <-
+  th  <-  i / m * 2 * pi * 6              -- wind around several turns
+  k   <-  3 + 2 * sin(t * 0.4)
+  r   <-  130 * cos(k * th)
+  Pt{ x: r * cos(th), y: r * sin(th) }
+
+frame(t) : Picture  <-  pic([ Poly{pts: times(m + 1, i -> pt(i, t))} ])
+
+main : () !console  <-  show!console "press Animate to watch a rose curve morph"

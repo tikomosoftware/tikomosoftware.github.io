@@ -1,0 +1,24 @@
+-- Newton's method, visualized -- animated. For f(x) = x^2 - 2 (root sqrt 2), each step drops
+-- from x to the curve, slides down the tangent to the x-axis, and lands at the next x. Steps
+-- appear one by one, converging fast. Pure function of time.
+include "lib/picture.prism"
+sc  <-  46
+f(x)   <-  x * x - 2
+nextx(x)  <-  x - f(x) / (2 * x)
+stepShapes(x, k, maxk)  <-
+  (k > maxk) match
+    true   =>  []
+    false  =>
+      xn  <-  nextx(x)
+      concat( [ Line{x1: x * sc, y1: 0, x2: x * sc, y2: f(x) * sc, h: 205, a: 0.55},
+                Line{x1: x * sc, y1: f(x) * sc, x2: xn * sc, y2: 0, h: 40},
+                Dot{x: xn * sc, y: 0, h: 0} ],
+              stepShapes(xn, k + 1, maxk) )
+curvePt(i)  <-
+  x  <-  0 - 0.5 + i / 120 * 3.2
+  Pt{x: x * sc, y: f(x) * sc}
+frame(t) : Picture  <-
+  k  <-  floor(t * 0.8)
+  pic( concat( [ Line{x1: 0 - 60, y1: 0, x2: 150, y2: 0, h: 210, a: 0.5}, Poly{pts: times(121, i -> curvePt(i)), h: 285} ],
+               stepShapes(2.4, 0, minN(k, 6)) ) )
+main : () !console  <-  show!console "press Animate to watch Newton's method converge"

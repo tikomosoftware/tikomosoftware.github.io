@@ -1,0 +1,12 @@
+-- The classic bouncing logo -- animated. A little Prism mark drifts and bounces off the walls
+-- of a box, changing colour each time. Position is a triangle wave of t. Pure function of time.
+include "lib/picture.prism"
+tri(u)  <-  abs(frac(u) * 2 - 1) * 2 - 1
+frame(t) : Picture  <-
+  x    <-  tri(t * 0.11) * 150
+  y    <-  tri(t * 0.083) * 110
+  hue  <-  mod(floor(t * 0.4) * 53, 360)
+  pic([ Line{x1: 0-175, y1: 0-130, x2: 175, y2: 0-130, h: 210, a: 0.4}, Line{x1: 175, y1: 0-130, x2: 175, y2: 130, h: 210, a: 0.4},
+        Line{x1: 175, y1: 130, x2: 0-175, y2: 130, h: 210, a: 0.4}, Line{x1: 0-175, y1: 130, x2: 0-175, y2: 0-130, h: 210, a: 0.4},
+        Poly{pts: [Pt{x: x, y: y + 26}, Pt{x: x + 24, y: y - 16}, Pt{x: x - 24, y: y - 16}, Pt{x: x, y: y + 26}], h: hue, fill: 1, a: 0.9} ])
+main : () !console  <-  show!console "press Animate for the bouncing logo"

@@ -1,0 +1,10 @@
+-- Plasma -- animated. A field coloured by a sum of sine waves (in x, y, distance, and diagonals),
+-- all drifting in time -- the classic demoscene plasma. Pure function of time.
+include "lib/picture.prism"
+cell(i, j, t)  <-
+  x  <-  i * 12 - 180
+  y  <-  j * 12 - 132
+  v  <-  sin(x * 0.04 + t) + sin(y * 0.05 + t * 1.1) + sin((x + y) * 0.03 + t * 0.7) + sin(sqrt(x * x + y * y) * 0.05 - t)
+  Dot{ x: x, y: y, h: 190 + v * 70, a: 0.85 }
+frame(t) : Picture  <-  pic( concatAll( times(23, j -> times(31, i -> cell(i, j, t))) ) )
+main : () !console  <-  show!console "press Animate for a plasma field"

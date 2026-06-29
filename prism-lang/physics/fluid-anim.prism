@@ -1,0 +1,19 @@
+-- A fluid surface, ANIMATED: a grid of dots bobbing with radial ripples that travel outward
+-- from the centre, sin(distance - t). Each dot's height shows as a vertical offset. The whole
+-- field is a pure function of time -- no state, just geometry of t.
+
+include "lib/picture.prism"
+
+n  <-  15            -- grid is n x n
+
+-- a bobbing dot at grid cell (i, j)
+node(i, j, t)  <-
+  gx  <-  i * 22 - 154
+  gy  <-  j * 22 - 154
+  d   <-  sqrt(gx * gx + gy * gy)
+  Dot{ x: gx, y: gy + 16 * sin(d * 0.05 - t) }
+
+frame(t) : Picture  <-
+  pic( concatAll( times(n, j -> times(n, i -> node(i, j, t))) ) )
+
+main : () !console  <-  show!console "press Animate to see a rippling fluid surface"

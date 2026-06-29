@@ -1,0 +1,14 @@
+-- 04 :: `or` types and exhaustive match. An `or` type lists its variants;
+-- a `match` over it must handle EVERY one (drop the Square arm and `prism check`
+-- will say what is missing -- with the line number).
+
+Shape : Circle{ radius: Num }  or  Square{ side: Num }
+
+area(s: Shape) : Num  <-
+  s match
+    Circle{radius}  =>  radius * radius * 3
+    Square{side}    =>  side * side
+
+main : () !console  <-
+  show!console "circle r=2 -> {area(Circle{radius: 2})}"
+  show!console "square s=3 -> {area(Square{side: 3})}"

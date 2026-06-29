@@ -1,0 +1,18 @@
+-- A warp starfield -- animated. Stars stream outward from the centre, each leaving a streak
+-- that lengthens as it speeds up toward the edge, then loops back. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  100
+
+star(k, t)  <-
+  a  <-  k * 2.3994                      -- golden angle: spreads stars evenly
+  f  <-  0.5 + 0.5 * sin(t * 0.8 + k * 0.27)
+  r  <-  12 + f * 210
+  Line{ x1: r * cos(a), y1: r * sin(a),
+        x2: (r + 8 + f * 34) * cos(a), y2: (r + 8 + f * 34) * sin(a),
+        h: 200 + f * 130 }
+
+frame(t) : Picture  <-  pic( times(n, k -> star(k, t)) )
+
+main : () !console  <-  show!console "press Animate for a warp starfield"

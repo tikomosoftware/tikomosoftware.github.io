@@ -1,0 +1,23 @@
+-- Prism v0 :: five TYPE mistakes the ':' voice must now reject.
+-- Companion to broken.prism (which exercises the ! and ? voices):
+-- here every signature's effect/failure rows are fine -- only the
+-- nominal types lie. v0's dynamic runtime would run all of these.
+
+-- MISTAKE 1: declared : Num, but the body is Text.
+label(n: Num) : Num  <-  "n = {n}"
+
+-- MISTAKE 2: pass a Text where a Num is expected.
+double(n: Num) : Num  <-  n * 2
+oops : Num  <-  double("three")
+
+-- MISTAKE 3: a list literal with mixed element types.
+mixed : List[Num]  <-  [1, 2, "three"]
+
+-- MISTAKE 4: a match whose arms disagree on the result type.
+classify(n: Num) : Text  <-
+  n match
+    0  =>  "zero"
+    _  =>  n
+
+-- MISTAKE 5: arithmetic on a Text -- no implicit coercion.
+addText : Num  <-  "a" - 2

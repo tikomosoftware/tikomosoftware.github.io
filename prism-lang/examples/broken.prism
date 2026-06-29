@@ -1,0 +1,23 @@
+-- Prism v0 :: three honest mistakes the RUNTIME ran silently,
+-- but the checker must reject.
+
+map for T, U, !e, ?g
+  (xs: List[T], f: (T) -> U !e ?g) : List[U] !e ?g  <-
+    xs match
+      []        =>  []
+      [h, ..t]  =>  [ try f(h), ..try map(t, f) ]
+
+-- MISTAKE 1: greetAll performs !console (through map) but declares itself PURE.
+greetAll(names: List[Text]) : ()  <-
+  map(names, n -> show!console "hi {n}")
+  ()
+
+-- MISTAKE 2: divide can fail with DivByZero but the signature forgot ?DivByZero.
+divide(a: Num, b: Num) : Num  <-
+  b match
+    0  =>  fail DivByZero
+    _  =>  ok (a / b)
+
+-- MISTAKE 3: parseNum can fail (?BadNumber) but the result is used in `+`
+-- without try/match -- an unhandled failure.
+addParsed(s: Text, t: Text) : Num  <-  parseNum(s) + parseNum(t)

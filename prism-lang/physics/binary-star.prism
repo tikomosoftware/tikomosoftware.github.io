@@ -1,0 +1,24 @@
+-- 2-D physics :: a planet weaving around TWO fixed stars (at -90 and +90 on the x-axis).
+-- With two gravity wells the orbit becomes an intricate, pretzel-like path.
+
+include "lib/physics2d.prism"
+
+pull(px, py, qx, qy)  <-
+  dx  <-  qx - px
+  dy  <-  qy - py
+  r   <-  sqrt(dx * dx + dy * dy + 40)
+  V{ x: 16000 * dx / (r * r * r), y: 16000 * dy / (r * r * r) }
+
+trace(n, x, y, vx, vy, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      a   <-  vadd(pull(x, y, 0 - 90, 0), pull(x, y, 90, 0))
+      nvx <-  vx + a.x * 0.04
+      nvy <-  vy + a.y * 0.04
+      [ Dot{x: x + nvx * 0.04, y: y + nvy * 0.04},
+        ..trace(n - 1, x + nvx * 0.04, y + nvy * 0.04, nvx, nvy, acc) ]
+
+picture  <-  trace(1000, 0, 120, 13, 0, [])
+
+main : () !console  <-  show!console "press Draw to see a planet around a binary star"

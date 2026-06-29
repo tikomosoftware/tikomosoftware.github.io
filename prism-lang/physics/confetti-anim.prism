@@ -1,0 +1,24 @@
+-- Confetti -- animated. Little filled squares in every colour tumble down, swaying. Each is a
+-- Poly rotated inline (so it keeps its colour), filled. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  46
+
+at(px, py, c, s, cx, cy)  <-  Pt{ x: cx + px * c - py * s, y: cy + px * s + py * c }
+
+bit(k, t)  <-
+  fall  <-  frac(t * 0.12 + k * 0.067)
+  cx    <-  mod(k * 61, 400) - 200 + 28 * sin(t * 1.1 + k)
+  cy    <-  180 - fall * 360
+  a     <-  t * 2 + k
+  c     <-  cos(a)
+  s     <-  sin(a)
+  Poly{ pts: [ at(0 - 5, 0 - 5, c, s, cx, cy), at(5, 0 - 5, c, s, cx, cy),
+               at(5, 5, c, s, cx, cy), at(0 - 5, 5, c, s, cx, cy),
+               at(0 - 5, 0 - 5, c, s, cx, cy) ],
+        h: mod(k * 47, 360), fill: 1 }                  -- every colour, filled
+
+frame(t) : Picture  <-  pic( times(n, k -> bit(k, t)) )
+
+main : () !console  <-  show!console "press Animate for confetti"

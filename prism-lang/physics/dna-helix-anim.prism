@@ -1,0 +1,13 @@
+-- DNA double helix -- animated. Two phosphate backbones wind around each other while base-pair
+-- rungs connect them; the whole ladder rotates, so strands cross front-to-back. Pure in t.
+include "lib/picture.prism"
+strand(i, ph, t)  <-
+  y  <-  i * 13 - 175
+  Dot{ x: 70 * sin(y * 0.05 + t + ph), y: y, h: if ph < 1 then 200 else 30, a: 0.5 + 0.4 * cos(y * 0.05 + t + ph) }
+rung(i, t)  <-
+  y  <-  i * 26 - 170
+  Line{ x1: 70 * sin(y * 0.05 + t), y1: y, x2: 70 * sin(y * 0.05 + t + 3.1416), y2: y, h: 50, a: 0.6 }
+frame(t) : Picture  <-
+  pic( concat( concatAll( times(28, i -> [ strand(i, 0, t), strand(i, 3.1416, t) ]) ),
+               times(14, i -> rung(i, t)) ) )
+main : () !console  <-  show!console "press Animate for a rotating DNA helix"

@@ -1,0 +1,31 @@
+-- Prism v0 :: capability mistakes the checker must reject.
+
+capability Ord for T
+  compare(a: T, b: T) : Num
+
+Num provides Ord
+  compare(a, b)  <-  a - b
+
+larger for T given T: Ord
+  (a: T, b: T) : T  <-  a
+
+-- MISTAKE 1: Text does NOT provide Ord -> the constraint is undischarged.
+worst(s: Text, t: Text) : Text  <-  larger(s, t)
+
+-- MISTAKE 2: pickFirst uses larger but FORGOT to declare `given T: Ord`,
+-- so the constraint cannot propagate -- T is not known to be comparable.
+pickFirst for T
+  (a: T, b: T) : T  <-  larger(a, b)
+
+-- MISTAKE 3 + 4: an incomplete instance. Show requires `render`, but this
+-- instance gives `display` instead -> missing `render`, and `display` is bogus.
+capability Show for T
+  render(x: T) : Text
+
+Account provides Show
+  display(x)  <-  "an account"
+
+-- MISTAKE 5: a duplicate instance -- Num already provides Ord (incoherence,
+-- the root of Haskell's newtype problem: which `compare` would win?).
+Num provides Ord
+  compare(a, b)  <-  b - a

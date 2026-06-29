@@ -1,0 +1,10 @@
+-- A tornado -- animated. Particles spiral up a funnel that is narrow at the ground and flares at
+-- the top; higher particles rotate a touch slower, so the column twists. Pure function of time.
+include "lib/picture.prism"
+particle(k, t)  <-
+  f  <-  k / 80
+  r  <-  18 + f * 92
+  a  <-  k * 0.7 + t * 3 * (1 - f * 0.5)
+  Dot{ x: r * cos(a), y: 130 - f * 260, h: 30, a: 0.6 }
+frame(t) : Picture  <-  pic( concatAll( times(80, k -> [ particle(k, t) ]) ) )
+main : () !console  <-  show!console "press Animate for a swirling tornado"

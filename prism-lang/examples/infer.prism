@@ -1,0 +1,8 @@
+-- Prism v0 :: NO signatures at all. Run `python check.py --reveal infer.prism`
+-- and the tool shows the contract it infers for each definition --
+-- the other half of "the compiler infers, the tool reveals".
+
+ask          <-  try parseNum(read!console)      -- reads, can fail to parse
+greet(name)  <-  show!console "hi {name}"         -- touches the console
+add(a, b)    <-  a + b                            -- pure arithmetic
+risky(s)     <-  parseNum(s)                       -- carries a failure outward

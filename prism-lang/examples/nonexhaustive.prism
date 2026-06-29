@@ -1,0 +1,29 @@
+-- Prism v0 :: matches that FORGET a case. The runtime only crashes if the
+-- missing branch is hit; the checker rejects all of them up front.
+
+Shape : Circle{ radius: Num } or Square{ side: Num } or Triangle{ base: Num, height: Num }
+
+-- MISTAKE 1: forgets Triangle (an `or` case left unhandled).
+name(s: Shape) : Text  <-
+  s match
+    Circle{}  =>  "circle"
+    Square{}  =>  "square"
+
+-- MISTAKE 2: names a variant that Shape does not have.
+bogus(s: Shape) : Text  <-
+  s match
+    Circle{}    =>  "circle"
+    Square{}    =>  "square"
+    Triangle{}  =>  "triangle"
+    Hexagon{}   =>  "hexagon"
+
+-- MISTAKE 3: a List match that forgets the empty case.
+firstOr0(xs: List[Num]) : Num  <-
+  xs match
+    [h, ..t]  =>  h
+
+-- MISTAKE 4: matching a Num with no catch-all -- what about 2, 3, ...?
+spell(n: Num) : Text  <-
+  n match
+    0  =>  "zero"
+    1  =>  "one"

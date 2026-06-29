@@ -1,0 +1,16 @@
+-- Prism v0 :: capability method bodies that betray their declared signature.
+
+capability Show for T
+  show(x: T) : Text
+
+-- MISTAKE 1: `show` must return Text, but this body returns a Num.
+Num provides Show
+  show(x)  <-  x + 1
+
+capability Functor for F[_]
+  fmap for T, U (xs: F[T], f: (T) -> U) : F[U]
+
+-- MISTAKE 2: a bogus Functor that ignores f and returns the input unchanged --
+-- it promises F[U] but actually yields F[T], and T and U may differ.
+List provides Functor
+  fmap(xs, f)  <-  xs

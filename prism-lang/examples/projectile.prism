@@ -1,0 +1,21 @@
+-- 2-D physics :: a projectile under gravity, using the included physics library.
+-- `picture` is the trajectory as a list of Dots -- press Draw in the playground.
+-- Run from the project root so the include path resolves (paths are cwd-relative).
+
+include "lib/physics2d.prism"
+
+-- record positions, stepping under gravity (acc = (0, -10), dt = 0.25),
+-- stopping when the projectile falls back to the ground (y < 0).
+trace(n, body)  <-
+  n match
+    0  =>  []
+    _  =>
+      p  <-  body.pos
+      (p.y < 0) match
+        true   =>  []
+        false  =>  [ Dot{x: p.x, y: p.y}, ..trace(n - 1, step(body, V{x: 0, y: 0 - 10}, 0.25)) ]
+
+picture  <-  trace(80, B{ pos: V{x: 0, y: 0}, vel: V{x: 20, y: 40} })
+
+main : () !console  <-
+  show!console "press Draw to see the projectile trajectory"

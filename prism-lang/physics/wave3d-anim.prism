@@ -1,0 +1,22 @@
+-- A 3-D wave surface -- animated. A grid sheet ripples (height = sin(distance - t)), tilted and
+-- slowly spun, then projected with perspective; depth sets the hue. Pure function of time.
+
+include "lib/picture.prism"
+
+g  <-  16
+
+node(i, j, t)  <-
+  gx   <-  i - 8
+  gz   <-  j - 8
+  wy   <-  2.6 * sin(sqrt(gx * gx + gz * gz) * 0.8 - t)      -- the wave height
+  rx   <-  gx * cos(t * 0.2) + gz * sin(t * 0.2)             -- spin about vertical
+  rz   <-  gz * cos(t * 0.2) - gx * sin(t * 0.2)
+  ty   <-  wy * 0.5 - rz * 0.5                               -- tilt the sheet toward us
+  tz   <-  rz * 0.87 + wy * 0.5
+  k    <-  150 / (16 - tz)                                    -- perspective
+  Dot{ x: rx * k * 1.6, y: ty * k * 1.6, h: 200 + tz * 6 }
+
+frame(t) : Picture  <-
+  pic( concatAll( times(g, j -> times(g, i -> node(i, j, t))) ) )
+
+main : () !console  <-  show!console "press Animate to watch a 3-D wave surface"

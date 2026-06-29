@@ -1,0 +1,8 @@
+-- 02 :: values and derivation. `<-` derives a value; line order is MEANINGLESS,
+-- so `fahrenheit` may be written before the `celsius` it depends on.
+
+fahrenheit : Num  <-  celsius * 9 / 5 + 32
+celsius    : Num  <-  30
+
+main : () !console  <-
+  show!console "celsius {celsius} = fahrenheit {fahrenheit}"

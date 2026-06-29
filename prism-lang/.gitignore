@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.DS_Store
+# downloaded by `prism fetch-pyodide` (offline playground); not committed
+pyodide/
+_pad.prism

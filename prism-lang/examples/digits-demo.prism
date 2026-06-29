@@ -1,0 +1,6 @@
+-- Showing the 7-segment number renderer from lib/digits: counts 00..99.
+include "lib/digits.prism"
+frame(t) : Picture  <-
+  v  <-  mod(floor(t * 5), 100)
+  pic( number2(v, 0 - 60, 0, 34, 190, 1) )
+main : () !console  <-  show!console "press Animate to count with 7-segment digits"

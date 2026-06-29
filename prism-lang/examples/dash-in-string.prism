@@ -1,0 +1,3 @@
+-- Regression: a `--` INSIDE a string literal is text, not a comment (the lexer once truncated it,
+-- silently eating the rest of the line -- found by dogfooding examples/vending.prism).
+main : () !console  <-  show!console "a -- b"

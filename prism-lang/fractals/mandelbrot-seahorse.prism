@@ -1,0 +1,24 @@
+-- A zoom into the Mandelbrot set's "Seahorse Valley" (the pinch left of the main cardioid,
+-- near -0.745 + 0.105i). Same z -> z*z + c, just a small window and more iterations for detail.
+
+include "lib/escape.prism"
+
+nx  <-  50
+ny  <-  50
+maxIter  <-  58
+z0  <-  Pt{x: 0, y: 0}
+cxc  <-  0 - 0.745
+cyc  <-  0.105
+span  <-  0.09
+
+cell(i, j)  <-
+  cx  <-  cxc - span + i * (span * 2 / nx)
+  cy  <-  cyc - span + j * (span * 2 / ny)
+  n   <-  escape(z0, Pt{x: cx, y: cy}, 2, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 200 + n * 5} ]
+    false  =>  []
+
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+
+main : () !console  <-  show!console "press Draw to zoom into Seahorse Valley"

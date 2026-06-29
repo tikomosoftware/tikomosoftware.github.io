@@ -1,0 +1,9 @@
+include "lib/picture.prism"
+orbit(k, t)  <-
+  r <- 60 + 15 * sin(t * 3 + k)
+  Dot{ x: r * cos(k / 14 * 6.2832 + t * 2), y: r * sin(k / 14 * 6.2832 + t * 2), h: 200, a: 0.8 }
+frame(t) : Picture  <-
+  pul <- 0.6 + 0.4 * sin(t * 4)
+  pic( concat( [ Circle{x: 0, y: 0, r: 45 * pul, h: 200, a: 0.3, fill: 1}, Circle{x: 0, y: 0, r: 28 * pul, h: 195, a: 0.7, fill: 1},
+  Circle{x: 0, y: 0, r: 14, h: 190, a: 1, fill: 1} ], times(14, k -> orbit(k, t)) ) )
+main : () !console  <-  show!console "press Animate for an energy orb"

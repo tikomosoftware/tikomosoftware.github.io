@@ -1,0 +1,15 @@
+-- A modular "times table" -- animated. Put N points on a circle and join each k to (k*m mod N).
+-- As the multiplier m drifts, the envelope sweeps through a cardioid (m=2), nephroid (m=3),
+-- and on -- a surprising link between multiplication mod N and these classic curves. Pure in t.
+include "lib/picture.prism"
+nn  <-  200
+chord(k, m)  <-
+  a1  <-  k / nn * 6.2832
+  j   <-  mod(k * m, nn)
+  a2  <-  j / nn * 6.2832
+  Line{ x1: 150 * cos(a1), y1: 150 * sin(a1), x2: 150 * cos(a2), y2: 150 * sin(a2),
+        h: mod(k * 2, 360), a: 0.5 }
+frame(t) : Picture  <-
+  m  <-  2 + t * 0.25                  -- the multiplier drifts: 2 -> 3 -> ...
+  pic( times(nn, k -> chord(k, m)) )
+main : () !console  <-  show!console "press Animate to watch a modular times table"

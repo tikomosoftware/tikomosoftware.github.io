@@ -1,0 +1,17 @@
+-- A river of fireflies -- animated. Glowing motes flow along a winding path, shimmering as
+-- they go. Each is a soft halo plus a bright core. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  70
+
+mote(k, t)  <-
+  p  <-  frac(t * 0.1 + k * 0.014)               -- position along the river, 0..1
+  x  <-  p * 460 - 230
+  y  <-  64 * sin(p * 9.42) + 18 * sin(t + k)     -- winding course + shimmer
+  [ Circle{ x: x, y: y, r: 8, h: 78, a: 0.20, fill: 1 },     -- glow
+    Dot{ x: x, y: y, h: 72, a: 0.9 } ]                       -- core
+
+frame(t) : Picture  <-  pic( concatAll( times(n, k -> mote(k, t)) ) )
+
+main : () !console  <-  show!console "press Animate to watch a river of fireflies"

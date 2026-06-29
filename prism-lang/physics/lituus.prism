@@ -1,0 +1,10 @@
+-- The lituus spiral: r = a / sqrt(theta) -- the radius shrinks as the square root of the angle,
+-- so it winds inward ever more tightly (used in ancient sundials).
+include "lib/picture.prism"
+n  <-  300
+pt(i)  <-
+  th  <-  0.25 + i / n * 19.0
+  r   <-  92 / sqrt(th)
+  Pt{ x: r * cos(th), y: r * sin(th) }
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 280 } ]
+main : () !console  <-  show!console "press Draw to see a lituus spiral"

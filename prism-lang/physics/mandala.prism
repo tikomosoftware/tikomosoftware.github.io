@@ -1,0 +1,13 @@
+-- Eye candy :: a "flower of life" mandala -- twelve overlapping circles in a ring around
+-- a central one. (Shows the Circle shape; the canvas draws each as an outline.)
+
+ring(i, n, acc)  <-
+  (i < n) match
+    false  =>  acc
+    true   =>
+      a  <-  i * 6.28319 / n
+      [ Circle{x: 100 * cos(a), y: 100 * sin(a), r: 60}, ..ring(i + 1, n, acc) ]
+
+picture  <-  ring(0, 12, [ Circle{x: 0, y: 0, r: 60} ])
+
+main : () !console  <-  show!console "press Draw to see a mandala"

@@ -1,0 +1,19 @@
+-- A double pendulum, ANIMATED as a pure function of time. (This is a DRIVEN double
+-- pendulum -- the two angles are smooth functions of t -- not the chaotic ODE, which would
+-- need integration / mutable state. frame(t) has no `!`, so the checker certifies it pure.)
+
+include "lib/picture.prism"
+
+frame(t) : Picture  <-
+  a1  <-  sin(t) * 0.9                       -- upper arm angle (radians)
+  a2  <-  a1 + sin(t * 1.7) * 1.2            -- lower arm angle
+  x1  <-  90 * sin(a1)
+  y1  <-  0 - 90 * cos(a1)
+  x2  <-  x1 + 70 * sin(a2)
+  y2  <-  y1 - 70 * cos(a2)
+  pic([ Line{x1: 0, y1: 0, x2: x1, y2: y1},
+        Line{x1: x1, y1: y1, x2: x2, y2: y2},
+        Circle{x: x1, y: y1, r: 8},
+        Circle{x: x2, y: y2, r: 8} ])
+
+main : () !console  <-  show!console "press Animate to swing a driven double pendulum"

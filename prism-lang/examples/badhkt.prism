@@ -1,0 +1,19 @@
+-- Prism v0 :: higher-kinded mistakes the checker must reject.
+
+keep for F[_], T (xs: F[T]) : F[T]  <-  xs
+
+capability Functor for F[_]
+  fmap for T, U (xs: F[T], f: (T) -> U) : F[U]
+
+List provides Functor
+  fmap(xs, f)  <-
+    xs match
+      []        =>  []
+      [h, ..t]  =>  [ f(h), ..fmap(t, f) ]
+
+-- MISTAKE 1: keep PRESERVES the container shape F; it cannot turn a List into a Set.
+wrong(xs: List[Num]) : Set[Num]  <-  keep(xs)
+
+-- MISTAKE 2: needFunctor requires F: Functor, but Set has no `provides Functor`.
+needFunctor for F[_], T given F: Functor (xs: F[T]) : F[T]  <-  xs
+useSet(xs: Set[Num]) : Set[Num]  <-  needFunctor(xs)

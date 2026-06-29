@@ -1,0 +1,18 @@
+-- A Mobius strip -- animated. A band with a single half-twist, drawn as ribs across its width,
+-- tilted and spun. Pure function of time.
+include "lib/picture.prism"
+nr  <-  64
+proj3(x, y, z, t)  <-
+  rx  <-  x * cos(t * 0.5) + z * sin(t * 0.5)
+  rz  <-  z * cos(t * 0.5) - x * sin(t * 0.5)
+  ry  <-  y * cos(0.7) - rz * sin(0.7)
+  Pt{ x: rx, y: ry }
+rib(i, t)  <-
+  u   <-  i / nr * 6.2832
+  wA  <-  92 - 26 * cos(u * 0.5)
+  wB  <-  92 + 26 * cos(u * 0.5)
+  pA  <-  proj3(wA * cos(u), wA * sin(u), 0 - 26 * sin(u * 0.5), t)
+  pB  <-  proj3(wB * cos(u), wB * sin(u), 26 * sin(u * 0.5), t)
+  Line{ x1: pA.x, y1: pA.y, x2: pB.x, y2: pB.y, h: 180 + i }
+frame(t) : Picture  <-  pic( times(nr, i -> rib(i, t)) )
+main : () !console  <-  show!console "press Animate to watch a Mobius strip"

@@ -1,0 +1,6 @@
+include "lib/picture.prism"
+spark(k, t)  <-
+  life <- frac(t * 0.7 + k * 0.08)
+  Dot{ x: mod(k * 53, 120) - 60 + 8 * sin(t * 3 + k), y: 0 - 80 + life * 160, h: 130, a: 1 - life }
+frame(t) : Picture  <-  pic( concat( [ Circle{x: 0, y: 0 - 80, r: 60, h: 130, a: 0.3, fill: 1} ], times(28, k -> spark(k, t)) ) )
+main : () !console  <-  show!console "press Animate for a healing effect"

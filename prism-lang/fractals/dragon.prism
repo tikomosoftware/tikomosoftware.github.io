@@ -1,0 +1,16 @@
+-- Fractal :: the Heighway dragon curve. Each segment A->B is replaced by two segments
+-- A->M and B->M (note the second goes B->M, which alternates the fold direction), where
+-- M is A->B's midpoint pushed out at a right angle.
+
+dragon(n, ax, ay, bx, by, acc)  <-
+  n match
+    0  =>  [Line{x1: ax, y1: ay, x2: bx, y2: by}, ..acc]
+    _  =>
+      mx  <-  (ax + bx) / 2 + (by - ay) / 2
+      my  <-  (ay + by) / 2 - (bx - ax) / 2
+      dragon(n - 1, ax, ay, mx, my,
+        dragon(n - 1, bx, by, mx, my, acc))
+
+picture  <-  dragon(12, 0, 0, 300, 0, [])
+
+main : () !console  <-  show!console "press Draw to see the dragon curve"

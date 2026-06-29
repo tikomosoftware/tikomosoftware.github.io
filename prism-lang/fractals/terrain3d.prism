@@ -1,0 +1,12 @@
+-- A 3D terrain mesh. A height field (a sum of sines stands in for noise) is drawn as a wire mesh
+-- in oblique projection -- rows and columns of the grid, rows further back sit higher on screen.
+include "lib/picture.prism"
+hgt(gx, gz)  <-  22 * sin(gx * 0.5) * cos(gz * 0.45) + 13 * sin((gx + gz) * 0.3)
+scrPt(ix, iz)  <-
+  gx  <-  ix - 8
+  gz  <-  iz - 6
+  Pt{ x: gx * 18 + gz * 6, y: gz * 13 + hgt(gx, gz) }
+row(iz)  <-  Poly{ pts: times(17, ix -> scrPt(ix, iz)), h: 200 + iz * 9, a: 0.85 }
+col(ix)  <-  Poly{ pts: times(13, iz -> scrPt(ix, iz)), h: 200, a: 0.4 }
+picture  <-  concat( times(13, iz -> row(iz)), times(17, ix -> col(ix)) )
+main : () !console  <-  show!console "a 3D terrain mesh (height field in oblique projection)"

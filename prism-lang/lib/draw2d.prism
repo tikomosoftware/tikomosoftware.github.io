@@ -1,0 +1,11 @@
+-- Drawing helpers (include-able). `polyline` connects the points f(i0), f(i0+1), ... f(n)
+-- with line segments, where `f` maps an index to a Vec-like record `V{x, y}`.
+-- (Higher-order + gradual: `f` is just called, and its result's .x / .y are read.)
+
+polyline(f, i, n)  <-
+  (i < n) match
+    false  =>  []
+    true   =>
+      a  <-  f(i)
+      b  <-  f(i + 1)
+      [ Line{x1: a.x, y1: a.y, x2: b.x, y2: b.y}, ..polyline(f, i + 1, n) ]

@@ -1,0 +1,18 @@
+-- Fractal :: an H-tree. An "H" (a bar with a stroke at each end) sprouts four smaller H's
+-- at its four tips, each with width and height swapped and halved -- a space-filling tree.
+
+htree(d, x, y, w, h, acc)  <-
+  lines  <-  [ Line{x1: x - w / 2, y1: y,         x2: x + w / 2, y2: y},          -- the bar
+               Line{x1: x - w / 2, y1: y - h / 2, x2: x - w / 2, y2: y + h / 2},  -- left stroke
+               Line{x1: x + w / 2, y1: y - h / 2, x2: x + w / 2, y2: y + h / 2}, ..acc ]
+  d match
+    0  =>  lines
+    _  =>
+      htree(d - 1, x - w / 2, y - h / 2, h / 2, w / 2,
+       htree(d - 1, x - w / 2, y + h / 2, h / 2, w / 2,
+        htree(d - 1, x + w / 2, y - h / 2, h / 2, w / 2,
+         htree(d - 1, x + w / 2, y + h / 2, h / 2, w / 2, lines))))
+
+picture  <-  htree(5, 0, 0, 240, 240, [])
+
+main : () !console  <-  show!console "press Draw to see an H-tree"

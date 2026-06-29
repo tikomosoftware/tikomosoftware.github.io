@@ -1,0 +1,17 @@
+-- A water fountain -- animated particle system. Each droplet follows a parabolic arc under
+-- gravity: y = v*s*(1 - s) launches up and falls back as its life s runs 0->1, and `frac`
+-- loops s so droplets are re-launched forever. Spread fans out left to right. Pure in t.
+
+include "lib/picture.prism"
+
+n  <-  72
+
+drop(k, t)  <-
+  s   <-  frac(t * 0.3 + k * 0.11)         -- this droplet's life, 0..1, looping
+  vx  <-  (k - 36) * 5                       -- horizontal spread, -180..180
+  vy  <-  320 - abs(k - 36) * 4              -- the centre jets highest
+  Dot{ x: vx * s, y: vy * s * (1 - s), h: 190 + s * 90 }
+
+frame(t) : Picture  <-  pic( times(n, k -> drop(k, t)) )
+
+main : () !console  <-  show!console "press Animate for a water fountain"

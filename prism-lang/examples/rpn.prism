@@ -1,0 +1,52 @@
+-- An RPN (Reverse Polish Notation) calculator, built the Prism way: a human wrote the CONTRACT
+-- (the signatures below), an AI filled the bodies, and `prism check` refereed.
+--
+-- The contract -- all you read to trust it:
+--   * effects: only !console (read a line, print the answer) -- nothing else
+--   * failures: exactly ?BadToken ?DivByZero ?Underflow ?Empty ?Leftover -- all rescued in main
+-- Run it:  echo "3 4 + 5 *" | python cli.py run examples/rpn.prism   -> "= 35"
+
+-- pop the top two operands, apply the operator, push the result.
+binop(stack: List[Num], op: Text) : List[Num]  ?BadToken ?DivByZero ?Underflow  <-
+  stack match
+    [a, b, ..rest]  =>
+      op match
+        "+"  =>  [b + a, ..rest]
+        "-"  =>  [b - a, ..rest]
+        "*"  =>  [b * a, ..rest]
+        "/"  =>  if a == 0 then fail DivByZero else [b / a, ..rest]
+        _    =>  fail BadToken
+    _  =>  fail Underflow
+
+-- one token: a number is pushed; anything else is treated as an operator.
+step(stack: List[Num], tok: Text) : List[Num]  ?BadToken ?DivByZero ?Underflow  <-
+  parseNum(tok) match
+    ok n    =>  [n, ..stack]
+    fail _  =>  try binop(stack, tok)
+
+-- fold the whole token list through `step`, threading the stack.
+run(stack: List[Num], toks: List[Text]) : List[Num]  ?BadToken ?DivByZero ?Underflow  <-
+  toks match
+    []        =>  stack
+    [h, ..t]  =>  run(try step(stack, h), t)
+
+-- a well-formed RPN expression leaves exactly one value on the stack.
+finish(stack: List[Num]) : Num  ?Empty ?Leftover  <-
+  stack match
+    [x]  =>  x
+    []   =>  fail Empty
+    _    =>  fail Leftover
+
+solve(line: Text) : Num  ?BadToken ?DivByZero ?Underflow ?Empty ?Leftover  <-
+  finish(try run([], words(line)))
+
+main : () !console  <-
+  attempt
+    line  <-  read!console
+    show!console "= {try solve(line)}"
+  rescue
+    BadToken   =>  show!console "error: unknown token"
+    DivByZero  =>  show!console "error: division by zero"
+    Underflow  =>  show!console "error: not enough operands"
+    Empty      =>  show!console "error: empty expression"
+    Leftover   =>  show!console "error: too many operands left"

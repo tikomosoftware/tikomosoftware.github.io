@@ -1,0 +1,5 @@
+-- Interactive :: a Lissajous figure whose two frequencies are sliders.
+include "lib/draw2d.prism"
+picture  <-  polyline(t -> V{ x: 150 * sin(slider(3, 1, 8) * t * 0.03),
+                              y: 150 * sin(slider(2, 1, 8) * t * 0.03 + 1) }, 0, 420)
+main : () !console  <-  show!console "in the playground, drag the two frequency sliders"

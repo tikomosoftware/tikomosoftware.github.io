@@ -1,0 +1,34 @@
+-- Curved fractal :: the Pythagoras tree. Each square sprouts two smaller squares
+-- on its top edge, tilted by 45 degrees (a right isosceles triangle). The tilt is a
+-- rotation, so this uses `sin`/`cos`/`pi`.  Press "Draw" in the playground.
+--
+-- (x1,y1)-(x2,y2) is the BASE edge of the current square (left to right). The square
+-- rises "up" = the base vector rotated +90 degrees: (dx,dy) -> (-dy, dx).
+
+pythagoras(depth, x1, y1, x2, y2, acc)  <-
+  dx  <-  x2 - x1
+  dy  <-  y2 - y1
+  x4  <-  x1 - dy                 -- top-left corner
+  y4  <-  y1 + dx
+  x3  <-  x2 - dy                 -- top-right corner
+  y3  <-  y2 + dx
+  sq  <-  [ Line{x1: x1, y1: y1, x2: x2, y2: y2},
+            Line{x1: x2, y1: y2, x2: x3, y2: y3},
+            Line{x1: x3, y1: y3, x2: x4, y2: y4},
+            Line{x1: x4, y1: y4, x2: x1, y2: y1}, ..acc ]
+  depth match
+    0  =>  sq
+    _  =>
+      c   <-  cos(pi / 4)
+      s   <-  sin(pi / 4)
+      wx  <-  x3 - x4             -- the top edge, left to right
+      wy  <-  y3 - y4
+      tx  <-  x4 + c * (wx * c - wy * s)    -- apex of the right-isosceles triangle
+      ty  <-  y4 + c * (wx * s + wy * c)
+      pythagoras(depth - 1, x4, y4, tx, ty,            -- left child square
+        pythagoras(depth - 1, tx, ty, x3, y3, sq))     -- right child square
+
+picture  <-  pythagoras(9, 0, 0, 40, 0, [])
+
+main : () !console  <-
+  show!console "open in the playground and press Draw to see a Pythagoras tree"

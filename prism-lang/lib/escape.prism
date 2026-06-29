@@ -1,0 +1,91 @@
+-- Escape-time fractals (Mandelbrot family). Prism has no complex numbers, so a complex
+-- number is just a Pt{x, y} (x = real, y = imaginary). We iterate z -> z^d + c and count how
+-- many steps it takes |z| to exceed 2 (escape); points that never escape are "inside".
+--
+-- A picture is then a grid of coloured Dots: escaped points are coloured by their escape
+-- count (the bands), and INSIDE points are simply not drawn -- so the dark background shows
+-- the classic black body of the set.
+
+include "lib/picture.prism"
+
+cadd(a, b)  <-  Pt{x: a.x + b.x, y: a.y + b.y}
+cmul(a, b)  <-  Pt{x: a.x * b.x - a.y * b.y, y: a.x * b.y + a.y * b.x}
+cabs2(a)    <-  a.x * a.x + a.y * a.y
+cabsParts(a)  <-  Pt{x: abs(a.x), y: abs(a.y)}        -- for the Burning Ship
+
+-- z to the integer power d (d >= 1), by repeated complex multiplication
+cpow(z, d)  <-
+  (d < 2) match
+    true   =>  z
+    false  =>  cmul(z, cpow(z, d - 1))
+
+-- iterate z -> z^d + c; return the escape step (or max if it stays bounded)
+escape(z, c, d, i, max)  <-
+  (cabs2(z) > 4) match
+    true   =>  i
+    false  =>
+      (i < max) match
+        true   =>  escape(cadd(cpow(z, d), c), c, d, i + 1, max)
+        false  =>  max
+
+-- Burning Ship: take |Re|,|Im| of z each step before squaring, then + c
+escapeShip(z, c, i, max)  <-
+  (cabs2(z) > 4) match
+    true   =>  i
+    false  =>
+      (i < max) match
+        true   =>  escapeShip(cadd(cpow(cabsParts(z), 2), c), c, i + 1, max)
+        false  =>  max
+
+cconj(a)    <-  Pt{x: a.x, y: 0 - a.y}
+csub(a, b)  <-  Pt{x: a.x - b.x, y: a.y - b.y}
+cdiv(a, b)  <-
+  d  <-  b.x * b.x + b.y * b.y
+  Pt{x: (a.x * b.x + a.y * b.y) / d, y: (a.y * b.x - a.x * b.y) / d}
+
+-- Tricorn / Mandelbar: z -> conj(z)^2 + c   (conjugate before squaring -> 3-fold symmetry)
+escapeTri(z, c, i, max)  <-
+  (cabs2(z) > 4) match
+    true   =>  i
+    false  =>
+      (i < max) match
+        true   =>  escapeTri(cadd(cpow(cconj(z), 2), c), c, i + 1, max)
+        false  =>  max
+
+-- Celtic: |Re(z^2)| (keep Im), then + c
+escapeCeltic(z, c, i, max)  <-
+  (cabs2(z) > 4) match
+    true   =>  i
+    false  =>
+      (i < max) match
+        true   =>  escapeCeltic(cadd(Pt{x: abs(z.x * z.x - z.y * z.y), y: 2 * z.x * z.y}, c), c, i + 1, max)
+        false  =>  max
+
+-- Buffalo: |Re(z^2)| and |Im(z^2)|, then + c
+escapeBuffalo(z, c, i, max)  <-
+  (cabs2(z) > 4) match
+    true   =>  i
+    false  =>
+      (i < max) match
+        true   =>  escapeBuffalo(cadd(Pt{x: abs(z.x * z.x - z.y * z.y), y: abs(2 * z.x * z.y)}, c), c, i + 1, max)
+        false  =>  max
+
+-- Biomorph (Pickover): like a Julia iteration z -> z^2 + c, but bail out when EITHER component
+-- |Re z| or |Im z| gets large. Colouring by that gives organic, cell-like "biomorph" shapes.
+escapeBio(z, c, i, max)  <-
+  (i < max) match
+    false  =>  max
+    true   =>
+      (abs(z.x) > 10) match
+        true   =>  i
+        false  =>
+          (abs(z.y) > 10) match
+            true   =>  i
+            false  =>  escapeBio(cadd(cmul(z, z), c), c, i + 1, max)
+
+-- Newton's method on z^3 - 1: nStep is one Newton step; iterate, then see which root you fell to.
+nStep(z)     <-  csub(z, cdiv(csub(cmul(cmul(z, z), z), Pt{x: 1, y: 0}), cmul(Pt{x: 3, y: 0}, cmul(z, z))))
+nIter(z, k)  <-
+  (k < 1) match
+    true   =>  z
+    false  =>  nIter(nStep(z), k - 1)

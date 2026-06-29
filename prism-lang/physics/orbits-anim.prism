@@ -1,0 +1,20 @@
+-- Gravity, ANIMATED: a sun with planets on circular orbits, and a moon riding an epicycle
+-- around the outer planet. Each body's position is a closed form in t -- pure, periodic.
+
+include "lib/picture.prism"
+
+frame(t) : Picture  <-
+  px  <-  120 * cos(t)            -- outer planet
+  py  <-  120 * sin(t)
+  mx  <-  px + 32 * cos(t * 5)    -- its moon (epicycle)
+  my  <-  py + 32 * sin(t * 5)
+  qx  <-  64 * cos(t * 1.7 + 2)   -- inner planet
+  qy  <-  64 * sin(t * 1.7 + 2)
+  pic([ Circle{x: 0, y: 0, r: 64},          -- orbit guides
+        Circle{x: 0, y: 0, r: 120},
+        Circle{x: 0, y: 0, r: 18, h: 50},   -- the sun (warm hue)
+        Circle{x: qx, y: qy, r: 7},
+        Circle{x: px, y: py, r: 10},
+        Dot{x: mx, y: my} ])
+
+main : () !console  <-  show!console "press Animate to see planets orbiting under gravity"

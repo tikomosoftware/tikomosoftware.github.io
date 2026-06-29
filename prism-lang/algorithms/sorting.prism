@@ -1,0 +1,49 @@
+-- Algorithms in Prism :: sorting. Comparisons drive the branches (Bool match);
+-- the lists are rebuilt immutably -- there are no in-place arrays.
+
+append(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+
+-- insertion sort: insert each element into an already-sorted tail.
+insert(x: Num, xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  [x]
+    [h, ..t]  =>
+      (x < h) match
+        true   =>  [x, h, ..t]
+        false  =>  [h, ..insert(x, t)]
+
+insertionSort(xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  insert(h, insertionSort(t))
+
+-- quicksort: partition the tail around the head pivot, then recurse.
+below(p: Num, xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>
+      (h < p) match
+        true   =>  [h, ..below(p, t)]
+        false  =>  below(p, t)
+
+atLeast(p: Num, xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>
+      (h < p) match
+        true   =>  atLeast(p, t)
+        false  =>  [h, ..atLeast(p, t)]
+
+quickSort(xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  append(quickSort(below(h, t)), [h, ..quickSort(atLeast(h, t))])
+
+main : () !console  <-
+  nums  <-  [3, 1, 4, 1, 5, 9, 2, 6]
+  show!console "input          = {nums}"
+  show!console "insertion sort = {insertionSort(nums)}"
+  show!console "quicksort      = {quickSort(nums)}"

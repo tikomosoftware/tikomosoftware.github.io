@@ -1,0 +1,14 @@
+-- Strange attractor :: the Bedhead attractor.
+--   x' = sin(x y / b) y + cos(a x - y),  y' = x + sin(y) / b.   (a,b = -0.81,-0.92)
+
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  sin(x * y / (0 - 0.92)) * y + cos(0 - 0.81 * x - y)
+      ny  <-  x + sin(y) / (0 - 0.92)
+      [ Dot{x: nx * 120, y: ny * 120}, ..trace(n - 1, nx, ny, acc) ]
+
+picture  <-  trace(1500, 1, 1, [])
+
+main : () !console  <-  show!console "press Draw to see a Bedhead attractor"

@@ -1,0 +1,20 @@
+-- 2-D physics :: a ball thrown sideways, bouncing off the floor (y = 0) with each
+-- bounce keeping 80% of its speed. The trace is the path of the ball.
+
+include "lib/physics2d.prism"
+
+trace(n, body)  <-
+  n match
+    0  =>  []
+    _  =>
+      p   <-  body.pos
+      nb  <-  step(body, V{x: 0, y: 0 - 10}, 0.2)
+      np  <-  nb.pos
+      next  <-  (np.y < 0) match
+        true   =>  B{ pos: V{x: np.x, y: 0 - np.y}, vel: V{x: nb.vel.x, y: 0 - nb.vel.y * 0.8} }
+        false  =>  nb
+      [ Dot{x: p.x, y: p.y}, ..trace(n - 1, next) ]
+
+picture  <-  trace(160, B{ pos: V{x: 0, y: 70}, vel: V{x: 16, y: 0} })
+
+main : () !console  <-  show!console "press Draw to see a bouncing ball"

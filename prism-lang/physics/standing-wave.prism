@@ -1,0 +1,17 @@
+-- 2-D physics :: a standing wave, drawn as several snapshots at different amplitudes. The
+-- nodes stay put while the antinodes swing -- the envelope is the standing wave.
+include "lib/draw2d.prism"
+append(xs, ys)  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+snap(amp, i, n)  <-
+  (i < n) match
+    false  =>  []
+    true   =>  [ Line{x1: i * 5, y1: amp * sin(i * 0.3) * 70,
+                      x2: (i + 1) * 5, y2: amp * sin((i + 1) * 0.3) * 70}, ..snap(amp, i + 1, n) ]
+picture  <-  append(snap(1, 0, 56),
+              append(snap(0.6, 0, 56),
+               append(snap(0 - 0.6, 0, 56),
+                append(snap(0 - 1, 0, 56), snap(0.2, 0, 56)))))
+main : () !console  <-  show!console "press Draw to see a standing wave"

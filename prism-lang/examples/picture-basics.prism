@@ -1,0 +1,22 @@
+-- Layer B :: the Picture algebra in the small. `over` stacks (same coords); `beside`
+-- puts the second to the right; `above` puts it below. Layout is computed from each
+-- picture's bounding box -- so composition is pure DATA, not a sequence of draw calls.
+
+include "lib/picture.prism"
+
+sq(s)  <-  pic([ Rect{x: 0, y: 0, w: s, h: s} ])
+
+count(xs)  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  1 + count(t)
+
+main : () !console  <-
+  a  <-  sq(10)
+  b  <-  sq(20)
+  show!console "over shapes  = {count(render(over(a, b)))}"
+  show!console "beside width = {beside(a, b).bbox.w}"
+  show!console "above height = {above(a, b).bbox.h}"
+
+-- the picture itself: a 10-square beside a 20-square
+picture  <-  render( beside(sq(10), sq(20)) )

@@ -1,0 +1,14 @@
+-- A (3,2) torus knot (a trefoil) -- animated. A closed curve winding on a torus, spinning
+-- about the vertical axis. One Poly. Pure function of time.
+include "lib/picture.prism"
+m  <-  240
+node(i, t)  <-
+  s   <-  i / m * 6.2832
+  r1  <-  2 + cos(2 * s)
+  x   <-  r1 * cos(3 * s) * 42
+  y   <-  r1 * sin(3 * s) * 42
+  z   <-  sin(2 * s) * 60
+  rx  <-  x * cos(t * 0.5) + z * sin(t * 0.5)
+  Pt{ x: rx, y: y }
+frame(t) : Picture  <-  pic([ Poly{ pts: times(m + 1, i -> node(i, t)), h: 285 } ])
+main : () !console  <-  show!console "press Animate to watch a torus knot turn"

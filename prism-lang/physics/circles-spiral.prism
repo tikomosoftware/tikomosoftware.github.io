@@ -1,0 +1,14 @@
+-- Eye candy :: circles marching outward along a spiral, each a little bigger -- a snail
+-- shell of rings. (Uses the Circle shape.)
+
+spiral(i, n, acc)  <-
+  (i < n) match
+    false  =>  acc
+    true   =>
+      a   <-  i * 0.5
+      rr  <-  i * 5
+      [ Circle{x: rr * cos(a), y: rr * sin(a), r: 8 + i}, ..spiral(i + 1, n, acc) ]
+
+picture  <-  spiral(0, 40, [])
+
+main : () !console  <-  show!console "press Draw to see a spiral of circles"

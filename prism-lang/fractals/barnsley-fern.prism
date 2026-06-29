@@ -1,0 +1,27 @@
+-- Barnsley's fern: the classic IFS fractal, drawn by the "chaos game" -- repeatedly apply one
+-- of four affine maps (chosen by probability) to a point and plot where it lands. There's no
+-- RNG builtin, so the choice uses a deterministic sin-hash of the step index. ~2200 points.
+
+include "lib/picture.prism"
+
+hash(k)  <-  frac(sin(k * 12.9898 + 78.233) * 43758.5453)     -- pseudo-random in [0,1)
+
+nextp(x, y, r)  <-
+  (r < 0.01) match
+    true   =>  Pt{x: 0, y: 0.16 * y}                                          -- 1%: stem
+    false  =>
+      (r < 0.86) match
+        true   =>  Pt{x: 0.85 * x + 0.04 * y, y: 0 - 0.04 * x + 0.85 * y + 1.6}   -- 85%: leaflets
+        false  =>
+          (r < 0.93) match
+            true   =>  Pt{x: 0.2 * x - 0.26 * y, y: 0.23 * x + 0.22 * y + 1.6}    -- 7%: left frond
+            false  =>  Pt{x: 0 - 0.15 * x + 0.28 * y, y: 0.26 * x + 0.24 * y + 0.44}  -- 7%: right frond
+
+walk(p, k)  <-
+  (k < 1) match
+    true   =>  []
+    false  =>  [ Dot{x: p.x * 26, y: p.y * 26 - 130, h: 115}, ..walk(nextp(p.x, p.y, hash(k)), k - 1) ]
+
+picture  <-  walk(Pt{x: 0, y: 0}, 2200)
+
+main : () !console  <-  show!console "press Draw to grow Barnsley's fern"

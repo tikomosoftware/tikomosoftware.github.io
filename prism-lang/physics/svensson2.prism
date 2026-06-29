@@ -1,0 +1,10 @@
+-- Strange attractor :: Svensson with (a,b,c,d) = -1.78, 1.29, -0.65, -2.0.
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  0 - 2.0 * sin(0 - 1.78 * x) - sin(1.29 * y)
+      ny  <-  0 - 0.65 * cos(0 - 1.78 * x) + cos(1.29 * y)
+      [ Dot{x: nx * 90, y: ny * 90}, ..trace(n - 1, nx, ny, acc) ]
+picture  <-  trace(1500, 0.1, 0.1, [])
+main : () !console  <-  show!console "press Draw to see another Svensson attractor"

@@ -1,0 +1,15 @@
+-- 2-D physics :: the Van der Pol oscillator, x'' = mu(1 - x^2)x' - x. Plotted in phase
+-- space (position x, velocity v): whatever you start with spirals onto one limit cycle.
+
+trace(n, x, v, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      a   <-  2 * (1 - x * x) * v - x          -- mu = 2
+      nv  <-  v + a * 0.05
+      nx  <-  x + nv * 0.05
+      [ Dot{x: nx * 70, y: nv * 35}, ..trace(n - 1, nx, nv, acc) ]
+
+picture  <-  trace(700, 0.2, 0, [])
+
+main : () !console  <-  show!console "press Draw to see a Van der Pol limit cycle"

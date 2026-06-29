@@ -1,0 +1,20 @@
+-- The Lorenz attractor in 3-D. Integrate the chaotic ODE (sigma=10, rho=28, beta=8/3) and
+-- project the trajectory with a fixed 3-D tilt; depth sets the hue. The famous "butterfly".
+include "lib/picture.prism"
+Vec3 : V{ x: Num, y: Num, z: Num }
+step(p)  <-
+  V{ x: p.x + 10 * (p.y - p.x) * 0.012,
+     y: p.y + (p.x * (28 - p.z) - p.y) * 0.012,
+     z: p.z + (p.x * p.y - 2.667 * p.z) * 0.012 }
+dotOf(p)  <-
+  cz  <-  p.z - 25
+  rx  <-  p.x * cos(0.7) + cz * sin(0.7)
+  rz  <-  cz * cos(0.7) - p.x * sin(0.7)
+  ry  <-  p.y * cos(0.5) - rz * sin(0.5)
+  Dot{ x: rx * 5, y: ry * 5, h: 200 + cz * 3, a: 0.85 }
+walk(p, k)  <-
+  (k < 1) match
+    true   =>  []
+    false  =>  [ dotOf(p), ..walk(step(p), k - 1) ]
+picture  <-  walk(V{x: 0.1, y: 0, z: 0}, 750)
+main : () !console  <-  show!console "press Draw to render the Lorenz attractor in 3-D"

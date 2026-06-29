@@ -1,0 +1,19 @@
+-- A little solar system -- animated. A glowing sun with four planets on circular orbits (inner
+-- ones faster), and a moon riding an epicycle around the third. Pure function of time.
+
+include "lib/picture.prism"
+
+planet(r, w, ph, hue, t)  <-  Circle{ x: r * cos(t * w + ph), y: r * sin(t * w + ph), r: 6, h: hue, a: 0.95, fill: 1 }
+
+frame(t) : Picture  <-
+  px  <-  150 * cos(t * 0.45)
+  py  <-  150 * sin(t * 0.45)
+  pic([ Circle{x: 0, y: 0, r: 60, h: 210, a: 0.25}, Circle{x: 0, y: 0, r: 100, h: 210, a: 0.25},
+        Circle{x: 0, y: 0, r: 150, h: 210, a: 0.25}, Circle{x: 0, y: 0, r: 205, h: 210, a: 0.25},  -- orbit guides
+        Circle{x: 0, y: 0, r: 42, h: 50, a: 0.3, fill: 1}, Circle{x: 0, y: 0, r: 18, h: 50, fill: 1},  -- sun + glow
+        planet(60, 1.0, 0, 30, t), planet(100, 0.68, 2, 120, t),
+        Circle{x: px, y: py, r: 8, h: 280, a: 0.95, fill: 1},                                     -- planet 3
+        Circle{x: px + 24 * cos(t * 5), y: py + 24 * sin(t * 5), r: 4, h: 200, a: 0.9, fill: 1},  -- its moon
+        planet(205, 0.26, 4, 160, t) ])
+
+main : () !console  <-  show!console "press Animate to watch a solar system"

@@ -1,0 +1,9 @@
+-- Multiple dispatch is exhaustively resolved: a collision pair with no instance is rejected at the
+-- call site (you declared `Ship for Asteroid` but called it the other way round).
+capability Collide for A, B
+  hit(a: A, b: B) : Text
+Ship     : Ship{}
+Asteroid : Asteroid{}
+Ship provides Collide for Asteroid
+  hit(a, b)  <-  "ship grazes the asteroid"
+main : () !console  <-  show!console hit(Asteroid{}, Ship{})

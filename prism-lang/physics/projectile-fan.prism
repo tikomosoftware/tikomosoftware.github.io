@@ -1,0 +1,22 @@
+-- 2-D physics :: a fan of projectiles, all launched from the origin at the same speed
+-- but different angles -- the envelope of all the arcs is itself a parabola.
+
+include "lib/physics2d.prism"
+
+-- trace one shot (dots) onto acc, stopping when it falls back to the ground
+shot(body, acc)  <-
+  p  <-  body.pos
+  (p.y < 0) match
+    true   =>  acc
+    false  =>  [ Dot{x: p.x, y: p.y}, ..shot(step(body, V{x: 0, y: 0 - 10}, 0.2), acc) ]
+
+fan(i, n, acc)  <-
+  (i < n) match
+    false  =>  acc
+    true   =>
+      a  <-  0.35 + i * 0.16                       -- launch angle
+      fan(i + 1, n, shot(B{ pos: V{x: 0, y: 0}, vel: V{x: 44 * cos(a), y: 44 * sin(a)} }, acc))
+
+picture  <-  fan(0, 8, [])
+
+main : () !console  <-  show!console "press Draw to see a fan of projectiles"

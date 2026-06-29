@@ -1,0 +1,35 @@
+-- Fractal :: a pentaflake (Sierpinski pentagon). A pentagon is replaced by six smaller
+-- pentagons -- one in the centre and one at each of the five vertices -- and recurses.
+-- Angles below are 90, 162, 234, 306, 18 degrees (the five vertex directions, in radians).
+
+penta(d, cx, cy, r, acc)  <-
+  d match
+    0  =>
+      x0 <- cx + r * cos(1.5708)
+      y0 <- cy + r * sin(1.5708)
+      x1 <- cx + r * cos(2.8274)
+      y1 <- cy + r * sin(2.8274)
+      x2 <- cx + r * cos(4.0841)
+      y2 <- cy + r * sin(4.0841)
+      x3 <- cx + r * cos(5.3407)
+      y3 <- cy + r * sin(5.3407)
+      x4 <- cx + r * cos(6.5973)
+      y4 <- cy + r * sin(6.5973)
+      [ Line{x1: x0, y1: y0, x2: x1, y2: y1},
+        ..[ Line{x1: x1, y1: y1, x2: x2, y2: y2},
+          ..[ Line{x1: x2, y1: y2, x2: x3, y2: y3},
+            ..[ Line{x1: x3, y1: y3, x2: x4, y2: y4},
+              ..[ Line{x1: x4, y1: y4, x2: x0, y2: y0}, ..acc ] ] ] ] ]
+    _  =>
+      rs  <-  r * 0.382
+      dc  <-  r * 0.618
+      penta(d - 1, cx, cy, rs,
+       penta(d - 1, cx + dc * cos(1.5708), cy + dc * sin(1.5708), rs,
+        penta(d - 1, cx + dc * cos(2.8274), cy + dc * sin(2.8274), rs,
+         penta(d - 1, cx + dc * cos(4.0841), cy + dc * sin(4.0841), rs,
+          penta(d - 1, cx + dc * cos(5.3407), cy + dc * sin(5.3407), rs,
+           penta(d - 1, cx + dc * cos(6.5973), cy + dc * sin(6.5973), rs, acc))))))
+
+picture  <-  penta(3, 0, 0, 150, [])
+
+main : () !console  <-  show!console "press Draw to see a pentaflake"

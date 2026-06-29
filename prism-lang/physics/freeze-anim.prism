@@ -1,0 +1,9 @@
+include "lib/picture.prism"
+spike(k, t)  <-
+  p <- frac(t * 0.6)
+  Line{ x1: 0, y1: 0, x2: p * 100 * cos(k / 8 * 6.2832), y2: p * 100 * sin(k / 8 * 6.2832), h: 195, a: 1 - p * 0.3 }
+tip(k, t)  <-
+  p <- frac(t * 0.6)
+  Dot{ x: p * 100 * cos(k / 8 * 6.2832), y: p * 100 * sin(k / 8 * 6.2832), h: 200, a: 1 - p }
+frame(t) : Picture  <-  pic( concat( times(8, k -> spike(k, t)), times(8, k -> tip(k, t)) ) )
+main : () !console  <-  show!console "press Animate for an ice freeze"

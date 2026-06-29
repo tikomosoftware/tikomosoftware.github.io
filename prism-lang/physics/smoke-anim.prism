@@ -1,0 +1,17 @@
+-- Smoke drifting up -- animated. Soft translucent puffs rise from a source, growing and curling
+-- sideways, and fade out as they climb (opacity falls with height). Opacity + fill. Pure in t.
+
+include "lib/picture.prism"
+
+n  <-  30
+
+puff(k, t)  <-
+  rise  <-  frac(t * 0.1 + k * 0.13)
+  Circle{ x: 50 * sin(t * 0.5 + k) * rise + mod(k * 31, 40) - 20,    -- curl + spread
+          y: 0 - 130 + rise * 300,
+          r: 8 + rise * 32,                                            -- grows
+          h: 28, a: 0.34 * (1 - rise), fill: 1 }                       -- fades while rising
+
+frame(t) : Picture  <-  pic( times(n, k -> puff(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch smoke drift up"

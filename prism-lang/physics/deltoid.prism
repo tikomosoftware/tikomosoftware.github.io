@@ -1,0 +1,8 @@
+-- Eye candy :: a deltoid (3-cusped hypocycloid): x = 2cos t + cos 2t, y = 2sin t - sin 2t.
+
+include "lib/draw2d.prism"
+
+picture  <-  polyline(t -> V{ x: 50 * (2 * cos(t * 0.05) + cos(2 * t * 0.05)),
+                              y: 50 * (2 * sin(t * 0.05) - sin(2 * t * 0.05)) }, 0, 130)
+
+main : () !console  <-  show!console "press Draw to see a deltoid"

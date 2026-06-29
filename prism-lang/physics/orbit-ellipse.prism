@@ -1,0 +1,12 @@
+-- 2-D physics :: an eccentric orbit. A slower launch than orbit.prism gives a long ellipse.
+include "lib/physics2d.prism"
+trace(n, body)  <-
+  n match
+    0  =>  []
+    _  =>
+      p  <-  body.pos
+      r  <-  vlen(p)
+      a  <-  vscale(p, 0 - 108000 / (r * r * r))
+      [ Dot{x: p.x, y: p.y}, ..trace(n - 1, step(body, a, 0.08)) ]
+picture  <-  trace(300, B{ pos: V{x: 150, y: 0}, vel: V{x: 0, y: 20} })
+main : () !console  <-  show!console "press Draw to see an eccentric orbit"

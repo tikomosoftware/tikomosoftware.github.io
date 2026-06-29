@@ -1,0 +1,22 @@
+-- A Julia set: the same z -> z*z + c iteration, but now c is FIXED for the whole image and the
+-- starting z is the pixel. (The Mandelbrot set is the map of which c give a connected Julia
+-- set.) This c = -0.8 + 0.156i gives the classic swirling "dragon/dendrite" shape.
+
+include "lib/escape.prism"
+
+nx  <-  64
+ny  <-  64
+maxIter  <-  30
+jc  <-  Pt{x: 0 - 0.8, y: 0.156}              -- the fixed Julia constant
+
+cell(i, j)  <-
+  zx  <-  0 - 1.7 + i * (3.4 / nx)
+  zy  <-  0 - 1.4 + j * (2.8 / ny)
+  n   <-  escape(Pt{x: zx, y: zy}, jc, 2, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 280 + n * 7} ]
+    false  =>  []
+
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+
+main : () !console  <-  show!console "press Draw to render a Julia set"

@@ -1,0 +1,10 @@
+-- Pascal's triangle mod 2: colour each odd binomial coefficient. The odd entries draw the
+-- Sierpinski triangle -- number theory and fractals meeting. Each row is built from the previous
+-- by (left + right) mod 2, so it's a one-line cellular automaton over immutable rows.
+include "lib/picture.prism"
+pget(row, i)  <-  if i < 0 then 0 else if i > len(row) - 1 then 0 else at(row, i)
+nextRow(prev, n)  <-  times(n, i -> mod(pget(prev, i - 1) + pget(prev, i), 2))
+rowDots(prev, r)  <-  concatAll( times(len(prev), i -> if at(prev, i) == 1 then [ Dot{x: (i * 2 - r) * 5, y: 135 - r * 8, h: 285, a: 0.9} ] else []) )
+build(prev, r, maxr)  <-  if r == maxr then rowDots(prev, r) else concat(rowDots(prev, r), build(nextRow(prev, r + 2), r + 1, maxr))
+picture  <-  build([1], 0, 31)
+main : () !console  <-  show!console "Pascal's triangle mod 2 -- the Sierpinski triangle"

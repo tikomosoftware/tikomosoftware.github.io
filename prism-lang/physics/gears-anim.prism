@@ -1,0 +1,16 @@
+-- Meshing gears -- animated. A train of three gears turns, neighbours in opposite directions
+-- and at speeds set by their sizes. Each gear is a toothed Poly (radius alternates). Pure in t.
+
+include "lib/picture.prism"
+
+gearPts(cx, cy, teeth, rad, ang)  <-
+  times(teeth * 2 + 1, i ->
+    Pt{ x: cx + (if mod(i, 2) < 1 then rad else rad * 0.78) * cos(i / (teeth * 2) * 6.2832 + ang),
+        y: cy + (if mod(i, 2) < 1 then rad else rad * 0.78) * sin(i / (teeth * 2) * 6.2832 + ang) })
+
+frame(t) : Picture  <-
+  pic([ Poly{ pts: gearPts(0 - 58, 0, 12, 52, t * 0.5), h: 200 },
+        Poly{ pts: gearPts(38, 0, 8, 36, 0 - t * 0.75 + 0.2), h: 40 },
+        Poly{ pts: gearPts(106, 0, 6, 28, t * 1.0 + 0.4), h: 280 } ])
+
+main : () !console  <-  show!console "press Animate to watch gears mesh"

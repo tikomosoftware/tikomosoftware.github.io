@@ -1,0 +1,22 @@
+-- The Burning Ship: like the Mandelbrot, but each step takes the absolute value of z's real
+-- and imaginary parts before squaring -- z -> (|Re z| + i|Im z|)^2 + c. The result looks like
+-- a fleet of burning ships. Escape-time colouring; a complex number is a Pt{x, y}.
+
+include "lib/escape.prism"
+
+nx  <-  64
+ny  <-  64
+maxIter  <-  28
+z0  <-  Pt{x: 0, y: 0}
+
+cell(i, j)  <-
+  cx  <-  0 - 2.0 + i * (3.0 / nx)               -- real  -2.0 .. 1.0
+  cy  <-  0 - 1.8 + j * (2.4 / ny)               -- imag  -1.8 .. 0.6
+  n   <-  escapeShip(z0, Pt{x: cx, y: cy}, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 20 + n * 9} ]    -- warm "flame" hues
+    false  =>  []
+
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+
+main : () !console  <-  show!console "press Draw to render the Burning Ship"

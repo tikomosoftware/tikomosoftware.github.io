@@ -1,0 +1,17 @@
+-- Aurora -- animated. Translucent curtains of light ripple across the sky; each curtain is a
+-- filled ribbon Poly (down one wavy edge, back up the other) in greens and cyans. Pure in t.
+
+include "lib/picture.prism"
+
+m  <-  13
+
+curtain(k, t)  <-
+  cx     <-  k * 64 - 160
+  left   <-  times(m, i -> Pt{ x: cx + 24 * sin(i * 0.4 + t * 0.8 + k), y: 150 - i * 26 })
+  right  <-  times(m, i -> Pt{ x: cx + 18 + 24 * sin((m - 1 - i) * 0.4 + t * 0.8 + k),
+                               y: 150 - (m - 1 - i) * 26 })
+  Poly{ pts: concat(left, right), h: 120 + k * 16, a: 0.16, fill: 1 }
+
+frame(t) : Picture  <-  pic( times(6, k -> curtain(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch the aurora"

@@ -1,0 +1,62 @@
+-- Fractal :: the Peano curve -- a 3x3 space-filling curve from the L-system
+--   X -> XFYFX+F+YFXFY-F-XFYFX,  Y -> YFXFY-F-XFYFX+F+YFXFY   (turns of 90 degrees).
+-- F moves forward; X and Y are non-drawing rules that just expand.
+
+include "lib/turtle.prism"
+
+px(d, p)  <-
+  d match
+    0  =>  p
+    _  =>
+      a  <-  px(d - 1, p)
+      b  <-  fwd(a)
+      c  <-  py(d - 1, b)
+      e  <-  fwd(c)
+      f  <-  px(d - 1, e)
+      g  <-  turn(f, 1.5708)
+      h  <-  fwd(g)
+      i  <-  turn(h, 1.5708)
+      j  <-  py(d - 1, i)
+      k  <-  fwd(j)
+      l  <-  px(d - 1, k)
+      m  <-  fwd(l)
+      o  <-  py(d - 1, m)
+      q  <-  turn(o, 0 - 1.5708)
+      r  <-  fwd(q)
+      s  <-  turn(r, 0 - 1.5708)
+      t  <-  px(d - 1, s)
+      u  <-  fwd(t)
+      v  <-  py(d - 1, u)
+      w  <-  fwd(v)
+      px(d - 1, w)
+
+py(d, p)  <-
+  d match
+    0  =>  p
+    _  =>
+      a  <-  py(d - 1, p)
+      b  <-  fwd(a)
+      c  <-  px(d - 1, b)
+      e  <-  fwd(c)
+      f  <-  py(d - 1, e)
+      g  <-  turn(f, 0 - 1.5708)
+      h  <-  fwd(g)
+      i  <-  turn(h, 0 - 1.5708)
+      j  <-  px(d - 1, i)
+      k  <-  fwd(j)
+      l  <-  py(d - 1, k)
+      m  <-  fwd(l)
+      o  <-  px(d - 1, m)
+      q  <-  turn(o, 1.5708)
+      r  <-  fwd(q)
+      s  <-  turn(r, 1.5708)
+      t  <-  py(d - 1, s)
+      u  <-  fwd(t)
+      v  <-  px(d - 1, u)
+      w  <-  fwd(v)
+      py(d - 1, w)
+
+done     <-  px(3, Turtle{x: 0, y: 0, a: 0, ls: []})
+picture  <-  done.ls
+
+main : () !console  <-  show!console "press Draw to see the Peano curve"

@@ -1,0 +1,11 @@
+-- Strange attractor :: Hopalong with a = 1, b = 0, c = 0.
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      sgn  <-  if x < 0 then 0 - 1 else 1
+      nx   <-  y - sgn * sqrt(abs(x))
+      ny   <-  1 - x
+      [ Dot{x: nx * 26, y: ny * 26}, ..trace(n - 1, nx, ny, acc) ]
+picture  <-  trace(1500, 0.1, 0.1, [])
+main : () !console  <-  show!console "press Draw to see another Hopalong attractor"

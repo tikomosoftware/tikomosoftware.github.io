@@ -1,0 +1,14 @@
+-- 2-D physics :: a mass on a spring (simple harmonic motion), x'' = -k x.
+-- Plotted as displacement over time -> a sine wave.
+
+trace(t, x, v)  <-
+  (t < 200) match
+    false  =>  []
+    true   =>
+      nv  <-  v - 0.04 * x          -- spring constant k = 0.04
+      nx  <-  x + nv
+      [ Dot{x: t, y: x}, ..trace(t + 1, nx, nv) ]
+
+picture  <-  trace(0, 90, 0)        -- pulled to +90, released from rest
+
+main : () !console  <-  show!console "press Draw to see a spring oscillating"

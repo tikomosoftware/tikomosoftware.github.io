@@ -1,0 +1,6 @@
+-- Regression test for effect-call ARGUMENT failure tracking. `try risky(1)` propagates ?Boom; that
+-- failure rides through show!console's interpolated argument and must reach main -- so main is
+-- fallible and must declare it. (The checker once dropped failures propagating through an effect
+-- call's argument; the hole was found by dogfooding examples/rpn.prism.)
+risky(x: Num) : Num  ?Boom  <-  fail Boom
+main : () !console  <-  show!console "value = {try risky(1)}"

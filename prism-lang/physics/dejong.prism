@@ -1,0 +1,15 @@
+-- Strange attractor :: the Peter de Jong map. Iterate
+--   x' = sin(a y) - cos(b x),  y' = sin(c x) - cos(d y)
+-- and plot every point -- the orbit never repeats but settles onto a delicate cloud.
+
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  sin(1.4 * y) - cos(0 - 2.3 * x)
+      ny  <-  sin(2.4 * x) - cos(0 - 2.1 * y)
+      [ Dot{x: nx * 120, y: ny * 120}, ..trace(n - 1, nx, ny, acc) ]
+
+picture  <-  trace(1200, 0, 0, [])
+
+main : () !console  <-  show!console "press Draw to see a de Jong attractor"

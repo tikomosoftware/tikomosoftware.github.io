@@ -1,0 +1,45 @@
+-- Step 0 :: a Sierpinski triangle in ASCII -- fractal = recursion, no graphics needed.
+-- Each level doubles the previous triangle: one copy on top (centered) and two below.
+
+spaces(n: Num) : Text  <-
+  (n < 1) match
+    true   =>  ""
+    false  =>  " " + spaces(n - 1)
+
+count(rows: List[Text]) : Num  <-
+  rows match
+    []        =>  0
+    [h, ..t]  =>  1 + count(t)
+
+append(xs: List[Text], ys: List[Text]) : List[Text]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+
+-- top half: pad each row with `sp` spaces on both sides (center it)
+padAll(sp: Text, rows: List[Text]) : List[Text]  <-
+  rows match
+    []        =>  []
+    [h, ..t]  =>  [sp + h + sp, ..padAll(sp, t)]
+
+-- bottom half: place two copies of each row side by side
+dupAll(rows: List[Text]) : List[Text]  <-
+  rows match
+    []        =>  []
+    [h, ..t]  =>  [h + " " + h, ..dupAll(t)]
+
+sierpinski(n: Num) : List[Text]  <-
+  n match
+    0  =>  ["*"]
+    _  =>
+      smaller  <-  sierpinski(n - 1)
+      sp       <-  spaces(count(smaller))
+      append(padAll(sp, smaller), dupAll(smaller))
+
+draw(rows: List[Text]) : () !console  <-
+  rows match
+    []        =>  ()
+    [h, ..t]  =>  show!console h  ~>  draw(t)
+
+main : () !console  <-
+  draw(sierpinski(4))

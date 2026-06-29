@@ -1,0 +1,21 @@
+-- Fractal :: the Sierpinski carpet. A square splits into a 3x3 grid; the centre is
+-- dropped and the other 8 cells recurse. Drawn as filled Rects (an accumulator threads
+-- the result through all 8 sub-calls, skipping the middle cell).
+
+carpet(depth, x, y, s, acc)  <-
+  depth match
+    0  =>  [Rect{x: x, y: y, w: s, h: s}, ..acc]
+    _  =>
+      u  <-  s / 3
+      carpet(depth - 1, x,         y,         u,
+       carpet(depth - 1, x + u,     y,         u,
+        carpet(depth - 1, x + u + u, y,         u,
+         carpet(depth - 1, x,         y + u,     u,
+          carpet(depth - 1, x + u + u, y + u,     u,
+           carpet(depth - 1, x,         y + u + u, u,
+            carpet(depth - 1, x + u,     y + u + u, u,
+             carpet(depth - 1, x + u + u, y + u + u, u, acc))))))))
+
+picture  <-  carpet(3, 0, 0, 243, [])
+
+main : () !console  <-  show!console "press Draw to see the Sierpinski carpet"

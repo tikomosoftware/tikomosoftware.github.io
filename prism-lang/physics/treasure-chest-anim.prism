@@ -1,0 +1,13 @@
+-- A treasure chest -- animated. The lid swings open on its hinge, light rays fan out and a
+-- glowing gem rises, then it closes and loops. The lid is a quad rotated about its hinge corner.
+include "lib/picture.prism"
+rot(px, py, ang, cx, cy)  <-  Pt{ x: cx + (px - cx) * cos(ang) - (py - cy) * sin(ang), y: cy + (px - cx) * sin(ang) + (py - cy) * cos(ang) }
+frame(t) : Picture  <-
+  ph    <-  frac(t * 0.3)
+  opn   <-  clamp((ph - 0.15) / 0.35, 0, 1)
+  ang   <-  0 - opn * 1.4
+  body  <-  Poly{ pts: [ Pt{x: 0 - 60, y: 0 - 60}, Pt{x: 60, y: 0 - 60}, Pt{x: 60, y: 10}, Pt{x: 0 - 60, y: 10}, Pt{x: 0 - 60, y: 0 - 60} ], h: 28, a: 1, fill: 1 }
+  lid   <-  Poly{ pts: [ rot(0 - 60, 10, ang, 0 - 60, 10), rot(60, 10, ang, 0 - 60, 10), rot(60, 44, ang, 0 - 60, 10), rot(0 - 60, 44, ang, 0 - 60, 10), rot(0 - 60, 10, ang, 0 - 60, 10) ], h: 38, a: 1, fill: 1 }
+  gem   <-  Circle{x: 0, y: 0 - 10 + opn * 55, r: 13 * opn, h: 280, a: opn, fill: 1}
+  pic( concat( [ body, lid, gem ], times(7, k -> Line{x1: 0, y1: 5, x2: 95 * cos(0.4 + k / 6 * 2.4), y2: 5 + 95 * sin(0.4 + k / 6 * 2.4), h: 50, a: opn * 0.5}) ) )
+main : () !console  <-  show!console "press Animate to open a treasure chest"

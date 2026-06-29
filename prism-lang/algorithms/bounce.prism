@@ -1,0 +1,30 @@
+-- Step 0 :: a bouncing ball in ASCII -- 1-D physics by Euler integration.
+-- State is (height y, velocity v). Each tick gravity pulls v down by 1; when the
+-- ball would go below the floor it bounces (flip position and velocity).
+-- `o` is drawn `y` spaces from the left, so each line is the height at one instant.
+
+State : Ball{ y: Num, v: Num }
+
+spaces(n: Num) : Text  <-
+  (n < 1) match
+    true   =>  ""
+    false  =>  " " + spaces(n - 1)
+
+advance(st: State) : State  <-
+  st match
+    Ball{y, v}  =>
+      nv  <-  v - 1                          -- gravity
+      ny  <-  y + nv                          -- move
+      (ny < 0) match
+        true   =>  Ball{ y: 0 - ny, v: 0 - nv }   -- bounce off the floor
+        false  =>  Ball{ y: ny, v: nv }
+
+run(ticks: Num, st: State) : () !console  <-
+  ticks match
+    0  =>  ()
+    _  =>
+      st match
+        Ball{y, v}  =>  show!console "{spaces(y)}o"  ~>  run(ticks - 1, advance(st))
+
+main : () !console  <-
+  run(28, Ball{ y: 0, v: 7 })

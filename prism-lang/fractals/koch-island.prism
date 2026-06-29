@@ -1,0 +1,26 @@
+-- L-system :: the Koch island (Minkowski island). Each side is the curve F -> F+F-F-F+F
+-- (90-degree turns); four such sides on a square make a closed, crinkled coastline.
+
+include "lib/turtle.prism"
+
+side(d, p)  <-
+  d match
+    0  =>  fwd(p)
+    _  =>
+      a   <-  side(d - 1, p)
+      a2  <-  turn(a, 1.5708)
+      b   <-  side(d - 1, a2)
+      b2  <-  turn(b, 0 - 1.5708)
+      c   <-  side(d - 1, b2)
+      c2  <-  turn(c, 0 - 1.5708)
+      e   <-  side(d - 1, c2)
+      e2  <-  turn(e, 1.5708)
+      side(d - 1, e2)
+
+s1  <-  side(3, Turtle{x: 0, y: 0, a: 0, ls: []})
+s2  <-  side(3, turn(s1, 0 - 1.5708))
+s3  <-  side(3, turn(s2, 0 - 1.5708))
+s4  <-  side(3, turn(s3, 0 - 1.5708))
+picture  <-  s4.ls
+
+main : () !console  <-  show!console "press Draw to see the Koch island"

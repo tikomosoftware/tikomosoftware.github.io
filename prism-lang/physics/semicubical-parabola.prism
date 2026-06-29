@@ -1,0 +1,8 @@
+-- The semicubical parabola: x = t^2, y = t^3 (so y^2 = x^3) -- it has a sharp cusp at the origin.
+include "lib/picture.prism"
+n  <-  240
+pt(i)  <-
+  t  <-  0 - 3.8 + i / n * 7.6
+  Pt{ x: t * t * 11, y: t * t * t * 3.5 }
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 60 } ]
+main : () !console  <-  show!console "press Draw to see a semicubical parabola"

@@ -1,0 +1,15 @@
+-- A loxodrome (rhumb line) -- animated. A spiral winding around a sphere from pole to pole at
+-- a constant angle, spinning about the vertical axis. One Poly. Pure function of time.
+include "lib/picture.prism"
+m  <-  280
+proj3(x, y, z, t)  <-
+  rx  <-  x * cos(t * 0.5) + z * sin(t * 0.5)
+  rz  <-  z * cos(t * 0.5) - x * sin(t * 0.5)
+  ry  <-  y * cos(0.5) - rz * sin(0.5)
+  Pt{ x: rx, y: ry }
+node(i, t)  <-
+  u  <-  0 - 1.5 + i / m * 3.0
+  a  <-  u * 8
+  proj3(130 * cos(u) * cos(a), 130 * sin(u), 130 * cos(u) * sin(a), t)
+frame(t) : Picture  <-  pic([ Poly{ pts: times(m + 1, i -> node(i, t)), h: 200 } ])
+main : () !console  <-  show!console "press Animate to watch a loxodrome (sphere spiral)"

@@ -1,0 +1,18 @@
+-- A flag waving in the wind, ANIMATED. The cloth is a mesh of points; a travelling wave
+-- sin(x - t) ripples it, with the amplitude growing toward the free (right) edge while the
+-- hoist (left) edge stays pinned. Each row is one Poly. Pure function of time.
+
+include "lib/picture.prism"
+
+cols  <-  16
+rows  <-  10
+
+-- a mesh point at column i, row j, at time t
+node(i, j, t)  <-
+  fx  <-  i / cols
+  Pt{ x: i * 14, y: j * 12 + 22 * fx * sin(i * 0.6 - t) }
+
+frame(t) : Picture  <-
+  pic( times(rows, j -> Poly{pts: times(cols, i -> node(i, j, t))}) )
+
+main : () !console  <-  show!console "press Animate to see a flag waving in the wind"

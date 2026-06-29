@@ -1,0 +1,11 @@
+-- Small math helpers (pure). Built on the math builtins: sin cos sqrt abs floor, and pi.
+-- (Prism's `?Error` failure voice already plays the role of Result/Option, so there is no
+-- separate Option/Result here -- a fallible value IS ok/fail.)
+
+minN(a, b)  <-  if a < b then a else b
+maxN(a, b)  <-  if a > b then a else b
+clamp(x, lo, hi)  <-  maxN(lo, minN(hi, x))           -- keep x within [lo, hi]
+sign(x)     <-  if x < 0 then 0 - 1 else if x > 0 then 1 else 0
+lerp(a, b, t)  <-  a + (b - a) * t                     -- linear interpolation, t in 0..1
+frac(x)     <-  x - floor(x)                            -- fractional part 0..1 (a sawtooth)
+mod(a, b)   <-  a - b * floor(a / b)                   -- a modulo b

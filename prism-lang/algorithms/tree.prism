@@ -1,0 +1,45 @@
+-- Algorithms in Prism :: a binary search tree, built from an `or` type.
+-- A Tree is a Leaf or a Node; every operation matches those two cases exhaustively.
+
+Tree : Leaf  or  Node{ value: Num, left: Tree, right: Tree }
+
+append(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+
+insert(x: Num, t: Tree) : Tree  <-
+  t match
+    Leaf  =>  Node{ value: x, left: Leaf, right: Leaf }
+    Node{value, left, right}  =>
+      (x < value) match
+        true   =>  Node{ value: value, left: insert(x, left), right: right }
+        false  =>  Node{ value: value, left: left, right: insert(x, right) }
+
+contains(x: Num, t: Tree) : Bool  <-
+  t match
+    Leaf  =>  false
+    Node{value, left, right}  =>
+      (x == value) match
+        true   =>  true
+        false  =>
+          (x < value) match
+            true   =>  contains(x, left)
+            false  =>  contains(x, right)
+
+-- in-order traversal yields the values in sorted order.
+inorder(t: Tree) : List[Num]  <-
+  t match
+    Leaf  =>  []
+    Node{value, left, right}  =>  append(inorder(left), [value, ..inorder(right)])
+
+fromList(xs: List[Num], t: Tree) : Tree  <-
+  xs match
+    []           =>  t
+    [h, ..rest]  =>  fromList(rest, insert(h, t))
+
+main : () !console  <-
+  t  <-  fromList([5, 3, 8, 1, 4, 7, 9, 2], Leaf)
+  show!console "in-order (sorted) = {inorder(t)}"
+  show!console "contains 7 = {contains(7, t)}"
+  show!console "contains 6 = {contains(6, t)}"

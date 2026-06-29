@@ -1,0 +1,29 @@
+-- L-system :: the Sierpinski arrowhead -- the Sierpinski triangle drawn as ONE unbroken
+-- curve. Rules  A -> B-A-B,  B -> A+B+A  (60-degree turns); A and B both move forward.
+
+include "lib/turtle.prism"
+
+aa(d, p)  <-
+  d match
+    0  =>  fwd(p)
+    _  =>
+      x   <-  bb(d - 1, p)
+      x2  <-  turn(x, 0 - 1.0472)
+      y   <-  aa(d - 1, x2)
+      y2  <-  turn(y, 0 - 1.0472)
+      bb(d - 1, y2)
+
+bb(d, p)  <-
+  d match
+    0  =>  fwd(p)
+    _  =>
+      x   <-  aa(d - 1, p)
+      x2  <-  turn(x, 1.0472)
+      y   <-  bb(d - 1, x2)
+      y2  <-  turn(y, 1.0472)
+      aa(d - 1, y2)
+
+done     <-  aa(6, Turtle{x: 0, y: 0, a: 0, ls: []})
+picture  <-  done.ls
+
+main : () !console  <-  show!console "press Draw to see the Sierpinski arrowhead"

@@ -1,0 +1,17 @@
+-- A Voronoi diagram. Nine seed points scatter the plane; every grid cell is coloured by which
+-- seed is nearest (a recursive arg-min over the seeds). The regions tile into a stained-glass map.
+include "lib/picture.prism"
+sx(j)  <-  360 * frac(sin(j * 12.9898) * 43758.5453) - 180
+sy(j)  <-  300 * frac(sin(j * 78.233) * 43758.5453) - 150
+sh(j)  <-  360 * frac(sin(j * 39.42) * 12345.6789)
+near(px, py, j, best, bd)  <-
+  d  <-  (px - sx(j)) * (px - sx(j)) + (py - sy(j)) * (py - sy(j))
+  if j == 9 then best else if d < bd then near(px, py, j + 1, j, d) else near(px, py, j + 1, best, bd)
+cell(ix, iy)  <-
+  px  <-  ix * 9 - 175
+  py  <-  iy * 9 - 130
+  Dot{ x: px, y: py, h: sh(near(px, py, 0, 0, 999999)), a: 0.95 }
+picture  <-
+  concat( concatAll( times(30, iy -> concatAll( times(40, ix -> [ cell(ix, iy) ]) )) ),
+          times(9, j -> Circle{x: sx(j), y: sy(j), r: 4, h: 0, a: 1, fill: 1}) )
+main : () !console  <-  show!console "a Voronoi diagram from nine seeds (nearest-seed colouring)"

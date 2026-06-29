@@ -1,0 +1,50 @@
+-- Data-driven L-systems. A "word" is a List of symbol tags (NOT a Text -- Prism has no
+-- string indexing, and a list of tags is what you'd want anyway). You give an AXIOM and a
+-- RULE (a pure function from a symbol to its replacement word); `expand` rewrites the word
+-- n times, and `draw` interprets it with the turtle (lib/turtle.prism) into a Picture.
+--
+-- The alphabet the interpreter understands:
+--   F G       move forward, drawing a line
+--   L R       turn left / right by the angle
+--   Push Pop   save / restore the turtle  (the L-system bracket  [ ] -- branching)
+--   anything else  is a no-op while drawing (a control symbol you only rewrite, e.g. X Y A B)
+
+include "lib/turtle.prism"
+include "lib/picture.prism"
+
+Sym : F or G or L or R or Push or Pop or X or Y or A or B
+
+-- rewrite every symbol once, concatenating each result
+rewrite(rule, word)  <-
+  word match
+    []        =>  []
+    [s, ..r]  =>  concat(rule(s), rewrite(rule, r))
+
+-- rewrite the whole word n times
+expand(rule, word, n)  <-
+  n match
+    0  =>  word
+    _  =>  expand(rule, rewrite(rule, word), n - 1)
+
+-- interpret a word with a turtle, threading a stack of saved states for the brackets
+walk(word, t, ang, stack)  <-
+  word match
+    []        =>  t
+    [s, ..r]  =>
+      s match
+        F     =>  walk(r, fwd(t), ang, stack)
+        G     =>  walk(r, fwd(t), ang, stack)
+        L     =>  walk(r, turn(t, ang), ang, stack)
+        R     =>  walk(r, turn(t, 0 - ang), ang, stack)
+        Push  =>  walk(r, t, ang, [t, ..stack])
+        Pop   =>
+          stack match
+            [top, ..rest]  =>  walk(r, restore(top, t), ang, rest)
+            _              =>  walk(r, t, ang, [])
+        _     =>  walk(r, t, ang, stack)
+
+-- draw a word into a Picture; the turn angle is given in degrees
+draw(word, deg)  <-
+  start  <-  Turtle{x: 0, y: 0, a: 0, ls: []}
+  done   <-  walk(word, start, deg * pi / 180, [])
+  pic(done.ls)

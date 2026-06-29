@@ -1,0 +1,15 @@
+-- Strange attractor :: the Ikeda map (a model of light in a nonlinear cavity).
+--   t = 0.4 - 6/(1 + x^2 + y^2);  x' = 1 + u(x cos t - y sin t);  y' = u(x sin t + y cos t).
+
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      t   <-  0.4 - 6 / (1 + x * x + y * y)
+      nx  <-  1 + 0.918 * (x * cos(t) - y * sin(t))
+      ny  <-  0.918 * (x * sin(t) + y * cos(t))
+      [ Dot{x: nx * 70, y: ny * 70}, ..trace(n - 1, nx, ny, acc) ]
+
+picture  <-  trace(1500, 0.1, 0.1, [])
+
+main : () !console  <-  show!console "press Draw to see the Ikeda map"

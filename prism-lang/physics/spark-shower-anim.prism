@@ -1,0 +1,7 @@
+include "lib/picture.prism"
+spark(k, t)  <-
+  life <- frac(t * 0.8 + k * 0.043)
+  vx <- (mod(k, 7) - 3) * 22
+  Dot{ x: vx * life, y: 90 * life - 130 * life * life, h: 45, a: 1 - life }
+frame(t) : Picture  <-  pic( concatAll( times(34, k -> [ spark(k, t) ]) ) )
+main : () !console  <-  show!console "press Animate for a spark shower"

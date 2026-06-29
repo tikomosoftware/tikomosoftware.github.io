@@ -1,0 +1,14 @@
+-- A harmonograph studio -- an interactive app. Two-frequency Lissajous figure with a decaying
+-- amplitude (like a real harmonograph's pendulums winding down). In the playground the three
+-- sliders (two frequencies + a phase) are drag controls and the figure redraws live.
+include "lib/picture.prism"
+freqX  <-  slider(2, 1, 6)
+freqY  <-  slider(3, 1, 6)
+phase  <-  slider(0.5, 0, 3.1)
+n  <-  1600
+pt(i)  <-
+  th  <-  i / n * 6.2832 * 9
+  d   <-  1 - i / n * 0.85
+  Pt{ x: 140 * d * sin(freqX * th), y: 140 * d * sin(freqY * th + phase) }
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 285 } ]
+main : () !console  <-  show!console "drag the sliders to design a harmonograph"

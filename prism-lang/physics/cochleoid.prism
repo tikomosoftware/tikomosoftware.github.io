@@ -1,0 +1,9 @@
+-- The cochleoid ("snail" curve): r = a sin(theta) / theta. The loops shrink toward the centre.
+include "lib/picture.prism"
+n  <-  320
+pt(i)  <-
+  th  <-  0.04 + i / n * 18.8
+  r   <-  200 * sin(th) / th
+  Pt{ x: r * cos(th), y: r * sin(th) }
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 150 } ]
+main : () !console  <-  show!console "press Draw to see a cochleoid"

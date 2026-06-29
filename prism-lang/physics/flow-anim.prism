@@ -1,0 +1,19 @@
+-- A turbulent flow field, animated: every dot in a grid drifts along a swirling velocity
+-- field built from sines of the OTHER coordinate (vx depends on y, vy on x), so the fluid
+-- curls and churns. Pure function of time; the grid points themselves never move, only their
+-- shown positions do.
+
+include "lib/picture.prism"
+
+n  <-  16
+
+node(i, j, t)  <-
+  gx  <-  i * 22 - 165
+  gy  <-  j * 22 - 165
+  Dot{ x: gx + 14 * sin(gy * 0.05 + t), y: gy + 14 * sin(gx * 0.05 - t),
+       h: 200 + 60 * sin(gx * 0.05 + gy * 0.05 - t) }
+
+frame(t) : Picture  <-
+  pic( concatAll( times(n, j -> times(n, i -> node(i, j, t))) ) )
+
+main : () !console  <-  show!console "press Animate to see a churning flow field"

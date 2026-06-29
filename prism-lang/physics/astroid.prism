@@ -1,0 +1,11 @@
+-- The astroid: a 4-cusped hypocycloid, x = R cos^3 t, y = R sin^3 t. A circle rolling inside
+-- a circle 4x its size traces it.
+include "lib/picture.prism"
+n  <-  240
+pt(i)  <-
+  t  <-  i / n * 6.2832
+  c  <-  cos(t)
+  s  <-  sin(t)
+  Pt{ x: 150 * c * c * c, y: 150 * s * s * s }
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 200 } ]
+main : () !console  <-  show!console "press Draw to see an astroid"

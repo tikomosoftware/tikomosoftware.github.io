@@ -1,0 +1,14 @@
+-- A Koch curve, defined as DATA: an axiom and one rewrite rule. The whole fractal is
+--   axiom F,  rule  F -> F L F R R F L F   (L/R turn 60 degrees)
+-- expanded 4 times. No hand-written recursion -- the generic L-system engine does it.
+
+include "lib/lsystem.prism"
+
+rule(s)  <-
+  s match
+    F  =>  [F, L, F, R, R, F, L, F]
+    _  =>  [s]
+
+picture  <-  render( draw( expand(rule, [F], 4), 60 ) )
+
+main : () !console  <-  show!console "press Draw to see a Koch curve (data-driven L-system)"

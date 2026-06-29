@@ -1,0 +1,11 @@
+-- A rose window -- animated. Rings of stained-glass petals arranged with 12-fold symmetry, each
+-- ring a different hue, the whole window turning slowly. Pure function of time.
+include "lib/picture.prism"
+petal(k, ring, t)  <-
+  a  <-  k / 12 * 6.2832 + t * 0.1 + ring * 0.2
+  r  <-  40 + ring * 35
+  Circle{ x: r * cos(a), y: r * sin(a), r: 16 - ring * 2, h: k * 30 + ring * 60, a: 0.55, fill: 1 }
+frame(t) : Picture  <-
+  pic( concat( [ Circle{x: 0, y: 0, r: 20, h: 50, a: 0.8, fill: 1} ],
+               concatAll( times(3, ring -> times(12, k -> petal(k, ring, t))) ) ) )
+main : () !console  <-  show!console "press Animate for a turning rose window"

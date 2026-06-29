@@ -1,0 +1,17 @@
+-- Fractal :: the Vicsek (box) fractal. A square's 3x3 grid keeps the centre and the four
+-- edge cells (a plus shape) and recurses -- a cross-shaped cousin of the carpet.
+
+vicsek(depth, x, y, s, acc)  <-
+  depth match
+    0  =>  [Rect{x: x, y: y, w: s, h: s}, ..acc]
+    _  =>
+      u  <-  s / 3
+      vicsek(depth - 1, x + u, y,         u,
+       vicsek(depth - 1, x,     y + u,     u,
+        vicsek(depth - 1, x + u, y + u,     u,
+         vicsek(depth - 1, x + u + u, y + u, u,
+          vicsek(depth - 1, x + u, y + u + u, u, acc)))))
+
+picture  <-  vicsek(4, 0, 0, 243, [])
+
+main : () !console  <-  show!console "press Draw to see a Vicsek fractal"

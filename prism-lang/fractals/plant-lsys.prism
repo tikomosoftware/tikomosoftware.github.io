@@ -1,0 +1,15 @@
+-- A branching plant from a bracketed L-system -- the brackets Push/Pop save and restore
+-- the turtle, so each branch returns to where it forked. Defined entirely as data:
+--   axiom X,  X -> F [ L X ] F [ R X ] L X,  F -> F F   (turn 25 degrees)
+
+include "lib/lsystem.prism"
+
+rule(s)  <-
+  s match
+    X  =>  [F, Push, L, X, Pop, F, Push, R, X, Pop, L, X]
+    F  =>  [F, F]
+    _  =>  [s]
+
+picture  <-  render( draw( expand(rule, [X], 5), 25 ) )
+
+main : () !console  <-  show!console "press Draw to see a plant (bracketed L-system)"

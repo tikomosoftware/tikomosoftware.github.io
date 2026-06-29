@@ -1,0 +1,28 @@
+-- Fractal :: the Minkowski sausage (square Koch). Each segment's middle third pops out
+-- as three sides of a square, turning one segment into five.
+
+mink(n, ax, ay, bx, by, acc)  <-
+  n match
+    0  =>  [Line{x1: ax, y1: ay, x2: bx, y2: by}, ..acc]
+    _  =>
+      dx  <-  (bx - ax) / 3
+      dy  <-  (by - ay) / 3
+      px  <-  0 - dy            -- perpendicular (the bump direction)
+      py  <-  dx
+      p1x <-  ax + dx
+      p1y <-  ay + dy
+      p2x <-  p1x + px
+      p2y <-  p1y + py
+      p3x <-  p2x + dx
+      p3y <-  p2y + dy
+      p4x <-  p3x - px
+      p4y <-  p3y - py
+      mink(n - 1, ax, ay, p1x, p1y,
+       mink(n - 1, p1x, p1y, p2x, p2y,
+        mink(n - 1, p2x, p2y, p3x, p3y,
+         mink(n - 1, p3x, p3y, p4x, p4y,
+          mink(n - 1, p4x, p4y, bx, by, acc)))))
+
+picture  <-  mink(4, 0, 0, 300, 0, [])
+
+main : () !console  <-  show!console "press Draw to see a Minkowski (square Koch) curve"

@@ -1,0 +1,16 @@
+-- Bubbles rising through water -- animated. Each bubble rises (frac loops it), wobbles side to
+-- side, and grows a little on the way up. Light-blue circles. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  34
+
+bubble(k, t)  <-
+  rise  <-  frac(t * 0.12 + k * 0.13)
+  Circle{ x: mod(k * 83, 360) - 180 + 22 * sin(t * 1.5 + k),   -- wobble
+          y: 0 - 150 + rise * 320,                              -- bottom -> top
+          r: 5 + mod(k, 4) * 3 + rise * 8, h: 195 }             -- grows as it rises
+
+frame(t) : Picture  <-  pic( times(n, k -> bubble(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch bubbles rise"

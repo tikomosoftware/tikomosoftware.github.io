@@ -1,0 +1,14 @@
+-- A turtle for L-system curves. A Turtle carries its position (x, y), heading (a, radians)
+-- and the line segments drawn so far (ls). `fwd` draws a step forward; `turn` rotates.
+-- L-system rules thread the turtle through `let` bindings (p1 <- ..., p2 <- ...).
+
+fwd(p)  <-
+  nx  <-  p.x + 11 * cos(p.a)
+  ny  <-  p.y + 11 * sin(p.a)
+  Turtle{ x: nx, y: ny, a: p.a, ls: [Line{x1: p.x, y1: p.y, x2: nx, y2: ny}, ..p.ls] }
+
+turn(p, da)  <-  Turtle{ x: p.x, y: p.y, a: p.a + da, ls: p.ls }
+
+-- after drawing a branch, return to where it started (orig's position & heading) but KEEP
+-- the lines the branch drew (p's ls). This is the L-system bracket: `[` save ... `]` restore.
+restore(orig, p)  <-  Turtle{ x: orig.x, y: orig.y, a: orig.a, ls: p.ls }

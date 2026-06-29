@@ -1,0 +1,17 @@
+-- A kaleidoscope -- animated. One little off-centre motif is copied at eight rotations (and
+-- the whole thing spins and breathes), so it blooms into a symmetric pattern. Built on the
+-- Picture algebra's `rotate`. Pure function of time.
+
+include "lib/picture.prism"
+
+motif(t)  <-
+  len  <-  40 + 22 * sin(t)
+  pic([ Line{x1: 14, y1: 0, x2: 14 + len, y2: 26},
+        Circle{x: 14 + len, y: 26, r: 7},
+        Dot{x: 34, y: 0 - 12} ])
+
+frame(t) : Picture  <-
+  m  <-  motif(t)
+  pic( concatAll( times(8, k -> render( rotate(k * 45 + t * 40, m) )) ) )
+
+main : () !console  <-  show!console "press Animate for a spinning kaleidoscope"

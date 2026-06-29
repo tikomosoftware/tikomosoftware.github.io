@@ -1,0 +1,20 @@
+-- L-system :: a branching plant. The rule  F -> F[+F]F[-F]F  means: draw, sprout a branch
+-- left, draw, sprout a branch right, draw. `[...]` (save/restore) is how the turtle
+-- branches: draw the side shoot, then come back to the trunk.
+
+include "lib/turtle.prism"
+
+plant(d, p)  <-
+  d match
+    0  =>  fwd(p)
+    _  =>
+      p1  <-  plant(d - 1, p)                              -- F
+      b1  <-  restore(p1, plant(d - 1, turn(p1, 0.43)))    -- [+F]
+      p2  <-  plant(d - 1, b1)                             -- F
+      b2  <-  restore(p2, plant(d - 1, turn(p2, 0 - 0.43)))-- [-F]
+      plant(d - 1, b2)                                     -- F
+
+done     <-  plant(4, Turtle{x: 0, y: 0, a: 1.5708, ls: []})   -- start pointing up
+picture  <-  done.ls
+
+main : () !console  <-  show!console "press Draw to see a branching plant"

@@ -1,0 +1,21 @@
+-- The Celtic Mandelbrot: take the absolute value of the REAL part of z^2 each step,
+-- |Re(z^2)| + Im(z^2) i + c. The fold along the real axis makes heart/knot-like lobes.
+
+include "lib/escape.prism"
+
+nx  <-  62
+ny  <-  62
+maxIter  <-  26
+z0  <-  Pt{x: 0, y: 0}
+
+cell(i, j)  <-
+  cx  <-  0 - 1.9 + i * (2.9 / nx)
+  cy  <-  0 - 1.45 + j * (2.9 / ny)
+  n   <-  escapeCeltic(z0, Pt{x: cx, y: cy}, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 320 + n * 7} ]
+    false  =>  []
+
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+
+main : () !console  <-  show!console "press Draw to render the Celtic fractal"

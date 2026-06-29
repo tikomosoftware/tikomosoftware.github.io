@@ -1,0 +1,18 @@
+-- Balloons rising -- animated. Each is a filled translucent circle with a little string, in a
+-- different colour, drifting up and swaying. `frac` loops the rise. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  20
+
+balloon(k, t)  <-
+  rise  <-  frac(t * 0.05 + k * 0.16)
+  x     <-  mod(k * 97, 360) - 180 + 16 * sin(t * 0.5 + k)
+  y     <-  0 - 190 + rise * 390
+  hue   <-  mod(k * 67, 360)
+  [ Circle{ x: x, y: y, r: 16, h: hue, a: 0.85, fill: 1 },                       -- body
+    Line{ x1: x, y1: y - 16, x2: x + 4 * sin(t + k), y2: y - 48, h: hue } ]      -- string
+
+frame(t) : Picture  <-  pic( concatAll( times(n, k -> balloon(k, t)) ) )
+
+main : () !console  <-  show!console "press Animate to watch balloons rise"

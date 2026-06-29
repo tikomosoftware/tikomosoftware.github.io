@@ -1,0 +1,6 @@
+-- A data visualizer: a pie chart. Each value becomes a wedge sized by its share. Edit `data`.
+-- Built on lib/chart.prism.
+include "lib/chart.prism"
+data  <-  [30, 22, 15, 18, 10, 5]
+picture  <-  pieChart(data, 130)
+main : () !console  <-  show!console "a pie chart (edit `data`)"

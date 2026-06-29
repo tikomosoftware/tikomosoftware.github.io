@@ -1,0 +1,6 @@
+-- Effect subsumption is ONE-WAY: `!io` covers `!console`, but a `!console` signature may NOT cover
+-- a body that performs the coarser `!io`. Here `narrow` calls an `!io` function yet declares only
+-- `!console`, so the checker rejects it -- the coarse effect would leak out unannounced.
+wide(m : Text) : () !io  <-  show!console m
+narrow(m : Text) : () !console  <-  wide(m)
+main : () !io  <-  narrow("x")

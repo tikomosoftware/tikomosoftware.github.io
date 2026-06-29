@@ -1,0 +1,11 @@
+-- `if cond then a else b` is an expression (desugars to a Bool match). `else if` chains.
+
+sign(n: Num) : Text  <-  if n < 0 then "neg" else if n == 0 then "zero" else "pos"
+
+absN(n: Num) : Num  <-  if n < 0 then 0 - n else n
+
+main : () !console  <-
+  show!console "sign(-4) = {sign(0 - 4)}"
+  show!console "sign(0)  = {sign(0)}"
+  show!console "sign(9)  = {sign(9)}"
+  show!console "abs(-7)  = {absN(0 - 7)}"

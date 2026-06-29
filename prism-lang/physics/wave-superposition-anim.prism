@@ -1,0 +1,17 @@
+-- Wave superposition -- animated, the teaching demo. Two travelling sine waves (different
+-- frequencies) and, below them, their SUM -- showing how waves add. Pure function of time.
+
+include "lib/picture.prism"
+
+cols  <-  62
+
+a1(i, t)  <-  30 * sin(i * 0.15 + t)
+a2(i, t)  <-  30 * sin(i * 0.27 - t * 1.3)
+xOf(i)    <-  i * 7 - 214
+
+frame(t) : Picture  <-
+  pic([ Poly{ pts: times(cols, i -> Pt{x: xOf(i), y: 60 + a1(i, t)}), h: 200 },         -- wave 1
+        Poly{ pts: times(cols, i -> Pt{x: xOf(i), y: 0 - 10 + a2(i, t)}), h: 55 },        -- wave 2
+        Poly{ pts: times(cols, i -> Pt{x: xOf(i), y: 0 - 90 + a1(i, t) + a2(i, t)}), h: 320 } ] )  -- sum
+
+main : () !console  <-  show!console "press Animate to watch two waves add up"

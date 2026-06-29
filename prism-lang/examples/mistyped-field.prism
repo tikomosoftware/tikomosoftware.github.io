@@ -1,0 +1,12 @@
+-- Prism v0 :: record FIELD types are checked. A field's declared type flows through `.field`
+-- access, so a mismatch downstream is caught -- the runtime would silently run these.
+
+Box : Box{ x: Num, y: Num, w: Num, h: Num }
+
+-- `b.w` is a Num. Adding Text to it (no implicit coercion) is an error, and a Num is not the
+-- declared Text return -- two lies the checker catches via the field's type.
+boxLabel(b: Box) : Text  <-  b.w + "px"
+
+-- a declared field used at its real type is fine; and an UNdeclared field stays gradual
+-- (records are open -- this is what lets a shape carry an extra hue `h`), so no false errors.
+getX(b: Box) : Num  <-  b.x

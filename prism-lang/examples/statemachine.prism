@@ -1,0 +1,28 @@
+-- Prism v0 :: STATE OVER TIME -- a traffic-light state machine.
+-- The time voice has two faces:
+--   `~>`  orders EFFECTS in time (see time.prism);
+--   here, STATE evolves in time -- each tick is a transition over an `or` type,
+--   and the transition `match` must be exhaustive (every state has a successor).
+
+Light : Red or Green or Yellow
+
+-- the transition function: one step of time. Exhaustive over every state.
+next(l: Light) : Light  <-
+  l match
+    Red     =>  Green
+    Green   =>  Yellow
+    Yellow  =>  Red
+
+name(l: Light) : Text  <-
+  l match
+    Red     =>  "red"
+    Green   =>  "green"
+    Yellow  =>  "yellow"
+
+-- the state threads through time as a sequence of rebindings s0 -> s1 -> s2,
+-- each `next` a tick of the clock; the effects are ordered by the block.
+main : () !console  <-
+  s0 <- Red
+  s1 <- next(s0)
+  s2 <- next(s1)
+  show!console "{name(s0)}"  ~>  show!console "{name(s1)}"  ~>  show!console "{name(s2)}"

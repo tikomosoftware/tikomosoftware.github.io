@@ -1,0 +1,10 @@
+-- A morphing epicycloid -- animated. The number of cusps k drifts continuously (2..7), so the
+-- curve grows and reabsorbs petals. One Poly. Pure function of time.
+include "lib/picture.prism"
+m  <-  300
+pt(i, t)  <-
+  th  <-  i / m * 6.2832
+  k   <-  2 + 2.5 * (1 + sin(t * 0.3))
+  Pt{ x: ((k + 1) * cos(th) - cos((k + 1) * th)) * 14, y: ((k + 1) * sin(th) - sin((k + 1) * th)) * 14 }
+frame(t) : Picture  <-  pic([ Poly{ pts: times(m + 1, i -> pt(i, t)), h: 40 } ])
+main : () !console  <-  show!console "press Animate to watch an epicycloid morph"

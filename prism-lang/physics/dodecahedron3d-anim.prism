@@ -1,0 +1,36 @@
+-- A rotating 3-D dodecahedron wireframe -- animated. 20 golden-ratio vertices; an edge joins
+-- any two at the (equal) nearest-neighbour distance (a dodecahedron has 30). Pure in t.
+include "lib/picture.prism"
+Vtx : V{ x: Num, y: Num, z: Num }
+vert(k)  <-
+  k match
+    0  =>  V{x: 70, y: 70, z: 70}
+    1  =>  V{x: 70, y: 70, z: 0 - 70}
+    2  =>  V{x: 70, y: 0 - 70, z: 70}
+    3  =>  V{x: 70, y: 0 - 70, z: 0 - 70}
+    4  =>  V{x: 0 - 70, y: 70, z: 70}
+    5  =>  V{x: 0 - 70, y: 70, z: 0 - 70}
+    6  =>  V{x: 0 - 70, y: 0 - 70, z: 70}
+    7  =>  V{x: 0 - 70, y: 0 - 70, z: 0 - 70}
+    8  =>  V{x: 0, y: 43.3, z: 113.3}
+    9  =>  V{x: 0, y: 43.3, z: 0 - 113.3}
+    10 =>  V{x: 0, y: 0 - 43.3, z: 113.3}
+    11 =>  V{x: 0, y: 0 - 43.3, z: 0 - 113.3}
+    12 =>  V{x: 43.3, y: 113.3, z: 0}
+    13 =>  V{x: 43.3, y: 0 - 113.3, z: 0}
+    14 =>  V{x: 0 - 43.3, y: 113.3, z: 0}
+    15 =>  V{x: 0 - 43.3, y: 0 - 113.3, z: 0}
+    16 =>  V{x: 113.3, y: 0, z: 43.3}
+    17 =>  V{x: 113.3, y: 0, z: 0 - 43.3}
+    18 =>  V{x: 0 - 113.3, y: 0, z: 43.3}
+    _  =>  V{x: 0 - 113.3, y: 0, z: 0 - 43.3}
+dist2(a, b)  <-  (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z)
+proj(v, t)  <-
+  rx  <-  v.x * cos(t * 0.5) + v.z * sin(t * 0.5)
+  rz  <-  v.z * cos(t * 0.5) - v.x * sin(t * 0.5)
+  ry  <-  v.y * cos(0.5) - rz * sin(0.5)
+  Pt{ x: rx, y: ry }
+ej(i, j, t)  <-
+  if i < j then (if dist2(vert(i), vert(j)) < 8200 then [ Line{x1: (proj(vert(i), t)).x, y1: (proj(vert(i), t)).y, x2: (proj(vert(j), t)).x, y2: (proj(vert(j), t)).y, h: 280} ] else []) else []
+frame(t) : Picture  <-  pic( concatAll( times(20, i -> concatAll( times(20, j -> ej(i, j, t)) )) ) )
+main : () !console  <-  show!console "press Animate to spin a 3-D dodecahedron"

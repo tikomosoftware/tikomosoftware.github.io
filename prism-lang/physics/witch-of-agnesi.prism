@@ -1,0 +1,9 @@
+-- The Witch of Agnesi: a bell-shaped curve, x = t, y = 8a^3 / (t^2 + 4a^2). A famous studied
+-- curve (the "witch" is a mistranslation of "versiera").
+include "lib/picture.prism"
+n  <-  240
+pt(i)  <-
+  t  <-  0 - 6 + i / n * 12
+  Pt{ x: t * 38, y: 8 / (t * t + 4) * 95 }
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 320 } ]
+main : () !console  <-  show!console "press Draw to see the Witch of Agnesi"

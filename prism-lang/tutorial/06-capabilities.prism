@@ -1,0 +1,18 @@
+-- 06 :: capabilities. A capability is a set of methods a type can provide.
+-- `describe` requires `given T: Show`; calling `render` resolves to the right
+-- instance and dispatches on the value's type at runtime.
+
+capability Show for T
+  render(x: T) : Text
+
+Num  provides Show
+  render(x)  <-  "a number"
+
+Text provides Show
+  render(x)  <-  x
+
+describe for T given T: Show (x: T) : Text  <-  render(x)
+
+main : () !console  <-
+  show!console describe(42)
+  show!console describe("hello")

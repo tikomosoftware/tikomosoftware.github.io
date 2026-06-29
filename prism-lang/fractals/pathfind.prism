@@ -1,0 +1,32 @@
+-- Maze pathfinding. A 13x13 grid with a random interior wall pattern (the border is always open,
+-- so start and goal are always connected). The "solver" is a flood fill: the distance-from-start
+-- field is relaxed Bellman-Ford style until it converges (same grid-stepping trick as Life), then
+-- the shortest path is recovered by descending the gradient from the goal. Cells are tinted by
+-- distance, walls dark, the solved path drawn bright. Pure -- BFS as a fold over immutable grids.
+include "lib/picture.prism"
+wallAt(i, j, n)  <-  if i == 0 then false else if j == 0 then false else if i == n - 1 then false else if j == n - 1 then false else frac(sin(i * 12.9 + j * 78.2) * 43758.5) > 0.66
+dGet(d, i, j, n)  <-  if i < 0 then 9999 else if i > n - 1 then 9999 else if j < 0 then 9999 else if j > n - 1 then 9999 else at(at(d, j), i)
+dist0Cell(i, j)  <-  if i == 0 then (if j == 0 then 0 else 9999) else 9999
+relaxCell(d, i, j, n)  <-  if wallAt(i, j, n) then 9999 else minN( dGet(d, i, j, n), 1 + minN(minN(dGet(d, i - 1, j, n), dGet(d, i + 1, j, n)), minN(dGet(d, i, j - 1, n), dGet(d, i, j + 1, n))) )
+iterate(d, k, n)  <-  if k < 1 then d else iterate( times(n, j -> times(n, i -> relaxCell(d, i, j, n))), k - 1, n )
+cellPt(i, j)  <-  Pt{ x: i * 22 - 132, y: 132 - j * 22 }
+trace(d, i, j, n, steps)  <-
+  dl  <-  dGet(d, i - 1, j, n)
+  dr  <-  dGet(d, i + 1, j, n)
+  du  <-  dGet(d, i, j - 1, n)
+  dd  <-  dGet(d, i, j + 1, n)
+  best  <-  minN(minN(dl, dr), minN(du, dd))
+  ni  <-  if dl == best then i - 1 else if dr == best then i + 1 else i
+  nj  <-  if dl == best then j else if dr == best then j else if du == best then j - 1 else j + 1
+  if steps < 1 then [cellPt(i, j)] else if i == 0 then (if j == 0 then [cellPt(i, j)] else [cellPt(i, j), ..trace(d, ni, nj, n, steps - 1)]) else [cellPt(i, j), ..trace(d, ni, nj, n, steps - 1)]
+cellDot(d, i, j, n)  <-
+  dv  <-  dGet(d, i, j, n)
+  Dot{ x: i * 22 - 132, y: 132 - j * 22, h: if wallAt(i, j, n) then 250 else 200 - minN(dv, 48) * 3.2, a: if wallAt(i, j, n) then 0.85 else if dv > 9000 then 0.12 else 0.7 }
+picture  <-
+  d0  <-  times(13, j -> times(13, i -> dist0Cell(i, j)))
+  df  <-  iterate(d0, 30, 13)
+  concat( concatAll( times(13, j -> times(13, i -> cellDot(df, i, j, 13))) ),
+          [ Poly{ pts: trace(df, 12, 12, 13, 70), h: 55, a: 1 },
+            Circle{x: 0 - 132, y: 132, r: 7, h: 120, a: 1, fill: 1},
+            Circle{x: 132, y: 0 - 132, r: 7, h: 0, a: 1, fill: 1} ] )
+main : () !console  <-  show!console "a maze solved by flood-fill BFS, shortest path descended from the goal"

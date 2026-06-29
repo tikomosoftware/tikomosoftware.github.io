@@ -1,0 +1,52 @@
+-- Small list helpers (pure), by structural recursion. A list matches `[]` (empty) vs
+-- `[h, ..t]` (head/tail). NOTE: a list literal allows only ONE trailing `..spread`
+-- (`[h, ..t]` ok, `[..a, ..b]` not), so concatenation is written recursively.
+
+length(xs)  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  1 + length(t)
+
+concat(xs, ys)  <-                       -- xs followed by ys
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..concat(t, ys)]
+
+concatAll(xss)  <-                       -- flatten a list of lists
+  xss match
+    []        =>  []
+    [h, ..t]  =>  concat(h, concatAll(t))
+
+reverse(xs)  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  concat(reverse(t), [h])
+
+map(f, xs)  <-                           -- apply f to each element
+  xs match
+    []        =>  []
+    [h, ..t]  =>  [f(h), ..map(f, t)]
+
+filter(p, xs)  <-                        -- keep elements where p(x) is true
+  xs match
+    []        =>  []
+    [h, ..t]  =>  if p(h) then [h, ..filter(p, t)] else filter(p, t)
+
+foldl(f, acc, xs)  <-                    -- left fold: f(...f(f(acc, x0), x1)..., xn)
+  xs match
+    []        =>  acc
+    [h, ..t]  =>  foldl(f, f(acc, h), t)
+
+-- build [f(0), f(1), ..., f(n-1)] -- a handy way to lay out grids and rows
+upTo(i, n, f)  <-
+  (i < n) match
+    true   =>  [f(i), ..upTo(i + 1, n, f)]
+    false  =>  []
+times(n, f)  <-  upTo(0, n, f)
+
+range(from, to)  <-  times(to - from, i -> from + i)   -- [from, from+1, ..., to-1]
+
+nth(xs, k)  <-                           -- the k-th element (0-based); 0 if out of range
+  xs match
+    []        =>  0
+    [h, ..t]  =>  if k < 1 then h else nth(t, k - 1)

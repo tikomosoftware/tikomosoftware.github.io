@@ -1,0 +1,11 @@
+include "lib/picture.prism"
+orb(k, t)  <-
+  r <- 30 * (0.5 + 0.5 * sin(t * 2))
+  Dot{ x: 0 - 160 + r * cos(k * 1.2 + t * 3), y: r * sin(k * 1.2 + t * 3), h: 200, a: 0.8 }
+beam(w, hue, al)  <-  Poly{ pts: [ Pt{x: 0 - 160, y: 0 - w}, Pt{x: 200, y: 0 - w}, Pt{x: 200, y: w},
+  Pt{x: 0 - 160, y: w}, Pt{x: 0 - 160, y: 0 - w} ], h: hue, a: al, fill: 1 }
+frame(t) : Picture  <-
+  w  <-  7 + 4 * sin(t * 6)
+  pic( concat( [ beam(w + 8, 200, 0.3), beam(w * 0.4 + 1, 195, 0.9),
+  Line{x1: 0 - 160, y1: 0, x2: 200, y2: 0, h: 190} ], times(8, k -> orb(k, t)) ) )
+main : () !console  <-  show!console "press Animate to fire a laser beam"

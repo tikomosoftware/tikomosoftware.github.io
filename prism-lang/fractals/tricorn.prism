@@ -1,0 +1,21 @@
+-- The Tricorn (Mandelbar): the Mandelbrot iteration but conjugating z before squaring,
+-- z -> conj(z)^2 + c. The conjugation gives it a 3-cusped, 3-fold-symmetric shape.
+
+include "lib/escape.prism"
+
+nx  <-  62
+ny  <-  62
+maxIter  <-  26
+z0  <-  Pt{x: 0, y: 0}
+
+cell(i, j)  <-
+  cx  <-  0 - 2.1 + i * (3.2 / nx)
+  cy  <-  0 - 1.6 + j * (3.2 / ny)
+  n   <-  escapeTri(z0, Pt{x: cx, y: cy}, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 200 + n * 9} ]
+    false  =>  []
+
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+
+main : () !console  <-  show!console "press Draw to render the Tricorn"

@@ -1,0 +1,35 @@
+-- Curved fractal :: the Koch snowflake. Each segment A->B becomes four segments
+-- with an outward equilateral bump -- the bump's apex needs a 60-degree rotation,
+-- so this uses the `sin`/`cos`/`pi` math builtins.  Press "Draw" in the playground.
+
+-- replace one segment A->B by the Koch motif, prepending results onto `acc`
+koch(depth, ax, ay, bx, by, acc)  <-
+  depth match
+    0  =>  [ Line{x1: ax, y1: ay, x2: bx, y2: by}, ..acc ]
+    _  =>
+      dx  <-  bx - ax
+      dy  <-  by - ay
+      cx  <-  ax + dx / 3                 -- one third along
+      cy  <-  ay + dy / 3
+      ex  <-  ax + dx * 2 / 3             -- two thirds along
+      ey  <-  ay + dy * 2 / 3
+      vx  <-  ex - cx                     -- the middle third, to be rotated +60 deg
+      vy  <-  ey - cy
+      co  <-  cos(pi / 3)
+      si  <-  sin(pi / 3)
+      px  <-  cx + (vx * co + vy * si)    -- apex of the bump (rotate the middle third -60 deg)
+      py  <-  cy + (vy * co - vx * si)    -- -> bumps point OUTWARD on this CCW triangle
+      koch(depth - 1, ax, ay, cx, cy,
+        koch(depth - 1, cx, cy, px, py,
+          koch(depth - 1, px, py, ex, ey,
+            koch(depth - 1, ex, ey, bx, by, acc))))
+
+-- a snowflake = Koch applied to the three sides of a triangle (traversed so the
+-- bumps point outward).
+picture  <-
+  koch(4, 0, 0, 300, 0,
+    koch(4, 300, 0, 150, 260,
+      koch(4, 150, 260, 0, 0, [])))
+
+main : () !console  <-
+  show!console "open in the playground and press Draw to see a Koch snowflake"

@@ -1,0 +1,19 @@
+-- Prism v0 :: effect polymorphism, now actually CHECKED
+-- one `map`, polymorphic over type (T,U), effect (e), failure (g)
+
+map for T, U, !e, ?g
+  (xs: List[T], f: (T) -> U !e ?g) : List[U] !e ?g  <-
+    xs match
+      []        =>  []
+      [h, ..t]  =>  [ try f(h), ..try map(t, f) ]
+
+double(n: Num) : Num  <-  n * 2
+
+-- pure use: f is pure, so map here is pure (e = {}, g = {})
+doubled(xs: List[Num]) : List[Num]  <-  map(xs, double)
+
+-- effectful use: SAME map; f does !console, so map here is !console.
+-- greetAll correctly declares !console -> the checker is satisfied.
+greetAll(names: List[Text]) : () !console  <-
+  map(names, n -> show!console "hi {n}")
+  ()

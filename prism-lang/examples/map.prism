@@ -1,0 +1,23 @@
+-- Prism v0 :: one polymorphic map, pure AND effectful
+-- (v0 is dynamically typed: for/given/types parse but are not checked yet)
+
+map(xs, f)  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  [ try f(h), ..try map(t, f) ]
+
+double(n)  <-  n * 2
+
+nums    <-  [1, 2, 3]
+doubled <-  map(nums, double)          -- pure use: map stays pure
+
+-- effectful use: SAME map, now it carries !console because f does
+greetAll(names)  <-  map(names, n -> show!console "hi {n}")
+
+main : () !console  <-
+  attempt
+    show!console "doubled = {doubled}"
+    greetAll(["Ada", "Alan", "Grace"])
+    show!console "done"
+  rescue
+    _  =>  show!console "unexpected failure"

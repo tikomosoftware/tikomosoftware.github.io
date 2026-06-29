@@ -1,0 +1,23 @@
+-- A Multibrot set: the Mandelbrot iteration with the power bumped up, z -> z^5 + c. Higher
+-- powers turn the lumpy Mandelbrot "bug" into a spiky, snowflake-like star with (d-1)-fold
+-- symmetry. Same escape-time colouring; a complex number is a Pt{x, y}.
+
+include "lib/escape.prism"
+
+nx  <-  58
+ny  <-  58
+deg  <-  5
+maxIter  <-  20
+z0  <-  Pt{x: 0, y: 0}
+
+cell(i, j)  <-
+  cx  <-  0 - 1.4 + i * (2.8 / nx)
+  cy  <-  0 - 1.4 + j * (2.8 / ny)
+  n   <-  escape(z0, Pt{x: cx, y: cy}, deg, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 250 + n * 11} ]
+    false  =>  []
+
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+
+main : () !console  <-  show!console "press Draw to render a Multibrot (z^5) star"

@@ -1,0 +1,17 @@
+-- A night sky with shooting stars -- animated. A field of still stars, plus a few streaks
+-- that cross diagonally on looping phases (so one flares now and then). Pure function of time.
+
+include "lib/picture.prism"
+
+star(k)  <-  Dot{ x: mod(k * 89, 420) - 210, y: mod(k * 61, 300) - 150, h: 210 }
+
+shoot(k, t)  <-
+  p   <-  frac(t * 0.35 + k * 0.41)
+  hx  <-  0 - 220 + p * 460
+  hy  <-  0 - 150 + p * 200
+  Line{ x1: hx, y1: hy, x2: hx - 42, y2: hy - 18, h: 48 }   -- bright warm tail
+
+frame(t) : Picture  <-
+  pic( concatAll([ times(40, star), times(3, k -> shoot(k, t)) ]) )
+
+main : () !console  <-  show!console "press Animate for shooting stars"

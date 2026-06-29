@@ -1,0 +1,20 @@
+-- 7-segment digit rendering, for score/combo/HP numbers. A digit is always 7 Line segments;
+-- unlit segments just get opacity 0, so the shape count is constant (animation-friendly).
+-- bit order: a=1 b=2 c=4 d=8 e=16 f=32 g=64 (a top, b/c right, d bottom, e/f left, g middle).
+include "lib/picture.prism"
+mask(n)  <-  if n == 0 then 63 else if n == 1 then 6 else if n == 2 then 91 else if n == 3 then 79 else if n == 4 then 102 else if n == 5 then 109 else if n == 6 then 125 else if n == 7 then 7 else if n == 8 then 127 else 111
+lit(n, bit)  <-  mod(floor(mask(n) / bit), 2)
+digit(n, ox, oy, s, hue, al)  <-
+  xr  <-  ox + s
+  yt  <-  oy + s * 1.6
+  yb  <-  oy - s * 1.6
+  [ Line{x1: ox, y1: yt, x2: xr, y2: yt, h: hue, a: al * lit(n, 1)},
+    Line{x1: xr, y1: yt, x2: xr, y2: oy, h: hue, a: al * lit(n, 2)},
+    Line{x1: xr, y1: oy, x2: xr, y2: yb, h: hue, a: al * lit(n, 4)},
+    Line{x1: ox, y1: yb, x2: xr, y2: yb, h: hue, a: al * lit(n, 8)},
+    Line{x1: ox, y1: oy, x2: ox, y2: yb, h: hue, a: al * lit(n, 16)},
+    Line{x1: ox, y1: yt, x2: ox, y2: oy, h: hue, a: al * lit(n, 32)},
+    Line{x1: ox, y1: oy, x2: xr, y2: oy, h: hue, a: al * lit(n, 64)} ]
+tensOf(v)  <-  mod(floor(v / 10), 10)
+onesOf(v)  <-  mod(v, 10)
+number2(v, ox, oy, s, hue, al)  <-  concat( digit(tensOf(v), ox, oy, s, hue, al), digit(onesOf(v), ox + s * 1.7, oy, s, hue, al) )

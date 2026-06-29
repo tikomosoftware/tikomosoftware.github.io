@@ -1,0 +1,22 @@
+-- Wave INTERFERENCE, animated: two ripple sources, each emitting sin(distance - t). Where
+-- the waves meet they add -- the classic two-source fringe pattern. Height shows as a small
+-- bob plus a hue shift. Pure function of time over a grid of dots.
+
+include "lib/picture.prism"
+
+n  <-  19
+
+node(i, j, t)  <-
+  gx  <-  i * 18 - 162
+  gy  <-  j * 18 - 162
+  ax  <-  gx + 70
+  bx  <-  gx - 70
+  d1  <-  sqrt(ax * ax + gy * gy)
+  d2  <-  sqrt(bx * bx + gy * gy)
+  z   <-  sin(d1 * 0.06 - t) + sin(d2 * 0.06 - t)
+  Dot{ x: gx, y: gy + 8 * z, h: 210 + z * 45 }
+
+frame(t) : Picture  <-
+  pic( concatAll( times(n, j -> times(n, i -> node(i, j, t))) ) )
+
+main : () !console  <-  show!console "press Animate to see two-source wave interference"

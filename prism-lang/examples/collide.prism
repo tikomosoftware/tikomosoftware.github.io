@@ -1,0 +1,20 @@
+-- MULTIPLE DISPATCH. A capability can range over more than one type variable (`for A, B`); then a
+-- method is chosen by the runtime types of SEVERAL arguments at once, not just the receiver. Here
+-- `hit` picks a different implementation for each ordered pair of colliders -- the classic example
+-- single dispatch can't express (the outcome depends on BOTH things, not one "owner").
+capability Collide for A, B
+  hit(a: A, b: B) : Text
+
+Ship     : Ship{}
+Asteroid : Asteroid{}
+Bullet   : Bullet{}
+
+Ship   provides Collide for Asteroid                    -- (A := Ship,   B := Asteroid)
+  hit(a, b)  <-  "ship grazes the asteroid"
+Bullet provides Collide for Asteroid                    -- (A := Bullet, B := Asteroid)
+  hit(a, b)  <-  "bullet shatters the asteroid"
+Ship   provides Collide for Bullet                      -- (A := Ship,   B := Bullet)
+  hit(a, b)  <-  "ship absorbs the bullet"
+
+main : () !console  <-
+  show!console hit(Ship{}, Asteroid{})  ~>  show!console hit(Bullet{}, Asteroid{})  ~>  show!console hit(Ship{}, Bullet{})

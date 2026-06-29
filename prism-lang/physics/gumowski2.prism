@@ -1,0 +1,15 @@
+-- Strange attractor :: Gumowski-Mira with a = 0.31 (a different bloom from the -0.2 one).
+
+g(x)  <-  0.31 * x + 1.38 * x * x / (1 + x * x)
+
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  y + g(x)
+      ny  <-  0 - x + g(nx)
+      [ Dot{x: nx * 16, y: ny * 16}, ..trace(n - 1, nx, ny, acc) ]
+
+picture  <-  trace(1500, 1, 1, [])
+
+main : () !console  <-  show!console "press Draw to see another Gumowski-Mira attractor"

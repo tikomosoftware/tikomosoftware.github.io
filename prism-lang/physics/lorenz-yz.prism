@@ -1,0 +1,14 @@
+-- Strange attractor :: Lorenz, projected onto y-z (a third view of the butterfly).
+trace(n, x, y, z, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      dx  <-  10 * (y - x)
+      dy  <-  x * (28 - z) - y
+      dz  <-  x * y - 2.6667 * z
+      nx  <-  x + dx * 0.01
+      ny  <-  y + dy * 0.01
+      nz  <-  z + dz * 0.01
+      [ Dot{x: ny * 9, y: nz * 9}, ..trace(n - 1, nx, ny, nz, acc) ]
+picture  <-  trace(900, 1, 1, 1, [])
+main : () !console  <-  show!console "press Draw to see the Lorenz butterfly (y-z view)"

@@ -1,0 +1,30 @@
+-- Fractal :: a leaning Pythagoras tree. Same construction as pythagoras.prism, but the
+-- branch triangle uses a 36-degree angle instead of 45, so the children are unequal and
+-- the whole tree leans and spreads asymmetrically.
+
+pythagoras(depth, x1, y1, x2, y2, acc)  <-
+  dx  <-  x2 - x1
+  dy  <-  y2 - y1
+  x4  <-  x1 - dy
+  y4  <-  y1 + dx
+  x3  <-  x2 - dy
+  y3  <-  y2 + dx
+  sq  <-  [ Line{x1: x1, y1: y1, x2: x2, y2: y2},
+            Line{x1: x2, y1: y2, x2: x3, y2: y3},
+            Line{x1: x3, y1: y3, x2: x4, y2: y4},
+            Line{x1: x4, y1: y4, x2: x1, y2: y1}, ..acc ]
+  depth match
+    0  =>  sq
+    _  =>
+      c   <-  cos(pi / 5)
+      s   <-  sin(pi / 5)
+      wx  <-  x3 - x4
+      wy  <-  y3 - y4
+      tx  <-  x4 + c * (wx * c - wy * s)
+      ty  <-  y4 + c * (wx * s + wy * c)
+      pythagoras(depth - 1, x4, y4, tx, ty,
+        pythagoras(depth - 1, tx, ty, x3, y3, sq))
+
+picture  <-  pythagoras(9, 0, 0, 40, 0, [])
+
+main : () !console  <-  show!console "press Draw to see a leaning Pythagoras tree"

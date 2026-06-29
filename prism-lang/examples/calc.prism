@@ -1,0 +1,31 @@
+-- Prism v0 :: a tiny arithmetic expression evaluator, written IN Prism.
+-- Dogfooding all the voices at once: an `or` type (the AST), exhaustive match,
+-- recursion, failure that propagates (?DivByZero), and effects in `main`.
+
+Expr : Lit{val: Num}
+    or Add{left: Expr, right: Expr}
+    or Mul{left: Expr, right: Expr}
+    or Div{left: Expr, right: Expr}
+
+-- eval is pure but FALLIBLE: division by zero is a visible failure mode.
+-- The match must cover every variant; each `try` threads a sub-failure outward.
+eval(e: Expr) : Num ?DivByZero  <-
+  e match
+    Lit{val}          =>  val
+    Add{left, right}  =>  try eval(left) + try eval(right)
+    Mul{left, right}  =>  try eval(left) * try eval(right)
+    Div{left, right}  =>
+      d  <-  try eval(right)
+      d match
+        0  =>  fail DivByZero
+        _  =>  try eval(left) / d
+
+main : () !console  <-
+  ok20  <-  Mul{ left: Add{ left: Lit{val: 2}, right: Lit{val: 3} }, right: Lit{val: 4} }
+  bad   <-  Div{ left: Lit{val: 10}, right: Lit{val: 0} }
+  attempt
+    r  <-  try eval(ok20)
+    show!console "(2 + 3) * 4 = {r}"
+    show!console "10 / 0     = {try eval(bad)}"
+  rescue
+    DivByZero  =>  show!console "10 / 0     = caught division by zero"

@@ -1,0 +1,17 @@
+-- 2-D physics :: an orbit. A body falls toward a central mass at the origin with
+-- inverse-square gravity; semi-implicit Euler keeps the ellipse roughly closed.
+
+include "lib/physics2d.prism"
+
+trace(n, body)  <-
+  n match
+    0  =>  []
+    _  =>
+      p  <-  body.pos
+      r  <-  vlen(p)
+      a  <-  vscale(p, 0 - 108000 / (r * r * r))   -- gravity toward the origin
+      [ Dot{x: p.x, y: p.y}, ..trace(n - 1, step(body, a, 0.08)) ]
+
+picture  <-  trace(340, B{ pos: V{x: 120, y: 0}, vel: V{x: 0, y: 30} })
+
+main : () !console  <-  show!console "press Draw to see an orbit"

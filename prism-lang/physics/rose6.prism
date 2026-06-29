@@ -1,0 +1,8 @@
+-- Eye candy :: a rose r = cos(6 theta). Even coefficient -> 12 petals.
+
+include "lib/draw2d.prism"
+
+picture  <-  polyline(t -> V{ x: 140 * cos(6 * t * 0.05) * cos(t * 0.05),
+                              y: 140 * cos(6 * t * 0.05) * sin(t * 0.05) }, 0, 130)
+
+main : () !console  <-  show!console "press Draw to see a 12-petal rose"

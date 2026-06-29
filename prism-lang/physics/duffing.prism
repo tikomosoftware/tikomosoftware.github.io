@@ -1,0 +1,15 @@
+-- 2-D physics :: the driven Duffing oscillator, x'' = -d x' + x - x^3 + g cos(w t),
+-- shown in phase space (x, x') -- a forced nonlinear spring that settles into chaos.
+
+trace(n, t, x, v, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      a   <-  0 - 0.3 * v + x - x * x * x + 0.5 * cos(1.2 * t)
+      nv  <-  v + a * 0.05
+      nx  <-  x + nv * 0.05
+      [ Dot{x: nx * 90, y: nv * 90}, ..trace(n - 1, t + 0.05, nx, nv, acc) ]
+
+picture  <-  trace(1500, 0, 1, 0, [])
+
+main : () !console  <-  show!console "press Draw to see a Duffing oscillator"

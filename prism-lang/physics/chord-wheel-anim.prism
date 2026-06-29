@@ -1,0 +1,18 @@
+-- A chord wheel -- animated music theory. The 12 chromatic notes sit on a circle; a major
+-- triad (root, +4, +7 semitones) is drawn as a triangle, and the root steps around so you see
+-- the same shape rotate through all keys. Pure function of time.
+include "lib/picture.prism"
+notePos(k)  <-
+  a  <-  0 - 1.5708 + k / 12 * 6.2832
+  Pt{ x: 140 * cos(a), y: 140 * sin(a) }
+frame(t) : Picture  <-
+  root  <-  floor(t * 0.7)
+  p1  <-  notePos(mod(root, 12))
+  p2  <-  notePos(mod(root + 4, 12))
+  p3  <-  notePos(mod(root + 7, 12))
+  pic( concat( times(12, k -> Dot{x: (notePos(k)).x, y: (notePos(k)).y, h: 210, a: 0.45}),
+       [ Line{x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, h: 40}, Line{x1: p2.x, y1: p2.y, x2: p3.x, y2: p3.y, h: 40},
+         Line{x1: p3.x, y1: p3.y, x2: p1.x, y2: p1.y, h: 40},
+         Circle{x: p1.x, y: p1.y, r: 9, h: 0, fill: 1}, Circle{x: p2.x, y: p2.y, r: 8, h: 120, fill: 1},
+         Circle{x: p3.x, y: p3.y, r: 8, h: 280, fill: 1} ] ) )
+main : () !console  <-  show!console "press Animate to roll a major triad through the keys"

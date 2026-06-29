@@ -1,0 +1,17 @@
+-- 2-D physics :: a pendulum. Angle a, angular velocity w, with a'' = -(g/L) sin a.
+-- We draw the rod (origin -> bob) at every step, so the swing leaves a fan.
+
+bob_x(a)  <-  130 * sin(a)
+bob_y(a)  <-  0 - 130 * cos(a)
+
+trace(n, a, w)  <-
+  n match
+    0  =>  []
+    _  =>
+      nw  <-  w - (10 / 130) * sin(a) * 0.12     -- dt = 0.12, g/L = 10/130
+      na  <-  a + nw * 0.12
+      [ Line{x1: 0, y1: 0, x2: bob_x(a), y2: bob_y(a)}, ..trace(n - 1, na, nw) ]
+
+picture  <-  trace(260, 1.3, 0)                  -- released from 1.3 rad
+
+main : () !console  <-  show!console "press Draw to see a pendulum"

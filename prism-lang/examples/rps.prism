@@ -1,0 +1,65 @@
+-- Rock-paper-scissors, built the Prism way and showcasing MULTIPLE DISPATCH: the outcome of a
+-- round depends on BOTH hands at once, so it's a capability over two type variables (Beats for A, B)
+-- with one instance per ordered pair -- exactly the case single dispatch can't express.
+--   echo rock | python cli.py run examples/rps.prism
+-- (the CPU is deterministic -- this is a pure language -- so rock -> win, paper -> draw, scissors -> lose.)
+
+Rock     : Rock{}
+Paper    : Paper{}
+Scissors : Scissors{}
+Outcome  : Win{} or Lose{} or Draw{}
+
+capability Beats for A, B
+  play(a: A, b: B) : Outcome
+
+Rock     provides Beats for Rock
+  play(a, b)  <-  Draw
+Rock     provides Beats for Paper
+  play(a, b)  <-  Lose
+Rock     provides Beats for Scissors
+  play(a, b)  <-  Win
+Paper    provides Beats for Rock
+  play(a, b)  <-  Win
+Paper    provides Beats for Paper
+  play(a, b)  <-  Draw
+Paper    provides Beats for Scissors
+  play(a, b)  <-  Lose
+Scissors provides Beats for Rock
+  play(a, b)  <-  Lose
+Scissors provides Beats for Paper
+  play(a, b)  <-  Win
+Scissors provides Beats for Scissors
+  play(a, b)  <-  Draw
+
+render(o: Outcome) : Text  <-
+  o match
+    Win   =>  "you win!"
+    Lose  =>  "you lose"
+    Draw  =>  "draw"
+
+-- player's concrete hand is built in decide's arm; here we build the CPU's and play the round.
+versus(ph, cpu: Text) : Text  <-
+  cpu match
+    "rock"      =>  render(play(ph, Rock{}))
+    "paper"     =>  render(play(ph, Paper{}))
+    "scissors"  =>  render(play(ph, Scissors{}))
+    _           =>  "cpu confused"
+
+decide(player: Text, cpu: Text) : Text  <-
+  player match
+    "rock"      =>  versus(Rock{}, cpu)
+    "paper"     =>  versus(Paper{}, cpu)
+    "scissors"  =>  versus(Scissors{}, cpu)
+    _           =>  "unknown hand (use rock / paper / scissors)"
+
+compChoice(you: Text) : Text  <-
+  you match
+    "rock"      =>  "scissors"
+    "paper"     =>  "paper"
+    "scissors"  =>  "rock"
+    _           =>  "rock"
+
+main : () !console  <-
+  you   <-  read!console
+  cpu   <-  compChoice(you)
+  show!console "you: {you} / cpu: {cpu}"  ~>  show!console decide(you, cpu)

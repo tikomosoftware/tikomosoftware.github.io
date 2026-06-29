@@ -1,0 +1,22 @@
+-- Eye candy :: nested triangles, each rotated and shrunk a little -- a kaleidoscope spiral
+-- (the triangular cousin of vortex.prism).
+
+triangles(i, n, acc)  <-
+  (i < n) match
+    false  =>  acc
+    true   =>
+      r   <-  150 * (1 - i * 0.018)
+      f   <-  i * 0.3
+      ax  <-  r * cos(f)
+      ay  <-  r * sin(f)
+      bx  <-  r * cos(f + 2.094)
+      by  <-  r * sin(f + 2.094)
+      cx  <-  r * cos(f + 4.189)
+      cy  <-  r * sin(f + 4.189)
+      [ Line{x1: ax, y1: ay, x2: bx, y2: by},
+        ..[ Line{x1: bx, y1: by, x2: cx, y2: cy},
+          ..[ Line{x1: cx, y1: cy, x2: ax, y2: ay}, ..triangles(i + 1, n, acc) ] ] ]
+
+picture  <-  triangles(0, 48, [])
+
+main : () !console  <-  show!console "press Draw to see a kaleidoscope"

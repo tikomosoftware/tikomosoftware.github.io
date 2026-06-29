@@ -1,0 +1,23 @@
+-- Conway's Game of Life, as a filmstrip: six generations of an 18x18 toroidal world, left to
+-- right, evolving from a random soup. A grid is a list of rows (lists of 0/1); each step rebuilds
+-- the grid from its neighbour counts. Pure -- no arrays, no mutation -- so it shows that even
+-- stateful cellular automata are just a fold over immutable grids. (See also rule110 / rule30.)
+include "lib/picture.prism"
+gridGet(g, i, j, n)  <-  at(at(g, mod(j, n)), mod(i, n))   -- O(1) read (was nth/nth, O(n) each)
+neigh(g, i, j, n)  <-  gridGet(g, i - 1, j - 1, n) + gridGet(g, i, j - 1, n) + gridGet(g, i + 1, j - 1, n) + gridGet(g, i - 1, j, n) + gridGet(g, i + 1, j, n) + gridGet(g, i - 1, j + 1, n) + gridGet(g, i, j + 1, n) + gridGet(g, i + 1, j + 1, n)
+nextCell(g, i, j, n)  <-
+  c  <-  neigh(g, i, j, n)
+  if c == 3 then 1 else if c == 2 then gridGet(g, i, j, n) else 0
+step(g, n)  <-  times(n, j -> times(n, i -> nextCell(g, i, j, n)))
+seed(i, j)  <-  if frac(sin(i * 12.9898 + j * 78.233) * 43758.5453) > 0.72 then 1 else 0
+cellDot(g, i, j, k, n)  <-  Dot{ x: k * 56 - 168 + i * 3, y: 26 - j * 3, h: 130, a: 0.1 + 0.85 * gridGet(g, i, j, n) }
+gridPic(g, k, n)  <-  concatAll( times(n, j -> times(n, i -> cellDot(g, i, j, k, n))) )
+picture  <-
+  g0  <-  times(18, j -> times(18, i -> seed(i, j)))
+  g1  <-  step(g0, 18)
+  g2  <-  step(g1, 18)
+  g3  <-  step(g2, 18)
+  g4  <-  step(g3, 18)
+  g5  <-  step(g4, 18)
+  concatAll([ gridPic(g0, 0, 18), gridPic(g1, 1, 18), gridPic(g2, 2, 18), gridPic(g3, 3, 18), gridPic(g4, 4, 18), gridPic(g5, 5, 18) ])
+main : () !console  <-  show!console "Conway's Game of Life: six generations from a random soup"

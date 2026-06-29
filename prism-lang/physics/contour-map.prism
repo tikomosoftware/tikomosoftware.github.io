@@ -1,0 +1,12 @@
+-- A contour / topographic map: sample a hilly height field f(x,y) on a grid and colour each
+-- point by its elevation band (floor of the height). The colour bands read like contour lines.
+include "lib/picture.prism"
+cols  <-  42
+rows  <-  30
+cell(i, j)  <-
+  gx  <-  i * 10 - 200
+  gy  <-  j * 10 - 145
+  ht  <-  sin(gx * 0.025) * cos(gy * 0.03) + 0.5 * sin((gx + gy) * 0.02)
+  Dot{ x: gx, y: gy, h: 120 + floor((ht + 1.6) * 4) * 26, a: 0.9 }
+picture  <-  concatAll( times(rows, j -> times(cols, i -> cell(i, j)) ) )
+main : () !console  <-  show!console "press Draw to see a contour map"

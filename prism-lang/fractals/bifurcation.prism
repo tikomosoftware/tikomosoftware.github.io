@@ -1,0 +1,11 @@
+-- The logistic-map bifurcation diagram. For each growth rate r across the width, iterate
+-- x -> r*x*(1-x), drop the transient, and plot where the orbit settles: one point, then two,
+-- then four... then chaos. The famous road from order to chaos via period doubling.
+include "lib/picture.prism"
+orbit(r, x, n, col)  <-
+  nx  <-  r * x * (1 - x)
+  pt  <-  if n < 30 then [ Dot{x: col, y: nx * 250 - 125, h: 200, a: 0.5} ] else []
+  if n < 1 then [] else concat(pt, orbit(r, nx, n - 1, col))
+column(i)  <-  orbit(2.8 + i / 150 * 1.2, 0.5, 80, i * 2.4 - 180)
+picture  <-  concatAll( times(150, i -> column(i)) )
+main : () !console  <-  show!console "the logistic-map bifurcation diagram (period doubling to chaos)"

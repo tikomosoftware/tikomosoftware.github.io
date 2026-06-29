@@ -1,0 +1,25 @@
+-- Fractal :: a Hilbert curve -- a single line that visits every cell of a grid without
+-- crossing itself. Built with the vector recurrence (corner + two edge vectors): each
+-- cell splits into four, with the sub-cells rotated/reflected so the path stays connected.
+
+-- collect the ordered centre-points of the cells
+hilbert(d, x, y, xi, xj, yi, yj, acc)  <-
+  d match
+    0  =>  [ V{x: x + (xi + yi) / 2, y: y + (xj + yj) / 2}, ..acc ]
+    _  =>
+      hilbert(d - 1, x, y, yi / 2, yj / 2, xi / 2, xj / 2,
+       hilbert(d - 1, x + xi / 2, y + xj / 2, xi / 2, xj / 2, yi / 2, yj / 2,
+        hilbert(d - 1, x + xi / 2 + yi / 2, y + xj / 2 + yj / 2, xi / 2, xj / 2, yi / 2, yj / 2,
+         hilbert(d - 1, x + xi / 2 + yi, y + xj / 2 + yj,
+                 0 - yi / 2, 0 - yj / 2, 0 - xi / 2, 0 - xj / 2, acc))))
+
+-- join consecutive points into line segments
+connect(pts)  <-
+  pts match
+    []             =>  []
+    [p]            =>  []
+    [a, b, ..rest] =>  [ Line{x1: a.x, y1: a.y, x2: b.x, y2: b.y}, ..connect([b, ..rest]) ]
+
+picture  <-  connect(hilbert(4, 0, 0, 256, 0, 0, 256, []))
+
+main : () !console  <-  show!console "press Draw to see a Hilbert curve"

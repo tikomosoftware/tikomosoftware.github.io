@@ -1,0 +1,5 @@
+-- Eye candy :: a Maurer rose, n = 3, d = 47.
+include "lib/draw2d.prism"
+picture  <-  polyline(i -> V{ x: 140 * sin(3 * i * 47 * 0.01745) * cos(i * 47 * 0.01745),
+                              y: 140 * sin(3 * i * 47 * 0.01745) * sin(i * 47 * 0.01745) }, 0, 360)
+main : () !console  <-  show!console "press Draw to see a Maurer rose (n=3, d=47)"

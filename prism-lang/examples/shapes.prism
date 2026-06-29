@@ -1,0 +1,16 @@
+-- Prism v0 :: `or` types and EXHAUSTIVE match.
+-- The teaching duality: an `and` type demands you GIVE every field;
+-- its dual, an `or` type demands you HANDLE every variant.
+
+Shape : Circle{ radius: Num } or Square{ side: Num } or Triangle{ base: Num, height: Num }
+
+-- area handles all three variants -> the checker is satisfied.
+area(s: Shape) : Num  <-
+  s match
+    Circle{radius}          =>  radius * radius * 3
+    Square{side}            =>  side * side
+    Triangle{base, height}  =>  base * height / 2
+
+main : () !console  <-
+  show!console "area of circle r=2  : {area(Circle{radius: 2})}"
+  show!console "area of square s=3  : {area(Square{side: 3})}"

@@ -1,0 +1,18 @@
+-- A spiral galaxy, slowly turning -- animated. Two arms of stars wind outward (radius grows
+-- with the index, angle = a spiral term + rotation t), coloured from core to rim. Pure
+-- function of time.
+
+include "lib/picture.prism"
+
+n  <-  90
+
+star(k, off, t)  <-
+  r  <-  6 + k * 2.1
+  a  <-  k * 0.18 + off + t * 0.4
+  Dot{ x: r * cos(a), y: r * sin(a), h: 210 + k * 1.3 }
+
+arm(off, t)  <-  times(n, k -> star(k, off, t))
+
+frame(t) : Picture  <-  pic( concat(arm(0, t), arm(pi, t)) )
+
+main : () !console  <-  show!console "press Animate to turn a spiral galaxy"

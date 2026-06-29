@@ -1,0 +1,13 @@
+-- L-system :: a symmetric plant, F -> F[+F][-F]F (a left and a right shoot at every node).
+include "lib/turtle.prism"
+plant(d, p)  <-
+  d match
+    0  =>  fwd(p)
+    _  =>
+      p1 <- plant(d - 1, p)
+      b1 <- restore(p1, plant(d - 1, turn(p1, 0.5)))
+      b2 <- restore(b1, plant(d - 1, turn(b1, 0 - 0.5)))
+      plant(d - 1, b2)
+done     <-  plant(5, Turtle{x: 0, y: 0, a: 1.5708, ls: []})
+picture  <-  done.ls
+main : () !console  <-  show!console "press Draw to see a symmetric plant"

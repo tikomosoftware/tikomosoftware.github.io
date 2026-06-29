@@ -1,0 +1,8 @@
+include "lib/picture.prism"
+star(k, t)  <-
+  p <- frac(t * 0.5 + k * 0.08)
+  x <- mod(k * 61, 400) - 200 + p * 80
+  y <- 180 - p * 360
+  [ Line{x1: x, y1: y, x2: x - 30, y2: y + 44, h: 50, a: (1 - p) * 0.6}, Dot{x: x, y: y, h: 55, a: 1 - p} ]
+frame(t) : Picture  <-  pic( concatAll( times(16, k -> star(k, t)) ) )
+main : () !console  <-  show!console "press Animate for a meteor shower"

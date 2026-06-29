@@ -1,0 +1,8 @@
+-- Tschirnhausen's cubic: x = 3(t^2 - 3), y = t(t^2 - 3) -- a cubic curve with a single loop.
+include "lib/picture.prism"
+n  <-  240
+pt(i)  <-
+  t  <-  0 - 3.4 + i / n * 6.8
+  Pt{ x: 3 * (t * t - 3) * 7, y: t * (t * t - 3) * 7 }
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 110 } ]
+main : () !console  <-  show!console "press Draw to see Tschirnhausen's cubic"

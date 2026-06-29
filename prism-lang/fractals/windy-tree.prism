@@ -1,0 +1,15 @@
+-- Fractal :: a windswept tree. A fractal tree with ASYMMETRIC branch angles (a small
+-- turn one way, a big turn the other) and a leaning trunk -- as if bent by the wind.
+
+branch(depth, x, y, angle, length, acc)  <-
+  ex    <-  x + length * cos(angle)
+  ey    <-  y + length * sin(angle)
+  line  <-  Line{x1: x, y1: y, x2: ex, y2: ey}
+  depth match
+    0  =>  [line, ..acc]
+    _  =>  [line, ..branch(depth - 1, ex, ey, angle + 0.25, length * 0.74,
+                           branch(depth - 1, ex, ey, angle - 0.65, length * 0.70, acc))]
+
+picture  <-  branch(10, 0, 0, pi / 2 - 0.35, 95, [])   -- leaning trunk
+
+main : () !console  <-  show!console "press Draw to see a windswept tree"

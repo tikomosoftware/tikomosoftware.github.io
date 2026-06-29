@@ -1,0 +1,20 @@
+-- A neon sign -- animated. A 5-lobed star outline made of glowing blobs (soft halo + bright
+-- core) that spins, while the colours flow through the spectrum. Uses opacity + fill. Pure in t.
+
+include "lib/picture.prism"
+
+m  <-  44
+
+node(i, t)  <-
+  base  <-  i / m * 2 * pi
+  r     <-  95 + 28 * sin(base * 5)            -- 5-lobed star
+  ang   <-  base + t * 0.4                       -- spin
+  x     <-  r * cos(ang)
+  y     <-  r * sin(ang)
+  hue   <-  mod(t * 40 + i * 5, 360)             -- neon colour flow
+  [ Circle{ x: x, y: y, r: 9, h: hue, a: 0.22, fill: 1 },    -- glow
+    Circle{ x: x, y: y, r: 3, h: hue, a: 0.95, fill: 1 } ]    -- bright tube
+
+frame(t) : Picture  <-  pic( concatAll( times(m, i -> node(i, t)) ) )
+
+main : () !console  <-  show!console "press Animate for a neon sign"

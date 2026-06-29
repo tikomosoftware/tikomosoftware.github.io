@@ -1,0 +1,6 @@
+-- 01 :: hello. Every runnable program defines `main`.
+-- The signature `() !console` says: returns Unit, and touches the console.
+-- Remove `!console` and run `prism check` -- it will flag the undeclared effect.
+
+main : () !console  <-
+  show!console "hello, Prism"

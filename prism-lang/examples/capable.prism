@@ -1,0 +1,31 @@
+-- Prism v0 :: capabilities (`capability`/`provides`) and constraints (`given`).
+-- The 4th law, dual to the others:
+--   `!`  effects must be DECLARED
+--   `?`  failures must be HANDLED
+--   match must be EXHAUSTIVE
+--   `given T: Cap` must be DISCHARGED by a `provides` instance.
+-- And a `provides` must GIVE every method the capability declares (like an `and` type).
+
+-- A capability: a type "has Ord" when it can be compared (yielding a Num difference).
+capability Ord for T
+  compare(a: T, b: T) : Num
+
+-- Num provides Ord -- a complete instance whose body honours `compare : Num`.
+Num provides Ord
+  compare(a, b)  <-  a - b
+
+-- larger needs its element type to be comparable. `given T: Ord` is the contract.
+-- (v0 records the constraint; method bodies aren't resolved yet, so we just pick a.)
+larger for T given T: Ord
+  (a: T, b: T) : T  <-  a
+
+-- calling larger on Num is fine: Num provides Ord -> the fact is discharged.
+biggestNum(x: Num, y: Num) : Num  <-  larger(x, y)
+
+-- propagation: pickFirst stays generic but RE-DECLARES `given T: Ord`,
+-- so the constraint flows up honestly and the call to larger is satisfied.
+pickFirst for T given T: Ord
+  (a: T, b: T) : T  <-  larger(a, b)
+
+main : () !console  <-
+  show!console "biggestNum(3, 5) = {biggestNum(3, 5)}"

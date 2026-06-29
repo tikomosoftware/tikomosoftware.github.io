@@ -1,0 +1,23 @@
+-- 2-D physics :: a double pendulum -- the textbook chaotic system. We integrate the two
+-- angles (equal masses and rods, g = 1) and trace the lower bob, which never repeats.
+
+trace(n, t1, w1, t2, w2, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      d    <-  t1 - t2
+      den  <-  2 - cos(2 * t1 - 2 * t2)
+      a1   <-  (0 - 3 * sin(t1) - sin(t1 - 2 * t2)
+                - 2 * sin(d) * (w2 * w2 + w1 * w1 * cos(d))) / den
+      a2   <-  (2 * sin(d) * (2 * w1 * w1 + 2 * cos(t1) + w2 * w2 * cos(d))) / den
+      nw1  <-  w1 + a1 * 0.05
+      nw2  <-  w2 + a2 * 0.05
+      nt1  <-  t1 + nw1 * 0.05
+      nt2  <-  t2 + nw2 * 0.05
+      x1   <-  90 * sin(nt1)
+      y1   <-  0 - 90 * cos(nt1)
+      [ Dot{x: x1 + 90 * sin(nt2), y: y1 - 90 * cos(nt2)}, ..trace(n - 1, nt1, nw1, nt2, nw2, acc) ]
+
+picture  <-  trace(700, 2, 0, 2, 0, [])
+
+main : () !console  <-  show!console "press Draw to see a double pendulum (chaos)"

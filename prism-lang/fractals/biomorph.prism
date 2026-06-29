@@ -1,0 +1,16 @@
+-- A Pickover biomorph: a Julia-like iteration z -> z^2 + c (here c = 0.5) that bails out when
+-- |Re z| or |Im z| grows, giving organic, cell-like shapes. Coloured by the bail-out step.
+include "lib/escape.prism"
+nx  <-  60
+ny  <-  60
+maxIter  <-  20
+jc  <-  Pt{x: 0.5, y: 0}
+cell(i, j)  <-
+  zx  <-  0 - 1.8 + i * (3.6 / nx)
+  zy  <-  0 - 1.8 + j * (3.6 / ny)
+  n   <-  escapeBio(Pt{x: zx, y: zy}, jc, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 90 + n * 9} ]
+    false  =>  []
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+main : () !console  <-  show!console "press Draw to render a biomorph"

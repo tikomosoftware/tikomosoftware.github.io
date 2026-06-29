@@ -1,0 +1,27 @@
+-- A number-guessing game. The machine "thinks of" a fixed number (this is a pure language, so it's
+-- deterministic -- 42), reads your guesses, and answers too-low / too-high until you get it or run
+-- out of tries. Shows a recursion-as-loop carrying state (the try count), effects, and a failure
+-- (a non-number guess) handled in place.
+--   printf '50\n25\n42\n' | python cli.py run examples/guess.prism
+secret   : Num  <-  42
+maxTries : Num  <-  6
+
+hint(n: Num) : Text  <-  if n < secret then "too low" else "too high"
+
+judge(tries: Num, n: Num) : () !console  <-
+  (n == secret) match
+    true   =>  show!console "correct! you got it in {tries} tries"
+    false  =>
+      (tries < maxTries) match
+        true   =>  show!console hint(n)  ~>  ask(tries + 1)
+        false  =>  show!console "out of tries -- it was {secret}"
+
+ask(tries: Num) : () !console  <-
+  show!console "guess 1..100 (try {tries} of {maxTries}):"  ~>  handle(tries, read!console)
+
+handle(tries: Num, line: Text) : () !console  <-
+  parseNum(line) match
+    ok n    =>  judge(tries, n)
+    fail _  =>  show!console "please enter a number"  ~>  ask(tries)
+
+main : () !console  <-  ask(1)

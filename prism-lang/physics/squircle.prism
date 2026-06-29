@@ -1,0 +1,12 @@
+-- A squircle (superellipse, exponent 4): |x|^4 + |y|^4 = 1, a rounded square. Parametrised with
+-- x = sign(cos t)*sqrt|cos t|, y = sign(sin t)*sqrt|sin t|.
+include "lib/picture.prism"
+n  <-  240
+sgn(v)  <-  if v < 0 then 0 - 1 else 1
+pt(i)  <-
+  t  <-  i / n * 6.2832
+  c  <-  cos(t)
+  s  <-  sin(t)
+  Pt{ x: 150 * sgn(c) * sqrt(abs(c)), y: 150 * sgn(s) * sqrt(abs(s)) }
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 255 } ]
+main : () !console  <-  show!console "press Draw to see a squircle"

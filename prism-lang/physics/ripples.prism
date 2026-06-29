@@ -1,0 +1,11 @@
+-- 2-D :: ripples from two sources -- two sets of concentric circles, as on a pond when
+-- two stones drop. Where the rings cross is the interference pattern.
+
+ripples(cx, cy, i, n, acc)  <-
+  (i < n) match
+    false  =>  acc
+    true   =>  [ Circle{x: cx, y: cy, r: i * 16}, ..ripples(cx, cy, i + 1, n, acc) ]
+
+picture  <-  ripples(0 - 60, 0, 1, 9, ripples(60, 0, 1, 9, []))
+
+main : () !console  <-  show!console "press Draw to see ripples on a pond"

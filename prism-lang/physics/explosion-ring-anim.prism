@@ -1,0 +1,10 @@
+include "lib/picture.prism"
+debris(k, t)  <-
+  p <- frac(t * 0.5)
+  r <- p * 150
+  Dot{ x: r * cos(k + k * 0.5), y: r * sin(k + k * 0.5), h: 30, a: 1 - p }
+frame(t) : Picture  <-
+  p  <-  frac(t * 0.5)
+  pic( concat( [ Circle{x: 0, y: 0, r: p * 150 + 5, h: 40, a: (1 - p) * 0.9},
+  Circle{x: 0, y: 0, r: p * 110 + 5, h: 55, a: (1 - p) * 0.7} ], times(20, k -> debris(k, t)) ) )
+main : () !console  <-  show!console "press Animate for an explosion ring"

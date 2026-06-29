@@ -1,0 +1,6 @@
+-- Effect granularity. `!io` is a COARSE effect that SUBSUMES the concrete ones (`!console`, and
+-- the reserved `!file` / `!net` / `!random` / ...). A function may declare the coarse `!io` and
+-- still use a finer effect like `!console` -- so you get granularity without spelling out every
+-- effect. It is ONE-WAY: a `!console` signature does NOT cover a body that performs `!io`.
+shout(msg : Text) : () !io  <-  show!console "{msg}!"          -- declares !io, body uses !console -> OK
+main : () !io  <-  shout("hello")  ~>  shout("completion")

@@ -1,0 +1,19 @@
+-- L-system :: the terdragon -- a ternary cousin of the dragon curve. Rule  F -> F+F-F
+-- with 120-degree turns; the curve triples in length each generation.
+
+include "lib/turtle.prism"
+
+ter(d, p)  <-
+  d match
+    0  =>  fwd(p)
+    _  =>
+      a   <-  ter(d - 1, p)
+      a2  <-  turn(a, 2.0944)
+      b   <-  ter(d - 1, a2)
+      b2  <-  turn(b, 0 - 2.0944)
+      ter(d - 1, b2)
+
+done     <-  ter(7, Turtle{x: 0, y: 0, a: 0, ls: []})
+picture  <-  done.ls
+
+main : () !console  <-  show!console "press Draw to see the terdragon"

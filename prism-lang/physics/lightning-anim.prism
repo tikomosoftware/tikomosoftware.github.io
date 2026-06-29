@@ -1,0 +1,18 @@
+-- Lightning -- animated. A jagged bolt (plus two forks) strikes on a loop and FLASHES: its
+-- opacity `a` spikes bright then fades to nothing, and the zig-zag reshapes each strike (a
+-- `floor(t)` seed). Translucent stroke, no fill. Pure function of time.
+
+include "lib/picture.prism"
+
+frame(t) : Picture  <-
+  strike  <-  frac(t * 0.7)
+  seed    <-  floor(t * 0.7)
+  glow    <-  if strike < 0.22 then 1 - strike * 4 else 0      -- bright flash, then dark
+  pic([ Poly{ pts: times(8, i -> Pt{x: 24 * sin(i * 1.9 + seed * 5), y: 150 - i * 38}),
+              h: 52, a: glow },
+        Poly{ pts: times(4, i -> Pt{x: 24 * sin(3 * 1.9 + seed * 5) + 20 * i, y: 36 - i * 34}),
+              h: 52, a: glow },
+        Poly{ pts: times(4, i -> Pt{x: 24 * sin(5 * 1.9 + seed * 5) - 18 * i, y: 0 - 40 - i * 34}),
+              h: 52, a: glow } ])
+
+main : () !console  <-  show!console "press Animate for lightning"

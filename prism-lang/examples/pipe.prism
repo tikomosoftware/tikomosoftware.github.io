@@ -1,0 +1,9 @@
+-- The pipe `|>` is flow-voice sugar: `x |> f` is exactly `f(x)`, and `x |> f(a)` is `f(x, a)`
+-- (the piped value becomes the FIRST argument -- Prism's libs are data-first: clamp/nth/at/..).
+-- It reads left-to-right instead of inside-out, and desugars to a plain call -- so types,
+-- effects and failures flow exactly as the call would.
+include "lib/math.prism"
+double(n)  <-  n * 2
+inc(n)  <-  n + 1
+result : Num  <-  5 |> double |> inc |> clamp(0, 20)    -- = clamp(inc(double(5)), 0, 20) = 11
+main : () !console  <-  show!console "5 |> double |> inc |> clamp(0,20) = {result}"

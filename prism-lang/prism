@@ -1,0 +1,3 @@
+#!/bin/sh
+# Prism launcher (macOS / Linux). Put this folder on your PATH, then: prism run foo.prism
+exec python3 "$(dirname "$0")/cli.py" "$@"

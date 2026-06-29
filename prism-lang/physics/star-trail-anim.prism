@@ -1,0 +1,7 @@
+include "lib/picture.prism"
+sx(s)  <-  170 * sin(s * 0.8)
+sy(s)  <-  120 * sin(s * 1.3)
+frame(t) : Picture  <-
+  pic( concat( times(14, j -> Dot{ x: sx(t - j * 0.04), y: sy(t - j * 0.04), h: 50, a: (1 - j / 14) * 0.7 }),
+  [ Circle{x: sx(t), y: sy(t), r: 7, h: 55, a: 0.9, fill: 1} ] ) )
+main : () !console  <-  show!console "press Animate for a star trail"

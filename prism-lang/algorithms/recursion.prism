@@ -1,0 +1,35 @@
+-- Algorithms in Prism :: classic recursion.
+-- Prism has no loops -- you branch by MATCHING on structure (a Num's 0/1, a list's
+-- empty/cons, an `or` type's variants) or on a Bool (true/false). That covers a lot.
+
+factorial(n: Num) : Num  <-
+  n match
+    0  =>  1
+    _  =>  n * factorial(n - 1)
+
+fibonacci(n: Num) : Num  <-
+  n match
+    0  =>  0
+    1  =>  1
+    _  =>  fibonacci(n - 1) + fibonacci(n - 2)
+
+power(base: Num, exp: Num) : Num  <-
+  exp match
+    0  =>  1
+    _  =>  base * power(base, exp - 1)
+
+-- greatest common divisor, subtractive Euclid (v0 has no modulo operator),
+-- branching on comparisons via Bool match.
+gcd(a: Num, b: Num) : Num  <-
+  (a == b) match
+    true   =>  a
+    false  =>
+      (a < b) match
+        true   =>  gcd(a, b - a)
+        false  =>  gcd(a - b, b)
+
+main : () !console  <-
+  show!console "5!          = {factorial(5)}"
+  show!console "fibonacci 10 = {fibonacci(10)}"
+  show!console "2 ^ 10      = {power(2, 10)}"
+  show!console "gcd(48, 36) = {gcd(48, 36)}"

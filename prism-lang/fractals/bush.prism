@@ -1,0 +1,36 @@
+-- L-system :: the classic bush,  F -> FF-[-F+F+F]+[+F-F-F]  at 22.5 degrees. Two bracketed
+-- branches fan off after the trunk doubles. (helper rules draw each bracketed group.)
+
+include "lib/turtle.prism"
+
+bush(d, p)  <-
+  d match
+    0  =>  fwd(p)
+    _  =>
+      p1  <-  bush(d - 1, p)                 -- F
+      p2  <-  bush(d - 1, p1)                -- F
+      p3  <-  turn(p2, 0 - 0.3927)           -- -
+      p4  <-  restore(p3, branchA(d - 1, p3))-- [-F+F+F]
+      p5  <-  turn(p4, 0.3927)               -- +
+      restore(p5, branchB(d - 1, p5))        -- [+F-F-F]
+
+branchA(d, q)  <-                            -- -F+F+F
+  q1  <-  turn(q, 0 - 0.3927)
+  q2  <-  bush(d, q1)
+  q3  <-  turn(q2, 0.3927)
+  q4  <-  bush(d, q3)
+  q5  <-  turn(q4, 0.3927)
+  bush(d, q5)
+
+branchB(d, q)  <-                            -- +F-F-F
+  q1  <-  turn(q, 0.3927)
+  q2  <-  bush(d, q1)
+  q3  <-  turn(q2, 0 - 0.3927)
+  q4  <-  bush(d, q3)
+  q5  <-  turn(q4, 0 - 0.3927)
+  bush(d, q5)
+
+done     <-  bush(3, Turtle{x: 0, y: 0, a: 1.5708, ls: []})
+picture  <-  done.ls
+
+main : () !console  <-  show!console "press Draw to see a bush"

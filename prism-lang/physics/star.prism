@@ -1,0 +1,9 @@
+-- Eye candy :: a {7/3} star polygon -- 7 points around a circle, each joined to the
+-- one 3 steps away, drawn in a single stroke (a heptagram).
+
+include "lib/draw2d.prism"
+
+picture  <-  polyline(i -> V{ x: 130 * cos(i * 3 * 6.28319 / 7),
+                              y: 130 * sin(i * 3 * 6.28319 / 7) }, 0, 7)
+
+main : () !console  <-  show!console "press Draw to see a star polygon"

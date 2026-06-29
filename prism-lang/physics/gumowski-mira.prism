@@ -1,0 +1,16 @@
+-- Strange attractor :: the Gumowski-Mira map. With g(x) = a x + 2(1-a)x^2/(1+x^2),
+--   x' = y + g(x),  y' = -x + g(x').  (a = -0.2.) It blooms into organic, coral-like forms.
+
+g(x)  <-  0 - 0.2 * x + 2.4 * x * x / (1 + x * x)
+
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  y + g(x)
+      ny  <-  0 - x + g(nx)
+      [ Dot{x: nx * 18, y: ny * 18}, ..trace(n - 1, nx, ny, acc) ]
+
+picture  <-  trace(1500, 1, 1, [])
+
+main : () !console  <-  show!console "press Draw to see a Gumowski-Mira attractor"

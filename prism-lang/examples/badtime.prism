@@ -1,0 +1,11 @@
+-- Prism v0 :: misuse of the time voice the checker must reject.
+
+-- MISTAKE 1: the first step `2 + 2` is a pure derivation -- it has no order,
+-- so ordering it with `~>` is meaningless.
+warmup : () !console  <-
+  2 + 2  ~>  show!console "ready"
+
+-- MISTAKE 2: sequencing two pure expressions -- there is no time here at all.
+-- Pure code should be derived with `<-`, never ordered with `~>`.
+compute(a: Num, b: Num) : Num  <-
+  a + b  ~>  a * b

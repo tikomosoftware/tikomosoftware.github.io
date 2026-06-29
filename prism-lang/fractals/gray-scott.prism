@@ -1,0 +1,31 @@
+-- Reaction-diffusion (Gray-Scott) -- the demo that was IMPOSSIBLE before the O(1) `at` builtin.
+-- Two chemicals u,v live on a 28x28 toroidal grid; each step diffuses them (a 5-point Laplacian)
+-- and reacts them, starting from a central seed of v. Real Turing patterns (spots) emerge over
+-- 150 iterations. Each cell reads its four neighbours with `at` (O(1)); with the old O(n) `nth`
+-- the reads alone made this far too slow to reach pattern formation. This is the heavyweight of
+-- the gallery (~150 grid-rebuilds) -- give it a moment. Pure: `iterate(step, seed)` over grids.
+include "lib/picture.prism"
+gAt(g, i, j, n)  <-  at(at(g, mod(j, n)), mod(i, n))      -- toroidal, O(1)
+nextCell(g, i, j, n)  <-
+  c   <-  gAt(g, i, j, n)
+  l   <-  gAt(g, i - 1, j, n)
+  r   <-  gAt(g, i + 1, j, n)
+  up  <-  gAt(g, i, j - 1, n)
+  dn  <-  gAt(g, i, j + 1, n)
+  u   <-  c.u
+  v   <-  c.v
+  lu  <-  l.u + r.u + up.u + dn.u - 4 * u
+  lv  <-  l.v + r.v + up.v + dn.v - 4 * v
+  uvv <-  u * v * v
+  Cell{ u: u + (0.16 * lu - uvv + 0.06 * (1 - u)), v: v + (0.08 * lv + uvv - 0.122 * v) }
+step(g, n)  <-  times(n, j -> times(n, i -> nextCell(g, i, j, n)))
+iterate(g, k, n)  <-  if k < 1 then g else iterate(step(g, n), k - 1, n)
+seedCell(i, j)  <-  if abs(i - 14) < 4 then (if abs(j - 14) < 4 then Cell{u: 0.5, v: 0.25} else Cell{u: 1, v: 0}) else Cell{u: 1, v: 0}
+cellDot(g, i, j, n)  <-
+  val  <-  gAt(g, i, j, n).v
+  Dot{ x: i * 8 - 112, y: 112 - j * 8, h: 250 - minN(val, 0.4) * 520, a: 0.15 + clamp(val * 2.6, 0, 0.82) }
+picture  <-
+  g0  <-  times(28, j -> times(28, i -> seedCell(i, j)))
+  gf  <-  iterate(g0, 150, 28)
+  concatAll( times(28, j -> times(28, i -> cellDot(gf, i, j, 28))) )
+main : () !console  <-  show!console "Gray-Scott reaction-diffusion: Turing patterns from a central seed"

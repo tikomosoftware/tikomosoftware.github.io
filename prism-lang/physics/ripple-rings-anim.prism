@@ -1,0 +1,17 @@
+-- Raindrops on water, animated: three sources each send out concentric rings. Each ring's
+-- radius breathes with sin, and successive rings lag in phase -- so they appear to travel
+-- outward. Drawn with Circle shapes; coloured by ring index. Pure function of time.
+
+include "lib/picture.prism"
+
+ring(cx, cy, k, t)  <-
+  Circle{ x: cx, y: cy, r: k * 17 + 9 * sin(t - k * 0.8), h: 190 + k * 22 }
+
+rings(cx, cy, t)  <-  times(6, k -> ring(cx, cy, k + 1, t))
+
+frame(t) : Picture  <-
+  pic( concatAll([ rings(-90,  40, t),
+                   rings( 80, -50, t),
+                   rings(-10, -90, t) ]) )
+
+main : () !console  <-  show!console "press Animate to see raindrop ripples spreading"

@@ -1,0 +1,7 @@
+include "lib/picture.prism"
+node(k, t)  <-
+  life <- frac(t * 0.4 + k * 0.02)
+  r <- 140 * (1 - life)
+  Dot{ x: r * cos(k * 0.7 - t * 2), y: r * sin(k * 0.7 - t * 2), h: 250, a: 0.3 + 0.6 * life }
+frame(t) : Picture  <-  pic( concat( [ Circle{x: 0, y: 0, r: 14, h: 280, a: 0.7, fill: 1} ], times(70, k -> node(k, t)) ) )
+main : () !console  <-  show!console "press Animate to pull a vortex"

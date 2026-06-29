@@ -1,0 +1,19 @@
+-- A vibrating drum membrane (a 2-D STANDING wave), animated. Unlike a travelling ripple, the
+-- pattern stays put -- nodes never move while antinodes swing up and down together:
+--   z = sin(i) * sin(j) * cos(t).
+-- Seen from above: height shows as colour (hue) plus a small bob. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  17
+
+node(i, j, t)  <-
+  gx  <-  i * 17 - 136
+  gy  <-  j * 17 - 136
+  z   <-  55 * sin(i * 0.55) * sin(j * 0.55) * cos(t)
+  Dot{ x: gx, y: gy + z * 0.35, h: 210 + z }
+
+frame(t) : Picture  <-
+  pic( concatAll( times(n, j -> times(n, i -> node(i, j, t))) ) )
+
+main : () !console  <-  show!console "press Animate to see a vibrating drum membrane"

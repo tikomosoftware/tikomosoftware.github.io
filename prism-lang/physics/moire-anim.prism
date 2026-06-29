@@ -1,0 +1,11 @@
+-- Moire interference -- animated. Two line gratings overlap; the second slowly rotates, and where
+-- the lines nearly coincide, dark/bright bands sweep across. The pattern is in the overlap, not
+-- in any one grating. Pure function of time.
+include "lib/picture.prism"
+grat(k, ang)  <-
+  cx  <-  k * 16 - 184
+  Line{ x1: cx * cos(ang) - 230 * sin(ang), y1: cx * sin(ang) + 230 * cos(ang),
+        x2: cx * cos(ang) + 230 * sin(ang), y2: cx * sin(ang) - 230 * cos(ang), h: 200, a: 0.4 }
+frame(t) : Picture  <-
+  pic( concat( times(24, k -> grat(k, 0)), times(24, k -> grat(k, 0.16 + 0.12 * sin(t * 0.5))) ) )
+main : () !console  <-  show!console "press Animate for a moire pattern"

@@ -1,0 +1,11 @@
+include "lib/picture.prism"
+hash(i)  <-  frac(sin(i * 12.9898 + 7.0) * 43758.5453)
+spike(k, t)  <-
+  blink <- frac(t * 4)
+  len <- (40 + hash(k) * 60) * (1 - blink)
+  Line{ x1: 20 * cos(k / 10 * 6.2832), y1: 20 * sin(k / 10 * 6.2832),
+  x2: len * cos(k / 10 * 6.2832), y2: len * sin(k / 10 * 6.2832), h: 50, a: 1 - blink }
+frame(t) : Picture  <-
+  blink <- frac(t * 4)
+  pic( concat( [ Circle{x: 0, y: 0, r: 25 * (1 - blink) + 5, h: 55, a: (1 - blink) * 0.9, fill: 1} ], times(10, k -> spike(k, t)) ) )
+main : () !console  <-  show!console "press Animate for a muzzle flash"

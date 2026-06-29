@@ -1,0 +1,13 @@
+-- A nebula -- animated. Soft coloured gas clouds (big translucent circles) with bright stars
+-- twinkling inside, scattered by a sin-hash. Pure function of time.
+include "lib/picture.prism"
+star(k, t)  <-
+  hx  <-  frac(sin(k * 12.9898) * 43758.5453)
+  hy  <-  frac(sin(k * 78.233) * 43758.5453)
+  x   <-  hx * 360 - 180
+  y   <-  hy * 300 - 150
+  tw  <-  0.3 + 0.5 * sin(t * 2 + k)
+  [ Circle{x: x, y: y, r: 14 * frac(hx + hy) + 4, h: 200 + 120 * hx, a: 0.12},
+    Dot{x: x, y: y, h: 50, a: tw} ]
+frame(t) : Picture  <-  pic( concatAll( times(60, k -> star(k, t)) ) )
+main : () !console  <-  show!console "press Animate for a twinkling nebula"

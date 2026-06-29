@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prism docs</title>
+<!--
+  Renders the project's Markdown docs as HTML, in the browser. `?p=REFERENCE.md` chooses the
+  page; the .md files stay the single source of truth (no build step). Serve this folder
+  (`prism serve`) and open docs.html — loading from file:// is blocked because it fetches .md.
+-->
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #11141a; color: #d7dce5;
+         font: 15px/1.65 -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { position: sticky; top: 0; background: #11141aee; backdrop-filter: blur(6px);
+           border-bottom: 1px solid #232833; padding: 11px 20px; display: flex; gap: 14px;
+           align-items: baseline; flex-wrap: wrap; z-index: 5; }
+  header .logo { color: #9ad0ff; font-weight: 700; letter-spacing: .04em; }
+  header a { color: #8aa0bd; text-decoration: none; font-size: 13px; padding: 3px 7px; border-radius: 6px; }
+  header a:hover { background: #1b2027; color: #cfe0ff; }
+  header a.active { color: #9ad0ff; background: #1b2330; }
+  header .play { margin-left: auto; color: #7ee787; }
+  main { max-width: 860px; margin: 0 auto; padding: 28px 22px 80px; }
+  article :is(h1,h2,h3) { line-height: 1.25; border-bottom: 1px solid #232833; padding-bottom: 6px; }
+  article h1 { color: #9ad0ff; } article h2 { color: #bcd; margin-top: 2em; } article h3 { color: #aebccd; border: 0; }
+  article a { color: #7fb3ff; } article a:hover { text-decoration: underline; }
+  article code { background: #1b2027; padding: .1em .4em; border-radius: 5px;
+                 font: 13px ui-monospace, Menlo, Consolas, monospace; color: #e6c07b; }
+  article pre { background: #0d1016; border: 1px solid #232833; border-radius: 8px;
+                padding: 13px 15px; overflow: auto; }
+  article pre code { background: none; padding: 0; color: #cfe3cf; }
+  article table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 14px; display: block; overflow-x: auto; }
+  article th, article td { border: 1px solid #2c333f; padding: 6px 10px; text-align: left; }
+  article th { background: #1b2027; color: #9ad0ff; }
+  article blockquote { border-left: 3px solid #2c5a8c; margin: 1em 0; padding: .2em 1em;
+                       color: #aebccd; background: #141922; }
+  article img { max-width: 100%; }
+  #status { color: #6b7384; }
+</style>
+</head>
+<body>
+<header>
+  <span class="logo">◭ Prism</span>
+  <a href="?p=OVERVIEW.md">Overview</a>
+  <a href="?p=GETTING_STARTED.md">Getting started</a>
+  <a href="?p=TUTORIAL.md">Tutorial</a>
+  <a href="?p=TOUR.md">Tour</a>
+  <a href="?p=ALGORITHMS.md">Algorithms</a>
+  <a href="?p=REFERENCE.md">Reference</a>
+  <a href="?p=AI_GUIDE.md">AI guide</a>
+  <a href="?p=NOTES.md">Notes</a>
+  <a href="?p=IDEAS.md">Ideas</a>
+  <a href="?p=HANDOFF.md">Handoff</a>
+  <a href="?p=README.md">README</a>
+  <a class="play" href="playground.html">▶ Playground</a>
+</header>
+<main><article id="doc"><span id="status">loading…</span></article></main>
+
+<!-- Markdown renderer from a pinned CDN (self-host or pin SRI for a hardened deploy). -->
+<script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js" crossorigin="anonymous"></script>
+<script>
+const KNOWN = ["OVERVIEW.md","GETTING_STARTED.md","TUTORIAL.md","TOUR.md","ALGORITHMS.md","REFERENCE.md","AI_GUIDE.md","NOTES.md","IDEAS.md","HANDOFF.md","README.md","intro-article.md","intro-article-note.md"];
+const params = new URLSearchParams(location.search);
+let page = params.get("p") || "OVERVIEW.md";
+if (!/^[A-Za-z0-9_.-]+\.md$/.test(page)) page = "OVERVIEW.md";   // only same-folder .md files
+
+// highlight the active nav link
+for (const a of document.querySelectorAll("header a")) {
+  if (a.getAttribute("href") === "?p=" + page) a.classList.add("active");
+}
+
+async function load() {
+  const art = document.getElementById("doc");
+  try {
+    const r = await fetch(page, { cache: "no-store" });
+    if (!r.ok) throw new Error(r.status + " " + r.statusText);
+    const md = await r.text();
+    art.innerHTML = (window.marked ? marked.parse(md) : md.replace(/[<&]/g, c => c === "<" ? "&lt;" : "&amp;"));
+    // keep navigation inside docs.html: rewrite links to sibling .md files to ?p=...
+    for (const a of art.querySelectorAll('a[href]')) {
+      const h = a.getAttribute("href");
+      if (/^[A-Za-z0-9_.-]+\.md$/.test(h)) a.setAttribute("href", "?p=" + h);
+    }
+    document.title = "Prism — " + page.replace(".md", "");
+    scrollTo(0, 0);
+  } catch (e) {
+    art.innerHTML = "<h2>Couldn't load " + page + "</h2><p>" + e +
+      "</p><p>Serve the folder first: <code>prism serve</code>, then open " +
+      "<code>docs.html</code> over http://localhost.</p>";
+  }
+}
+load();
+</script>
+</body>
+</html>

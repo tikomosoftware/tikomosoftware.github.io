@@ -1,0 +1,13 @@
+-- A jellyfish -- animated. A translucent bell pulses (expands and contracts) while wavy tentacles
+-- trail beneath it, swaying out of phase. Pure function of time.
+include "lib/picture.prism"
+bell(i, t)  <-
+  a      <-  i / 20 * 3.1416
+  pulse  <-  1 + 0.18 * sin(t * 2)
+  Dot{ x: 60 * pulse * cos(a), y: 30 + 40 * pulse * sin(a), h: 280, a: 0.7 }
+tentacle(k, i, t)  <-
+  y  <-  30 - i * 12
+  Dot{ x: (k * 18 - 36) + 14 * sin(y * 0.05 + t * 2 + k), y: y, h: 270, a: 0.5 - i * 0.04 }
+frame(t) : Picture  <-
+  pic( concat( times(21, i -> bell(i, t)), concatAll( times(5, k -> times(10, i -> tentacle(k, i, t))) ) ) )
+main : () !console  <-  show!console "press Animate for a drifting jellyfish"

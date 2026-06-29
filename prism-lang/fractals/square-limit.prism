@@ -1,0 +1,17 @@
+-- An Escher-style "square limit" built from the Picture algebra (Layer B).
+-- `cycle` takes a tile and lays out four copies turned 0/90/180/270 degrees in a 2x2
+-- grid; nesting `cycle(cycle(tile))` tiles the plane with rotational symmetry. This is
+-- the SICP / Henderson "functional geometry" demo -- pure composition, no draw commands.
+
+include "lib/picture.prism"
+
+-- an asymmetric tile (so the four rotations are visibly different): a triangle with a tick
+tile  <-  pic([ Line{x1: 0,  y1: 0,   x2: 100, y2: 0},
+                Line{x1: 0,  y1: 0,   x2: 0,   y2: 100},
+                Line{x1: 0,  y1: 0,   x2: 100, y2: 100},
+                Line{x1: 50, y1: 0,   x2: 50,  y2: 50},
+                Line{x1: 0,  y1: 50,  x2: 50,  y2: 50} ])
+
+picture  <-  render( cycle(cycle(tile)) )
+
+main : () !console  <-  show!console "press Draw to see an Escher-style square limit"

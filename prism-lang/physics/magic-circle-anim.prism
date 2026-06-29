@@ -1,0 +1,7 @@
+include "lib/picture.prism"
+rune(i, t)  <-  Dot{ x: 120 * cos(i / 12 * 6.2832 + t * 0.3), y: 120 * sin(i / 12 * 6.2832 + t * 0.3), h: 280, a: 0.7 }
+starP(i, t)  <-  Pt{ x: 80 * cos(0 - 1.5708 + i / 5 * 6.2832 * 2 + t * 0.5), y: 80 * sin(0 - 1.5708 + i / 5 * 6.2832 * 2 + t * 0.5) }
+frame(t) : Picture  <-
+  pic( concat( [ Circle{x: 0, y: 0, r: 130, h: 280, a: 0.5}, Circle{x: 0, y: 0, r: 96, h: 280, a: 0.4},
+  Poly{pts: times(6, i -> starP(i, t)), h: 290, a: 0.8} ], times(12, i -> rune(i, t)) ) )
+main : () !console  <-  show!console "press Animate for a magic circle"

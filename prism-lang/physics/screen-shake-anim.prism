@@ -1,0 +1,16 @@
+-- Screen shake -- animated. A stack of crates sits on the ground; on each impact the whole
+-- scene jitters with a decaying shake and a shockwave ring flashes. Pure function of time.
+include "lib/picture.prism"
+hash(i)  <-  frac(sin(i * 12.9898 + 7.0) * 43758.5453)
+boxAt(i, dx, dy)  <-
+  cy  <-  0 - 100 + i * 46 + dy
+  Poly{ pts: [ Pt{x: dx - 34, y: cy - 22}, Pt{x: dx + 34, y: cy - 22}, Pt{x: dx + 34, y: cy + 22}, Pt{x: dx - 34, y: cy + 22}, Pt{x: dx - 34, y: cy - 22} ], h: 20 + i * 40, a: 0.95, fill: 1 }
+frame(t) : Picture  <-
+  ph     <-  frac(t * 0.6)
+  shake  <-  if ph < 0.22 then (0.22 - ph) * 170 else 0
+  dx     <-  shake * (hash(floor(t * 50)) - 0.5)
+  dy     <-  shake * (hash(floor(t * 50) + 3) - 0.5) * 0.5
+  pic( concat( [ Line{x1: dx - 130, y1: 0 - 124 + dy, x2: dx + 130, y2: 0 - 124 + dy, h: 30},
+                 Circle{x: dx, y: 0 - 124 + dy, r: if ph < 0.22 then ph * 300 + 5 else 0, h: 45, a: if ph < 0.22 then (0.22 - ph) * 4 else 0} ],
+               times(3, i -> boxAt(i, dx, dy)) ) )
+main : () !console  <-  show!console "press Animate for screen shake on impact"

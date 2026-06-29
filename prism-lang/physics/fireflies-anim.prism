@@ -1,0 +1,16 @@
+-- Fireflies wandering in the dark -- animated. Each one drifts around its home spot on two
+-- slow sines and shimmers between yellow and green. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  32
+
+fly(k, t)  <-
+  hx  <-  mod(k * 97, 360) - 180
+  hy  <-  mod(k * 53, 280) - 140
+  Dot{ x: hx + 30 * sin(t * 0.7 + k), y: hy + 26 * sin(t * 0.9 + k * 1.7),
+       h: 70 + 22 * sin(t * 2 + k) }                       -- yellow-green glow shimmer
+
+frame(t) : Picture  <-  pic( times(n, k -> fly(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch fireflies wander"

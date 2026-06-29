@@ -1,0 +1,18 @@
+-- Paper lanterns -- animated. A row of warm glowing lanterns hangs from a line and sways
+-- gently in the breeze (each on its own phase). Glow halo + warm body. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  7
+
+lantern(k, t)  <-
+  bx  <-  k * 60 - 180
+  x   <-  bx + 16 * sin(t * 0.8 + k)              -- sway
+  y   <-  60
+  [ Line{ x1: bx, y1: 150, x2: x, y2: y + 8, h: 30 },          -- cord
+    Circle{ x: x, y: y, r: 27, h: 18, a: 0.28, fill: 1 },       -- glow
+    Circle{ x: x, y: y, r: 18, h: 22, a: 0.9, fill: 1 } ]       -- warm body
+
+frame(t) : Picture  <-  pic( concatAll( times(n, k -> lantern(k, t)) ) )
+
+main : () !console  <-  show!console "press Animate to watch lanterns sway"

@@ -1,0 +1,17 @@
+-- Fractal :: the T-square fractal. A filled square, then a half-size square at each of its
+-- four corners, recursively. The overlaps build up a striking blocky pattern.
+
+tsquare(depth, x, y, s, acc)  <-
+  sq  <-  [Rect{x: x - s / 2, y: y - s / 2, w: s, h: s}, ..acc]
+  depth match
+    0  =>  sq
+    _  =>
+      h  <-  s / 2
+      tsquare(depth - 1, x - h, y - h, h,
+       tsquare(depth - 1, x + h, y - h, h,
+        tsquare(depth - 1, x - h, y + h, h,
+         tsquare(depth - 1, x + h, y + h, h, sq))))
+
+picture  <-  tsquare(5, 0, 0, 200, [])
+
+main : () !console  <-  show!console "press Draw to see a T-square fractal"

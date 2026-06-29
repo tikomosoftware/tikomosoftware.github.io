@@ -1,0 +1,24 @@
+-- A 3-D sphere of points (a latitude/longitude grid), spinning -- animated. Rotated about the
+-- vertical axis by t and projected with perspective; depth sets the hue for a shaded look.
+-- Pure function of time.
+
+include "lib/picture.prism"
+
+nlat  <-  15
+nlon  <-  24
+
+node(ilat, ilon, t)  <-
+  lat  <-  (ilat / nlat - 0.5) * pi
+  lon  <-  ilon / nlon * 2 * pi
+  px   <-  cos(lat) * cos(lon)
+  py   <-  sin(lat)
+  pz   <-  cos(lat) * sin(lon)
+  rx   <-  px * cos(t) + pz * sin(t)         -- spin about the vertical (y) axis
+  rz   <-  pz * cos(t) - px * sin(t)
+  k    <-  150 / (3 - rz)
+  Dot{ x: rx * k, y: py * k, h: 200 + rz * 70 }
+
+frame(t) : Picture  <-
+  pic( concatAll( times(nlat, ilat -> times(nlon, ilon -> node(ilat, ilon, t))) ) )
+
+main : () !console  <-  show!console "press Animate to spin a 3-D sphere"

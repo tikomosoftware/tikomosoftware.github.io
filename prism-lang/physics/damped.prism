@@ -1,0 +1,14 @@
+-- 2-D physics :: a damped spring -- the same oscillator, but friction bleeds energy
+-- each step, so the wave decays toward zero.
+
+trace(t, x, v)  <-
+  (t < 320) match
+    false  =>  []
+    true   =>
+      nv  <-  (v - 0.05 * x) * 0.975     -- 0.975 = damping
+      nx  <-  x + nv
+      [ Dot{x: t, y: x}, ..trace(t + 1, nx, nv) ]
+
+picture  <-  trace(0, 100, 0)
+
+main : () !console  <-  show!console "press Draw to see a damped oscillation"

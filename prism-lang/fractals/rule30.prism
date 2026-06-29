@@ -1,0 +1,5 @@
+-- Rule 30: an elementary cellular automaton famous for chaos -- from one live cell it makes a
+-- pattern random enough to have been used as a random-number generator. 60 generations stacked.
+include "lib/ca.prism"
+picture  <-  caPicture(30, 81, 60)
+main : () !console  <-  show!console "press Draw to run Rule 30"

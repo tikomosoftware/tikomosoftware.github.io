@@ -1,0 +1,10 @@
+include "lib/picture.prism"
+node(i, j, t)  <-
+  gx <- i * 26 - 156
+  gy <- j * 26 - 130
+  d <- sqrt(gx * gx + gy * gy) + 0.01
+  ring <- frac(t * 0.6) * 230
+  w <- 16 * sin((d - ring) * 0.08) / (1 + abs(d - ring) * 0.05)
+  Dot{ x: gx + w * gx / d, y: gy + w * gy / d, h: 200, a: 0.8 }
+frame(t) : Picture  <-  pic( concatAll( times(11, j -> concatAll( times(13, i -> [ node(i, j, t) ]) )) ) )
+main : () !console  <-  show!console "press Animate for a shockwave through a grid"

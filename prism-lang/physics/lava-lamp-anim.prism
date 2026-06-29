@@ -1,0 +1,9 @@
+-- A lava lamp -- animated. Warm blobs rise and sink on their own slow cycles, wobbling in size
+-- and drifting side to side. Pure function of time.
+include "lib/picture.prism"
+blob(k, t)  <-
+  ph  <-  frac(t * 0.15 + k * 0.2)
+  Circle{ x: (k * 50 - 100) + 25 * sin(t * 0.6 + k * 2), y: 140 - ph * 280,
+          r: 22 + 10 * sin(ph * 6.2832), h: 12 + k * 14, a: 0.6, fill: 1 }
+frame(t) : Picture  <-  pic( concatAll( times(5, k -> [ blob(k, t) ]) ) )
+main : () !console  <-  show!console "press Animate for a lava lamp"

@@ -1,0 +1,12 @@
+-- Eye candy :: a logarithmic spiral. Each step the radius is MULTIPLIED by a constant
+-- (so it grows geometrically) while the angle advances by a fixed amount -- nature's
+-- nautilus / sunflower spiral. Built as a little simulation (no exp needed).
+
+spin(n, r, a, acc)  <-
+  n match
+    0  =>  acc
+    _  =>  [ Dot{x: r * cos(a), y: r * sin(a)}, ..spin(n - 1, r * 1.04, a + 0.35, acc) ]
+
+picture  <-  spin(110, 3, 0, [])
+
+main : () !console  <-  show!console "press Draw to see a logarithmic spiral"

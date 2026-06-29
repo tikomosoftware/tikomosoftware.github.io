@@ -1,0 +1,17 @@
+-- Galaxian-style enemy attack -- animated. A formation waits at the top while a few enemies
+-- peel off and dive in a curved arc (bulging out, then back), trailing a fading streak, and loop.
+-- Exactly the parametric paths old shooters used. Pure function of time.
+include "lib/picture.prism"
+formEnemy(i, t)  <-
+  col  <-  mod(i, 6)
+  row  <-  floor(i / 6)
+  Dot{ x: col * 40 - 100 + 8 * sin(t + row), y: 150 - row * 28, h: 280, a: 0.9 }
+diver(k, t)  <-
+  p   <-  frac(t * 0.22 + k * 0.37)
+  sx  <-  k * 70 - 70
+  concat( [ Dot{ x: sx + 80 * sin(p * 3.1416), y: 150 - p * 320, h: 30, a: 1 } ],
+          times(6, j -> Dot{ x: sx + 80 * sin((p - (j + 1) * 0.04) * 3.1416),
+                             y: 150 - (p - (j + 1) * 0.04) * 320, h: 40, a: (1 - j / 6) * 0.5 }) )
+frame(t) : Picture  <-
+  pic( concat( times(12, i -> formEnemy(i, t)), concatAll( times(3, k -> diver(k, t)) ) ) )
+main : () !console  <-  show!console "press Animate for a Galaxian-style attack run"

@@ -1,0 +1,16 @@
+-- A Fourier series drawing machine -- animated. Odd harmonics (amplitude ~ 1/k, speed k) are
+-- chained as rotating circles; the tip of the chain traces a SQUARE WAVE. Pure function of time.
+include "lib/picture.prism"
+chainGo(k, maxk, cx, cy, t)  <-
+  (k > maxk) match
+    true   =>  []
+    false  =>
+      r   <-  76 / k
+      a   <-  k * t
+      nx  <-  cx + r * cos(a)
+      ny  <-  cy + r * sin(a)
+      concat( [ Circle{x: cx, y: cy, r: r, h: 210, a: 0.3}, Line{x1: cx, y1: cy, x2: nx, y2: ny, h: 50},
+                Dot{x: nx, y: ny, h: 40} ],
+              chainGo(k + 2, maxk, nx, ny, t) )
+frame(t) : Picture  <-  pic( chainGo(1, 13, 0, 0, t) )
+main : () !console  <-  show!console "press Animate to watch Fourier circles draw a square wave"

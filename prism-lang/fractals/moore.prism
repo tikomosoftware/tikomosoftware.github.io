@@ -1,0 +1,46 @@
+-- L-system :: the Moore curve -- a CLOSED variant of the Hilbert curve. Axiom LFL+F+LFL,
+--   L -> -RF+LFL+FR-,  R -> +LF-RFR-FL+   (90-degree turns; F draws, L/R just expand).
+include "lib/turtle.prism"
+ml(d, p)  <-
+  d match
+    0  =>  p
+    _  =>
+      p1 <- turn(p, 0 - 1.5708)
+      p2 <- mr(d - 1, p1)
+      p3 <- fwd(p2)
+      p4 <- turn(p3, 1.5708)
+      p5 <- ml(d - 1, p4)
+      p6 <- fwd(p5)
+      p7 <- ml(d - 1, p6)
+      p8 <- turn(p7, 1.5708)
+      p9 <- fwd(p8)
+      p10 <- mr(d - 1, p9)
+      turn(p10, 0 - 1.5708)
+mr(d, p)  <-
+  d match
+    0  =>  p
+    _  =>
+      p1 <- turn(p, 1.5708)
+      p2 <- ml(d - 1, p1)
+      p3 <- fwd(p2)
+      p4 <- turn(p3, 0 - 1.5708)
+      p5 <- mr(d - 1, p4)
+      p6 <- fwd(p5)
+      p7 <- mr(d - 1, p6)
+      p8 <- turn(p7, 0 - 1.5708)
+      p9 <- fwd(p8)
+      p10 <- ml(d - 1, p9)
+      turn(p10, 1.5708)
+go(d, p)  <-
+  q1 <- ml(d, p)
+  q2 <- fwd(q1)
+  q3 <- ml(d, q2)
+  q4 <- turn(q3, 1.5708)
+  q5 <- fwd(q4)
+  q6 <- turn(q5, 1.5708)
+  q7 <- ml(d, q6)
+  q8 <- fwd(q7)
+  ml(d, q8)
+done     <-  go(3, Turtle{x: 0, y: 0, a: 0, ls: []})
+picture  <-  done.ls
+main : () !console  <-  show!console "press Draw to see the Moore curve"

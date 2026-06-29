@@ -1,0 +1,18 @@
+-- A 3-D Lissajous curve -- animated. x, y, z are sines at 3:4:5, tracing a closed knot in
+-- space; the whole curve spins about the vertical axis. One Poly. Pure function of time.
+
+include "lib/picture.prism"
+
+m  <-  220
+
+node(i, t)  <-
+  s   <-  i / m * 6.2832
+  x   <-  120 * sin(3 * s)
+  y   <-  120 * sin(4 * s + 1.57)
+  z   <-  120 * sin(5 * s)
+  rx  <-  x * cos(t * 0.5) + z * sin(t * 0.5)        -- spin about y (orthographic)
+  Pt{ x: rx, y: y }
+
+frame(t) : Picture  <-  pic([ Poly{ pts: times(m + 1, i -> node(i, t)), h: 285 } ])
+
+main : () !console  <-  show!console "press Animate to watch a 3-D Lissajous knot"

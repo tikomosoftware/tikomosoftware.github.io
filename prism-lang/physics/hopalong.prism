@@ -1,0 +1,15 @@
+-- Strange attractor :: Barry Martin's "Hopalong".
+--   x' = y - sign(x) * sqrt(|b x - c|),  y' = a - x.   (a,b,c = 0.4, 1, 0)
+
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      sgn  <-  if x < 0 then 0 - 1 else 1
+      nx   <-  y - sgn * sqrt(abs(x))
+      ny   <-  0.4 - x
+      [ Dot{x: nx * 60, y: ny * 60}, ..trace(n - 1, nx, ny, acc) ]
+
+picture  <-  trace(1500, 0.1, 0.1, [])
+
+main : () !console  <-  show!console "press Draw to see a Hopalong attractor"

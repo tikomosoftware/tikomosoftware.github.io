@@ -1,0 +1,10 @@
+-- Eye candy :: a colour wheel. Each dot carries an explicit hue `h` (0..360) -- the canvas
+-- draws shapes in colour, using `h` when present (otherwise a rainbow along the draw order).
+wheel(i, n)  <-
+  (i < n) match
+    false  =>  []
+    true   =>
+      a  <-  i * 6.28319 / n
+      [ Dot{x: 120 * cos(a), y: 120 * sin(a), h: i * 360 / n}, ..wheel(i + 1, n) ]
+picture  <-  wheel(0, 72)
+main : () !console  <-  show!console "press Draw to see a colour wheel"

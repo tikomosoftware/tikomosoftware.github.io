@@ -1,0 +1,19 @@
+-- Grass swaying in the wind -- animated. Each blade is rooted at the bottom and bends with a
+-- travelling wind wave sin(t + x); the tip moves most, the root not at all. Pure in t.
+
+include "lib/picture.prism"
+
+n  <-  33
+
+blade(k, t)  <-
+  bx    <-  k * 12 - 192
+  sway  <-  28 * sin(t * 1.2 + bx * 0.03)            -- wind wave along x
+  Poly{ pts: [ Pt{x: bx, y: 0 - 120},                 -- root (still)
+               Pt{x: bx + sway * 0.25, y: 0 - 60},
+               Pt{x: bx + sway * 0.6,  y: 0},
+               Pt{x: bx + sway, y: 70} ],             -- tip (sways most)
+        h: 105 + mod(k, 4) * 9 }                       -- greens
+
+frame(t) : Picture  <-  pic( times(n, k -> blade(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch grass sway in the wind"

@@ -1,0 +1,22 @@
+-- A Spirograph studio -- an interactive little app. In the browser playground the three
+-- slider(...) values become DRAG CONTROLS, and the picture redraws live as you move them.
+-- The curve is a hypotrochoid: a pen at offset `pen` on a circle of radius `roll` rolling
+-- inside a circle of radius `ring`. (On the command line, each slider is just its default.)
+
+include "lib/picture.prism"
+
+ring  <-  slider(130, 70, 160)     -- the fixed outer circle
+roll  <-  slider(48, 12, 90)       -- the rolling inner circle
+pen   <-  slider(70, 10, 95)       -- how far the pen sits from the rolling circle's centre
+
+n  <-  1400
+
+pt(i)  <-
+  th  <-  i / n * 6.2832 * 16          -- many turns so the pattern closes
+  k   <-  (ring - roll) / roll
+  Pt{ x: (ring - roll) * cos(th) + pen * cos(k * th),
+      y: (ring - roll) * sin(th) - pen * sin(k * th) }
+
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 285 } ]
+
+main : () !console  <-  show!console "drag the sliders to design a spirograph"

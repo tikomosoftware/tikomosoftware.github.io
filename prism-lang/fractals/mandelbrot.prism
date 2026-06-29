@@ -1,0 +1,22 @@
+-- The Mandelbrot set: for each point c in the plane, iterate z -> z*z + c from z = 0 and
+-- colour by how fast it escapes. Inside points (never escape) are left undrawn, so the dark
+-- background is the classic black body. A grid of coloured Dots (a complex = a Pt{x, y}).
+
+include "lib/escape.prism"
+
+nx  <-  64
+ny  <-  64
+maxIter  <-  28
+z0  <-  Pt{x: 0, y: 0}
+
+cell(i, j)  <-
+  cx  <-  0 - 2.3 + i * (3.1 / nx)               -- real axis  -2.3 .. 0.8
+  cy  <-  0 - 1.55 + j * (3.1 / ny)              -- imag axis  -1.55 .. 1.55
+  n   <-  escape(z0, Pt{x: cx, y: cy}, 2, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 200 + n * 9} ]   -- escaped: colour by the band
+    false  =>  []                                            -- inside: draw nothing (stays dark)
+
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+
+main : () !console  <-  show!console "press Draw to render the Mandelbrot set"

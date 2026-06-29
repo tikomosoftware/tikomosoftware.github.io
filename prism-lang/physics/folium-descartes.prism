@@ -1,0 +1,10 @@
+-- The Folium of Descartes: x = 3at/(1+t^3), y = 3at^2/(1+t^3) -- a leaf-shaped loop (it also
+-- has an asymptote; we draw the loop). Famous from the early days of calculus.
+include "lib/picture.prism"
+n  <-  260
+pt(i)  <-
+  t    <-  0 - 0.5 + i / n * 6.5
+  den  <-  1 + t * t * t
+  Pt{ x: 3 * 80 * t / den, y: 3 * 80 * t * t / den }
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 100 } ]
+main : () !console  <-  show!console "press Draw to see the Folium of Descartes"

@@ -1,0 +1,13 @@
+-- A 3-D coil spring -- animated. A helix of five turns, spinning about the vertical axis.
+-- One Poly. Pure function of time.
+include "lib/picture.prism"
+m  <-  180
+node(i, t)  <-
+  s   <-  i / m * 6.2832 * 5
+  x   <-  72 * cos(s)
+  y   <-  s * 7.6 - 120
+  z   <-  72 * sin(s)
+  rx  <-  x * cos(t * 0.6) + z * sin(t * 0.6)
+  Pt{ x: rx, y: y }
+frame(t) : Picture  <-  pic([ Poly{ pts: times(m + 1, i -> node(i, t)), h: 160 } ])
+main : () !console  <-  show!console "press Animate to watch a 3-D spring"

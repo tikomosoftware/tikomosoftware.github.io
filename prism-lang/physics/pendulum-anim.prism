@@ -1,0 +1,14 @@
+-- ANIMATION :: the picture is a pure FUNCTION OF TIME. `frame(t)` returns the whole
+-- scene at instant t -- and its signature has NO `!`, so the checker certifies the
+-- animation is pure: no mutable state, no side effects, just geometry of t. The
+-- playground advances t (in seconds) and asks for each frame.
+
+include "lib/picture.prism"
+
+-- a pendulum: a rod from the pivot (origin) to a bob, swung by sin(t).
+frame(t) : Picture  <-
+  ang  <-  sin(t) * 50                       -- swing angle in degrees, +/- 50
+  rotate(ang, pic([ Line{x1: 0, y1: 0, x2: 0, y2: -120},
+                    Circle{x: 0, y: -120, r: 12} ]))
+
+main : () !console  <-  show!console "press Animate to swing the pendulum"

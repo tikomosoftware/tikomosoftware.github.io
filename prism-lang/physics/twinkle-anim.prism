@@ -1,0 +1,14 @@
+-- A twinkling night sky -- animated, showing off opacity. A field of stars whose brightness
+-- (opacity `a`) pulses, each on its own phase, so they shimmer in and out. Pure in t.
+
+include "lib/picture.prism"
+
+n  <-  80
+
+star(k, t)  <-
+  Dot{ x: mod(k * 89, 440) - 220, y: mod(k * 61, 300) - 150,
+       h: 210, a: 0.25 + 0.7 * abs(sin(t * 1.3 + k)) }       -- twinkle: opacity pulses
+
+frame(t) : Picture  <-  pic( times(n, k -> star(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch the stars twinkle"

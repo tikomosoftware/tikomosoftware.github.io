@@ -1,0 +1,29 @@
+-- A vending machine, built the Prism way. Showcases the TIME voice `~>` (ordered effects:
+-- prompt THEN read THEN handle) and a state machine (the running balance, threaded by recursion).
+-- Insert coins one at a time, then a product name. Gives change. cola 150 / tea 100 / water 80.
+--   printf '100\n100\ncola\n' | python cli.py run examples/vending.prism
+
+price(name: Text) : Num  ?NoSuchItem  <-
+  name match
+    "cola"   =>  150
+    "tea"    =>  100
+    "water"  =>  80
+    _        =>  fail NoSuchItem
+
+buy(balance: Num, name: Text) : () !console  <-
+  price(name) match
+    fail _  =>  show!console "no such item"  ~>  run(balance)
+    ok p    =>
+      (balance < p) match
+        true   =>  show!console "{p - balance} yen short"  ~>  run(balance)
+        false  =>  show!console "clunk: {name} / change {balance - p} yen"
+
+step(balance: Num, line: Text) : () !console  <-
+  parseNum(line) match
+    ok coin  =>  run(balance + coin)
+    fail _   =>  buy(balance, line)
+
+run(balance: Num) : () !console  <-
+  show!console "balance {balance} yen -- coin, or item (cola/tea/water):"  ~>  step(balance, read!console)
+
+main : () !console  <-  run(0)

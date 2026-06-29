@@ -1,0 +1,5 @@
+-- Rule 110: an elementary cellular automaton that is Turing-complete. From a single live cell,
+-- 60 generations are stacked downward, producing its famous structured-yet-irregular pattern.
+include "lib/ca.prism"
+picture  <-  caPicture(110, 81, 60)
+main : () !console  <-  show!console "press Draw to run Rule 110"

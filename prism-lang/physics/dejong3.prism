@@ -1,0 +1,10 @@
+-- Strange attractor :: de Jong with (a,b,c,d) = -2.7, -0.09, -0.86, -2.2.
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  sin(0 - 2.7 * y) - cos(0 - 0.09 * x)
+      ny  <-  sin(0 - 0.86 * x) - cos(0 - 2.2 * y)
+      [ Dot{x: nx * 120, y: ny * 120}, ..trace(n - 1, nx, ny, acc) ]
+picture  <-  trace(1500, 0, 0, [])
+main : () !console  <-  show!console "press Draw to see a third de Jong attractor"

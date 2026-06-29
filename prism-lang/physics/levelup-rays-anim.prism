@@ -1,0 +1,10 @@
+include "lib/picture.prism"
+ray(k, t)  <-
+  p <- frac(t * 0.7)
+  len <- 60 + 90 * p
+  Line{ x1: 0, y1: 0, x2: len * cos(k / 16 * 6.2832 + t * 0.5),
+  y2: len * sin(k / 16 * 6.2832 + t * 0.5), h: 50, a: (1 - p) * 0.8 }
+frame(t) : Picture  <-
+  p  <-  frac(t * 0.7)
+  pic( concat( [ Circle{x: 0, y: 0, r: p * 120 + 5, h: 55, a: (1 - p) * 0.7} ], times(16, k -> ray(k, t)) ) )
+main : () !console  <-  show!console "press Animate for a level-up burst"

@@ -1,0 +1,14 @@
+-- Strange attractor :: the Gingerbreadman map, x' = 1 - y + |x|, y' = x. The orbit fills
+-- a gingerbread-man-shaped region. (Uses the `abs` builtin.)
+
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  1 - y + abs(x)
+      ny  <-  x
+      [ Dot{x: nx * 22, y: ny * 22}, ..trace(n - 1, nx, ny, acc) ]
+
+picture  <-  trace(1600, 0 - 0.1, 0, [])
+
+main : () !console  <-  show!console "press Draw to see the Gingerbreadman map"

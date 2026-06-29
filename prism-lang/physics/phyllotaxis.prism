@@ -1,0 +1,14 @@
+-- Eye candy :: phyllotaxis (a sunflower head). Seed i sits at radius proportional to
+-- sqrt(i) and angle i * the golden angle (~137.5 deg) -- nature's optimal packing.
+
+seeds(i, n)  <-
+  (i < n) match
+    false  =>  []
+    true   =>
+      r  <-  9 * sqrt(i)
+      a  <-  i * 2.39996               -- golden angle, in radians
+      [ Dot{x: r * cos(a), y: r * sin(a)}, ..seeds(i + 1, n) ]
+
+picture  <-  seeds(0, 360)
+
+main : () !console  <-  show!console "press Draw to see a sunflower (phyllotaxis)"

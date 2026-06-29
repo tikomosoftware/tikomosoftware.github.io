@@ -1,0 +1,10 @@
+-- The bicorn ("cocked hat"): x = a sin t, y = a cos^2 t (2 + cos t) / (3 + sin^2 t) -- a two-horned curve.
+include "lib/picture.prism"
+n  <-  240
+pt(i)  <-
+  t  <-  i / n * 6.2832
+  c  <-  cos(t)
+  s  <-  sin(t)
+  Pt{ x: 130 * s, y: 105 * c * c * (2 + c) / (3 + s * s) }
+picture  <-  [ Poly{ pts: times(n + 1, i -> pt(i)), h: 20 } ]
+main : () !console  <-  show!console "press Draw to see a bicorn"

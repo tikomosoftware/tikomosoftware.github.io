@@ -1,0 +1,8 @@
+-- Eye candy :: a trefoil-knot projection, x = sin t + 2 sin 2t, y = cos t - 2 cos 2t.
+
+include "lib/draw2d.prism"
+
+picture  <-  polyline(t -> V{ x: 45 * (sin(t * 0.05) + 2 * sin(2 * t * 0.05)),
+                              y: 45 * (cos(t * 0.05) - 2 * cos(2 * t * 0.05)) }, 0, 130)
+
+main : () !console  <-  show!console "press Draw to see a trefoil knot"

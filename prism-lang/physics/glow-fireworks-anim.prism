@@ -1,0 +1,22 @@
+-- Glowing fireworks -- animated. Three shells burst in turn; each spark is a fading halo plus
+-- a bright point, rising then falling under gravity. Translucency makes them glow. Pure in t.
+
+include "lib/picture.prism"
+
+per  <-  26
+
+spark(cx, s, hueb, k, t)  <-
+  a    <-  k / per * 6.2832
+  rad  <-  s * 130
+  x    <-  cx + rad * cos(a)
+  y    <-  130 - 150 * s + rad * sin(a) - 70 * s * s
+  [ Circle{ x: x, y: y, r: 7 * (1 - s) + 2, h: hueb + k * 4, a: (1 - s) * 0.5, fill: 1 },  -- glow
+    Dot{ x: x, y: y, h: hueb + k * 5, a: 1 - s } ]                                          -- spark
+shell(cx, hueb, ph, t)  <-
+  s  <-  frac(t * 0.4 + ph)
+  concatAll( times(per, k -> spark(cx, s, hueb, k, t)) )
+
+frame(t) : Picture  <-
+  pic( concatAll([ shell(-100, 0, 0, t), shell(90, 140, 0.4, t), shell(-10, 250, 0.72, t) ]) )
+
+main : () !console  <-  show!console "press Animate for glowing fireworks"

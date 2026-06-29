@@ -1,0 +1,30 @@
+-- A 3-D torus (doughnut) of points, rotating -- animated. Each surface point is rotated about
+-- two axes by t and projected with perspective; depth sets the hue, so it looks shaded and
+-- solid. Pure function of time.
+
+include "lib/picture.prism"
+
+nu  <-  26
+nv  <-  15
+
+node(iu, iv, t)  <-
+  u   <-  iu / nu * 2 * pi
+  v   <-  iv / nv * 2 * pi
+  px  <-  (1.0 + 0.42 * cos(v)) * cos(u)
+  py  <-  (1.0 + 0.42 * cos(v)) * sin(u)
+  pz  <-  0.42 * sin(v)
+  ca  <-  cos(t)
+  sa  <-  sin(t)
+  rx  <-  px * ca + pz * sa
+  rz  <-  pz * ca - px * sa
+  cb  <-  cos(t * 0.5)
+  sb  <-  sin(t * 0.5)
+  ry  <-  py * cb - rz * sb
+  rz2 <-  rz * cb + py * sb
+  k   <-  150 / (3.2 - rz2)
+  Dot{ x: rx * k, y: ry * k, h: 200 + rz2 * 70 }
+
+frame(t) : Picture  <-
+  pic( concatAll( times(nv, iv -> times(nu, iu -> node(iu, iv, t))) ) )
+
+main : () !console  <-  show!console "press Animate to spin a 3-D torus"

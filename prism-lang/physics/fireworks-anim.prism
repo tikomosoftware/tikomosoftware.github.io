@@ -1,0 +1,25 @@
+-- Fireworks -- animated particle system. Three shells burst in turn: each sends a ring of
+-- sparks expanding outward (radius grows with the shell's life s) while the whole burst drifts
+-- up then falls under gravity. `frac` loops each shell's life. Pure function of time.
+
+include "lib/picture.prism"
+
+per  <-  30
+
+spark(cx, s, hueb, k, t)  <-
+  a    <-  k / per * 2 * pi
+  rad  <-  s * 135
+  Dot{ x: cx + rad * cos(a),
+       y: 130 - 150 * s + rad * sin(a) - 70 * s * s,    -- rise then fall
+       h: hueb + k * 4 }
+
+shell(cx, hueb, ph, t)  <-
+  s  <-  frac(t * 0.4 + ph)
+  times(per, k -> spark(cx, s, hueb, k, t))
+
+frame(t) : Picture  <-
+  pic( concatAll([ shell(-110, 0,   0,    t),
+                   shell(  90, 120, 0.37, t),
+                   shell( -10, 250, 0.71, t) ]) )
+
+main : () !console  <-  show!console "press Animate for fireworks"

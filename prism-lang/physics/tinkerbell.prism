@@ -1,0 +1,14 @@
+-- Strange attractor :: the Tinkerbell map,
+--   x' = x^2 - y^2 + a x + b y,  y' = 2 x y + c x + d y.
+
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  x * x - y * y + 0.9 * x - 0.6013 * y
+      ny  <-  2 * x * y + 2 * x + 0.5 * y
+      [ Dot{x: nx * 130, y: ny * 130}, ..trace(n - 1, nx, ny, acc) ]
+
+picture  <-  trace(1200, 0 - 0.72, 0 - 0.64, [])
+
+main : () !console  <-  show!console "press Draw to see the Tinkerbell attractor"

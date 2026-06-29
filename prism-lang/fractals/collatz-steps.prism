@@ -1,0 +1,15 @@
+-- Collatz stopping times: for each n, count steps of (n even -> n/2, n odd -> 3n+1) until it
+-- reaches 1, and plot (n, steps). The scatter is famously erratic. Pure recursion.
+include "lib/picture.prism"
+csteps(n, k)  <-
+  (n < 2) match
+    true   =>  k
+    false  =>
+      (mod(n, 2) < 1) match
+        true   =>  csteps(n / 2, k + 1)
+        false  =>  csteps(3 * n + 1, k + 1)
+cell(k)  <-
+  s  <-  csteps(k + 1, 0)
+  [ Dot{x: k - 150, y: s * 1.6 - 80, h: 200 + s } ]
+picture  <-  concatAll( times(300, k -> cell(k)) )
+main : () !console  <-  show!console "press Draw to see Collatz stopping times"

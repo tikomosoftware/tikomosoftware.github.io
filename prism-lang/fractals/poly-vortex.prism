@@ -1,0 +1,19 @@
+-- A vortex of squares, each a single Poly, rotated FAITHFULLY about the centre. This shows
+-- off the Poly shape: a rotated rectangle is no longer axis-aligned, so `rotate` turns it
+-- into a 4-corner Poly (a real tilted square) instead of faking it with a Rect.
+
+include "lib/picture.prism"
+
+-- a square centred on the origin, as one closed Poly
+square(d)  <-  pic([ Poly{pts: [ Pt{x: 0 - d, y: 0 - d}, Pt{x: d, y: 0 - d},
+                                 Pt{x: d, y: d}, Pt{x: 0 - d, y: d}, Pt{x: 0 - d, y: 0 - d} ]} ])
+
+-- stack n squares, each a bit smaller and turned a bit more -> a spiralling vortex
+vortex(n)  <-
+  n match
+    0  =>  square(100)
+    _  =>  over( rotate(n * 9, scale(0.92 * 0.92, square(100))), vortex(n - 1) )
+
+picture  <-  render( vortex(28) )
+
+main : () !console  <-  show!console "press Draw to see a vortex of tilted squares (Poly)"

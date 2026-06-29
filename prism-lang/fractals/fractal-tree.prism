@@ -1,0 +1,15 @@
+-- Fractal :: a recursive binary tree. Each branch ends in two shorter branches,
+-- rotated by +/- an angle. Uses sin/cos for the rotation and an accumulator for the list.
+
+branch(depth, x, y, angle, length, acc)  <-
+  ex    <-  x + length * cos(angle)
+  ey    <-  y + length * sin(angle)
+  line  <-  Line{x1: x, y1: y, x2: ex, y2: ey}
+  depth match
+    0  =>  [line, ..acc]
+    _  =>  [line, ..branch(depth - 1, ex, ey, angle + 0.5, length * 0.72,
+                           branch(depth - 1, ex, ey, angle - 0.5, length * 0.72, acc))]
+
+picture  <-  branch(10, 0, 0, pi / 2, 90, [])   -- grows upward from the origin
+
+main : () !console  <-  show!console "press Draw to see a fractal tree"

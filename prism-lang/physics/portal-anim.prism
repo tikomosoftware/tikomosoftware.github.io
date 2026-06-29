@@ -1,0 +1,7 @@
+include "lib/picture.prism"
+node(k, t)  <-
+  life <- frac(t * 0.3 + k * 0.013)
+  r <- 130 * (1 - life)
+  Dot{ x: r * cos(k * 0.5 + t * 1.5), y: r * sin(k * 0.5 + t * 1.5), h: 270, a: life * 0.9 }
+frame(t) : Picture  <-  pic( concat( [ Circle{x: 0, y: 0, r: 20, h: 280, a: 0.6, fill: 1} ], times(80, k -> node(k, t)) ) )
+main : () !console  <-  show!console "press Animate for a swirling portal"

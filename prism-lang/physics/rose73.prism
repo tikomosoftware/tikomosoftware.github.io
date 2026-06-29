@@ -1,0 +1,5 @@
+-- Eye candy :: rose r = cos(7/3 theta) -- a many-petalled rhodonea (closes after 3 turns).
+include "lib/draw2d.prism"
+picture  <-  polyline(t -> V{ x: 140 * cos(2.3333 * t * 0.05) * cos(t * 0.05),
+                              y: 140 * cos(2.3333 * t * 0.05) * sin(t * 0.05) }, 0, 380)
+main : () !console  <-  show!console "press Draw to see a 7/3 rose"

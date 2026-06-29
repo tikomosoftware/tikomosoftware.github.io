@@ -1,0 +1,34 @@
+-- Elementary cellular automata (Wolfram's 1-D rules). A row is a List of 0/1; caStep applies
+-- one of the 256 rules (its binary digits decide each new cell from its 3 neighbours); caPicture
+-- starts from a single centre cell and stacks `g` generations into a triangle of dots.
+include "lib/picture.prism"
+two(p)  <-
+  p match
+    0 => 1
+    1 => 2
+    2 => 4
+    3 => 8
+    4 => 16
+    5 => 32
+    6 => 64
+    _ => 128
+ruleBit(rule, l, c, r)  <-  mod(floor(rule / two(l * 4 + c * 2 + r)), 2)
+stepGo(rule, l, c, rest)  <-
+  rest match
+    []        =>  [ ruleBit(rule, l, c, 0) ]
+    [r, ..t]  =>  [ ruleBit(rule, l, c, r), ..stepGo(rule, c, r, t) ]
+caStep(rule, row)  <-
+  row match
+    []        =>  []
+    [c, ..t]  =>  stepGo(rule, 0, c, t)
+caRow0(w, i)  <-  if i == floor(w / 2) then 1 else 0
+bitDot(b, i, gen)  <-  if b > 0 then [ Dot{x: i * 5 - 200, y: 150 - gen * 5, h: 200 + gen * 2} ] else []
+emitRow(row, i, gen)  <-
+  row match
+    []        =>  []
+    [b, ..t]  =>  concat( bitDot(b, i, gen), emitRow(t, i + 1, gen) )
+caBuild(rule, row, gen, maxG)  <-
+  (gen > maxG) match
+    true   =>  []
+    false  =>  concat( emitRow(row, 0, gen), caBuild(rule, caStep(rule, row), gen + 1, maxG) )
+caPicture(rule, w, g)  <-  caBuild(rule, times(w, i -> caRow0(w, i)), 0, g)

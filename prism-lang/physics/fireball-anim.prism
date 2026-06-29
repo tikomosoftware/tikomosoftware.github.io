@@ -1,0 +1,12 @@
+-- A bouncing fireball -- animated. The fireball arcs across and bounces on the floor, trailing
+-- flames that shrink and cool (computed from where it was a moment ago). Pure function of time.
+include "lib/picture.prism"
+ballX(s)  <-  mod(s * 70, 380) - 190
+ballY(s)  <-  120 * abs(sin(s * 1.6)) - 110
+frame(t) : Picture  <-
+  pic( concat(
+    times(12, j -> Circle{ x: ballX(t - j * 0.05), y: ballY(t - j * 0.05), r: 13 - j * 0.7,
+                           h: 45 - j * 3, a: (1 - j / 12) * 0.6, fill: 1 }),
+    [ Circle{ x: ballX(t), y: ballY(t), r: 14, h: 52, a: 0.95, fill: 1 },
+      Line{ x1: 0 - 190, y1: 0 - 110, x2: 190, y2: 0 - 110, h: 210, a: 0.4 } ] ) )
+main : () !console  <-  show!console "press Animate for a bouncing fireball"

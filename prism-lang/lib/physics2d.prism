@@ -1,0 +1,17 @@
+-- A tiny 2-D physics / vector library, meant to be `include`d.
+-- A Vec is a 2-D point or vector; a Body has a position and a velocity.
+-- (Functions are unsignatured -- gradual -- and read fields with `.x` / `.y`.)
+
+Vec  : V{ x: Num, y: Num }
+Body : B{ pos: Vec, vel: Vec }
+
+vadd(a, b)    <-  V{ x: a.x + b.x, y: a.y + b.y }
+vsub(a, b)    <-  V{ x: a.x - b.x, y: a.y - b.y }
+vscale(a, k)  <-  V{ x: a.x * k, y: a.y * k }
+vlen(a)       <-  sqrt(a.x * a.x + a.y * a.y)
+
+-- one Euler step of dt under acceleration `acc`: new velocity, then new position.
+step(body, acc, dt)  <-
+  nv  <-  vadd(body.vel, vscale(acc, dt))
+  np  <-  vadd(body.pos, vscale(nv, dt))
+  B{ pos: np, vel: nv }

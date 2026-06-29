@@ -1,0 +1,25 @@
+-- Eye candy :: a vortex of squares -- each square a little smaller and a little more
+-- rotated than the last, so they spiral inward. The corners sit at angle f + 45,135,225,315.
+
+squares(i, n, acc)  <-
+  (i < n) match
+    false  =>  acc
+    true   =>
+      r   <-  140 * (1 - i * 0.013)
+      f   <-  i * 0.22
+      ax  <-  r * cos(f + 0.785)
+      ay  <-  r * sin(f + 0.785)
+      bx  <-  r * cos(f + 2.356)
+      by  <-  r * sin(f + 2.356)
+      cx  <-  r * cos(f + 3.927)
+      cy  <-  r * sin(f + 3.927)
+      dx  <-  r * cos(f + 5.498)
+      dy  <-  r * sin(f + 5.498)
+      [ Line{x1: ax, y1: ay, x2: bx, y2: by},
+        ..[ Line{x1: bx, y1: by, x2: cx, y2: cy},
+          ..[ Line{x1: cx, y1: cy, x2: dx, y2: dy},
+            ..[ Line{x1: dx, y1: dy, x2: ax, y2: ay}, ..squares(i + 1, n, acc) ] ] ] ]
+
+picture  <-  squares(0, 64, [])
+
+main : () !console  <-  show!console "press Draw to see a vortex of squares"

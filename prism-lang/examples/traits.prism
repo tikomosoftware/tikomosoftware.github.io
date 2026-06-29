@@ -1,0 +1,34 @@
+-- Prism v0 :: capability METHODS -- resolved at the call site, body-checked
+-- against the capability's signature, and dispatched on the receiver at runtime.
+
+-- Show: render any value to Text.
+capability Show for T
+  show(x: T) : Text
+
+Num  provides Show
+  show(x)  <-  "a number"        -- body must be Text -- it is.
+
+Text provides Show
+  show(x)  <-  x                 -- x : Text (T := Text) -- ok.
+
+-- describe works for ANY showable T: calling `show` requires `given T: Show`,
+-- and the call resolves to the right instance.
+describe for T given T: Show (x: T) : Text  <-  show(x)
+
+-- Functor: a higher-kinded capability. List's fmap is a real, recursive map,
+-- and the checker confirms its body honours `fmap : F[U]` (here List[U]).
+capability Functor for F[_]
+  fmap for T, U (xs: F[T], f: (T) -> U) : F[U]
+
+List provides Functor
+  fmap(xs, f)  <-
+    xs match
+      []        =>  []
+      [h, ..t]  =>  [ f(h), ..fmap(t, f) ]
+
+doubleAll(xs: List[Num]) : List[Num]  <-  fmap(xs, n -> n * 2)
+
+main : () !console  <-
+  show!console describe(42)
+  show!console describe("hello")
+  show!console "{doubleAll([1, 2, 3])}"

@@ -1,0 +1,21 @@
+-- A dendrite Julia set: z -> z*z + c with c = i (0 + 1i). c sits on the boundary of the
+-- Mandelbrot set, so the Julia set is a thin, branching tree with no interior.
+
+include "lib/escape.prism"
+
+nx  <-  62
+ny  <-  62
+maxIter  <-  34
+jc  <-  Pt{x: 0, y: 1}
+
+cell(i, j)  <-
+  zx  <-  0 - 1.7 + i * (3.4 / nx)
+  zy  <-  0 - 1.7 + j * (3.4 / ny)
+  n   <-  escape(Pt{x: zx, y: zy}, jc, 2, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 150 + n * 7} ]
+    false  =>  []
+
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+
+main : () !console  <-  show!console "press Draw to render a dendrite Julia set"

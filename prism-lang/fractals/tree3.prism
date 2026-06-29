@@ -1,0 +1,12 @@
+-- Fractal :: a ternary tree -- each branch splits into three (left, straight, right).
+tree(d, x, y, ang, len, acc)  <-
+  ex    <-  x + len * cos(ang)
+  ey    <-  y + len * sin(ang)
+  line  <-  Line{x1: x, y1: y, x2: ex, y2: ey}
+  d match
+    0  =>  [line, ..acc]
+    _  =>  [line, ..tree(d - 1, ex, ey, ang + 0.6, len * 0.7,
+                         tree(d - 1, ex, ey, ang, len * 0.7,
+                              tree(d - 1, ex, ey, ang - 0.6, len * 0.7, acc)))]
+picture  <-  tree(7, 0, 0, 1.5708, 80, [])
+main : () !console  <-  show!console "press Draw to see a ternary tree"

@@ -1,0 +1,23 @@
+-- Layer B :: affine transforms. `scale` and `rotate` map every shape (about the origin);
+-- `quartet`/`cycle` arrange copies. `scale(2, ..)` doubles the bounding box exactly;
+-- `rotate` keeps the shape count (it moves points, it doesn't add or drop shapes).
+
+include "lib/picture.prism"
+
+sq(s)  <-  pic([ Rect{x: 0, y: 0, w: s, h: s} ])
+
+tile  <-  pic([ Line{x1: 0, y1: 0, x2: 100, y2: 0},
+                Line{x1: 0, y1: 0, x2: 0,   y2: 100},
+                Line{x1: 0, y1: 0, x2: 100, y2: 100} ])
+
+count(xs)  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  1 + count(t)
+
+main : () !console  <-
+  show!console "scaled width   = {scale(2, sq(10)).bbox.w}"
+  show!console "rotated shapes = {count(render(rotate(90, tile)))}"
+  show!console "quartet shapes = {count(render(quartet(tile, tile, tile, tile)))}"
+
+picture  <-  render( cycle(tile) )

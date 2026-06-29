@@ -1,0 +1,9 @@
+-- Eye candy :: a banner in the wind. A ribbon whose wave amplitude grows toward the
+-- free (right) end, anchored at the pole on the left -- a snapshot of cloth flapping.
+
+include "lib/draw2d.prism"
+
+picture  <-  polyline(i -> V{ x: i * 4,
+                              y: sin(i * 0.45) * (i * 0.7) }, 0, 60)
+
+main : () !console  <-  show!console "press Draw to see a banner in the wind"

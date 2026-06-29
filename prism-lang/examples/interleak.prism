@@ -1,0 +1,9 @@
+-- Prism v0 :: an effect / failure that tries to HIDE inside a string.
+-- A `"{...}"` interpolation is real code -- the checker now reads through it.
+
+-- MISTAKE 1: parseNum can fail (?BadNumber), but its result is interpolated
+-- without try/match -- the failure cannot hide in the string.
+report(s: Text) : Text  <-  "parsed: {parseNum(s)}"
+
+-- MISTAKE 2: greet performs !console (through interpolation) but declares no effect.
+greet(name: Text) : Text  <-  "{show!console name}!"

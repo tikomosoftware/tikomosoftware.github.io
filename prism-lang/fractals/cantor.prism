@@ -1,0 +1,15 @@
+-- Fractal :: the Cantor set. A bar drops its middle third, leaving two bars; repeat,
+-- each generation drawn one row lower.
+
+cantor(depth, x, y, len, acc)  <-
+  bar  <-  Line{x1: x, y1: y, x2: x + len, y2: y}
+  depth match
+    0  =>  [bar, ..acc]
+    _  =>
+      t  <-  len / 3
+      [ bar, ..cantor(depth - 1, x, y - 24, t,
+                cantor(depth - 1, x + t + t, y - 24, t, acc)) ]
+
+picture  <-  cantor(5, 0, 0, 486, [])
+
+main : () !console  <-  show!console "press Draw to see the Cantor set"

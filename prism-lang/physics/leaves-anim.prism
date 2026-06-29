@@ -1,0 +1,25 @@
+-- Autumn leaves tumbling down -- animated. Like the cherry blossoms, but bigger, slower, with
+-- a wide zig-zag sway and warm autumn hues that vary leaf to leaf. Each leaf is a small Poly
+-- rotated inline (so its hue is kept) as it falls. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  34
+
+at(px, py, c, s, cx, cy)  <-  Pt{ x: cx + px * c - py * s, y: cy + px * s + py * c }
+
+leaf(k, t)  <-
+  fall  <-  frac(t * 0.06 + k * 0.11)
+  cx    <-  mod(k * 71, 380) - 190 + 45 * sin(t * 0.9 + k * 1.3)   -- wide zig-zag
+  cy    <-  180 - fall * 360
+  a     <-  t * 1.7 + k * 0.5
+  c     <-  cos(a)
+  s     <-  sin(a)
+  hue   <-  18 + mod(k, 5) * 11                                     -- 18..62: red/orange/gold
+  Poly{ pts: [ at(0, 0 - 9, c, s, cx, cy), at(5, 0, c, s, cx, cy),
+               at(0, 9, c, s, cx, cy), at(0 - 5, 0, c, s, cx, cy),
+               at(0, 0 - 9, c, s, cx, cy) ], h: hue }
+
+frame(t) : Picture  <-  pic( times(n, k -> leaf(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch autumn leaves tumble"

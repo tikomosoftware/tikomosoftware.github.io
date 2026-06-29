@@ -1,0 +1,17 @@
+-- Glowing fireflies -- animated, with light. Each one is a soft translucent halo plus a bright
+-- core, and its glow pulses as it wanders. Uses opacity (`a`) + `fill`. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  22
+
+fly(k, t)  <-
+  x      <-  mod(k * 97, 360) - 180 + 34 * sin(t * 0.6 + k)
+  y      <-  mod(k * 53, 260) - 130 + 28 * sin(t * 0.8 + k * 1.7)
+  pulse  <-  0.3 + 0.55 * abs(sin(t * 1.6 + k))
+  [ Circle{ x: x, y: y, r: 16, h: 78, a: pulse * 0.33, fill: 1 },     -- soft halo
+    Circle{ x: x, y: y, r: 4,  h: 72, a: pulse, fill: 1 } ]            -- bright core
+
+frame(t) : Picture  <-  pic( concatAll( times(n, k -> fly(k, t)) ) )
+
+main : () !console  <-  show!console "press Animate to watch glowing fireflies"

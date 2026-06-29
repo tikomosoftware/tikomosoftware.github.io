@@ -1,0 +1,10 @@
+-- The double-slit interference pattern. Light through two slits makes bright/dark fringes on a
+-- screen; intensity is cos^2(k x) under a slowly fading envelope. Vertical bars, brightness =
+-- intensity (via opacity).
+include "lib/picture.prism"
+band(i)  <-
+  x      <-  i * 4 - 200
+  inten  <-  cos(x * 0.06) * cos(x * 0.06) / (1 + x * x * 0.00014)
+  Line{ x1: x, y1: 0 - 95, x2: x, y2: 95, h: 55, a: inten }
+picture  <-  times(101, i -> band(i))
+main : () !console  <-  show!console "press Draw to see the double-slit pattern"

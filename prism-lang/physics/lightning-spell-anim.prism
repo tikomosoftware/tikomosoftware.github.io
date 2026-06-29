@@ -1,0 +1,9 @@
+include "lib/picture.prism"
+seg(i, seed)  <-  Pt{ x: 18 * sin(i * 1.9 + seed * 5), y: 150 - i * 40 }
+frame(t) : Picture  <-
+  strike <- frac(t * 0.8)
+  seed   <- floor(t * 0.8)
+  glow   <- if strike < 0.25 then 1 - strike * 4 else 0
+  pic([ Poly{pts: times(8, i -> seg(i, seed)), h: 52, a: glow},
+  Circle{x: 18 * sin(7 * 1.9 + seed * 5), y: 150 - 7 * 40, r: 24, h: 50, a: glow * 0.6, fill: 1} ])
+main : () !console  <-  show!console "press Animate for a lightning spell"

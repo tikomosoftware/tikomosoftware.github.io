@@ -1,0 +1,21 @@
+-- The Douady Rabbit: the Julia set of z -> z*z + c for the fixed c = -0.123 + 0.745i. Its
+-- pinched bulbs look like a rabbit (head and two ears, repeated forever).
+
+include "lib/escape.prism"
+
+nx  <-  62
+ny  <-  62
+maxIter  <-  34
+jc  <-  Pt{x: 0 - 0.123, y: 0.745}
+
+cell(i, j)  <-
+  zx  <-  0 - 1.6 + i * (3.2 / nx)
+  zy  <-  0 - 1.5 + j * (3.0 / ny)
+  n   <-  escape(Pt{x: zx, y: zy}, jc, 2, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 280 + n * 6} ]
+    false  =>  []
+
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+
+main : () !console  <-  show!console "press Draw to render the Douady Rabbit (Julia)"

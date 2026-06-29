@@ -1,0 +1,53 @@
+-- Algorithms in Prism :: list operations by structural recursion.
+-- The list is the workhorse data structure: match `[]` (empty) vs `[h, ..t]` (head/tail).
+
+length(xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  1 + length(t)
+
+sum(xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  h + sum(t)
+
+append(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+
+reverse(xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  append(reverse(t), [h])
+
+member(x: Num, xs: List[Num]) : Bool  <-
+  xs match
+    []        =>  false
+    [h, ..t]  =>
+      (h == x) match
+        true   =>  true
+        false  =>  member(x, t)
+
+-- maximum, threading the running best as an accumulator (empty list -> 0 by convention).
+maxOf(best: Num, xs: List[Num]) : Num  <-
+  xs match
+    []        =>  best
+    [h, ..t]  =>
+      (best < h) match
+        true   =>  maxOf(h, t)
+        false  =>  maxOf(best, t)
+
+maximum(xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  maxOf(h, t)
+
+main : () !console  <-
+  nums  <-  [3, 1, 4, 1, 5, 9, 2, 6]
+  show!console "length  = {length(nums)}"
+  show!console "sum     = {sum(nums)}"
+  show!console "reverse = {reverse(nums)}"
+  show!console "member 5 = {member(5, nums)}"
+  show!console "member 7 = {member(7, nums)}"
+  show!console "maximum = {maximum(nums)}"

@@ -1,0 +1,23 @@
+-- Exercises every public helper in lib/math.prism and lib/list.prism with known inputs, so
+-- the harness locks their behaviour (they are a small standard library and must be verified).
+
+include "lib/math.prism"
+include "lib/list.prism"
+
+main : () !console  <-
+  show!console "minN     = {minN(3, 7)}"
+  show!console "maxN     = {maxN(3, 7)}"
+  show!console "clamp    = {clamp(12, 0, 10)}"
+  show!console "sign     = {sign(0 - 4)}"
+  show!console "lerp     = {lerp(0, 10, 0.5)}"
+  show!console "frac     = {frac(2.5)}"
+  show!console "mod      = {mod(17, 5)}"
+  show!console "length   = {length([1, 2, 3, 4])}"
+  show!console "concat   = {concat([1, 2], [3, 4])}"
+  show!console "concatAll= {concatAll([[1], [2, 3], [4]])}"
+  show!console "reverse  = {reverse([1, 2, 3])}"
+  show!console "map      = {map(n -> n * 2, [1, 2, 3])}"
+  show!console "filter   = {filter(n -> n > 2, [1, 2, 3, 4])}"
+  show!console "foldl    = {foldl((a, b) -> a + b, 0, [1, 2, 3, 4])}"
+  show!console "times    = {times(3, i -> i * i)}"
+  show!console "range    = {range(2, 6)}"

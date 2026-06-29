@@ -1,0 +1,4 @@
+include "lib/picture.prism"
+coinPt(i, t)  <-  Pt{ x: 80 * abs(cos(t * 2)) * cos(i / 40 * 6.2832), y: 80 * sin(i / 40 * 6.2832) }
+frame(t) : Picture  <-  pic([ Poly{ pts: times(41, i -> coinPt(i, t)), h: 50, a: 0.9, fill: 1 } ])
+main : () !console  <-  show!console "press Animate to spin a coin"

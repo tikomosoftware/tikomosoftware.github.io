@@ -1,0 +1,16 @@
+-- Waves rolling to shore -- animated. A few horizontal wave lines undulate and advance with
+-- a travelling sine; nearer rows (lower) swell more. Pure function of time.
+
+include "lib/picture.prism"
+
+rows  <-  7
+cols  <-  30
+
+wavePt(i, row, t)  <-
+  swell  <-  6 + row * 2
+  Pt{ x: i * 15 - 220, y: row * 24 - 70 + swell * sin(i * 0.4 - t * 1.6 + row * 0.7) }
+
+frame(t) : Picture  <-
+  pic( times(rows, row -> Poly{pts: times(cols, i -> wavePt(i, row, t)), h: 200}) )
+
+main : () !console  <-  show!console "press Animate to watch waves roll to shore"

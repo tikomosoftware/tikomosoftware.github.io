@@ -1,0 +1,15 @@
+-- The Milky Way -- animated. A dense band of stars stretches diagonally across the sky and
+-- twinkles (each star's opacity pulses on its own phase). Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  200
+
+star(k, t)  <-
+  base  <-  mod(k * 47, 460) - 230
+  Dot{ x: base, y: 0.6 * base + (mod(k * 83, 130) - 65),         -- clustered along a diagonal band
+       h: 210, a: 0.25 + 0.65 * abs(sin(t * 1.2 + k)) }          -- twinkle
+
+frame(t) : Picture  <-  pic( times(n, k -> star(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch the Milky Way"

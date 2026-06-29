@@ -1,0 +1,21 @@
+-- A sparkler (senko-hanabi) -- animated. A bright bead at the centre spits short-lived sparks
+-- that shoot outward, droop a little, and fade. Glow + bright core. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  60
+
+spark(k, t)  <-
+  a     <-  k * 2.39996 + sin(k)
+  life  <-  frac(t * 1.2 + k * 0.083)            -- short life, loops fast (crackle)
+  r     <-  6 + life * 55
+  x     <-  r * cos(a)
+  y     <-  r * sin(a) - life * life * 26        -- slight gravity droop
+  [ Circle{ x: x, y: y, r: 5, h: 50, a: (1 - life) * 0.4, fill: 1 },   -- glow
+    Dot{ x: x, y: y, h: 52, a: 1 - life } ]                            -- bright spark
+
+frame(t) : Picture  <-
+  pic( concat([ Circle{x: 0, y: 0, r: 4, h: 45, a: 1, fill: 1} ],      -- the burning bead
+               concatAll( times(n, k -> spark(k, t)) )) )
+
+main : () !console  <-  show!console "press Animate for a sparkler"

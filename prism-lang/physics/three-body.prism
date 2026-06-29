@@ -1,0 +1,38 @@
+-- 2-D physics :: three equal masses pulling on each other by gravity, started on a
+-- rotating equilateral triangle. We trace all three; with softened gravity they wheel
+-- around the common centre (Euler lets it slowly precess -- that's the fun).
+
+include "lib/physics2d.prism"
+
+-- acceleration on a body at (px,py) due to a mass at (qx,qy); softened to stay finite
+pull(px, py, qx, qy)  <-
+  dx  <-  qx - px
+  dy  <-  qy - py
+  r   <-  sqrt(dx * dx + dy * dy + 60)
+  V{ x: 20000 * dx / (r * r * r), y: 20000 * dy / (r * r * r) }
+
+trace(n, x1, y1, vx1, vy1, x2, y2, vx2, vy2, x3, y3, vx3, vy3, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      a1  <-  vadd(pull(x1, y1, x2, y2), pull(x1, y1, x3, y3))
+      a2  <-  vadd(pull(x2, y2, x1, y1), pull(x2, y2, x3, y3))
+      a3  <-  vadd(pull(x3, y3, x1, y1), pull(x3, y3, x2, y2))
+      nvx1 <- vx1 + a1.x * 0.1
+      nvy1 <- vy1 + a1.y * 0.1
+      nvx2 <- vx2 + a2.x * 0.1
+      nvy2 <- vy2 + a2.y * 0.1
+      nvx3 <- vx3 + a3.x * 0.1
+      nvy3 <- vy3 + a3.y * 0.1
+      [ Dot{x: x1 + nvx1 * 0.1, y: y1 + nvy1 * 0.1},
+        ..[ Dot{x: x2 + nvx2 * 0.1, y: y2 + nvy2 * 0.1},
+          ..[ Dot{x: x3 + nvx3 * 0.1, y: y3 + nvy3 * 0.1},
+            ..trace(n - 1, x1 + nvx1 * 0.1, y1 + nvy1 * 0.1, nvx1, nvy1,
+                           x2 + nvx2 * 0.1, y2 + nvy2 * 0.1, nvx2, nvy2,
+                           x3 + nvx3 * 0.1, y3 + nvy3 * 0.1, nvx3, nvy3, acc) ] ] ]
+
+picture  <-  trace(400, 80, 0, 0, 12,
+                        0 - 40, 69, 0 - 10, 0 - 6,
+                        0 - 40, 0 - 69, 10, 0 - 6, [])
+
+main : () !console  <-  show!console "press Draw to see a three-body dance"

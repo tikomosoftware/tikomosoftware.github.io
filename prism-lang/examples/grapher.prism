@@ -1,0 +1,8 @@
+-- A function graphing app. Edit f(x) to graph anything; in the playground the amp/freq sliders
+-- become drag controls and the graph redraws live. Built on lib/plot.prism (axes + grid + plot).
+include "lib/plot.prism"
+amp   <-  slider(2, 0.3, 3)
+freq  <-  slider(1.4, 0.3, 4)
+f(x)  <-  amp * sin(freq * x)
+picture  <-  concat( concat( grid(0 - 6, 6, 0 - 4, 4, 1), axes(0 - 6, 6, 0 - 4, 4) ), [ plot(f, 0 - 6, 6) ] )
+main : () !console  <-  show!console "edit f(x), drag the sliders, and graph it"

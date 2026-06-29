@@ -1,0 +1,9 @@
+-- A Chladni plate: sand on a vibrating plate gathers where it doesn't move -- the nodal lines of
+-- a standing wave cos(ax)cos(by) - cos(bx)cos(ay). Cells near a node are bright, the rest dark.
+include "lib/picture.prism"
+amp(x, y)  <-  cos(3 * x) * cos(5 * y) - cos(5 * x) * cos(3 * y)
+cell(i, j)  <-
+  v  <-  abs(amp((i - 30) * 0.105, (j - 30) * 0.105))
+  Dot{ x: i * 5 - 150, y: j * 5 - 150, h: 40, a: if v < 0.22 then 0.9 else 0.05 }
+picture  <-  concatAll( times(61, j -> times(61, i -> cell(i, j))) )
+main : () !console  <-  show!console "a Chladni plate -- sand settles on the nodal lines of a standing wave"

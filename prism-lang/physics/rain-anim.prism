@@ -1,0 +1,16 @@
+-- Rain falling -- animated. Each drop is a short slanted streak (wind), falling fast; `frac`
+-- loops its fall so it reappears at the top, `mod` spreads drops across the width. Pure in t.
+
+include "lib/picture.prism"
+
+n  <-  100
+
+drop(k, t)  <-
+  x  <-  mod(k * 67, 420) - 210
+  f  <-  frac(t * 0.9 + k * 0.083)               -- fast fall, looping
+  y  <-  200 - f * 400
+  Line{ x1: x, y1: y, x2: x + 7, y2: y - 24, h: 205 }   -- slanted blue streak
+
+frame(t) : Picture  <-  pic( times(n, k -> drop(k, t)) )
+
+main : () !console  <-  show!console "press Animate to make it rain"

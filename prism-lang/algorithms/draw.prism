@@ -1,0 +1,29 @@
+-- Step 1 :: a DRAWING. `picture` is a pure value -- a list of line segments --
+-- and the browser playground renders it on a canvas (press "Draw").
+-- A Sierpinski triangle by midpoint recursion: pure arithmetic, no trigonometry.
+--
+-- We thread an accumulator (`acc`) and prepend each triangle's 3 edges, so the list
+-- is built without a recursive `append` (which would recurse as deep as the list is long).
+
+mid(a, b)  <-  (a + b) / 2
+
+sierpinski(depth, ax, ay, bx, by, cx, cy, acc)  <-
+  depth match
+    0  =>  [ Line{x1: ax, y1: ay, x2: bx, y2: by},
+             Line{x1: bx, y1: by, x2: cx, y2: cy},
+             Line{x1: cx, y1: cy, x2: ax, y2: ay}, ..acc ]
+    _  =>
+      abx  <-  mid(ax, bx)
+      aby  <-  mid(ay, by)
+      bcx  <-  mid(bx, cx)
+      bcy  <-  mid(by, cy)
+      acx  <-  mid(ax, cx)
+      acy  <-  mid(ay, cy)
+      sierpinski(depth - 1, ax, ay, abx, aby, acx, acy,
+        sierpinski(depth - 1, abx, aby, bx, by, bcx, bcy,
+          sierpinski(depth - 1, acx, acy, bcx, bcy, cx, cy, acc)))
+
+picture  <-  sierpinski(5, 0, 0, 512, 0, 256, 443, [])
+
+main : () !console  <-
+  show!console "open this in the playground and press Draw to see the Sierpinski triangle"

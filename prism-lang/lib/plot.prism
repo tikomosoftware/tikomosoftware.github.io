@@ -1,0 +1,20 @@
+-- A tiny plotting toolkit: axes, a faint grid, and a function plotted as a Poly. Everything is
+-- in MATH coordinates -- the canvas auto-fits, so you just choose the visible range. `plot`
+-- takes a function (T)->U, so you graph any f by passing it in.
+
+include "lib/picture.prism"
+
+plotPt(f, a, b, ns, i)  <-
+  x  <-  a + (b - a) * (i / ns)
+  Pt{ x: x, y: f(x) }
+plot(f, a, b)  <-  Poly{ pts: times(201, i -> plotPt(f, a, b, 200, i)), h: 285 }
+
+axes(xmin, xmax, ymin, ymax)  <-
+  [ Line{x1: xmin, y1: 0, x2: xmax, y2: 0, h: 40, a: 0.7},
+    Line{x1: 0, y1: ymin, x2: 0, y2: ymax, h: 40, a: 0.7} ]
+
+vGrid(ymin, ymax, gx)  <-  Line{x1: gx, y1: ymin, x2: gx, y2: ymax, h: 210, a: 0.16}
+hGrid(xmin, xmax, gy)  <-  Line{x1: xmin, y1: gy, x2: xmax, y2: gy, h: 210, a: 0.16}
+grid(xmin, xmax, ymin, ymax, step)  <-
+  concat( times(floor((xmax - xmin) / step) + 1, i -> vGrid(ymin, ymax, xmin + i * step)),
+          times(floor((ymax - ymin) / step) + 1, j -> hGrid(xmin, xmax, ymin + j * step)) )

@@ -1,0 +1,16 @@
+-- Gravity slingshot. Five probes fly in from the left with different aim; each is bent by the
+-- planet's gravity (Euler integration of a 1/r^2 pull), the closer ones whipping around harder.
+include "lib/picture.prism"
+path(x, y, vx, vy, n)  <-
+  r    <-  sqrt(x * x + y * y) + 6
+  g    <-  0 - 6000 / (r * r * r)
+  nvx  <-  vx + g * x * 0.05
+  nvy  <-  vy + g * y * 0.05
+  nx   <-  x + nvx * 0.05
+  ny   <-  y + nvy * 0.05
+  if n == 0 then [] else if (x * x + y * y) > 52900 then [ Pt{x: x, y: y} ] else [ Pt{x: x, y: y}, ..path(nx, ny, nvx, nvy, n - 1) ]
+probe(k)  <-  Poly{ pts: path(0 - 185, k * 21 - 36, 95, 0, 150), h: 195 + k * 12, a: 0.85 }
+picture  <-
+  concat( [ Circle{x: 0, y: 0, r: 26, h: 40, a: 0.9, fill: 1}, Circle{x: 0, y: 0, r: 46, h: 40, a: 0.22, fill: 1} ],
+          times(5, k -> probe(k)) )
+main : () !console  <-  show!console "five probes swing past a planet (gravity slingshot)"

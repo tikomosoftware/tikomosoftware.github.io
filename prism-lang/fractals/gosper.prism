@@ -1,0 +1,46 @@
+-- Fractal :: the Gosper curve (flowsnake) -- a hexagonal space-filling curve from the
+-- L-system  A -> A-B--B+A++AA+B-,  B -> +A-BB--B-A++A+B  (turns of 60 degrees).
+-- A and B both move forward; this turtle threads its state through the two rules.
+
+include "lib/turtle.prism"
+
+ga(d, p)  <-
+  d match
+    0  =>  fwd(p)
+    _  =>
+      p1   <-  ga(d - 1, p)
+      p2   <-  turn(p1, 0 - 1.0472)
+      p3   <-  gb(d - 1, p2)
+      p4   <-  turn(p3, 0 - 2.0944)
+      p5   <-  gb(d - 1, p4)
+      p6   <-  turn(p5, 1.0472)
+      p7   <-  ga(d - 1, p6)
+      p8   <-  turn(p7, 2.0944)
+      p9   <-  ga(d - 1, p8)
+      p10  <-  ga(d - 1, p9)
+      p11  <-  turn(p10, 1.0472)
+      p12  <-  gb(d - 1, p11)
+      turn(p12, 0 - 1.0472)
+
+gb(d, p)  <-
+  d match
+    0  =>  fwd(p)
+    _  =>
+      p1   <-  turn(p, 1.0472)
+      p2   <-  ga(d - 1, p1)
+      p3   <-  turn(p2, 0 - 1.0472)
+      p4   <-  gb(d - 1, p3)
+      p5   <-  gb(d - 1, p4)
+      p6   <-  turn(p5, 0 - 2.0944)
+      p7   <-  gb(d - 1, p6)
+      p8   <-  turn(p7, 0 - 1.0472)
+      p9   <-  ga(d - 1, p8)
+      p10  <-  turn(p9, 2.0944)
+      p11  <-  ga(d - 1, p10)
+      p12  <-  turn(p11, 1.0472)
+      gb(d - 1, p12)
+
+done     <-  ga(4, Turtle{x: 0, y: 0, a: 0, ls: []})
+picture  <-  done.ls
+
+main : () !console  <-  show!console "press Draw to see the Gosper (flowsnake) curve"

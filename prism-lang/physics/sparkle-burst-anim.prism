@@ -1,0 +1,14 @@
+-- A sparkle burst (a "hit" effect) -- animated. Stars fly out from the centre, arc under gravity,
+-- twinkle, and fade -- the kira-kira you see when something is struck. Pure function of time.
+include "lib/picture.prism"
+spark(k, t)  <-
+  life  <-  frac(t * 0.6 + k * 0.043)
+  ang   <-  k * 2.39996
+  spd   <-  50 + mod(k, 6) * 18
+  x     <-  spd * cos(ang) * life
+  y     <-  spd * sin(ang) * life - 110 * life * life
+  tw    <-  0.45 + 0.55 * sin(t * 9 + k)
+  [ Circle{ x: x, y: y, r: 5, h: 45 + mod(k, 4) * 12, a: (1 - life) * 0.32, fill: 1 },
+    Dot{ x: x, y: y, h: 52 + mod(k, 4) * 10, a: (1 - life) * tw } ]
+frame(t) : Picture  <-  pic( concatAll( times(54, k -> spark(k, t)) ) )
+main : () !console  <-  show!console "press Animate for a sparkle burst"

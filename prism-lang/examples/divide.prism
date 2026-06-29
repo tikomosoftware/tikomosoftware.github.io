@@ -1,0 +1,24 @@
+-- Prism v0 :: safe division
+-- exercises all four voices: fact(:), flow(<-), effect(!), failure(?)
+
+-- pure + fallible: division by zero is a visible failure mode (? DivByZero)
+divide(a: Num, b: Num) : Num ?DivByZero  <-
+  b match
+    0  =>  fail DivByZero
+    _  =>  ok (a / b)
+
+-- effectful + fallible: touches the console, may fail to parse
+askNumber(prompt: Text) : Num !console ?BadNumber  <-
+  show!console prompt
+  try parseNum(read!console)
+
+-- main: rescue discharges every declared failure, so main's type carries no ?
+main : () !console  <-
+  attempt
+    a  <-  try askNumber("numerator?   ")
+    b  <-  try askNumber("denominator? ")
+    q  <-  try divide(a, b)
+    show!console "answer: {q}"
+  rescue
+    BadNumber  =>  show!console "please enter a number"
+    DivByZero  =>  show!console "cannot divide by zero"

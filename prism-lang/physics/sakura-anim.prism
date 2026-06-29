@@ -1,0 +1,25 @@
+-- Cherry blossoms drifting -- animated. Each petal is a small diamond Poly that TUMBLES
+-- (rotated inline by an angle growing with t, so its pink hue `h` is kept) while it falls and
+-- sways side to side. `frac` loops the fall, `mod` spreads them. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  44
+
+-- a point (px, py) rotated by (c, s) about, then placed at, (cx, cy)
+at(px, py, c, s, cx, cy)  <-  Pt{ x: cx + px * c - py * s, y: cy + px * s + py * c }
+
+petal(k, t)  <-
+  fall  <-  frac(t * 0.07 + k * 0.097)
+  cx    <-  mod(k * 57, 380) - 190 + 30 * sin(t * 0.6 + k)     -- drift + sway
+  cy    <-  180 - fall * 360
+  a     <-  t * 1.3 + k                                        -- tumble
+  c     <-  cos(a)
+  s     <-  sin(a)
+  Poly{ pts: [ at(0, 0 - 6, c, s, cx, cy), at(4, 0, c, s, cx, cy),
+               at(0, 7, c, s, cx, cy), at(0 - 4, 0, c, s, cx, cy),
+               at(0, 0 - 6, c, s, cx, cy) ], h: 335 }              -- closed pink petal
+
+frame(t) : Picture  <-  pic( times(n, k -> petal(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch cherry blossoms drift"

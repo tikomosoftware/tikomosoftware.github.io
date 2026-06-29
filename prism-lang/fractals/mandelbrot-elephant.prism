@@ -1,0 +1,24 @@
+-- A zoom into the Mandelbrot set's "Elephant Valley" (the spirals just right of the main
+-- cardioid, near 0.285 + 0.01i). Same iteration, smaller window, more iterations.
+
+include "lib/escape.prism"
+
+nx  <-  50
+ny  <-  50
+maxIter  <-  58
+z0  <-  Pt{x: 0, y: 0}
+cxc  <-  0.285
+cyc  <-  0.01
+span  <-  0.10
+
+cell(i, j)  <-
+  cx  <-  cxc - span + i * (span * 2 / nx)
+  cy  <-  cyc - span + j * (span * 2 / ny)
+  n   <-  escape(z0, Pt{x: cx, y: cy}, 2, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 40 + n * 6} ]
+    false  =>  []
+
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+
+main : () !console  <-  show!console "press Draw to zoom into Elephant Valley"

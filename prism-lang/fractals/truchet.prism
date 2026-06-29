@@ -1,0 +1,9 @@
+-- Truchet tiles: fill a grid with one of two diagonals chosen at random per cell; the diagonals
+-- knit across cells into a maze-like weave. Randomness is the usual deterministic sin-hash.
+include "lib/picture.prism"
+tile(i, j)  <-
+  x  <-  i * 24 - 156
+  y  <-  j * 24 - 156
+  if frac(sin(i * 12.9 + j * 78.2) * 43758.5) < 0.5 then Line{x1: x, y1: y, x2: x + 24, y2: y + 24, h: 200, a: 0.85} else Line{x1: x + 24, y1: y, x2: x, y2: y + 24, h: 200, a: 0.85}
+picture  <-  concatAll( times(13, j -> times(13, i -> tile(i, j))) )
+main : () !console  <-  show!console "random Truchet tiles -- diagonals that knit into a maze"

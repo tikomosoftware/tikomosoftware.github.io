@@ -1,0 +1,8 @@
+-- Eye candy :: two sine waves added together -- a longer, lumpy wave (beats).
+
+include "lib/draw2d.prism"
+
+picture  <-  polyline(i -> V{ x: i * 3,
+                              y: sin(i * 0.3) * 60 + sin(i * 0.13) * 30 }, 0, 100)
+
+main : () !console  <-  show!console "press Draw to see a wave"

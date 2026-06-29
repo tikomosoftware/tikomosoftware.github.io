@@ -1,0 +1,33 @@
+-- A leaderboard: sort players by score (descending) and print the ranking. Deliberately uses the
+-- features the earlier AI-collab demos did NOT: records (`and`-type) with typed fields + `.field`
+-- access, a capability `Ord`, a `provides` instance, generics `for T`, and a `given T: Ord`
+-- constraint discharged at the call site. (Looking for bugs in untested combinations.)
+
+Player : Player{ name: Text, score: Num }
+
+capability Ord for T
+  compare(a: T, b: T) : Num
+
+Player provides Ord
+  compare(a, b)  <-  b.score - a.score        -- descending: a higher score ranks first
+
+ins for T given T: Ord (x: T, xs: List[T]) : List[T]  <-
+  xs match
+    []        =>  [x]
+    [h, ..t]  =>  if compare(x, h) < 0 then [x, h, ..t] else [h, ..ins(x, t)]
+
+sortByOrd for T given T: Ord (xs: List[T]) : List[T]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  ins(h, sortByOrd(t))
+
+showRanked(rank: Num, xs: List[Player]) : () !console  <-
+  xs match
+    []        =>  ()
+    [h, ..t]  =>  show!console "{rank}. {h.name} ({h.score})"  ~>  showRanked(rank + 1, t)
+
+board : List[Player]  <-
+  [ Player{name: "Ada", score: 120}, Player{name: "Bob", score: 90},
+    Player{name: "Cleo", score: 150}, Player{name: "Dan", score: 95} ]
+
+main : () !console  <-  showRanked(1, sortByOrd(board))

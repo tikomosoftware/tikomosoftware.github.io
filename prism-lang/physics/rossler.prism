@@ -1,0 +1,18 @@
+-- Strange attractor :: the Rossler system (a = 0.2, b = 0.2, c = 5.7), integrated and
+-- projected onto x-y -- a spiral that folds back on itself.
+
+trace(n, x, y, z, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      dx  <-  0 - y - z
+      dy  <-  x + 0.2 * y
+      dz  <-  0.2 + z * (x - 5.7)
+      nx  <-  x + dx * 0.03
+      ny  <-  y + dy * 0.03
+      nz  <-  z + dz * 0.03
+      [ Dot{x: nx * 12, y: ny * 12}, ..trace(n - 1, nx, ny, nz, acc) ]
+
+picture  <-  trace(1300, 1, 1, 1, [])
+
+main : () !console  <-  show!console "press Draw to see the Rossler attractor"

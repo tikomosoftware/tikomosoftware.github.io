@@ -1,0 +1,16 @@
+-- Dandelion seeds floating -- animated. Soft translucent tufts drift gently upward and sway
+-- a lot on the breeze. `frac` loops the float. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  30
+
+seed(k, t)  <-
+  up  <-  frac(t * 0.045 + k * 0.13)
+  Circle{ x: mod(k * 83, 360) - 180 + 46 * sin(t * 0.4 + k),    -- wide gentle sway
+          y: 0 - 150 + up * 320,
+          r: 6 + mod(k, 3) * 2, h: 56, a: 0.30, fill: 1 }         -- soft pale tuft
+
+frame(t) : Picture  <-  pic( times(n, k -> seed(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch dandelion seeds float"

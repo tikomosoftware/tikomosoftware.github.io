@@ -1,0 +1,14 @@
+-- Strange attractor :: Clifford Pickover's "Fractal Dream".
+--   x' = sin(b y) + c sin(b x),  y' = sin(a x) + d sin(a y).
+
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  sin(2.879 * y) + 0.765 * sin(2.879 * x)
+      ny  <-  sin(0 - 0.966 * x) + 0.744 * sin(0 - 0.966 * y)
+      [ Dot{x: nx * 110, y: ny * 110}, ..trace(n - 1, nx, ny, acc) ]
+
+picture  <-  trace(1500, 0.1, 0.1, [])
+
+main : () !console  <-  show!console "press Draw to see a Fractal Dream attractor"

@@ -1,0 +1,9 @@
+-- Ocean waves -- animated. Rows of swells march toward the viewer; nearer rows are larger and
+-- darker-blue, each crest a moving sine, giving layered depth. Pure function of time.
+include "lib/picture.prism"
+wave(row, i, t)  <-
+  x  <-  i * 11 - 180
+  amp <-  8 + row * 4
+  Dot{ x: x, y: 90 - row * 30 + amp * sin(x * 0.04 + t * 1.3 - row * 0.6), h: 210 + row * 6, a: 0.4 + row * 0.07 }
+frame(t) : Picture  <-  pic( concatAll( times(7, row -> times(34, i -> wave(row, i, t))) ) )
+main : () !console  <-  show!console "press Animate for rolling ocean waves"

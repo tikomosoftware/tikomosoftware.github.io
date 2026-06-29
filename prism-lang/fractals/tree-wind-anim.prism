@@ -1,0 +1,15 @@
+-- A fractal tree swaying in the wind -- animated. A recursive binary tree; each branch angle
+-- gets a wind nudge that grows toward the tips, so the crown sways. Pure function of time.
+include "lib/picture.prism"
+branch(x, y, ang, len, depth, t)  <-
+  (depth < 1) match
+    true   =>  []
+    false  =>
+      sway  <-  0.16 * sin(t + len * 0.02) * (9 - depth)
+      nx    <-  x + len * cos(ang)
+      ny    <-  y + len * sin(ang)
+      concat( [ Line{x1: x, y1: y, x2: nx, y2: ny, h: 90 + depth * 9} ],
+              concat( branch(nx, ny, ang + 0.42 + sway, len * 0.72, depth - 1, t),
+                      branch(nx, ny, ang - 0.42 + sway, len * 0.72, depth - 1, t) ) )
+frame(t) : Picture  <-  pic( branch(0, 0 - 150, 1.5708, 66, 8, t) )
+main : () !console  <-  show!console "press Animate to watch a tree sway in the wind"

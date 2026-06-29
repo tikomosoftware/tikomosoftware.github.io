@@ -1,0 +1,15 @@
+-- 03 :: failure. An error is just "success or failure" lifted into flow.
+-- `divide` declares `?DivByZero`; `try` propagates it; `attempt/rescue` handles it.
+
+divide(a: Num, b: Num) : Num ?DivByZero  <-
+  b match
+    0  =>  fail DivByZero
+    _  =>  ok (a / b)
+
+main : () !console  <-
+  attempt
+    q  <-  try divide(10, 2)
+    show!console "10 / 2 = {q}"
+    show!console "10 / 0 = {try divide(10, 0)}"
+  rescue
+    DivByZero  =>  show!console "10 / 0 = undefined"

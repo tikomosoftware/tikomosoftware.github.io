@@ -1,0 +1,13 @@
+-- A garden of rose curves (rhodonea): a 4x4 grid of r = cos(k*theta) for k = 1..16. Odd k give
+-- k petals, even k give 2k -- the whole family at a glance.
+include "lib/picture.prism"
+rosePt(cx, cy, k, i)  <-
+  th  <-  i / 180 * 6.2832
+  r   <-  30 * cos(k * th)
+  Pt{ x: cx + r * cos(th), y: cy + r * sin(th) }
+rosePoly(idx)  <-
+  col  <-  mod(idx, 4)
+  row  <-  floor(idx / 4)
+  Poly{ pts: times(181, i -> rosePt(col * 84 - 126, row * 84 - 126, idx + 1, i)), h: 300 + idx * 4 }
+picture  <-  times(16, idx -> rosePoly(idx))
+main : () !console  <-  show!console "press Draw to see a garden of rose curves"

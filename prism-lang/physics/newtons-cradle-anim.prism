@@ -1,0 +1,18 @@
+-- Newton's cradle -- animated. Five balls hang in a row; the end balls swing alternately while
+-- the middle three stay put (momentum passes through). Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  5
+
+ball(k, t)  <-
+  x0  <-  k * 34 - 68
+  th  <-  if k < 1 then minN(0, sin(t)) * 0.5 else if k > 3 then maxN(0, sin(t)) * 0.5 else 0
+  bx  <-  x0 + 90 * sin(th)
+  by  <-  130 - 90 * cos(th)
+  [ Line{ x1: x0, y1: 130, x2: bx, y2: by, h: 210 },
+    Circle{ x: bx, y: by, r: 12, h: 210, a: 0.95, fill: 1 } ]
+
+frame(t) : Picture  <-  pic( concatAll( times(n, k -> ball(k, t)) ) )
+
+main : () !console  <-  show!console "press Animate to watch Newton's cradle"

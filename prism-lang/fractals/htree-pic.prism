@@ -1,0 +1,26 @@
+-- The H-tree, rewritten in the Picture ALGEBRA (Layer B) instead of threading an
+-- accumulator of absolute Lines. Each node is a little Picture (the "H" bar), and the
+-- four children are combined with `over`. Compare fractals/htree.prism (Layer A).
+
+include "lib/picture.prism"
+
+-- one "H": a bar with a stroke at each end, as a Picture
+hbar(x, y, w, h)  <-
+  pic([ Line{x1: x - w / 2, y1: y,         x2: x + w / 2, y2: y},
+        Line{x1: x - w / 2, y1: y - h / 2, x2: x - w / 2, y2: y + h / 2},
+        Line{x1: x + w / 2, y1: y - h / 2, x2: x + w / 2, y2: y + h / 2} ])
+
+htreeP(d, x, y, w, h)  <-
+  bar  <-  hbar(x, y, w, h)
+  d match
+    0  =>  bar
+    _  =>
+      over(bar,
+       over(htreeP(d - 1, x - w / 2, y - h / 2, h / 2, w / 2),
+        over(htreeP(d - 1, x - w / 2, y + h / 2, h / 2, w / 2),
+         over(htreeP(d - 1, x + w / 2, y - h / 2, h / 2, w / 2),
+              htreeP(d - 1, x + w / 2, y + h / 2, h / 2, w / 2)))))
+
+picture  <-  render(htreeP(5, 0, 0, 240, 240))
+
+main : () !console  <-  show!console "press Draw to see an H-tree (Picture algebra)"

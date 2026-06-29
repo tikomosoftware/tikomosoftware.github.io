@@ -1,0 +1,6 @@
+-- The checker rejects building a DECLARED record without all its fields (extra fields stay OK --
+-- records are open). Both a typed binding and an untyped `picture`-style binding are checked.
+include "lib/picture.prism"
+p : Point  <-  Pt{ x: 3 }                 -- missing y
+picture  <-  [ Circle{ x: 0, y: 0 } ]     -- missing r (untyped ValDef is checked too)
+main : () !console  <-  show!console "build a record without all its fields"

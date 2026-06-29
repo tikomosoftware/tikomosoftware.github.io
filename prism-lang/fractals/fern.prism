@@ -1,0 +1,17 @@
+-- Fractal :: a self-similar fern. The main stem curves gently and barely shrinks, while
+-- at every step a small frond sprouts to each side (shorter-lived, so they taper).
+-- The base case is `d < 1` (the side fronds step d down by 3, so they can skip past 0).
+
+fern(d, x, y, ang, len, acc)  <-
+  ex    <-  x + len * cos(ang)
+  ey    <-  y + len * sin(ang)
+  line  <-  Line{x1: x, y1: y, x2: ex, y2: ey}
+  (d < 1) match
+    true   =>  [line, ..acc]
+    false  =>  [line, ..fern(d - 1, ex, ey, ang - 0.04, len * 0.93,
+                             fern(d - 3, ex, ey, ang + 0.8, len * 0.42,
+                                  fern(d - 3, ex, ey, ang - 0.8, len * 0.42, acc)))]
+
+picture  <-  fern(13, 0, 0, pi / 2, 60, [])
+
+main : () !console  <-  show!console "press Draw to see a fern"

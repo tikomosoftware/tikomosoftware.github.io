@@ -1,0 +1,15 @@
+-- Strange attractor :: the Clifford map. Iterate
+--   x' = sin(a y) + c cos(a x),  y' = sin(b x) + d cos(b y)
+-- and plot every point -- swirling ribbons.
+
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  sin(0 - 1.4 * y) + 1.0 * cos(0 - 1.4 * x)
+      ny  <-  sin(1.6 * x) + 0.7 * cos(1.6 * y)
+      [ Dot{x: nx * 120, y: ny * 120}, ..trace(n - 1, nx, ny, acc) ]
+
+picture  <-  trace(1200, 0, 0, [])
+
+main : () !console  <-  show!console "press Draw to see a Clifford attractor"

@@ -1,0 +1,28 @@
+-- The Sacks number spiral: place each integer n at radius sqrt(n), angle 2*pi*sqrt(n), and
+-- draw a dot only where n is PRIME. The primes line up along curving streaks -- a picture of
+-- the distribution of primes. Primality is tested by trial division (recursion).
+
+include "lib/picture.prism"
+
+count  <-  620
+
+hasDiv(n, d)  <-  if d * d > n then false else if mod(n, d) < 1 then true else hasDiv(n, d + 1)
+isPrime(n)  <-
+  (n < 2) match
+    true   =>  false
+    false  =>
+      hasDiv(n, 2) match
+        true   =>  false
+        false  =>  true
+
+cell(k)  <-
+  n  <-  k + 2
+  r  <-  sqrt(n) * 8
+  a  <-  sqrt(n) * 6.2832
+  isPrime(n) match
+    true   =>  [ Dot{x: r * cos(a), y: r * sin(a), h: 200 + n / 5} ]
+    false  =>  []
+
+picture  <-  concatAll( times(count, k -> cell(k)) )
+
+main : () !console  <-  show!console "press Draw to see a prime number spiral (Sacks)"

@@ -1,0 +1,16 @@
+-- Rain on a puddle -- animated (top-down). Drops keep landing across the surface; each impact
+-- sends out a single ring that expands and fades. `frac` loops each ring. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  26
+
+splash(k, t)  <-
+  cx  <-  mod(k * 97, 380) - 190
+  cy  <-  mod(k * 61, 240) - 120
+  p   <-  frac(t * 0.5 + k * 0.137)
+  Circle{ x: cx, y: cy, r: p * 34 + 2, h: 196, a: (1 - p) * 0.8 }   -- expanding fading ring
+
+frame(t) : Picture  <-  pic( times(n, k -> splash(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch rain on a puddle"

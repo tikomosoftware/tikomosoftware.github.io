@@ -1,0 +1,21 @@
+-- Multibrot with power 3: z -> z^3 + c. A degree-3 power gives a 2-fold-symmetric body
+-- (the Multibrot of degree d has (d-1)-fold symmetry).
+
+include "lib/escape.prism"
+
+nx  <-  60
+ny  <-  60
+maxIter  <-  24
+z0  <-  Pt{x: 0, y: 0}
+
+cell(i, j)  <-
+  cx  <-  0 - 1.6 + i * (3.2 / nx)
+  cy  <-  0 - 1.6 + j * (3.2 / ny)
+  n   <-  escape(z0, Pt{x: cx, y: cy}, 3, 0, maxIter)
+  (n < maxIter) match
+    true   =>  [ Dot{x: i * 6, y: j * 6, h: 160 + n * 10} ]
+    false  =>  []
+
+picture  <-  concatAll( times(ny, j -> concatAll( times(nx, i -> cell(i, j)) )) )
+
+main : () !console  <-  show!console "press Draw to render a Multibrot (z^3)"

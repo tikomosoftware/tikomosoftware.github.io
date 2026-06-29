@@ -1,0 +1,29 @@
+-- A tiny charting toolkit: bar, line, and pie charts from a List of numbers. Each returns a
+-- List[Shape] you can draw. Bars/wedges are filled Polys (so they take a colour); the line is
+-- one Poly. `w` is the column spacing, `sc` scales values to height, `r` is the pie radius.
+
+include "lib/picture.prism"
+
+chBar(x, w, top, hue)  <-
+  Poly{ pts: [Pt{x: x, y: 0}, Pt{x: x + w, y: 0}, Pt{x: x + w, y: top}, Pt{x: x, y: top}, Pt{x: x, y: 0}],
+        h: hue, fill: 1, a: 0.9 }
+barsGo(vals, i, w, sc)  <-
+  vals match
+    []        =>  []
+    [v, ..t]  =>  [ chBar(i * w + w * 0.12, w * 0.76, v * sc, 200 + i * 28), ..barsGo(t, i + 1, w, sc) ]
+barChart(vals, w, sc)  <-  barsGo(vals, 0, w, sc)
+
+lineGo(vals, i, w, sc)  <-
+  vals match
+    []        =>  []
+    [v, ..t]  =>  [ Pt{x: i * w + w * 0.5, y: v * sc}, ..lineGo(t, i + 1, w, sc) ]
+lineChart(vals, w, sc)  <-  [ Poly{ pts: lineGo(vals, 0, w, sc), h: 50 } ]
+
+wedge(startA, sweep, r, hue)  <-
+  Poly{ pts: concat([Pt{x: 0, y: 0}], times(13, k -> Pt{x: r * cos(startA + sweep * (k / 12)), y: r * sin(startA + sweep * (k / 12))})),
+        h: hue, fill: 1, a: 0.88 }
+pieGo(vals, total, startA, hue, r)  <-
+  vals match
+    []        =>  []
+    [v, ..t]  =>  [ wedge(startA, v / total * 6.2832, r, hue), ..pieGo(t, total, startA + v / total * 6.2832, hue + 47, r) ]
+pieChart(vals, r)  <-  pieGo(vals, foldl((a, b) -> a + b, 0, vals), 0, 0, r)

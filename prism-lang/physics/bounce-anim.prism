@@ -1,0 +1,15 @@
+-- Gravity, ANIMATED: three balls bouncing on the floor. Height is |sin| -- it touches zero
+-- (the bounce) and peaks smoothly, like a ball under gravity. Different phases & heights.
+-- Pure function of time, so the checker certifies it has no side effects.
+
+include "lib/picture.prism"
+
+ball(x, h, ph, t)  <-  Circle{x: x, y: h * abs(sin(t + ph)), r: 13}
+
+frame(t) : Picture  <-
+  pic([ Line{x1: -150, y1: 0, x2: 150, y2: 0},   -- the floor
+        ball(-90, 150, 0,   t),
+        ball(  0, 110, 0.7, t),
+        ball( 90,  80, 1.4, t) ])
+
+main : () !console  <-  show!console "press Animate to see balls bouncing under gravity"

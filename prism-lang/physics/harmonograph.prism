@@ -1,0 +1,9 @@
+-- Eye candy :: a harmonograph -- two decaying oscillations at a 3:2 ratio, like a
+-- pendulum-driven drawing machine winding inward.
+
+include "lib/draw2d.prism"
+
+picture  <-  polyline(t -> V{ x: 150 * sin(t * 0.05 * 3) * (1 - t * 0.0017),
+                              y: 150 * sin(t * 0.05 * 2 + 1) * (1 - t * 0.0017) }, 0, 520)
+
+main : () !console  <-  show!console "press Draw to see a harmonograph"

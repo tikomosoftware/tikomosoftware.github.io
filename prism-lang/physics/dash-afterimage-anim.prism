@@ -1,0 +1,6 @@
+include "lib/picture.prism"
+px(s)  <-  150 * sin(s * 1.2)
+ghost(cx, al)  <-  Poly{ pts: [ Pt{x: cx - 12, y: 0 - 24}, Pt{x: cx + 12, y: 0 - 24}, Pt{x: cx, y: 24}, Pt{x: cx - 12, y: 0 - 24} ], h: 200, a: al, fill: 1 }
+frame(t) : Picture  <-
+  pic( concat( times(8, j -> ghost(px(t - j * 0.05), (1 - j / 8) * 0.5)), [ ghost(px(t), 0.95) ] ) )
+main : () !console  <-  show!console "press Animate for a dash afterimage"

@@ -1,0 +1,14 @@
+-- A figure-eight knot -- animated. The simplest knot after the trefoil, traced in 3-D and
+-- spun about the vertical axis. One Poly. Pure function of time.
+include "lib/picture.prism"
+m  <-  240
+proj3(x, y, z, t)  <-
+  rx  <-  x * cos(t * 0.5) + z * sin(t * 0.5)
+  rz  <-  z * cos(t * 0.5) - x * sin(t * 0.5)
+  ry  <-  y * cos(0.5) - rz * sin(0.5)
+  Pt{ x: rx, y: ry }
+node(i, t)  <-
+  s  <-  i / m * 6.2832
+  proj3((2 + cos(2 * s)) * cos(3 * s) * 40, (2 + cos(2 * s)) * sin(3 * s) * 40, sin(4 * s) * 65, t)
+frame(t) : Picture  <-  pic([ Poly{ pts: times(m + 1, i -> node(i, t)), h: 320 } ])
+main : () !console  <-  show!console "press Animate to watch a figure-eight knot"

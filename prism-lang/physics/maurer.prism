@@ -1,0 +1,10 @@
+-- Eye candy :: a Maurer rose. Walk 360 points around a rose r = sin(n*theta), stepping
+-- the angle by a fixed `d` degrees each time and joining them with straight lines -- the
+-- chords weave a startling lattice. Here n = 6, d = 71.
+
+include "lib/draw2d.prism"
+
+picture  <-  polyline(i -> V{ x: 130 * sin(6 * i * 71 * 0.01745) * cos(i * 71 * 0.01745),
+                              y: 130 * sin(6 * i * 71 * 0.01745) * sin(i * 71 * 0.01745) }, 0, 360)
+
+main : () !console  <-  show!console "press Draw to see a Maurer rose"

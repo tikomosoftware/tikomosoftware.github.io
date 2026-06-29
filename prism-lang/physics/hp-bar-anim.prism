@@ -1,0 +1,13 @@
+-- An HP bar -- animated. The green bar drops in chunks as "hits" land; a yellow chip bar
+-- trails behind to show the damage just taken, then it all refills. Pure function of time.
+include "lib/picture.prism"
+bar(x0, y0, w, hgt, hue, al)  <-  Poly{ pts: [ Pt{x: x0, y: y0}, Pt{x: x0 + w, y: y0}, Pt{x: x0 + w, y: y0 + hgt}, Pt{x: x0, y: y0 + hgt}, Pt{x: x0, y: y0} ], h: hue, a: al, fill: 1 }
+frame(t) : Picture  <-
+  w0     <-  300
+  hp     <-  1 - floor(frac(t * 0.25) * 5) / 5
+  trail  <-  1 - frac(t * 0.25)
+  x0     <-  0 - 150
+  pic([ bar(x0 - 5, 0 - 16, w0 + 10, 32, 210, 0.3),
+        bar(x0, 0 - 11, trail * w0, 22, 50, 0.9),
+        bar(x0, 0 - 11, hp * w0, 22, 120, 1) ])
+main : () !console  <-  show!console "press Animate for a draining HP bar"

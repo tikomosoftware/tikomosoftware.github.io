@@ -1,0 +1,15 @@
+-- Drifting fog -- animated, using translucency. Big soft filled circles (low opacity `a`)
+-- slide sideways and overlap into soft banks of mist. Pure function of time.
+
+include "lib/picture.prism"
+
+n  <-  18
+
+puff(k, t)  <-
+  Circle{ x: mod(k * 83 + t * 18, 480) - 240,      -- drift right, wrapping
+          y: mod(k * 51, 200) - 100,
+          r: 60 + mod(k, 4) * 20, h: 210, a: 0.10, fill: 1 }   -- big soft translucent blob
+
+frame(t) : Picture  <-  pic( times(n, k -> puff(k, t)) )
+
+main : () !console  <-  show!console "press Animate to watch fog drift"

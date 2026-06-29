@@ -1,0 +1,19 @@
+-- A DNA double helix -- animated. Two strands wind around each other (their x is a cosine of
+-- height + time, half a turn apart) with rungs between. It appears to rotate. Pure in t.
+
+include "lib/picture.prism"
+
+m  <-  26
+
+node(i, t)  <-
+  y   <-  i * 12 - 150
+  ph  <-  i * 0.5 + t
+  x1  <-  50 * cos(ph)
+  x2  <-  50 * cos(ph + 3.1416)
+  [ Line{ x1: x1, y1: y, x2: x2, y2: y, h: 200, a: 0.45 },     -- rung
+    Dot{ x: x1, y: y, h: 0, a: 0.9 },                          -- strand A (red)
+    Dot{ x: x2, y: y, h: 180, a: 0.9 } ]                       -- strand B (cyan)
+
+frame(t) : Picture  <-  pic( concatAll( times(m, i -> node(i, t)) ) )
+
+main : () !console  <-  show!console "press Animate to watch a DNA helix turn"

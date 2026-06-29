@@ -1,0 +1,11 @@
+-- 2-D physics :: a damped pendulum -- friction bleeds energy so the rod-fan spirals in
+-- toward the bottom and stops.
+trace(n, a, w, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nw  <-  (w - 0.077 * sin(a) * 0.12) * 0.99
+      na  <-  a + nw * 0.12
+      [ Line{x1: 0, y1: 0, x2: 130 * sin(na), y2: 0 - 130 * cos(na)}, ..trace(n - 1, na, nw, acc) ]
+picture  <-  trace(360, 1.4, 0, [])
+main : () !console  <-  show!console "press Draw to see a damped pendulum"

@@ -1,0 +1,36 @@
+-- Prism v0 :: higher-kinded types -- the "container hole" F[_].
+-- The symmetry that motivates it:
+--   (T) -> U   is a hole in the FLOW voice  (an arrow on VALUES, = higher-order fn)
+--   F[_]       is a hole in the FACT voice  (an arrow on TYPES,  = higher-kinded ctor)
+-- F ranges over container shapes (List, ...); F[T] applies it.
+
+-- identity over ANY container, preserving its shape and its element type.
+keep for F[_], T (xs: F[T]) : F[T]  <-  xs
+
+-- HKT unification in action: at each call site F:=List, T:=Num / T:=Text.
+nums(xs: List[Num])   : List[Num]   <-  keep(xs)
+names(xs: List[Text]) : List[Text]  <-  keep(xs)
+
+-- the hole takes any arity: F[_, _] ranges over two-parameter shapes (Pair, ...).
+keep2 for F[_, _], A, B (p: F[A, B]) : F[A, B]  <-  p
+swapNums(p: Pair[Num, Text]) : Pair[Num, Text]  <-  keep2(p)
+
+-- Functor: the capability of "being mappable", parameterized by a container F[_].
+capability Functor for F[_]
+  fmap for T, U (xs: F[T], f: (T) -> U) : F[U]
+
+-- List is a Functor: a real, body-checked recursive map.
+List provides Functor
+  fmap(xs, f)  <-
+    xs match
+      []        =>  []
+      [h, ..t]  =>  [ f(h), ..fmap(t, f) ]
+
+-- composing (c)+(d): a function whose container must be a Functor.
+-- The call site discharges `given F: Functor` -- List provides it, so OK.
+keepMappable for F[_], T given F: Functor (xs: F[T]) : F[T]  <-  keep(xs)
+
+usesIt(xs: List[Num]) : List[Num]  <-  keepMappable(xs)
+
+main : () !console  <-
+  show!console "kept = {nums([1, 2, 3])}"

@@ -1,0 +1,16 @@
+-- Prism v0 :: the TIME voice `~>`.
+-- `<-` derives values and has NO order (lazy: definition order is meaningless).
+-- The moment you need "this, THEN that", you are in the time dimension -- say so
+-- with `~>`. And every step a `~>` orders must actually TOUCH TIME: it must carry
+-- an effect (!) or a failure (?). Pure steps have no order and don't belong here.
+
+-- three ordered effects: the console writes happen in exactly this sequence.
+greet(name: Text) : () !console  <-
+  show!console "hello, {name}"  ~>  show!console "welcome"  ~>  show!console "bye"
+
+-- effect THEN fallible read: order matters, and the failure rides the time arrow.
+-- (a failed step aborts the sequence -- `?BadNumber` propagates into the signature.)
+askNumber(prompt: Text) : Num !console ?BadNumber  <-
+  show!console prompt  ~>  try parseNum(read!console)
+
+main : () !console  <-  greet("Ada")

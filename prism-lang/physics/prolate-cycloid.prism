@@ -1,0 +1,5 @@
+-- Eye candy :: a prolate cycloid -- a point OUTSIDE a rolling wheel, looping each turn.
+include "lib/draw2d.prism"
+picture  <-  polyline(t -> V{ x: 22 * (t * 0.1 - 1.6 * sin(t * 0.1)),
+                              y: 22 * (1 - 1.6 * cos(t * 0.1)) }, 0, 200)
+main : () !console  <-  show!console "press Draw to see a prolate cycloid"

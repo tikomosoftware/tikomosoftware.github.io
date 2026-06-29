@@ -1,0 +1,14 @@
+-- Strange attractor :: the Clifford map with a different parameter set.
+--   (a,b,c,d = 1.7, 1.7, 0.6, 1.2)
+
+trace(n, x, y, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      nx  <-  sin(1.7 * y) + 0.6 * cos(1.7 * x)
+      ny  <-  sin(1.7 * x) + 1.2 * cos(1.7 * y)
+      [ Dot{x: nx * 110, y: ny * 110}, ..trace(n - 1, nx, ny, acc) ]
+
+picture  <-  trace(1400, 0, 0, [])
+
+main : () !console  <-  show!console "press Draw to see another Clifford attractor"

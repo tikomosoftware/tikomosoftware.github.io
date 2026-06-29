@@ -1,0 +1,18 @@
+-- Strange attractor :: the Lorenz system again, but projected onto x-y instead of x-z --
+-- the same butterfly seen edge-on, swirling around its two wings.
+
+trace(n, x, y, z, acc)  <-
+  n match
+    0  =>  acc
+    _  =>
+      dx  <-  10 * (y - x)
+      dy  <-  x * (28 - z) - y
+      dz  <-  x * y - 2.6667 * z
+      nx  <-  x + dx * 0.01
+      ny  <-  y + dy * 0.01
+      nz  <-  z + dz * 0.01
+      [ Dot{x: nx * 9, y: ny * 9}, ..trace(n - 1, nx, ny, nz, acc) ]
+
+picture  <-  trace(900, 1, 1, 1, [])
+
+main : () !console  <-  show!console "press Draw to see the Lorenz butterfly (x-y view)"
