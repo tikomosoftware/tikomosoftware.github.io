@@ -8,8 +8,8 @@
 
 ## 1. Prism とは（30秒）
 
-- ビルド/コンパイル不要のツリーウォーク型インタプリタ（`prism.py`）＋別建ての静的検査器（`check.py`）。
-- 関数の**署名が契約**で、検査器がそれを強制する。計算は4つの「声」に分かれ、**混ぜない**:
+- ビルド/コンパイル不要のツリーウォーク型インタプリタ（`prism.py`）＋別建ての静的チェッカー（`check.py`）。
+- 関数の**署名が契約**で、静的チェッカーがそれを強制する。計算は4つの「声」に分かれ、**混ぜない**:
 
 | 声 | 意味 | 記号 |
 |---|---|---|
@@ -19,7 +19,7 @@
 | 失敗 | エラー（= ok/fail の or 型を flow に持ち上げたもの） | `?Error`、`try`、`match`/`rescue` |
 | 時間（上級） | 順序付け | `~>` |
 
-## 2. 検査器が強制する「掟」（これを破ると落ちる）
+## 2. 静的チェッカーが強制する「掟」（これを破ると落ちる）
 
 1. **作用は宣言せよ。** 本体が `!console` するなら署名に `!console` が要る。
 2. **失敗は処理せよ。** 可謬な値は `try`（伝播）か `match`/`rescue`（消費）で扱う。さもなくば署名に `?E` を宣言。
@@ -86,7 +86,7 @@ map for T, U, !e, ?g (xs: List[T], f: (T) -> U !e ?g) : List[U] !e ?g  <-
 - **`?` は失敗専用。** `?Error` / `?{E1,E2}` / `?g`（失敗の行）だけ。**型ではない。** 未知の型（注釈の無い所・推論結果）は **`_`** で表す（`reveal` も `_` を表示。`f(x: _) : _` のように明示も可）。
 - Result / Option を別に作らない —— **失敗の声 `?Error`（`ok`/`fail`）がそれに当たる**。
 
-## 5. 進め方 —— 人間=署名 / AI=本体 / 検査器=審判
+## 5. 進め方 —— 人間=署名 / AI=本体 / 静的チェッカー=審判
 
 Prism の使い方の核心はこのループです（エージェント・ループ）:
 
@@ -123,7 +123,7 @@ clamp(x: Num, lo: Num, hi: Num) : Num  <-
 clamp(x: Num, lo: Num, hi: Num) : Num  <-
   if x < lo then lo else if x > hi then hi else x
 ```
-**`prism check` → `OK`。** 契約（署名）は一度も変えず、本体だけを検査器の指摘で直した。
+**`prism check` → `OK`。** 契約（署名）は一度も変えず、本体だけを静的チェッカーの指摘で直した。
 
 もう一例 —— **作用の宣言漏れ**:
 ```prism
@@ -142,17 +142,17 @@ line 1: shout: performs effect !console but its signature declares no effects (p
 
 - `examples/divide.prism`（4声そろい・対話入力）、`examples/calc.prism`（or型+網羅+失敗の式評価器）
 - `examples/rpn.prism`（**この流儀で実際に作った RPN 電卓** ── 人間が5つの失敗を含む契約を書き、AI が
-  本体を書き、検査器が審判。`rescue` の一句を AI が忘れると検査器が `main` の失敗漏れとして弾く。
-  この実演中に検査器の実バグ（effect 引数の失敗が追跡漏れ）まで露見・修正された ── [NOTES](NOTES.md) 所見#25）
+  本体を書き、静的チェッカーが審判。`rescue` の一句を AI が忘れると静的チェッカーが `main` の失敗漏れとして弾く。
+  この実演中に静的チェッカーの実バグ（effect 引数の失敗が追跡漏れ）まで露見・修正された ── [NOTES](NOTES.md) 所見#25）
 - `examples/rps.prism`（**多重ディスパッチの実演** ── じゃんけん。勝敗を `Beats for A, B` の9インスタンスで
-  決める。インスタンスが2つの型を名指さないと検査器が arity で弾く。同じく AI協働で作った例）
+  決める。インスタンスが2つの型を名指さないと静的チェッカーが arity で弾く。同じく AI協働で作った例）
 - `examples/vending.prism`（**時間の声 `~>` ＋ 状態機械の実演** ── 自販機。投入額を再帰で持ち回り、
   `表示 ~> 読む ~> 処理` で順序付け。AI協働で作り、文字列内 `--` のレキサバグを露見させた例 ── NOTES 所見#26）
 - `examples/guess.prism`（**対話ループ＋勝敗の実演** ── 数当てゲーム。試行回数を再帰で持ち回り、非数字入力は
   その場で `parseNum` の失敗を握って再プロンプト。AI協働で作った例）
 - `examples/leaderboard.prism`（**レコード＋ジェネリクス＋ `given T: Ord` の実演** ── スコア順ランキング。
   `Player` レコードの `.field` でソート、`given T: Ord` を呼び出しで discharge。AI協働で作った例）
-- `examples/broken.prism` / `examples/mistyped.prism`（**わざと落ちる**例 → 検査器が何を嫌うか分かる）
+- `examples/broken.prism` / `examples/mistyped.prism`（**わざと落ちる**例 → 静的チェッカーが何を嫌うか分かる）
 - `examples/shapes.prism`（網羅 match）、`examples/capable.prism`（capability/given）
 
 これらと本ページを渡し、**署名を先に固定 → 本体生成 → `prism check` の出力をそのまま返す**、を回してください。

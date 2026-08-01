@@ -19,7 +19,7 @@ python cli.py run   showcase/03-capability-contract.prism
 | 例 | 見る場所 | 分かること |
 |---|---|---|
 | `01-contracts` | `couponRate : Num ?UnknownCoupon` | クーポンが無いことは例外的な裏事情ではなく、関数の契約に出る。`quote` は `match` で処理したので失敗を外へ漏らさない。 |
-| `01-contracts` | `Plan : Free or Pro` | `monthlyFee` は両方のケースを扱う。`Pro` の分岐を消すと検査器に止められる。 |
+| `01-contracts` | `Plan : Free or Pro` | `monthlyFee` は両方のケースを扱う。`Pro` の分岐を消すと静的チェッカーに止められる。 |
 | `01-contracts` | `main : () !console` | 画面に表示することも契約に現れる。計算だけの関数 `quote` には `!console` がない。 |
 | `02-failure-as-data` | `ok score` / `fail _` | 失敗を握りつぶすのでなく、通常の分岐として表示文に変えている。 |
 | `03-capability-contract` | `given T: Ord` | ジェネリック関数が「比較できる型だけ欲しい」と署名で要求できる。 |

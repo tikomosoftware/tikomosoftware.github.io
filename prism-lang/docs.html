@@ -21,7 +21,11 @@
   header a { color: #8aa0bd; text-decoration: none; font-size: 13px; padding: 3px 7px; border-radius: 6px; }
   header a:hover { background: #1b2027; color: #cfe0ff; }
   header a.active { color: #9ad0ff; background: #1b2330; }
-  header .play { margin-left: auto; color: #7ee787; }
+  header .actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  header .play { color: #7ee787; }
+  header .language { display: flex; gap: 2px; align-items: center; }
+  header .language a { border: 1px solid #2c333f; }
+  header .language a[aria-current="true"] { color: #9ad0ff; background: #1b2330; }
   main { max-width: 860px; margin: 0 auto; padding: 28px 22px 80px; }
   article :is(h1,h2,h3) { line-height: 1.25; border-bottom: 1px solid #232833; padding-bottom: 6px; }
   article h1 { color: #9ad0ff; } article h2 { color: #bcd; margin-top: 2em; } article h3 { color: #aebccd; border: 0; }
@@ -43,9 +47,9 @@
 <body>
 <header>
   <span class="logo">◭ Prism</span>
-  <a href="?p=OVERVIEW.md">Overview</a>
-  <a href="?p=GETTING_STARTED.md">Getting started</a>
-  <a href="?p=TUTORIAL.md">Tutorial</a>
+  <a id="overview-link" href="?p=OVERVIEW.md&amp;lang=ja">Overview</a>
+  <a id="getting-started-link" href="?p=GETTING_STARTED.md&amp;lang=en">Getting started</a>
+  <a id="tutorial-link" href="?p=TUTORIAL.md&amp;lang=en">Tutorial</a>
   <a href="?p=TOUR.md">Tour</a>
   <a href="?p=ALGORITHMS.md">Algorithms</a>
   <a href="?p=REFERENCE.md">Reference</a>
@@ -54,21 +58,51 @@
   <a href="?p=IDEAS.md">Ideas</a>
   <a href="?p=HANDOFF.md">Handoff</a>
   <a href="?p=README.md">README</a>
-  <a class="play" href="playground.html">▶ Playground</a>
+  <div class="actions">
+    <span class="language" id="language-switch" aria-label="Page language">
+      <a id="lang-ja" href="#">日本語</a>
+      <a id="lang-en" href="#">English</a>
+    </span>
+    <a class="play" href="playground.html">▶ Playground</a>
+  </div>
 </header>
 <main><article id="doc"><span id="status">loading…</span></article></main>
 
 <!-- Markdown renderer from a pinned CDN (self-host or pin SRI for a hardened deploy). -->
 <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js" crossorigin="anonymous"></script>
 <script>
-const KNOWN = ["OVERVIEW.md","GETTING_STARTED.md","TUTORIAL.md","TOUR.md","ALGORITHMS.md","REFERENCE.md","AI_GUIDE.md","NOTES.md","IDEAS.md","HANDOFF.md","README.md","intro-article.md","intro-article-note.md"];
+const KNOWN = ["OVERVIEW.md","OVERVIEW_EN.md","GETTING_STARTED.md","GETTING_STARTED_JA.md","TUTORIAL.md","TUTORIAL_JA.md","TOUR.md","ALGORITHMS.md","REFERENCE.md","AI_GUIDE.md","NOTES.md","IDEAS.md","HANDOFF.md","README.md","intro-article.md","intro-article-note.md"];
 const params = new URLSearchParams(location.search);
-let page = params.get("p") || "OVERVIEW.md";
+const requestedLanguage = params.get("lang");
+let page = params.get("p") || (requestedLanguage === "en" ? "OVERVIEW_EN.md" : "OVERVIEW.md");
 if (!/^[A-Za-z0-9_.-]+\.md$/.test(page)) page = "OVERVIEW.md";   // only same-folder .md files
+const localizedPages = [
+  { ja: "OVERVIEW.md", en: "OVERVIEW_EN.md", jaLabel: "概要", enLabel: "Overview" },
+  { ja: "GETTING_STARTED_JA.md", en: "GETTING_STARTED.md", jaLabel: "はじめる", enLabel: "Getting started" },
+  { ja: "TUTORIAL_JA.md", en: "TUTORIAL.md", jaLabel: "チュートリアル", enLabel: "Tutorial" }
+];
+const localized = localizedPages.find(pair => pair.ja === page || pair.en === page);
+const language = localized ? (page === localized.ja ? "ja" : "en") : (requestedLanguage === "ja" ? "ja" : "en");
+
+document.documentElement.lang = language;
+const languageSwitch = document.getElementById("language-switch");
+languageSwitch.hidden = !localized;
+if (localized) {
+  for (const lang of ["ja", "en"]) {
+    const link = document.getElementById("lang-" + lang);
+    link.href = "?p=" + localized[lang] + "&lang=" + lang;
+    link.setAttribute("aria-current", String(lang === language));
+  }
+}
+for (const pair of localizedPages) {
+  const link = document.getElementById(pair.en === "GETTING_STARTED.md" ? "getting-started-link" : pair.en === "TUTORIAL.md" ? "tutorial-link" : "overview-link");
+  link.href = "?p=" + pair[language] + "&lang=" + language;
+  link.textContent = language === "ja" ? pair.jaLabel : pair.enLabel;
+}
 
 // highlight the active nav link
 for (const a of document.querySelectorAll("header a")) {
-  if (a.getAttribute("href") === "?p=" + page) a.classList.add("active");
+  if (a.getAttribute("href")?.startsWith("?p=" + page + "&")) a.classList.add("active");
 }
 
 async function load() {
@@ -83,7 +117,7 @@ async function load() {
       const h = a.getAttribute("href");
       if (/^[A-Za-z0-9_.-]+\.md$/.test(h)) a.setAttribute("href", "?p=" + h);
     }
-    document.title = "Prism — " + page.replace(".md", "");
+    document.title = "Prism — " + (localized ? (language === "ja" ? localized.jaLabel : localized.enLabel) : page.replace(".md", ""));
     scrollTo(0, 0);
   } catch (e) {
     art.innerHTML = "<h2>Couldn't load " + page + "</h2><p>" + e +

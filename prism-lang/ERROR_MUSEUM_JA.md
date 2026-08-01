@@ -1,7 +1,7 @@
 # Prism エラー博物館
 
 ここは「Prism がうるさい」と感じたときに来る場所です。展示品はすべて意図的に失敗するプログラムで、
-`python cli.py check <ファイル>` を実行すると検査器の指摘を見られます。実行時にたまたま動くかどうかではなく、
+`python cli.py check <ファイル>` を実行すると静的チェッカーの指摘を見られます。実行時にたまたま動くかどうかではなく、
 **契約と本体の食い違い**を先に見つけます。
 
 理由と直し方も一緒に読みたい場合は、診断表示を使えます。検査規則は通常時とまったく同じです。
@@ -14,7 +14,7 @@ python cli.py check --explain examples/broken.prism
 
 ## 展示一覧
 
-| 展示 | ファイル | 検査器が止めること | 成功例 |
+| 展示 | ファイル | 静的チェッカーが止めること | 成功例 |
 |---|---|---|---|
 | 副作用の書き忘れ | [broken.prism](examples/broken.prism) | `show!console` を呼ぶのに `!console` を署名へ書いていない | [01-contracts](showcase/01-contracts.prism) |
 | 失敗の書き忘れ | [broken.prism](examples/broken.prism) | `fail DivByZero` の可能性を `?DivByZero` として出していない | [02-failure-as-data](showcase/02-failure-as-data.prism) |
@@ -33,7 +33,7 @@ python cli.py check --explain examples/broken.prism
 python cli.py check examples/broken.prism
 ```
 
-3つの問題が出ます。副作用、失敗の宣言漏れ、失敗の未処理です。ここで大事なのは、検査器が
+3つの問題が出ます。副作用、失敗の宣言漏れ、失敗の未処理です。ここで大事なのは、静的チェッカーが
 「この処理は危険」と曖昧に言うのではなく、**どの契約が不足しているか**を行番号とともに言うことです。
 
 次に [showcase/01-contracts.prism](showcase/01-contracts.prism) を `check` します。同じように表示・分岐・
@@ -45,4 +45,4 @@ Prism は「プログラムが数学的に正しい」ことまでは保証し�
 答えは間違えられます。一方で、何に触れるか、どこで失敗するか、全ケースを処理したか、必要な能力があるかは、
 実行前にかなり厳密に確認できます。
 
-この分担が Prism の個性です。人間はアルゴリズムの意味をレビューし、検査器は契約からはみ出した部分を見張ります。
+この分担が Prism の個性です。人間はアルゴリズムの意味をレビューし、静的チェッカーは契約からはみ出した部分を見張ります。

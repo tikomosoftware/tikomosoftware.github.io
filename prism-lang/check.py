@@ -130,7 +130,7 @@ def explain_error(error):
             "examples/mistyped-field.prism",
         )
     return (
-        "検査器が、署名・型・本体の間に一致しない部分を見つけました。",
+        "静的チェックで、署名・型・本体の間の不一致が見つかりました。",
         "エラー行の署名と本体を並べ、型 `:`・作用 `!`・失敗 `?` のどの約束が違うか確認します。",
         "ERROR_MUSEUM_JA.md",
     )

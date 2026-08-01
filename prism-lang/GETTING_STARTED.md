@@ -122,9 +122,11 @@ prism serve     # then open http://localhost:8000/        (index.html — the la
                 #              http://localhost:8000/docs.html?p=REFERENCE.md
 ```
 
-- **`index.html`** — a landing page (Playground / Docs buttons).
+- **`index.html`** — a landing page with a Japanese / English switch for its introduction.
 - **`docs.html?p=NAME.md`** — renders any doc (Overview, Getting started, Tutorial, Algorithms,
-  Reference, README), with a nav bar; intra-doc `.md` links stay inside `docs.html`.
+  Reference, README), with a nav bar. Overview, Getting started, and Tutorial have Japanese and
+  English versions; use the switch at the upper right to change the current page. Intra-doc `.md`
+  links stay inside `docs.html`.
 - **`playground.html`** — the live editor + canvas.
 
 **Publishing.** The whole folder is *static* — drop it on any static host (GitHub Pages,

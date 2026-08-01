@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,20 +18,73 @@
   a.btn:hover { background: #232b35; }
   a.btn.go { background: #1f6feb; border-color: #1f6feb; color: #fff; }
   .sub { color: #6b7384; font-size: 13px; }
+  .language { position: absolute; top: 18px; right: 20px; display: flex; gap: 4px; }
+  .language button { border: 1px solid #2c333f; border-radius: 7px; background: transparent;
+                     color: #8aa0bd; padding: 4px 8px; cursor: pointer; font: inherit; font-size: 13px; }
+  .language button:hover, .language button[aria-pressed="true"] { background: #1b2330; color: #9ad0ff; }
   code { background: #1b2027; padding: .12em .45em; border-radius: 5px;
          font: 13px ui-monospace, Consolas, monospace; color: #e6c07b; }
 </style>
 </head>
 <body>
+  <nav class="language" aria-label="Language">
+    <button type="button" data-lang="ja" aria-pressed="true">日本語</button>
+    <button type="button" data-lang="en" aria-pressed="false">English</button>
+  </nav>
   <h1>◭ Prism</h1>
-  <p class="tag">A tiny, pedagogy-first programming language for the AI era — where a
+  <p class="tag" data-i18n="tag">A tiny, pedagogy-first programming language for the AI era — where a
   signature is an honest contract (type · effect · failure · time) and the checker holds you to it.</p>
   <div class="row">
-    <a class="btn go" href="playground.html">▶ Open the playground</a>
-    <a class="btn" href="docs.html?p=OVERVIEW.md">Read the docs</a>
-    <a class="btn" href="docs.html?p=TUTORIAL.md">Tutorial</a>
+    <a class="btn go" href="playground.html" data-i18n="playground">▶ Open the playground</a>
+    <a class="btn" id="overview-link" href="docs.html?p=OVERVIEW_EN.md&amp;lang=en" data-i18n="overview">Read the overview</a>
+    <a class="btn" id="tutorial-link" href="docs.html?p=TUTORIAL.md&amp;lang=en" data-i18n="tutorial">Tutorial</a>
   </div>
-  <p class="sub">No build step. Runs in the browser via Pyodide — the same
+  <p class="sub" data-i18n-html="sub">No build step. Runs in the browser via Pyodide — the same
   <code>prism.py</code> / <code>check.py</code> as the command line.</p>
+<script>
+const copy = {
+  ja: {
+    title: "Prism — AI時代の学習用言語",
+    tag: "AI時代のための、小さな学び優先のプログラミング言語。署名は正直な契約書（型・副作用・失敗・時間）で、静的チェックがそれを確かめます。",
+    playground: "▶ 遊び場を開く",
+    overview: "Prism とは",
+    tutorial: "チュートリアル",
+    sub: "ビルド不要。コマンドラインと同じ <code>prism.py</code> / <code>check.py</code> を、Pyodide でブラウザ内実行します。",
+    overviewHref: "docs.html?p=OVERVIEW.md&lang=ja",
+    tutorialHref: "docs.html?p=TUTORIAL_JA.md&lang=ja"
+  },
+  en: {
+    title: "Prism — a pedagogy-first language",
+    tag: "A tiny, pedagogy-first programming language for the AI era — where a signature is an honest contract (type · effect · failure · time) and static checking holds you to it.",
+    playground: "▶ Open the playground",
+    overview: "Read the overview",
+    tutorial: "Tutorial",
+    sub: "No build step. Runs in the browser via Pyodide — the same <code>prism.py</code> / <code>check.py</code> as the command line.",
+    overviewHref: "docs.html?p=OVERVIEW_EN.md&lang=en",
+    tutorialHref: "docs.html?p=TUTORIAL.md&lang=en"
+  }
+};
+
+function setLanguage(lang) {
+  const text = copy[lang];
+  document.documentElement.lang = lang;
+  document.title = text.title;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = text[el.dataset.i18n]; });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => { el.innerHTML = text[el.dataset.i18nHtml]; });
+  document.getElementById("overview-link").href = text.overviewHref;
+  document.getElementById("tutorial-link").href = text.tutorialHref;
+  document.querySelectorAll("[data-lang]").forEach(button => {
+    button.setAttribute("aria-pressed", String(button.dataset.lang === lang));
+  });
+  localStorage.setItem("prism-language", lang);
+}
+
+const requested = new URLSearchParams(location.search).get("lang");
+const saved = localStorage.getItem("prism-language");
+setLanguage(requested === "ja" || requested === "en" ? requested : (saved || (navigator.language.startsWith("ja") ? "ja" : "en")));
+document.querySelectorAll("[data-lang]").forEach(button => {
+  button.addEventListener("click", () => setLanguage(button.dataset.lang));
+});
+</script>
 </body>
 </html>
