@@ -1,0 +1,79 @@
+-- Algorithms in Prism :: Dijkstra with a sorted-list priority queue.
+-- There is no heap in v0; the priority queue is rebuilt immutably on every insert.
+
+Edge : WLink{ from: Num, to: Num, cost: Num }
+State : S{ node: Num, dist: Num }
+
+member(x: Num, xs: List[Num]) : Bool  <-
+  xs match
+    []        =>  false
+    [h, ..t]  =>
+      (x == h) match
+        true   =>  true
+        false  =>  member(x, t)
+
+insertState(s: State, queue: List[State]) : List[State]  <-
+  s match
+    S{node: sn, dist: sd}  =>
+      queue match
+        []        =>  [s]
+        [h, ..t]  =>
+          h match
+            S{node: hn, dist: hd}  =>
+              (sd < hd) match
+                true   =>  [s, h, ..t]
+                false  =>  [h, ..insertState(s, t)]
+
+pushAll(states: List[State], queue: List[State]) : List[State]  <-
+  states match
+    []        =>  queue
+    [h, ..t]  =>  pushAll(t, insertState(h, queue))
+
+neighborStates(n: Num, base: Num, edges: List[Edge], seen: List[Num]) : List[State]  <-
+  edges match
+    []        =>  []
+    [e, ..t]  =>
+      e match
+        WLink{from, to, cost}  =>
+          (from == n) match
+            true   =>
+              member(to, seen) match
+                true   =>  neighborStates(n, base, t, seen)
+                false  =>  [S{ node: to, dist: base + cost }, ..neighborStates(n, base, t, seen)]
+            false  =>  neighborStates(n, base, t, seen)
+
+dijkstra(goal: Num, queue: List[State], edges: List[Edge], seen: List[Num]) : Num  ?NoPath  <-
+  queue match
+    []        =>  fail NoPath
+    [s, ..t]  =>
+      s match
+        S{node, dist}  =>
+          member(node, seen) match
+            true   =>  try dijkstra(goal, t, edges, seen)
+            false  =>
+              (node == goal) match
+                true   =>  dist
+                false  =>  try dijkstra(goal, pushAll(neighborStates(node, dist, edges, seen), t), edges, [node, ..seen])
+
+distanceText(start: Num, goal: Num, edges: List[Edge]) : Text  <-
+  dijkstra(goal, [S{ node: start, dist: 0 }], edges, []) match
+    ok d    =>  "{d}"
+    fail _  =>  "no path"
+
+weightedGraph : List[Edge]  <-
+  [
+    WLink{ from: 1, to: 2, cost: 2 },
+    WLink{ from: 1, to: 3, cost: 5 },
+    WLink{ from: 2, to: 3, cost: 1 },
+    WLink{ from: 2, to: 4, cost: 2 },
+    WLink{ from: 3, to: 4, cost: 1 },
+    WLink{ from: 3, to: 5, cost: 5 },
+    WLink{ from: 4, to: 6, cost: 3 },
+    WLink{ from: 5, to: 6, cost: 1 }
+  ]
+
+main : () !console  <-
+  g <- weightedGraph
+  show!console "dijkstra 1 -> 6 = {distanceText(1, 6, g)}"
+  show!console "dijkstra 1 -> 5 = {distanceText(1, 5, g)}"
+  show!console "dijkstra 6 -> 1 = {distanceText(6, 1, g)}"

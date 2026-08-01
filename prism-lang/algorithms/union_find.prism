@@ -1,0 +1,55 @@
+-- Algorithms in Prism :: immutable union-find.
+-- Parent updates rebuild a list of parent records; path compression is deliberately omitted.
+
+Parent : Par{ node: Num, parent: Num }
+
+makeParents(nodes: List[Num]) : List[Parent]  <-
+  nodes match
+    []        =>  []
+    [h, ..t]  =>  [Par{ node: h, parent: h }, ..makeParents(t)]
+
+lookupParent(x: Num, parents: List[Parent]) : Num  <-
+  parents match
+    []        =>  x
+    [p, ..t]  =>
+      p match
+        Par{node, parent}  =>
+          (node == x) match
+            true   =>  parent
+            false  =>  lookupParent(x, t)
+
+findRoot(x: Num, parents: List[Parent]) : Num  <-
+  p <- lookupParent(x, parents)
+  (p == x) match
+    true   =>  x
+    false  =>  findRoot(p, parents)
+
+setParent(x: Num, newParent: Num, parents: List[Parent]) : List[Parent]  <-
+  parents match
+    []        =>  []
+    [p, ..t]  =>
+      p match
+        Par{node, parent}  =>
+          (node == x) match
+            true   =>  [Par{ node: node, parent: newParent }, ..t]
+            false  =>  [p, ..setParent(x, newParent, t)]
+
+union(a: Num, b: Num, parents: List[Parent]) : List[Parent]  <-
+  ra <- findRoot(a, parents)
+  rb <- findRoot(b, parents)
+  (ra == rb) match
+    true   =>  parents
+    false  =>  setParent(ra, rb, parents)
+
+connected(a: Num, b: Num, parents: List[Parent]) : Bool  <-
+  findRoot(a, parents) == findRoot(b, parents)
+
+main : () !console  <-
+  p0 <- makeParents([1, 2, 3, 4, 5])
+  p1 <- union(1, 2, p0)
+  p2 <- union(3, 4, p1)
+  p3 <- union(2, 3, p2)
+  show!console "connected 1 4 = {connected(1, 4, p3)}"
+  show!console "connected 1 5 = {connected(1, 5, p3)}"
+  show!console "root 1        = {findRoot(1, p3)}"
+  show!console "root 5        = {findRoot(5, p3)}"

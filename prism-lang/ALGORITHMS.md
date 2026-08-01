@@ -14,6 +14,19 @@ prism run algorithms/sorting.prism
 prism check algorithms/tree.prism
 ```
 
+If the algorithm names are unfamiliar, start with the Japanese reading guide:
+[`ALGORITHM_GUIDE_JA.md`](ALGORITHM_GUIDE_JA.md).
+
+## Quick map
+
+- **Basics:** recursion, lists, sorting, trees, search
+- **Graphs:** DFS/BFS, Dijkstra, Bellman-Ford, Kruskal MST, topological sort, graph coloring
+- **Data structures:** binary search tree, Union-Find, Trie, Segment Tree, Skew Heap
+- **Dynamic/recursive recurrences:** Fibonacci, coin change, knapsack, edit distance, Catalan
+- **Sequence processing:** pattern matching, prefix sums, sliding window, quickselect, RLE
+- **Number/numeric:** gcd, primes, sieve, extended Euclid, fast power, Newton method
+- **Geometry:** orientation, segment crossing, polygon area, convex hull pieces
+
 ---
 
 ## The two moves
@@ -147,6 +160,543 @@ An in-order traversal of a binary **search** tree yields the values sorted:
 in-order (sorted) = [1, 2, 3, 4, 5, 7, 8, 9]
 contains 7 = true
 contains 6 = false
+```
+
+## 5. Search — [`algorithms/search.prism`](algorithms/search.prism)
+
+Search is a good stress test because the same question changes shape with the data:
+
+- an unsorted list scans head/tail until it finds the value;
+- a sorted list can stop early once the head is already too large;
+- a binary search tree chooses exactly one branch at each node;
+- a multiway tree can be searched depth-first or breadth-first by changing how the forest is
+  threaded through recursion.
+
+```prism
+orderedMember(x: Num, xs: List[Num]) : Bool  <-
+  xs match
+    []        =>  false
+    [h, ..t]  =>
+      (x == h) match
+        true   =>  true
+        false  =>
+          (x < h) match
+            true   =>  false
+            false  =>  orderedMember(x, t)
+```
+
+For a multiway tree, DFS follows the children before the siblings:
+
+```prism
+dfsForestContains(x: Num, forest: List[NTree]) : Bool  <-
+  forest match
+    []        =>  false
+    [h, ..t]  =>
+      dfsContains(x, h) match
+        true   =>  true
+        false  =>  dfsForestContains(x, t)
+```
+
+BFS uses the list as a queue: remove the head, append that node's children to the tail.
+The same file also shows a fallible path search:
+
+```prism
+dfsPath(x: Num, t: NTree) : List[Num]  ?NotFound  <-
+  t match
+    Branch{value, children}  =>
+      (x == value) match
+        true   =>  [value]
+        false  =>  [value, ..try dfsPathInForest(x, children)]
+```
+
+That `?NotFound` is the Prism twist: "search may fail" is not hidden in a sentinel value unless
+you choose one. It is part of the contract, and callers must either propagate it with `try` or
+handle it with `match`.
+
+```
+linear search 7      = true
+ordered search 6     = false
+binary tree search 7 = true
+multiway BFS 19      = true
+DFS path to 14       = [10, 17, 14]
+DFS path to 99       = not found
+```
+
+## 6. Number theory — [`algorithms/number_theory.prism`](algorithms/number_theory.prism)
+
+Number theory shows what happens when the textbook normally reaches for `%` or a loop. In Prism
+you either use a pure helper such as `modN(a, b) <- a - b * floor(a / b)`, or write the recurrence
+directly. Trial division for primes is a recursive walk over candidate divisors:
+
+```prism
+isPrimeFrom(n: Num, d: Num) : Bool  <-
+  (d * d > n) match
+    true   =>  true
+    false  =>
+      divides(d, n) match
+        true   =>  false
+        false  =>  isPrimeFrom(n, d + 1)
+```
+
+The sample includes `gcd`, `lcm`, `isPrime`, `primesUpTo`, and Euler's totient:
+
+```
+gcd(84, 30)     = 6
+primes <= 30    = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+totient(9)      = 6
+```
+
+## 7. Graphs — [`algorithms/graph.prism`](algorithms/graph.prism)
+
+A graph is represented as a list of `Link{from, to}` records. DFS and BFS are the same idea with
+one small change: DFS pushes fresh neighbours onto the front of the frontier; BFS appends them to
+the back. Shortest distance is fallible:
+
+```prism
+shortestDistance(goal, frontier, edges, seen, depth) : Num  ?NoPath  <-
+  frontier match
+    []  =>  fail NoPath
+    _   =>
+      member(goal, frontier) match
+        true   =>  depth
+        false  =>  try shortestDistance(goal, expand(frontier, edges, seen),
+                                        edges, append(frontier, seen), depth + 1)
+```
+
+```
+DFS 1 -> 6      = true
+BFS 1 -> 6      = true
+distance 1 -> 6 = 3
+distance 1 -> 9 = no path
+```
+
+## 8. Dynamic recurrences — [`algorithms/dynamic.prism`](algorithms/dynamic.prism)
+
+This file keeps the recurrences visible: Fibonacci, stair-counting, coin change, 0/1 knapsack,
+and edit distance. There is no mutable table in v0, so these are the mathematical definitions
+without memoization.
+
+```prism
+coinWays(amount: Num, coins: List[Num]) : Num  <-
+  (amount == 0) match
+    true   =>  1
+    false  =>
+      coins match
+        []        =>  0
+        [c, ..cs]  =>  coinWays(amount - c, coins) + coinWays(amount, cs)
+```
+
+```
+fib(10)             = 55
+coin ways 5 [1,2,5] = 4
+knapsack cap 8      = 12
+edit distance       = 2
+```
+
+## 9. Sequence patterns — [`algorithms/patterns.prism`](algorithms/patterns.prism)
+
+Prism v0 has `Text`, but not character indexing, so string algorithms are shown over `List[Num]`
+as a token stream. The sample includes prefix matching, substring containment, overlapping counts,
+common-prefix length, and LCS length.
+
+```prism
+startsWith(pat: List[Num], xs: List[Num]) : Bool  <-
+  pat match
+    []        =>  true
+    [p, ..pt]  =>
+      xs match
+        []        =>  false
+        [x, ..xt]  =>  if p == x then startsWith(pt, xt) else false
+```
+
+```
+contains [2,3]      = true
+count [1,2]         = 3
+LCS length          = 3
+```
+
+## 10. Sorted sets — [`algorithms/sets.prism`](algorithms/sets.prism)
+
+Sorted-list algorithms are especially readable in Prism because every branch mirrors the three
+cases: left head wins, right head wins, or both heads are equal. The sample includes merge, union,
+intersection, difference, and deduplication.
+
+```
+merge        = [1, 2, 2, 3, 4, 4, 7, 8]
+union        = [1, 2, 3, 4, 7, 8]
+intersection = [2, 4]
+a - b        = [1, 7]
+```
+
+## 11. Backtracking — [`algorithms/backtracking.prism`](algorithms/backtracking.prism)
+
+Backtracking is a natural fit for immutable lists: pick one choice, recurse on the remaining
+choices, then concatenate the rows. The file includes permutations, combinations, and a 4-queens
+counter.
+
+```prism
+permutations(xs: List[Num]) : List[List[Num]]  <-
+  xs match
+    []  =>  [[]]
+    _   =>  permuteChoices(xs, xs)
+```
+
+The 4-queens solver keeps already placed queens in a list and rejects a column or diagonal clash:
+
+```
+permutations 3 count = 6
+combinations 4C2     = [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]
+4-queens count       = 2
+```
+
+## 12. Greedy algorithms — [`algorithms/greedy.prism`](algorithms/greedy.prism)
+
+Greedy algorithms are only as good as the ordering you feed them. In this sample, activities are
+already sorted by finish time, and coins are already sorted from large to small.
+
+```prism
+selectActivities(lastFinish: Num, acts: List[Activity]) : List[Num]  <-
+  acts match
+    []        =>  []
+    [a, ..t]  =>
+      a match
+        Act{id, start, finish}  =>
+          if start >= lastFinish
+          then [id, ..selectActivities(finish, t)]
+          else selectActivities(lastFinish, t)
+```
+
+```
+activity selection = [1, 4, 5]
+greedy coins 87    = [25, 25, 25, 10, 1, 1]
+```
+
+## 13. Weighted shortest paths — [`algorithms/shortest_path.prism`](algorithms/shortest_path.prism)
+
+Dijkstra's algorithm normally wants a heap. Prism v0 has no heap, so the priority queue is a
+sorted immutable list. That makes the algorithm slower but very explicit: `insertState` keeps the
+frontier ordered, and `dijkstra` pops the cheapest unseen state.
+
+```
+dijkstra 1 -> 6 = 7
+dijkstra 1 -> 5 = 8
+dijkstra 6 -> 1 = no path
+```
+
+The `no path` case is a handled `?NoPath`, not a magic distance.
+
+## 14. Topological sort — [`algorithms/topo_sort.prism`](algorithms/topo_sort.prism)
+
+Kahn's algorithm becomes a repeated search for a node with no incoming edges. If no such node
+exists while nodes remain, the function fails with `?Cycle`.
+
+```prism
+topo(nodes: List[Num], edges: List[Edge]) : List[Num]  ?Cycle  <-
+  nodes match
+    []  =>  []
+    _   =>
+      n <- try pickZero(nodes, edges)
+      [n, ..try topo(removeNode(n, nodes), withoutOutgoing(n, edges))]
+```
+
+```
+topological order = [1, 2, 3, 4, 5]
+cycle detection   = cycle
+```
+
+## 15. Computational geometry — [`algorithms/geometry.prism`](algorithms/geometry.prism)
+
+Geometry is a small but useful contrast: instead of list structure, most of the meaning is in
+record fields. The sample has orientation, strict segment crossing, and polygon area by the
+shoelace formula.
+
+```
+turn a-b-c        = left
+diagonals cross   = true
+parallel cross    = false
+rectangle area    = 12
+```
+
+## 16. Divide and conquer — [`algorithms/divide_conquer.prism`](algorithms/divide_conquer.prism)
+
+This file adds merge sort and binary search. Merge sort is the structural version: split a list
+into alternating halves, sort each half, then merge. Binary search uses v0's `len`/`at` builtins
+for indexed reads over an immutable list.
+
+```
+merge sort     = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+binary search 7 = true
+binary search 0 = false
+```
+
+## 17. Union-Find — [`algorithms/union_find.prism`](algorithms/union_find.prism)
+
+Union-Find is usually mutable. Here the parent table is a list of `Par{node, parent}` records, and
+`union` returns a rebuilt parent table. Path compression is omitted so the value flow stays easy to
+read.
+
+```
+connected 1 4 = true
+connected 1 5 = false
+root 1        = 4
+```
+
+## 18. Minimum spanning tree — [`algorithms/mst.prism`](algorithms/mst.prism)
+
+Kruskal's algorithm combines sorted weighted edges with the immutable Union-Find idea. The sample
+keeps the edge list pre-sorted so the focus stays on "take if it connects two components".
+
+```
+mst edge count = 3
+mst weight     = 7
+```
+
+## 19. Bellman-Ford — [`algorithms/bellman_ford.prism`](algorithms/bellman_ford.prism)
+
+Bellman-Ford is a repeated relaxation over an edge list. Distances are records, and relaxing an
+edge rebuilds just the changed distance record.
+
+```
+bellman 1 -> 2 = 2
+bellman 1 -> 4 = 4
+bellman 1 -> 5 = -2
+bellman 1 -> 9 = unreachable
+```
+
+## 20. Matrices — [`algorithms/matrix.prism`](algorithms/matrix.prism)
+
+A fixed 2x2 matrix is a record. Addition, multiplication, determinant, and matrix powers become
+ordinary pure record transformations. The Fibonacci matrix makes the result recognizable:
+
+```
+fib matrix ^5 = M2{a: 8, b: 5, c: 5, d: 3}
+det fib       = -1
+```
+
+## 21. Run-length encoding — [`algorithms/rle.prism`](algorithms/rle.prism)
+
+Compression is a good example of "thread the current state through recursion": keep the current
+value and count until a different value appears, then emit a `Run{value, count}` record.
+
+```
+rle encoded = [Run{value: 1, count: 3}, Run{value: 2, count: 2}, Run{value: 3, count: 1}, Run{value: 1, count: 2}]
+rle decoded = [1, 1, 1, 2, 2, 3, 1, 1]
+```
+
+## 22. Automata — [`algorithms/automata.prism`](algorithms/automata.prism)
+
+The DFA sample accepts binary numbers divisible by 3. The state transition is a plain function
+`step(state, bit)`, and the input is folded by recursion.
+
+```
+dfa accepts 110  = true
+dfa accepts 1011 = false
+dfa final 1001   = 0
+```
+
+## 23. Parser checks — [`algorithms/parsing.prism`](algorithms/parsing.prism)
+
+The parser sample checks balanced parentheses over token lists (`1` for open, `0` for close).
+Underflow is represented as `?Underflow`; callers either handle it or propagate it.
+
+```
+balanced good = true
+balanced bad  = false
+max depth     = 2
+```
+
+## 24. More tree algorithms — [`algorithms/tree_algorithms.prism`](algorithms/tree_algorithms.prism)
+
+The binary tree gets a fuller toolbox: size, height, balance check, diameter, mirror, and inorder
+traversal. The nice part is that every operation has the same two cases: `Leaf` or `Node`.
+
+```
+tree size      = 8
+tree height    = 4
+tree balanced  = true
+tree diameter  = 6
+mirror inorder = [9, 8, 7, 5, 4, 3, 2, 1]
+```
+
+## 25. Skew heap — [`algorithms/heap.prism`](algorithms/heap.prism)
+
+A skew heap avoids array indexing: the core operation is heap merge. Insert is "merge with a
+singleton", and sorting is repeated removal of the root.
+
+```
+heap min    = 1
+heap sorted = [1, 2, 3, 5, 6, 9]
+empty min   = empty
+```
+
+## 26. Combinatorics — [`algorithms/combinatorics.prism`](algorithms/combinatorics.prism)
+
+Combinatorial identities are compact in Prism because the recurrence can be written directly:
+factorial, binomial coefficients, Pascal rows, and Catalan numbers.
+
+```
+factorial 6 = 720
+choose 6 2  = 15
+pascal row5 = [1, 5, 10, 10, 5, 1]
+catalan 5   = 42
+```
+
+## 27. Numeric algorithms — [`algorithms/numeric.prism`](algorithms/numeric.prism)
+
+This file shows numeric recurrences rather than structural list recursion: fast exponentiation,
+Horner polynomial evaluation, and Newton iteration for square roots.
+
+```
+powFast 2^10 = 1024
+horner       = 234
+sqrt 25      = 5
+```
+
+## 28. Intervals — [`algorithms/intervals.prism`](algorithms/intervals.prism)
+
+Sorted interval merging is a fold with one carried interval. The sample also computes total
+covered length and point containment.
+
+```
+merged intervals = [I{lo: 1, hi: 6}, I{lo: 8, hi: 12}]
+covered length   = 9
+contains 7       = false
+```
+
+## 29. Prefix sums — [`algorithms/prefix_sums.prism`](algorithms/prefix_sums.prism)
+
+Prefix sums show the "precompute then answer indexed queries" shape. The same file includes
+Kadane's maximum subarray recurrence.
+
+```
+prefix sums   = [0, 3, 4, 8, 9, 14, 23]
+range 1..3    = 6
+max subarray  = 6
+```
+
+## 30. Selection — [`algorithms/selection.prism`](algorithms/selection.prism)
+
+Quickselect partitions around a pivot, then recurses only into the partition containing the
+requested index. Out-of-range empty input is handled as `?Empty`.
+
+```
+select k=0 = 1
+select k=3 = 6
+select empty = empty
+```
+
+## 31. Trie — [`algorithms/trie.prism`](algorithms/trie.prism)
+
+A trie is a recursive record: `T{terminal, children}` with each child linking a token to another
+trie. Missing child lookup is a `?Missing` failure that insertion handles by using an empty trie.
+
+```
+trie has [1,2] = true
+trie has [1]   = false
+trie has [2]   = true
+```
+
+## 32. Segment tree — [`algorithms/segment_tree.prism`](algorithms/segment_tree.prism)
+
+The segment tree is immutable: build, query, and update all return values. Updating one position
+rebuilds the path from the leaf to the root.
+
+```
+segment sum 1..3 = 6
+segment sum all  = 14
+after update     = 12
+```
+
+## 33. Convex hull pieces — [`algorithms/convex_hull.prism`](algorithms/convex_hull.prism)
+
+The monotone-chain stack is represented as a list with the newest point at the front. The sample
+prints lower and upper hull pieces for pre-sorted points.
+
+```
+lower hull = [P{x: 0, y: 0}, P{x: 4, y: 0}]
+upper hull = [P{x: 4, y: 0}, P{x: 3, y: 2}, P{x: 1, y: 1}, P{x: 0, y: 0}]
+```
+
+## 34. Graph coloring — [`algorithms/graph_coloring.prism`](algorithms/graph_coloring.prism)
+
+Graph coloring is another backtracking example. Instead of returning the first solution, this
+sample counts all proper colorings for a small graph.
+
+```
+3-colorings = 12
+2-colorings = 0
+```
+
+## 35. Polynomials — [`algorithms/polynomial.prism`](algorithms/polynomial.prism)
+
+Polynomials use coefficient lists in ascending power order. The sample implements addition,
+convolution multiplication, derivatives, and evaluation.
+
+```
+poly product = [4, 13, 22, 15]
+poly deriv   = [2, 6]
+poly eval    = 321
+```
+
+## 36. Sieve — [`algorithms/sieve.prism`](algorithms/sieve.prism)
+
+The Sieve of Eratosthenes is written as repeated filtering: take the head prime and remove its
+multiples from the remaining candidate list.
+
+```
+sieve <= 30 = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+```
+
+## 37. Counting sort — [`algorithms/counting_sort.prism`](algorithms/counting_sort.prism)
+
+Counting sort scans the input for each value in a small domain, then expands each count back into
+sorted output.
+
+```
+counting sort = [0, 1, 2, 2, 2, 3, 4, 4]
+count of 2    = 3
+```
+
+## 38. Majority vote — [`algorithms/majority_vote.prism`](algorithms/majority_vote.prism)
+
+Boyer-Moore majority vote keeps a candidate and a counter. The second pass verifies whether the
+candidate is truly a majority.
+
+```
+majority a = 2
+majority b = none
+```
+
+## 39. Sliding window — [`algorithms/sliding_window.prism`](algorithms/sliding_window.prism)
+
+Sliding-window sums are expressed by taking the sum of the next `k` elements, then recursing on the
+tail. It is simple, explicit, and immutable.
+
+```
+window sums = [8, 6, 10, 15]
+window max  = 15
+```
+
+## 40. Extended Euclid — [`algorithms/extended_euclid.prism`](algorithms/extended_euclid.prism)
+
+Extended Euclid returns a record `EG{g, x, y}` satisfying `a*x + b*y = g`. Modular inverse is then
+just the handled case where `g == 1`.
+
+```
+egcd(30,12) = EG{g: 6, x: 1, y: -2}
+inverse 3 mod 11 = 4
+inverse 6 mod 10 = none
+```
+
+## 41. Cycle detection — [`algorithms/cycle_detection.prism`](algorithms/cycle_detection.prism)
+
+Floyd cycle detection uses a tortoise and hare over a functional graph. The sample function is
+`f(x) = (2*x + 1) mod 9`.
+
+```
+cycle start 0 = 0
+cycle len 0   = 6
+cycle len 2   = 2
 ```
 
 ---

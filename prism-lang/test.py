@@ -18,6 +18,7 @@ import prism as pr
 EX = os.path.join(HERE, "examples")
 TUTDIR = os.path.join(HERE, "tutorial")
 ALGDIR = os.path.join(HERE, "algorithms")
+SHOWDIR = os.path.join(HERE, "showcase")
 
 # ---- the algorithm samples: each must check OK and produce this exact stdout ----
 ALG = {
@@ -27,6 +28,71 @@ ALG = {
     "sorting":   "input          = [3, 1, 4, 1, 5, 9, 2, 6]\n"
                  "insertion sort = [1, 1, 2, 3, 4, 5, 6, 9]\nquicksort      = [1, 1, 2, 3, 4, 5, 6, 9]\n",
     "tree":      "in-order (sorted) = [1, 2, 3, 4, 5, 7, 8, 9]\ncontains 7 = true\ncontains 6 = false\n",
+    "search":    "linear search 7      = true\nlinear search 6      = false\n"
+                 "ordered search 7     = true\nordered search 6     = false\n"
+                 "binary tree search 7 = true\nbinary tree search 6 = false\n"
+                 "multiway DFS 19      = true\nmultiway BFS 19      = true\n"
+                 "DFS path to 14       = [10, 17, 14]\nDFS path to 99       = not found\n",
+    "number_theory": "gcd(84, 30)     = 6\nlcm(21, 6)      = 42\n"
+                     "isPrime 97      = true\nisPrime 91      = false\n"
+                     "primes <= 30    = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]\n"
+                     "totient(9)      = 6\n",
+    "graph":     "DFS 1 -> 6      = true\nBFS 1 -> 6      = true\n"
+                 "distance 1 -> 6 = 3\ndistance 1 -> 9 = no path\nneighbors of 1  = [2, 3]\n",
+    "dynamic":   "fib(10)             = 55\nstairs(5)           = 8\n"
+                 "coin ways 5 [1,2,5] = 4\nknapsack cap 8      = 12\nedit distance       = 2\n",
+    "patterns":  "contains [2,3]      = true\ncontains [3,5]      = false\n"
+                 "count [1,2]         = 3\ncommon prefix       = 3\nLCS length          = 3\n",
+    "sets":      "merge        = [1, 2, 2, 3, 4, 4, 7, 8]\n"
+                 "union        = [1, 2, 3, 4, 7, 8]\nintersection = [2, 4]\n"
+                 "a - b        = [1, 7]\ndedupe       = [1, 2, 5]\n",
+    "backtracking": "permutations 3 count = 6\n"
+                    "permutations [1,2,3] = [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n"
+                    "combinations 4C2     = [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]\n"
+                    "4-queens count       = 2\n",
+    "greedy":    "activity selection = [1, 4, 5]\nactivity count     = 3\n"
+                 "greedy coins 87    = [25, 25, 25, 10, 1, 1]\ncoin sum           = 87\n",
+    "shortest_path": "dijkstra 1 -> 6 = 7\ndijkstra 1 -> 5 = 8\ndijkstra 6 -> 1 = no path\n",
+    "topo_sort": "topological order = [1, 2, 3, 4, 5]\ncycle detection   = cycle\n",
+    "geometry":  "turn a-b-c        = left\ndiagonals cross   = true\n"
+                 "parallel cross    = false\nrectangle area    = 12\n",
+    "divide_conquer": "merge sort     = [1, 2, 3, 4, 5, 6, 7, 8, 9]\n"
+                      "binary search 7 = true\nbinary search 0 = false\n",
+    "union_find": "connected 1 4 = true\nconnected 1 5 = false\nroot 1        = 4\nroot 5        = 5\n",
+    "mst":       "mst edge count = 3\nmst weight     = 7\n",
+    "bellman_ford": "bellman 1 -> 2 = 2\nbellman 1 -> 4 = 4\n"
+                    "bellman 1 -> 5 = -2\nbellman 1 -> 9 = unreachable\n",
+    "matrix":    "fib matrix ^5 = M2{a: 8, b: 5, c: 5, d: 3}\n"
+                 "det fib       = -1\nmatrix sum    = M2{a: 2, b: 1, c: 1, d: 1}\n",
+    "rle":       "rle encoded = [Run{value: 1, count: 3}, Run{value: 2, count: 2}, Run{value: 3, count: 1}, Run{value: 1, count: 2}]\n"
+                 "rle decoded = [1, 1, 1, 2, 2, 3, 1, 1]\n",
+    "automata":  "dfa accepts 110  = true\ndfa accepts 1011 = false\ndfa final 1001   = 0\n",
+    "parsing":   "balanced good = true\nbalanced bad  = false\nmax depth     = 2\n",
+    "tree_algorithms": "tree size      = 8\ntree height    = 4\ntree balanced  = true\n"
+                       "tree diameter  = 6\nmirror inorder = [9, 8, 7, 5, 4, 3, 2, 1]\n",
+    "heap":      "heap min    = 1\nheap sorted = [1, 2, 3, 5, 6, 9]\nempty min   = empty\n",
+    "combinatorics": "factorial 6 = 720\nchoose 6 2  = 15\n"
+                     "pascal row5 = [1, 5, 10, 10, 5, 1]\ncatalan 5   = 42\n",
+    "numeric":   "powFast 2^10 = 1024\nhorner       = 234\nsqrt 25      = 5\n",
+    "intervals": "merged intervals = [I{lo: 1, hi: 6}, I{lo: 8, hi: 12}]\n"
+                 "covered length   = 9\ncontains 5       = true\ncontains 7       = false\n",
+    "prefix_sums": "prefix sums   = [0, 3, 4, 8, 9, 14, 23]\n"
+                   "range 1..3    = 6\nmax subarray  = 6\n",
+    "selection": "select k=0 = 1\nselect k=3 = 6\nselect empty = empty\n",
+    "trie":      "trie has [1,2] = true\ntrie has [1]   = false\n"
+                 "trie has [2]   = true\ntrie has [3]   = false\n",
+    "segment_tree": "segment sum 1..3 = 6\nsegment sum all  = 14\nafter update     = 12\n",
+    "convex_hull": "lower hull = [P{x: 0, y: 0}, P{x: 4, y: 0}]\n"
+                   "upper hull = [P{x: 4, y: 0}, P{x: 3, y: 2}, P{x: 1, y: 1}, P{x: 0, y: 0}]\n",
+    "graph_coloring": "3-colorings = 12\n2-colorings = 0\n",
+    "polynomial": "poly product = [4, 13, 22, 15]\npoly deriv   = [2, 6]\npoly eval    = 321\n",
+    "sieve":     "sieve <= 30 = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]\n",
+    "counting_sort": "counting sort = [0, 1, 2, 2, 2, 3, 4, 4]\ncount of 2    = 3\n",
+    "majority_vote": "majority a = 2\nmajority b = none\n",
+    "sliding_window": "window sums = [8, 6, 10, 15]\nwindow max  = 15\n",
+    "extended_euclid": "egcd(30,12) = EG{g: 6, x: 1, y: -2}\n"
+                       "inverse 3 mod 11 = 4\ninverse 6 mod 10 = none\n",
+    "cycle_detection": "cycle start 0 = 0\ncycle len 0   = 6\ncycle len 2   = 2\n",
     "draw":      "open this in the playground and press Draw to see the Sierpinski triangle\n",
     "koch":       "open in the playground and press Draw to see a Koch snowflake\n",
     "pythagoras": "open in the playground and press Draw to see a Pythagoras tree\n",
@@ -355,6 +421,13 @@ TUT = {
     "06-capabilities": "a number\nhello\n",
 }
 
+# ---- Prism showcase: tiny programs that expose the language's contracts ----
+SHOW = {
+    "01-contracts": "Pro / WELCOME = 1200 yen, 20% off\nFree / MYSTERY = 0 yen, no coupon\n",
+    "02-failure-as-data": "Cleo: 150 points\nBob: not on the board\n",
+    "03-capability-contract": "firstOfPair(8, 3) = 8\n",
+}
+
 # ---- expected CHECKER verdicts: name -> "OK" or ("FAIL", problem_count) ----
 CHECK = {
     "divide": "OK", "map": "OK", "poly": "OK", "shapes": "OK", "capable": "OK",
@@ -375,6 +448,14 @@ LINES = {
     "badhkt": [15, 19], "badtime": [6, 11], "badtraits": [8, 16], "interleak": [6, 9],
     "mistyped-field": [8], "incomplete-record": [4, 5], "collision": [5],
     "effect-narrow": [5], "collide-gap": [9], "effect-arg-fail": [6],
+}
+
+# ---- explanatory mode adds teaching text without changing checker verdicts ----
+EXPLAIN = {
+    "broken": ["なぜ: 本体が外の世界に作用しています", "直し方:", "学ぶ:"],
+    "nonexhaustive": ["入力として来られるケースの一部", "OR型の分岐漏れ"],
+    "incapable": ["capability の約束する操作", "対応する `provides`"],
+    "badtime": ["純粋な計算には観測できる実行順がない", "`<-` に戻します"],
 }
 
 # ---- expected RUNTIME stdout: name -> (stdin_text, exact_stdout[, file]) ----
@@ -408,10 +489,10 @@ RUN = {
     "leaderboard":  ("", "1. Cleo (150)\n2. Ada (120)\n3. Dan (95)\n4. Bob (90)\n"),
 }
 
-def check_output(path):
+def check_output(path, explain=False):
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
-        chk.check_file(path)
+        chk.check_file(path, explain=explain)
     return buf.getvalue()
 
 def verdict_of(out):
@@ -453,6 +534,12 @@ def main(which="all"):
             gl = lines_of(out)
             if gl == LINES[name]: passed += 1
             else: failed += 1; fails.append(f"lines {name}: expected {LINES[name]}, got {gl}")
+    for name, snippets in (EXPLAIN.items() if CORE else []):
+        path = os.path.join(EX, name + ".prism")
+        out = check_output(path, explain=True)
+        missing = [snippet for snippet in snippets if snippet not in out]
+        if not missing: passed += 1
+        else: failed += 1; fails.append(f"explain {name}: missing {missing!r}")
     for key, spec in (RUN.items() if CORE else []):
         stdin_text, want = spec[0], spec[1]
         name = spec[2] if len(spec) > 2 else key
@@ -470,6 +557,14 @@ def main(which="all"):
         got = run_stdout(path, "")
         if got == want_out: passed += 1
         else: failed += 1; fails.append(f"tutorial run {name}: expected {want_out!r}, got {got!r}")
+    for name, want_out in (SHOW.items() if CORE else []):  # showcase: must check OK and run to want_out
+        path = os.path.join(SHOWDIR, name + ".prism")
+        v = verdict_of(check_output(path))
+        if v == "OK": passed += 1
+        else: failed += 1; fails.append(f"showcase check {name}: expected OK, got {v}")
+        got = run_stdout(path, "")
+        if got == want_out: passed += 1
+        else: failed += 1; fails.append(f"showcase run {name}: expected {want_out!r}, got {got!r}")
     for name, want_out in (ALG.items() if CORE else []):   # algorithm samples: check OK and run to want_out
         path = os.path.join(ALGDIR, name + ".prism")
         v = verdict_of(check_output(path))
@@ -511,8 +606,8 @@ def main(which="all"):
             if n > 0: passed += 1
             else: failed += 1; fails.append(f"{sub} picture {name}: empty")
     parts = []                                       # only report the categories this suite ran
-    if CORE: parts += [f"checker:{len(CHECK)}", f"error-line:{len(LINES)}", f"runtime:{len(RUN)}",
-                       f"tutorial:{len(TUT)}x2", f"algorithms:{len(ALG)}x2"]
+    if CORE: parts += [f"checker:{len(CHECK)}", f"error-line:{len(LINES)}", f"explain:{len(EXPLAIN)}", f"runtime:{len(RUN)}",
+                       f"tutorial:{len(TUT)}x2", f"showcase:{len(SHOW)}x2", f"algorithms:{len(ALG)}x2"]
     if GAL:  parts += [f"pathed:{len(PATHED)}x2", f"frames:{len(FRAMES)}", f"visual:{len(VIS)}x2",
                        f"gallery:{len(PHYS) + len(FRACTALS)}x2"]
     print(f"suite: {which} | " + " | ".join(parts))

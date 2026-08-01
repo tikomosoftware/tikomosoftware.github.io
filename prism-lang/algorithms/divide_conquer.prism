@@ -1,0 +1,61 @@
+-- Algorithms in Prism :: divide and conquer.
+-- Lists are immutable, so splitting/merging rebuilds structure instead of moving array cells.
+
+Split : Parts{ left: List[Num], right: List[Num] }
+
+append(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+
+splitAlt(xs: List[Num]) : Split  <-
+  xs match
+    []        =>  Parts{ left: [], right: [] }
+    [x]       =>  Parts{ left: [x], right: [] }
+    [x, y, ..rest]  =>
+      splitAlt(rest) match
+        Parts{left, right}  =>  Parts{ left: [x, ..left], right: [y, ..right] }
+
+merge(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [x, ..xt]  =>
+      ys match
+        []        =>  xs
+        [y, ..yt]  =>
+          (x < y) match
+            true   =>  [x, ..merge(xt, ys)]
+            false  =>  [y, ..merge(xs, yt)]
+
+mergeSort(xs: List[Num]) : List[Num]  <-
+  xs match
+    []   =>  []
+    [x]  =>  [x]
+    _    =>
+      splitAlt(xs) match
+        Parts{left, right}  =>  merge(mergeSort(left), mergeSort(right))
+
+binaryRange(x: Num, xs: List[Num], lo: Num, hi: Num) : Bool  <-
+  (lo > hi) match
+    true   =>  false
+    false  =>
+      mid <- floor((lo + hi) / 2)
+      v   <- at(xs, mid)
+      (x == v) match
+        true   =>  true
+        false  =>
+          (x < v) match
+            true   =>  binaryRange(x, xs, lo, mid - 1)
+            false  =>  binaryRange(x, xs, mid + 1, hi)
+
+binarySearch(x: Num, xs: List[Num]) : Bool  <-
+  (len(xs) == 0) match
+    true   =>  false
+    false  =>  binaryRange(x, xs, 0, len(xs) - 1)
+
+main : () !console  <-
+  nums   <-  [9, 1, 8, 2, 7, 3, 6, 4, 5]
+  sorted <-  mergeSort(nums)
+  show!console "merge sort     = {sorted}"
+  show!console "binary search 7 = {binarySearch(7, sorted)}"
+  show!console "binary search 0 = {binarySearch(0, sorted)}"

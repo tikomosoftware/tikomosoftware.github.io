@@ -1,0 +1,58 @@
+-- Algorithms in Prism :: trie over numeric tokens.
+-- Each child edge is a record from a token to another Trie.
+
+Trie : T{ terminal: Bool, children: List[Child] }
+Child : C{ key: Num, trie: Trie }
+
+emptyTrie : Trie  <-  T{ terminal: false, children: [] }
+
+findChild(key: Num, children: List[Child]) : Trie  ?Missing  <-
+  children match
+    []        =>  fail Missing
+    [c, ..t]  =>
+      c match
+        C{key: ck, trie}  =>
+          if key == ck then trie else try findChild(key, t)
+
+putChild(key: Num, node: Trie, children: List[Child]) : List[Child]  <-
+  children match
+    []        =>  [C{ key: key, trie: node }]
+    [c, ..t]  =>
+      c match
+        C{key: ck, trie}  =>
+          if key == ck then [C{ key: key, trie: node }, ..t] else [c, ..putChild(key, node, t)]
+
+childOrEmpty(key: Num, children: List[Child]) : Trie  <-
+  findChild(key, children) match
+    ok t    =>  t
+    fail _  =>  emptyTrie
+
+insertWord(word: List[Num], trie: Trie) : Trie  <-
+  trie match
+    T{terminal, children}  =>
+      word match
+        []        =>  T{ terminal: true, children: children }
+        [h, ..t]  =>
+          child   <- childOrEmpty(h, children)
+          updated <- insertWord(t, child)
+          T{ terminal: terminal, children: putChild(h, updated, children) }
+
+containsWord(word: List[Num], trie: Trie) : Bool  <-
+  trie match
+    T{terminal, children}  =>
+      word match
+        []        =>  terminal
+        [h, ..t]  =>
+          findChild(h, children) match
+            ok child  =>  containsWord(t, child)
+            fail _    =>  false
+
+main : () !console  <-
+  t0 <- emptyTrie
+  t1 <- insertWord([1, 2], t0)
+  t2 <- insertWord([1, 3], t1)
+  t3 <- insertWord([2], t2)
+  show!console "trie has [1,2] = {containsWord([1, 2], t3)}"
+  show!console "trie has [1]   = {containsWord([1], t3)}"
+  show!console "trie has [2]   = {containsWord([2], t3)}"
+  show!console "trie has [3]   = {containsWord([3], t3)}"

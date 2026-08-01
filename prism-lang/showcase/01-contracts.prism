@@ -1,0 +1,24 @@
+-- Prism showcase 01 :: one signature tells four kinds of truth.
+-- The function returns a Text, writes to the console, and may fail only while looking up a coupon.
+
+Plan : Free or Pro
+
+monthlyFee(plan: Plan) : Num  <-
+  plan match
+    Free  =>  0
+    Pro   =>  1200
+
+couponRate(code: Text) : Num  ?UnknownCoupon  <-
+  code match
+    "WELCOME"  =>  20
+    "FRIEND"   =>  10
+    _          =>  fail UnknownCoupon
+
+quote(plan: Plan, code: Text) : Text  <-
+  couponRate(code) match
+    ok rate  =>  "{monthlyFee(plan)} yen, {rate}% off"
+    fail _   =>  "{monthlyFee(plan)} yen, no coupon"
+
+main : () !console  <-
+  show!console "Pro / WELCOME = {quote(Pro, \"WELCOME\")}"
+  show!console "Free / MYSTERY = {quote(Free, \"MYSTERY\")}"

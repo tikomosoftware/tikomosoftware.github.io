@@ -1,0 +1,56 @@
+-- Algorithms in Prism :: small computational geometry routines.
+-- Points are records; orientation, segment crossing, and polygon area are pure functions.
+
+Pt : P{ x: Num, y: Num }
+
+absN(n: Num) : Num  <-  if n < 0 then 0 - n else n
+
+andB(a: Bool, b: Bool) : Bool  <-
+  a match
+    true   =>  b
+    false  =>  false
+
+orB(a: Bool, b: Bool) : Bool  <-
+  a match
+    true   =>  true
+    false  =>  b
+
+cross(a: Pt, b: Pt, c: Pt) : Num  <-
+  (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
+
+turnText(a: Pt, b: Pt, c: Pt) : Text  <-
+  cross(a, b, c) match
+    0  =>  "collinear"
+    _  =>  if cross(a, b, c) > 0 then "left" else "right"
+
+oppositeSigns(a: Num, b: Num) : Bool  <-
+  orB(andB(a < 0, b > 0), andB(a > 0, b < 0))
+
+segmentsCross(a: Pt, b: Pt, c: Pt, d: Pt) : Bool  <-
+  andB(oppositeSigns(cross(a, b, c), cross(a, b, d)),
+       oppositeSigns(cross(c, d, a), cross(c, d, b)))
+
+shoelaceTerm(a: Pt, b: Pt) : Num  <-  a.x * b.y - b.x * a.y
+
+polygonSum(first: Pt, pts: List[Pt]) : Num  <-
+  pts match
+    []              =>  0
+    [last]          =>  shoelaceTerm(last, first)
+    [a, b, ..rest]  =>  shoelaceTerm(a, b) + polygonSum(first, [b, ..rest])
+
+polygonArea(pts: List[Pt]) : Num  <-
+  pts match
+    []        =>  0
+    [p, ..t]  =>  absN(polygonSum(p, pts)) / 2
+
+main : () !console  <-
+  a <- P{ x: 0, y: 0 }
+  b <- P{ x: 4, y: 0 }
+  c <- P{ x: 4, y: 3 }
+  d <- P{ x: 0, y: 3 }
+  e <- P{ x: 0, y: 4 }
+  f <- P{ x: 4, y: 4 }
+  show!console "turn a-b-c        = {turnText(a, b, c)}"
+  show!console "diagonals cross   = {segmentsCross(a, c, b, d)}"
+  show!console "parallel cross    = {segmentsCross(a, b, e, f)}"
+  show!console "rectangle area    = {polygonArea([a, b, c, d])}"

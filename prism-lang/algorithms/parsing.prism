@@ -1,0 +1,43 @@
+-- Algorithms in Prism :: tiny parser checks over token lists.
+-- Tokens are numbers: 1 means "(", 0 means ")".
+
+maxN(a: Num, b: Num) : Num  <-  if a < b then b else a
+
+balance(depth: Num, toks: List[Num]) : Num  ?Underflow  <-
+  toks match
+    []        =>  depth
+    [h, ..t]  =>
+      (h == 1) match
+        true   =>  try balance(depth + 1, t)
+        false  =>
+          (depth == 0) match
+            true   =>  fail Underflow
+            false  =>  try balance(depth - 1, t)
+
+isBalanced(toks: List[Num]) : Bool  <-
+  balance(0, toks) match
+    ok d    =>  d == 0
+    fail _  =>  false
+
+maxDepth(depth: Num, best: Num, toks: List[Num]) : Num  ?Underflow  <-
+  toks match
+    []        =>  best
+    [h, ..t]  =>
+      (h == 1) match
+        true   =>  try maxDepth(depth + 1, maxN(best, depth + 1), t)
+        false  =>
+          (depth == 0) match
+            true   =>  fail Underflow
+            false  =>  try maxDepth(depth - 1, best, t)
+
+depthText(toks: List[Num]) : Text  <-
+  maxDepth(0, 0, toks) match
+    ok d    =>  "{d}"
+    fail _  =>  "underflow"
+
+main : () !console  <-
+  good <- [1, 1, 0, 1, 0, 0]
+  bad  <- [1, 0, 0]
+  show!console "balanced good = {isBalanced(good)}"
+  show!console "balanced bad  = {isBalanced(bad)}"
+  show!console "max depth     = {depthText(good)}"

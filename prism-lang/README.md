@@ -72,6 +72,7 @@ line 5: match on s: non-exhaustive match on Shape: missing Square -- every `or` 
 
 ```sh
 prism check  examples/broken.prism    # 静的検査（わざと誤った例 → 指摘される）
+prism check --explain examples/broken.prism  # 同じ判定に「なぜ・直し方」を加える診断表示
 prism run    examples/calc.prism      # 実行（ビルド不要、Python 3 だけ）
 prism reveal examples/infer.prism     # 署名なしコードの契約を推論して表示
 prism serve                           # ブラウザの遊び場（同じエンジンを Pyodide で実行）
@@ -116,6 +117,9 @@ AIが本体（`<-` の右）を書き、人間は契約（署名）を読む。
 - **[TOUR](TOUR.md)** — ガイドツアー（4つの声を体得しながら300枚を意味ある順に巡る順路）
 - **[REFERENCE](REFERENCE.md)** — 完全仕様（`~>`・capability・高階種などの**上級**機能を含む）
 - **[ALGORITHMS](ALGORITHMS.md)** — アルゴリズムと、描いて遊ぶ300枚＋アニメ（ゲームVFX・物理・反応拡散ほか）
+- **[ALGORITHM_GUIDE_JA](ALGORITHM_GUIDE_JA.md)** — アルゴリズム名を知らなくても読める日本語ガイド
+- **[PRISM_SHOWCASE_JA](PRISM_SHOWCASE_JA.md)** — Prism らしさを3つの小さな実行例で掴むショーケース
+- **[ERROR_MUSEUM_JA](ERROR_MUSEUM_JA.md)** — 検査器が止める「契約違反」を成功例と対比して読む展示
 - **[AI_GUIDE](AI_GUIDE.md)** — **LLM に Prism を書かせる**ための最小仕様・例・禁止事項・実演
 - **[NOTES](NOTES.md)** — 設計ノート（検査器の思想・「作って分かったこと」・ロードマップ）
 - **[IDEAS](IDEAS.md)** — 次にやることリスト（次の visualizer/app・実現可否つき）

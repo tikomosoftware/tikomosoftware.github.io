@@ -1,0 +1,42 @@
+-- Algorithms in Prism :: polynomial operations.
+-- Coefficients are in ascending power order: [c0, c1, c2, ...].
+
+addPoly(a: List[Num], b: List[Num]) : List[Num]  <-
+  a match
+    []        =>  b
+    [x, ..xt]  =>
+      b match
+        []        =>  a
+        [y, ..yt]  =>  [x + y, ..addPoly(xt, yt)]
+
+scale(k: Num, xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  [k * h, ..scale(k, t)]
+
+convolve(a: List[Num], b: List[Num]) : List[Num]  <-
+  a match
+    []        =>  []
+    [h, ..t]  =>  addPoly(scale(h, b), [0, ..convolve(t, b)])
+
+derivativeFrom(power: Num, coeffs: List[Num]) : List[Num]  <-
+  coeffs match
+    []        =>  []
+    [h, ..t]  =>  [power * h, ..derivativeFrom(power + 1, t)]
+
+derivative(coeffs: List[Num]) : List[Num]  <-
+  coeffs match
+    []        =>  []
+    [c, ..t]  =>  derivativeFrom(1, t)
+
+evalPoly(x: Num, coeffs: List[Num]) : Num  <-
+  coeffs match
+    []        =>  0
+    [h, ..t]  =>  h + x * evalPoly(x, t)
+
+main : () !console  <-
+  p <- [1, 2, 3]
+  q <- [4, 5]
+  show!console "poly product = {convolve(p, q)}"
+  show!console "poly deriv   = {derivative(p)}"
+  show!console "poly eval    = {evalPoly(10, p)}"

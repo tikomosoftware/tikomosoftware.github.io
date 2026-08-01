@@ -1,0 +1,69 @@
+-- Algorithms in Prism :: more binary-tree routines.
+-- The same Tree shape supports size, height, balance, diameter, mirror, and traversal.
+
+Tree : Leaf  or  Node{ value: Num, left: Tree, right: Tree }
+
+maxN(a: Num, b: Num) : Num  <-  if a < b then b else a
+absN(n: Num) : Num  <-  if n < 0 then 0 - n else n
+
+andB(a: Bool, b: Bool) : Bool  <-
+  a match
+    true   =>  b
+    false  =>  false
+
+append(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+
+insert(x: Num, t: Tree) : Tree  <-
+  t match
+    Leaf  =>  Node{ value: x, left: Leaf, right: Leaf }
+    Node{value, left, right}  =>
+      (x < value) match
+        true   =>  Node{ value: value, left: insert(x, left), right: right }
+        false  =>  Node{ value: value, left: left, right: insert(x, right) }
+
+fromList(xs: List[Num], t: Tree) : Tree  <-
+  xs match
+    []        =>  t
+    [h, ..r]  =>  fromList(r, insert(h, t))
+
+size(t: Tree) : Num  <-
+  t match
+    Leaf  =>  0
+    Node{value, left, right}  =>  1 + size(left) + size(right)
+
+height(t: Tree) : Num  <-
+  t match
+    Leaf  =>  0
+    Node{value, left, right}  =>  1 + maxN(height(left), height(right))
+
+balanced(t: Tree) : Bool  <-
+  t match
+    Leaf  =>  true
+    Node{value, left, right}  =>
+      andB(absN(height(left) - height(right)) <= 1, andB(balanced(left), balanced(right)))
+
+diameter(t: Tree) : Num  <-
+  t match
+    Leaf  =>  0
+    Node{value, left, right}  =>  maxN(height(left) + height(right) + 1, maxN(diameter(left), diameter(right)))
+
+mirror(t: Tree) : Tree  <-
+  t match
+    Leaf  =>  Leaf
+    Node{value, left, right}  =>  Node{ value: value, left: mirror(right), right: mirror(left) }
+
+inorder(t: Tree) : List[Num]  <-
+  t match
+    Leaf  =>  []
+    Node{value, left, right}  =>  append(inorder(left), [value, ..inorder(right)])
+
+main : () !console  <-
+  t <- fromList([5, 3, 8, 1, 4, 7, 9, 2], Leaf)
+  show!console "tree size      = {size(t)}"
+  show!console "tree height    = {height(t)}"
+  show!console "tree balanced  = {balanced(t)}"
+  show!console "tree diameter  = {diameter(t)}"
+  show!console "mirror inorder = {inorder(mirror(t))}"

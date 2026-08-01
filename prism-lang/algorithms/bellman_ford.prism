@@ -1,0 +1,79 @@
+-- Algorithms in Prism :: Bellman-Ford shortest paths.
+-- Distances are a list of records; relaxing an edge rebuilds the one changed record.
+
+Edge : BFEdge{ from: Num, to: Num, cost: Num }
+Dist : D{ node: Num, dist: Num }
+
+inf : Num  <-  999
+
+getDist(n: Num, dists: List[Dist]) : Num  <-
+  dists match
+    []        =>  inf
+    [d, ..t]  =>
+      d match
+        D{node, dist}  =>  if node == n then dist else getDist(n, t)
+
+setDist(n: Num, value: Num, dists: List[Dist]) : List[Dist]  <-
+  dists match
+    []        =>  []
+    [d, ..t]  =>
+      d match
+        D{node, dist}  =>
+          if node == n then [D{ node: node, dist: value }, ..t] else [d, ..setDist(n, value, t)]
+
+relaxEdge(e: Edge, dists: List[Dist]) : List[Dist]  <-
+  e match
+    BFEdge{from, to, cost}  =>
+      fromD <- getDist(from, dists)
+      toD   <- getDist(to, dists)
+      (fromD == inf) match
+        true   =>  dists
+        false  =>
+          (fromD + cost < toD) match
+            true   =>  setDist(to, fromD + cost, dists)
+            false  =>  dists
+
+relaxAll(edges: List[Edge], dists: List[Dist]) : List[Dist]  <-
+  edges match
+    []        =>  dists
+    [e, ..t]  =>  relaxAll(t, relaxEdge(e, dists))
+
+repeatRelax(k: Num, edges: List[Edge], dists: List[Dist]) : List[Dist]  <-
+  (k < 1) match
+    true   =>  dists
+    false  =>  repeatRelax(k - 1, edges, relaxAll(edges, dists))
+
+distanceText(n: Num, dists: List[Dist]) : Text  <-
+  d <- getDist(n, dists)
+  (d == inf) match
+    true   =>  "unreachable"
+    false  =>  "{d}"
+
+edges : List[Edge]  <-
+  [
+    BFEdge{ from: 1, to: 2, cost: 6 },
+    BFEdge{ from: 1, to: 3, cost: 7 },
+    BFEdge{ from: 2, to: 3, cost: 8 },
+    BFEdge{ from: 2, to: 4, cost: 5 },
+    BFEdge{ from: 2, to: 5, cost: 0 - 4 },
+    BFEdge{ from: 3, to: 4, cost: 0 - 3 },
+    BFEdge{ from: 3, to: 5, cost: 9 },
+    BFEdge{ from: 4, to: 2, cost: 0 - 2 },
+    BFEdge{ from: 5, to: 4, cost: 7 }
+  ]
+
+initial : List[Dist]  <-
+  [
+    D{ node: 1, dist: 0 },
+    D{ node: 2, dist: inf },
+    D{ node: 3, dist: inf },
+    D{ node: 4, dist: inf },
+    D{ node: 5, dist: inf }
+  ]
+
+main : () !console  <-
+  dists <- repeatRelax(4, edges, initial)
+  show!console "bellman 1 -> 2 = {distanceText(2, dists)}"
+  show!console "bellman 1 -> 4 = {distanceText(4, dists)}"
+  show!console "bellman 1 -> 5 = {distanceText(5, dists)}"
+  show!console "bellman 1 -> 9 = {distanceText(9, dists)}"

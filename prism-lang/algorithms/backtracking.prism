@@ -1,0 +1,86 @@
+-- Algorithms in Prism :: backtracking.
+-- Choices are lists. Backtracking is just "try one head, recurse on the rest".
+
+Queen : Q{ row: Num, col: Num }
+
+appendRows(xs: List[List[Num]], ys: List[List[Num]]) : List[List[Num]]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..appendRows(t, ys)]
+
+lengthRows(xs: List[List[Num]]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  1 + lengthRows(t)
+
+prependAll(x: Num, rows: List[List[Num]]) : List[List[Num]]  <-
+  rows match
+    []        =>  []
+    [h, ..t]  =>  [[x, ..h], ..prependAll(x, t)]
+
+removeOne(x: Num, xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>
+      (x == h) match
+        true   =>  t
+        false  =>  [h, ..removeOne(x, t)]
+
+permutations(xs: List[Num]) : List[List[Num]]  <-
+  xs match
+    []  =>  [[]]
+    _   =>  permuteChoices(xs, xs)
+
+permuteChoices(choices: List[Num], all: List[Num]) : List[List[Num]]  <-
+  choices match
+    []        =>  []
+    [h, ..t]  =>  appendRows(prependAll(h, permutations(removeOne(h, all))), permuteChoices(t, all))
+
+combinations(k: Num, xs: List[Num]) : List[List[Num]]  <-
+  (k == 0) match
+    true   =>  [[]]
+    false  =>
+      xs match
+        []        =>  []
+        [h, ..t]  =>  appendRows(prependAll(h, combinations(k - 1, t)), combinations(k, t))
+
+absN(n: Num) : Num  <-  if n < 0 then 0 - n else n
+
+safeAgainst(row: Num, col: Num, q: Queen) : Bool  <-
+  q match
+    Q{row: qr, col: qc}  =>
+      (col == qc) match
+        true   =>  false
+        false  =>
+          (absN(row - qr) == absN(col - qc)) match
+            true   =>  false
+            false  =>  true
+
+safeQueen(row: Num, col: Num, placed: List[Queen]) : Bool  <-
+  placed match
+    []        =>  true
+    [q, ..t]  =>
+      safeAgainst(row, col, q) match
+        true   =>  safeQueen(row, col, t)
+        false  =>  false
+
+countCols(size: Num, row: Num, col: Num, placed: List[Queen]) : Num  <-
+  (col > size) match
+    true   =>  0
+    false  =>
+      safeQueen(row, col, placed) match
+        true   =>  countQueens(size, row + 1, [Q{ row: row, col: col }, ..placed]) + countCols(size, row, col + 1, placed)
+        false  =>  countCols(size, row, col + 1, placed)
+
+countQueens(size: Num, row: Num, placed: List[Queen]) : Num  <-
+  (row > size) match
+    true   =>  1
+    false  =>  countCols(size, row, 1, placed)
+
+main : () !console  <-
+  perms <- permutations([1, 2, 3])
+  combs <- combinations(2, [1, 2, 3, 4])
+  show!console "permutations 3 count = {lengthRows(perms)}"
+  show!console "permutations [1,2,3] = {perms}"
+  show!console "combinations 4C2     = {combs}"
+  show!console "4-queens count       = {countQueens(4, 1, [])}"

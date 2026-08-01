@@ -1,0 +1,43 @@
+-- Algorithms in Prism :: skew heap.
+-- A skew heap supports merge efficiently without array indexing.
+
+Heap : Empty  or  H{ value: Num, left: Heap, right: Heap }
+
+merge(a: Heap, b: Heap) : Heap  <-
+  a match
+    Empty  =>  b
+    H{value: av, left: al, right: ar}  =>
+      b match
+        Empty  =>  a
+        H{value: bv, left: bl, right: br}  =>
+          (av < bv) match
+            true   =>  H{ value: av, left: merge(ar, b), right: al }
+            false  =>  H{ value: bv, left: merge(br, a), right: bl }
+
+insert(x: Num, h: Heap) : Heap  <-  merge(H{ value: x, left: Empty, right: Empty }, h)
+
+fromList(xs: List[Num]) : Heap  <-
+  xs match
+    []        =>  Empty
+    [h, ..t]  =>  insert(h, fromList(t))
+
+toSorted(h: Heap) : List[Num]  <-
+  h match
+    Empty  =>  []
+    H{value, left, right}  =>  [value, ..toSorted(merge(left, right))]
+
+heapMin(h: Heap) : Num  ?EmptyHeap  <-
+  h match
+    Empty  =>  fail EmptyHeap
+    H{value, left, right}  =>  value
+
+minText(h: Heap) : Text  <-
+  heapMin(h) match
+    ok n    =>  "{n}"
+    fail _  =>  "empty"
+
+main : () !console  <-
+  h <- fromList([5, 1, 9, 2, 6, 3])
+  show!console "heap min    = {minText(h)}"
+  show!console "heap sorted = {toSorted(h)}"
+  show!console "empty min   = {minText(Empty)}"

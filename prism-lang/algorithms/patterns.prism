@@ -1,0 +1,61 @@
+-- Algorithms in Prism :: sequence pattern matching.
+-- Text has no character indexing in v0, so these use List[Num] as a stand-in for a token stream.
+
+maxN(a: Num, b: Num) : Num  <-  if a < b then b else a
+
+startsWith(pat: List[Num], xs: List[Num]) : Bool  <-
+  pat match
+    []        =>  true
+    [p, ..pt]  =>
+      xs match
+        []        =>  false
+        [x, ..xt]  =>
+          (p == x) match
+            true   =>  startsWith(pt, xt)
+            false  =>  false
+
+containsPattern(pat: List[Num], xs: List[Num]) : Bool  <-
+  xs match
+    []        =>  startsWith(pat, xs)
+    [h, ..t]  =>
+      startsWith(pat, xs) match
+        true   =>  true
+        false  =>  containsPattern(pat, t)
+
+countPattern(pat: List[Num], xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>
+      startsWith(pat, xs) match
+        true   =>  1 + countPattern(pat, t)
+        false  =>  countPattern(pat, t)
+
+commonPrefixLength(xs: List[Num], ys: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [x, ..xt]  =>
+      ys match
+        []        =>  0
+        [y, ..yt]  =>
+          (x == y) match
+            true   =>  1 + commonPrefixLength(xt, yt)
+            false  =>  0
+
+lcsLength(xs: List[Num], ys: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [x, ..xt]  =>
+      ys match
+        []        =>  0
+        [y, ..yt]  =>
+          (x == y) match
+            true   =>  1 + lcsLength(xt, yt)
+            false  =>  maxN(lcsLength(xt, ys), lcsLength(xs, yt))
+
+main : () !console  <-
+  data <- [1, 2, 3, 1, 2, 1, 2, 3]
+  show!console "contains [2,3]      = {containsPattern([2, 3], data)}"
+  show!console "contains [3,5]      = {containsPattern([3, 5], data)}"
+  show!console "count [1,2]         = {countPattern([1, 2], data)}"
+  show!console "common prefix       = {commonPrefixLength([1, 2, 3, 4], [1, 2, 3, 9])}"
+  show!console "LCS length          = {lcsLength([1, 2, 3, 4], [2, 4, 3, 4])}"

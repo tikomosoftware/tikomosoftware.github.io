@@ -1,0 +1,16 @@
+-- Prism showcase 02 :: a failure is visible in the signature, then handled as data.
+
+findScore(name: Text) : Num  ?UnknownPlayer  <-
+  name match
+    "Ada"   =>  120
+    "Cleo"  =>  150
+    _       =>  fail UnknownPlayer
+
+scoreText(name: Text) : Text  <-
+  findScore(name) match
+    ok score  =>  "{name}: {score} points"
+    fail _    =>  "{name}: not on the board"
+
+main : () !console  <-
+  show!console "{scoreText(\"Cleo\")}"
+  show!console "{scoreText(\"Bob\")}"

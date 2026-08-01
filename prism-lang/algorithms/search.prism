@@ -1,0 +1,141 @@
+-- Algorithms in Prism :: search, from a flat list to a multiway tree.
+-- Prism has no loops or mutable arrays, so each search follows the shape of the data:
+-- lists split into head/tail, binary trees split left/right, and forests become queues.
+
+Tree : Leaf  or  Node{ value: Num, left: Tree, right: Tree }
+
+NTree : Branch{ value: Num, children: List[NTree] }
+
+linearMember(x: Num, xs: List[Num]) : Bool  <-
+  xs match
+    []        =>  false
+    [h, ..t]  =>
+      (x == h) match
+        true   =>  true
+        false  =>  linearMember(x, t)
+
+-- A sorted list lets the search stop early once the head is already too large.
+orderedMember(x: Num, xs: List[Num]) : Bool  <-
+  xs match
+    []        =>  false
+    [h, ..t]  =>
+      (x == h) match
+        true   =>  true
+        false  =>
+          (x < h) match
+            true   =>  false
+            false  =>  orderedMember(x, t)
+
+bstInsert(x: Num, t: Tree) : Tree  <-
+  t match
+    Leaf  =>  Node{ value: x, left: Leaf, right: Leaf }
+    Node{value, left, right}  =>
+      (x < value) match
+        true   =>  Node{ value: value, left: bstInsert(x, left), right: right }
+        false  =>  Node{ value: value, left: left, right: bstInsert(x, right) }
+
+bstFromList(xs: List[Num], t: Tree) : Tree  <-
+  xs match
+    []        =>  t
+    [h, ..r]  =>  bstFromList(r, bstInsert(h, t))
+
+bstContains(x: Num, t: Tree) : Bool  <-
+  t match
+    Leaf  =>  false
+    Node{value, left, right}  =>
+      (x == value) match
+        true   =>  true
+        false  =>
+          (x < value) match
+            true   =>  bstContains(x, left)
+            false  =>  bstContains(x, right)
+
+appendTrees(xs: List[NTree], ys: List[NTree]) : List[NTree]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..appendTrees(t, ys)]
+
+dfsContains(x: Num, t: NTree) : Bool  <-
+  t match
+    Branch{value, children}  =>
+      (x == value) match
+        true   =>  true
+        false  =>  dfsForestContains(x, children)
+
+dfsForestContains(x: Num, forest: List[NTree]) : Bool  <-
+  forest match
+    []        =>  false
+    [h, ..t]  =>
+      dfsContains(x, h) match
+        true   =>  true
+        false  =>  dfsForestContains(x, t)
+
+-- Breadth-first search keeps a queue: pop the head, append its children to the tail.
+bfsContains(x: Num, queue: List[NTree]) : Bool  <-
+  queue match
+    []        =>  false
+    [h, ..t]  =>
+      h match
+        Branch{value, children}  =>
+          (x == value) match
+            true   =>  true
+            false  =>  bfsContains(x, appendTrees(t, children))
+
+dfsPath(x: Num, t: NTree) : List[Num]  ?NotFound  <-
+  t match
+    Branch{value, children}  =>
+      (x == value) match
+        true   =>  [value]
+        false  =>  [value, ..try dfsPathInForest(x, children)]
+
+dfsPathInForest(x: Num, forest: List[NTree]) : List[Num]  ?NotFound  <-
+  forest match
+    []        =>  fail NotFound
+    [h, ..t]  =>
+      dfsPath(x, h) match
+        ok p    =>  p
+        fail _  =>  try dfsPathInForest(x, t)
+
+pathText(x: Num, t: NTree) : Text  <-
+  dfsPath(x, t) match
+    ok p    =>  "{p}"
+    fail _  =>  "not found"
+
+sampleTree : NTree  <-
+  Branch{
+    value: 10,
+    children: [
+      Branch{
+        value: 4,
+        children: [
+          Branch{ value: 1, children: [] },
+          Branch{ value: 6, children: [] }
+        ]
+      },
+      Branch{
+        value: 17,
+        children: [
+          Branch{ value: 14, children: [] },
+          Branch{ value: 21, children: [] },
+          Branch{ value: 19, children: [] }
+        ]
+      },
+      Branch{ value: 11, children: [] }
+    ]
+  }
+
+main : () !console  <-
+  nums    <-  [9, 1, 4, 7, 3, 8]
+  sorted  <-  [1, 3, 4, 7, 8, 9]
+  bst     <-  bstFromList([5, 3, 8, 1, 4, 7, 9, 2], Leaf)
+  tree    <-  sampleTree
+  show!console "linear search 7      = {linearMember(7, nums)}"
+  show!console "linear search 6      = {linearMember(6, nums)}"
+  show!console "ordered search 7     = {orderedMember(7, sorted)}"
+  show!console "ordered search 6     = {orderedMember(6, sorted)}"
+  show!console "binary tree search 7 = {bstContains(7, bst)}"
+  show!console "binary tree search 6 = {bstContains(6, bst)}"
+  show!console "multiway DFS 19      = {dfsContains(19, tree)}"
+  show!console "multiway BFS 19      = {bfsContains(19, [tree])}"
+  show!console "DFS path to 14       = {pathText(14, tree)}"
+  show!console "DFS path to 99       = {pathText(99, tree)}"

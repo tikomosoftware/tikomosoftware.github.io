@@ -1,0 +1,25 @@
+-- Algorithms in Prism :: Sieve of Eratosthenes.
+-- The sieve is a recursive filter over a list of candidate numbers.
+
+modN(a: Num, b: Num) : Num  <-  a - b * floor(a / b)
+
+range(from: Num, to: Num) : List[Num]  <-
+  (from > to) match
+    true   =>  []
+    false  =>  [from, ..range(from + 1, to)]
+
+keepNonMultiples(p: Num, xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>
+      (modN(h, p) == 0) match
+        true   =>  keepNonMultiples(p, t)
+        false  =>  [h, ..keepNonMultiples(p, t)]
+
+sieve(xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [p, ..t]  =>  [p, ..sieve(keepNonMultiples(p, t))]
+
+main : () !console  <-
+  show!console "sieve <= 30 = {sieve(range(2, 30))}"

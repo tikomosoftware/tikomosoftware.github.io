@@ -1,0 +1,73 @@
+-- Algorithms in Prism :: sorted-list set operations and merge.
+-- Immutable lists make the contracts easy to read: every function returns a fresh list.
+
+mergeSorted(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [x, ..xt]  =>
+      ys match
+        []        =>  xs
+        [y, ..yt]  =>
+          (x < y) match
+            true   =>  [x, ..mergeSorted(xt, ys)]
+            false  =>  [y, ..mergeSorted(xs, yt)]
+
+unionSorted(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [x, ..xt]  =>
+      ys match
+        []        =>  xs
+        [y, ..yt]  =>
+          (x == y) match
+            true   =>  [x, ..unionSorted(xt, yt)]
+            false  =>
+              (x < y) match
+                true   =>  [x, ..unionSorted(xt, ys)]
+                false  =>  [y, ..unionSorted(xs, yt)]
+
+intersectSorted(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [x, ..xt]  =>
+      ys match
+        []        =>  []
+        [y, ..yt]  =>
+          (x == y) match
+            true   =>  [x, ..intersectSorted(xt, yt)]
+            false  =>
+              (x < y) match
+                true   =>  intersectSorted(xt, ys)
+                false  =>  intersectSorted(xs, yt)
+
+differenceSorted(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [x, ..xt]  =>
+      ys match
+        []        =>  xs
+        [y, ..yt]  =>
+          (x == y) match
+            true   =>  differenceSorted(xt, yt)
+            false  =>
+              (x < y) match
+                true   =>  [x, ..differenceSorted(xt, ys)]
+                false  =>  differenceSorted(xs, yt)
+
+dedupeSorted(xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [x]       =>  [x]
+    [x, y, ..rest]  =>
+      (x == y) match
+        true   =>  dedupeSorted([y, ..rest])
+        false  =>  [x, ..dedupeSorted([y, ..rest])]
+
+main : () !console  <-
+  a <- [1, 2, 4, 7]
+  b <- [2, 3, 4, 8]
+  show!console "merge        = {mergeSorted(a, b)}"
+  show!console "union        = {unionSorted(a, b)}"
+  show!console "intersection = {intersectSorted(a, b)}"
+  show!console "a - b        = {differenceSorted(a, b)}"
+  show!console "dedupe       = {dedupeSorted([1, 1, 2, 2, 2, 5])}"

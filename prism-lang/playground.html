@@ -49,6 +49,12 @@
              border-radius: 50%; animation: spin .8s linear infinite; flex: 0 0 auto; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .ok { color: #7ee787; } .err { color: #ff7b72; } .muted { color: #6b7384; }
+  @media (max-width: 760px) {
+    main { grid-template-columns: 1fr; grid-template-rows: minmax(560px, 68vh) minmax(360px, 58vh);
+           height: auto; min-height: calc(100vh - 52px); }
+    #examples { flex: 1 1 190px; min-width: 0; max-width: 100%; }
+    pre#out { min-height: 300px; }
+  }
 </style>
 </head>
 <body>
@@ -67,6 +73,7 @@
       <select id="examples" title="load an example"></select>
       <button id="run" disabled>▶ Run</button>
       <button id="check" disabled>✓ Check</button>
+      <label class="sub" title="Check の結果に、理由と直し方を加えます"><input type="checkbox" id="explain"> 診断</label>
       <button id="reveal" disabled>◎ Reveal</button>
       <button id="draw" disabled title="render the program's `picture` value">✎ Draw</button>
       <button id="anim" disabled title="animate the program's pure `frame(t)` function">▶ Animate</button>
@@ -287,6 +294,8 @@ def _via_file(src, entry):
     return _cap(go)
 
 def pz_check(src):  return _via_file(src, check.check_file)
+def pz_check_explain(src):
+    return _via_file(src, lambda path: check.check_file(path, explain=True))
 def pz_reveal(src): return _via_file(src, check.reveal_file)
 
 import json
@@ -938,7 +947,7 @@ async function call(pyFunc, withStdin) {
 }
 
 $("run").addEventListener("click", () => call("pz_run", true));
-$("check").addEventListener("click", () => call("pz_check", false));
+$("check").addEventListener("click", () => call($("explain").checked ? "pz_check_explain" : "pz_check", false));
 $("reveal").addEventListener("click", () => call("pz_reveal", false));
 let _recT;
 $("code").addEventListener("input", () => { stopFrameAnim(); clearTimeout(_recT); _recT = setTimeout(() => { refreshSliders(); updateRecommend(); saveCode(); }, 250); });

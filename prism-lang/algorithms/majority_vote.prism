@@ -1,0 +1,40 @@
+-- Algorithms in Prism :: Boyer-Moore majority vote.
+-- The first pass finds a candidate; the second pass verifies it.
+
+Vote : V{ candidate: Num, count: Num }
+
+length(xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  1 + length(t)
+
+countValue(x: Num, xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  if h == x then 1 + countValue(x, t) else countValue(x, t)
+
+stepVote(state: Vote, x: Num) : Vote  <-
+  state match
+    V{candidate, count}  =>
+      (count == 0) match
+        true   =>  V{ candidate: x, count: 1 }
+        false  =>
+          (x == candidate) match
+            true   =>  V{ candidate: candidate, count: count + 1 }
+            false  =>  V{ candidate: candidate, count: count - 1 }
+
+vote(xs: List[Num], state: Vote) : Vote  <-
+  xs match
+    []        =>  state
+    [h, ..t]  =>  vote(t, stepVote(state, h))
+
+majorityText(xs: List[Num]) : Text  <-
+  vote(xs, V{ candidate: 0, count: 0 }) match
+    V{candidate, count}  =>
+      (countValue(candidate, xs) > length(xs) / 2) match
+        true   =>  "{candidate}"
+        false  =>  "none"
+
+main : () !console  <-
+  show!console "majority a = {majorityText([2, 1, 2, 3, 2, 2, 4])}"
+  show!console "majority b = {majorityText([1, 2, 3, 2])}"

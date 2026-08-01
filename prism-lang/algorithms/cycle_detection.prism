@@ -1,0 +1,34 @@
+-- Algorithms in Prism :: Floyd cycle detection.
+-- The function is f(x) = (2*x + 1) mod 9, a small functional graph.
+
+modN(a: Num, b: Num) : Num  <-  a - b * floor(a / b)
+
+next(x: Num) : Num  <-  modN(2 * x + 1, 9)
+
+meet(tortoise: Num, hare: Num) : Num  <-
+  (tortoise == hare) match
+    true   =>  tortoise
+    false  =>  meet(next(tortoise), next(next(hare)))
+
+findMu(mu: Num, tortoise: Num, hare: Num) : Num  <-
+  (tortoise == hare) match
+    true   =>  mu
+    false  =>  findMu(mu + 1, next(tortoise), next(hare))
+
+findLam(lam: Num, start: Num, x: Num) : Num  <-
+  (start == x) match
+    true   =>  lam
+    false  =>  findLam(lam + 1, start, next(x))
+
+cycleStart(x0: Num) : Num  <-
+  m <- meet(next(x0), next(next(x0)))
+  findMu(0, x0, m)
+
+cycleLength(x0: Num) : Num  <-
+  m <- meet(next(x0), next(next(x0)))
+  findLam(1, m, next(m))
+
+main : () !console  <-
+  show!console "cycle start 0 = {cycleStart(0)}"
+  show!console "cycle len 0   = {cycleLength(0)}"
+  show!console "cycle len 2   = {cycleLength(2)}"

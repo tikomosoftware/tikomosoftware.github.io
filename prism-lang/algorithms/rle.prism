@@ -1,0 +1,40 @@
+-- Algorithms in Prism :: run-length encoding.
+-- A repeated run becomes an explicit record carrying the value and count.
+
+Rle : Run{ value: Num, count: Num }
+
+encodeRun(value: Num, count: Num, xs: List[Num]) : List[Rle]  <-
+  xs match
+    []        =>  [Run{ value: value, count: count }]
+    [h, ..t]  =>
+      (h == value) match
+        true   =>  encodeRun(value, count + 1, t)
+        false  =>  [Run{ value: value, count: count }, ..encodeRun(h, 1, t)]
+
+encode(xs: List[Num]) : List[Rle]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  encodeRun(h, 1, t)
+
+repeat(value: Num, count: Num) : List[Num]  <-
+  (count < 1) match
+    true   =>  []
+    false  =>  [value, ..repeat(value, count - 1)]
+
+append(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+
+decode(runs: List[Rle]) : List[Num]  <-
+  runs match
+    []        =>  []
+    [r, ..t]  =>
+      r match
+        Run{value, count}  =>  append(repeat(value, count), decode(t))
+
+main : () !console  <-
+  data <- [1, 1, 1, 2, 2, 3, 1, 1]
+  enc  <- encode(data)
+  show!console "rle encoded = {enc}"
+  show!console "rle decoded = {decode(enc)}"

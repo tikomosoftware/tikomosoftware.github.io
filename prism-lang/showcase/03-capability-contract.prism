@@ -1,0 +1,14 @@
+-- Prism showcase 03 :: generic code states the ability it needs with `given`.
+
+capability Ord for T
+  compare(a: T, b: T) : Num
+
+Num provides Ord
+  compare(a, b)  <-  a - b
+
+firstOfPair for T given T: Ord
+  (a: T, b: T) : T  <-
+    a
+
+main : () !console  <-
+  show!console "firstOfPair(8, 3) = {firstOfPair(8, 3)}"

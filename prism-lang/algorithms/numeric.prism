@@ -1,0 +1,27 @@
+-- Algorithms in Prism :: small numeric algorithms.
+-- These are pure recurrences over numbers rather than list structure.
+
+modN(a: Num, b: Num) : Num  <-  a - b * floor(a / b)
+
+powFast(x: Num, n: Num) : Num  <-
+  n match
+    0  =>  1
+    _  =>
+      (modN(n, 2) == 0) match
+        true   =>  powFast(x * x, n / 2)
+        false  =>  x * powFast(x, n - 1)
+
+horner(x: Num, coeffs: List[Num]) : Num  <-
+  coeffs match
+    []        =>  0
+    [h, ..t]  =>  h + x * horner(x, t)
+
+newtonSqrt(x: Num, guess: Num, steps: Num) : Num  <-
+  steps match
+    0  =>  guess
+    _  =>  newtonSqrt(x, (guess + x / guess) / 2, steps - 1)
+
+main : () !console  <-
+  show!console "powFast 2^10 = {powFast(2, 10)}"
+  show!console "horner       = {horner(10, [4, 3, 2])}"
+  show!console "sqrt 25      = {newtonSqrt(25, 5, 4)}"

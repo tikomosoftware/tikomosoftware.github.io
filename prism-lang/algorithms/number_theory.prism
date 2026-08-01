@@ -1,0 +1,57 @@
+-- Algorithms in Prism :: number theory.
+-- Division-style algorithms are written as pure recurrences; failure/effects stay absent.
+
+modN(a: Num, b: Num) : Num  <-  a - b * floor(a / b)
+
+divides(d: Num, n: Num) : Bool  <-  modN(n, d) == 0
+
+gcd(a: Num, b: Num) : Num  <-
+  (a == b) match
+    true   =>  a
+    false  =>
+      (a < b) match
+        true   =>  gcd(a, b - a)
+        false  =>  gcd(a - b, b)
+
+lcm(a: Num, b: Num) : Num  <-  a * b / gcd(a, b)
+
+isPrimeFrom(n: Num, d: Num) : Bool  <-
+  (n < 2) match
+    true   =>  false
+    false  =>
+      (d * d > n) match
+        true   =>  true
+        false  =>
+          divides(d, n) match
+            true   =>  false
+            false  =>  isPrimeFrom(n, d + 1)
+
+isPrime(n: Num) : Bool  <-  isPrimeFrom(n, 2)
+
+primesFrom(i: Num, n: Num) : List[Num]  <-
+  (i > n) match
+    true   =>  []
+    false  =>
+      isPrime(i) match
+        true   =>  [i, ..primesFrom(i + 1, n)]
+        false  =>  primesFrom(i + 1, n)
+
+primesUpTo(n: Num) : List[Num]  <-  primesFrom(2, n)
+
+phiFrom(i: Num, n: Num) : Num  <-
+  (i > n) match
+    true   =>  0
+    false  =>
+      (gcd(i, n) == 1) match
+        true   =>  1 + phiFrom(i + 1, n)
+        false  =>  phiFrom(i + 1, n)
+
+totient(n: Num) : Num  <-  phiFrom(1, n)
+
+main : () !console  <-
+  show!console "gcd(84, 30)     = {gcd(84, 30)}"
+  show!console "lcm(21, 6)      = {lcm(21, 6)}"
+  show!console "isPrime 97      = {isPrime(97)}"
+  show!console "isPrime 91      = {isPrime(91)}"
+  show!console "primes <= 30    = {primesUpTo(30)}"
+  show!console "totient(9)      = {totient(9)}"

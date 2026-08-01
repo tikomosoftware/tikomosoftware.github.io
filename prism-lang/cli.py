@@ -3,7 +3,7 @@
 Prism -- a single command-line entry point.
 
   prism run    <file.prism>     run a program (tree-walking interpreter)
-  prism check  <file.prism>     statically check it (types / effects / failures / ...)
+  prism check  [--explain] <file.prism>  statically check it; optionally explain each error
   prism reveal <file.prism>     show the inferred contract of each definition
   prism test   [core|gallery|all]  run the regression suite (default all; core = language only, fast)
   prism serve  [port] [--host H] serve the playground (loopback only; --host 0.0.0.0 for LAN)
@@ -45,9 +45,11 @@ def main(argv):
 
     if cmd in ("check", "reveal"):
         import check
-        path = _need_file(rest, cmd)
+        explain = cmd == "check" and "--explain" in rest
+        args = [a for a in rest if a != "--explain"]
+        path = _need_file(args, cmd)
         try:
-            return check.reveal_file(path) if cmd == "reveal" else check.check_file(path)
+            return check.reveal_file(path) if cmd == "reveal" else check.check_file(path, explain=explain)
         except (SyntaxError, RuntimeError) as e:
             print(f"[parse error] {e}", file=sys.stderr); return 2
 

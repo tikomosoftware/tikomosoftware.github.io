@@ -1,0 +1,31 @@
+-- Algorithms in Prism :: counting sort over a small numeric domain.
+-- Count each value, then expand counts back into a sorted list.
+
+append(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+
+repeat(x: Num, n: Num) : List[Num]  <-
+  (n < 1) match
+    true   =>  []
+    false  =>  [x, ..repeat(x, n - 1)]
+
+countValue(x: Num, xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>
+      (h == x) match
+        true   =>  1 + countValue(x, t)
+        false  =>  countValue(x, t)
+
+countingSortFrom(v: Num, maxValue: Num, xs: List[Num]) : List[Num]  <-
+  (v > maxValue) match
+    true   =>  []
+    false  =>  append(repeat(v, countValue(v, xs)), countingSortFrom(v + 1, maxValue, xs))
+
+countingSort(xs: List[Num], maxValue: Num) : List[Num]  <-  countingSortFrom(0, maxValue, xs)
+
+main : () !console  <-
+  show!console "counting sort = {countingSort([4, 2, 2, 1, 0, 4, 3, 2], 4)}"
+  show!console "count of 2    = {countValue(2, [4, 2, 2, 1, 0, 4, 3, 2])}"

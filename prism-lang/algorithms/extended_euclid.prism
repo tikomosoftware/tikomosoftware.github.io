@@ -1,0 +1,28 @@
+-- Algorithms in Prism :: extended Euclid and modular inverse.
+-- The result records coefficients x,y such that a*x + b*y = gcd(a,b).
+
+Egcd : EG{ g: Num, x: Num, y: Num }
+
+modN(a: Num, b: Num) : Num  <-  a - b * floor(a / b)
+
+egcd(a: Num, b: Num) : Egcd  <-
+  (b == 0) match
+    true   =>  EG{ g: a, x: 1, y: 0 }
+    false  =>
+      q <- floor(a / b)
+      r <- modN(a, b)
+      egcd(b, r) match
+        EG{g, x, y}  =>  EG{ g: g, x: y, y: x - q * y }
+
+inverseText(a: Num, m: Num) : Text  <-
+  egcd(a, m) match
+    EG{g, x, y}  =>
+      (g == 1) match
+        true   =>  "{modN(x, m)}"
+        false  =>  "none"
+
+main : () !console  <-
+  r <- egcd(30, 12)
+  show!console "egcd(30,12) = {r}"
+  show!console "inverse 3 mod 11 = {inverseText(3, 11)}"
+  show!console "inverse 6 mod 10 = {inverseText(6, 10)}"

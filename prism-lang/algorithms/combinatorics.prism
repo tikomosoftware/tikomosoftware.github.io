@@ -1,0 +1,43 @@
+-- Algorithms in Prism :: combinatorial recurrences.
+-- Pascal rows and Catalan numbers are direct structural recurrences.
+
+append(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+
+factorial(n: Num) : Num  <-
+  n match
+    0  =>  1
+    _  =>  n * factorial(n - 1)
+
+choose(n: Num, k: Num) : Num  <-
+  (k == 0) match
+    true   =>  1
+    false  =>
+      (k == n) match
+        true   =>  1
+        false  =>  choose(n - 1, k - 1) + choose(n - 1, k)
+
+pascalRowAt(i: Num, n: Num) : List[Num]  <-
+  (i > n) match
+    true   =>  []
+    false  =>  [choose(n, i), ..pascalRowAt(i + 1, n)]
+
+pascalRow(n: Num) : List[Num]  <-  pascalRowAt(0, n)
+
+catalanSum(i: Num, n: Num) : Num  <-
+  (i == n) match
+    true   =>  0
+    false  =>  catalan(i) * catalan(n - 1 - i) + catalanSum(i + 1, n)
+
+catalan(n: Num) : Num  <-
+  n match
+    0  =>  1
+    _  =>  catalanSum(0, n)
+
+main : () !console  <-
+  show!console "factorial 6 = {factorial(6)}"
+  show!console "choose 6 2  = {choose(6, 2)}"
+  show!console "pascal row5 = {pascalRow(5)}"
+  show!console "catalan 5   = {catalan(5)}"

@@ -1,0 +1,50 @@
+-- Algorithms in Prism :: interval merging.
+-- The input is sorted by start; overlapping intervals are folded into one.
+
+Interval : I{ lo: Num, hi: Num }
+
+maxN(a: Num, b: Num) : Num  <-  if a < b then b else a
+
+mergeCarry(cur: Interval, xs: List[Interval]) : List[Interval]  <-
+  xs match
+    []        =>  [cur]
+    [h, ..t]  =>
+      cur match
+        I{lo: clo, hi: chi}  =>
+          h match
+            I{lo: hlo, hi: hhi}  =>
+              (hlo <= chi) match
+                true   =>  mergeCarry(I{ lo: clo, hi: maxN(chi, hhi) }, t)
+                false  =>  [cur, ..mergeCarry(h, t)]
+
+mergeIntervals(xs: List[Interval]) : List[Interval]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  mergeCarry(h, t)
+
+coveredLength(xs: List[Interval]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>
+      h match
+        I{lo, hi}  =>  hi - lo + coveredLength(t)
+
+containsPoint(x: Num, intervals: List[Interval]) : Bool  <-
+  intervals match
+    []        =>  false
+    [h, ..t]  =>
+      h match
+        I{lo, hi}  =>
+          (x < lo) match
+            true   =>  false
+            false  =>
+              (x <= hi) match
+                true   =>  true
+                false  =>  containsPoint(x, t)
+
+main : () !console  <-
+  merged <- mergeIntervals([I{ lo: 1, hi: 3 }, I{ lo: 2, hi: 6 }, I{ lo: 8, hi: 10 }, I{ lo: 9, hi: 12 }])
+  show!console "merged intervals = {merged}"
+  show!console "covered length   = {coveredLength(merged)}"
+  show!console "contains 5       = {containsPoint(5, merged)}"
+  show!console "contains 7       = {containsPoint(7, merged)}"

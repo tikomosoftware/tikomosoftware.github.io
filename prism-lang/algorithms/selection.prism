@@ -1,0 +1,47 @@
+-- Algorithms in Prism :: quickselect.
+-- Partition around the head pivot, then recurse only into the side containing k.
+
+length(xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  1 + length(t)
+
+below(p: Num, xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  if h < p then [h, ..below(p, t)] else below(p, t)
+
+equalTo(p: Num, xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  if h == p then [h, ..equalTo(p, t)] else equalTo(p, t)
+
+above(p: Num, xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  if h > p then [h, ..above(p, t)] else above(p, t)
+
+quickSelect(k: Num, xs: List[Num]) : Num  ?Empty  <-
+  xs match
+    []        =>  fail Empty
+    [p, ..t]  =>
+      lo <- below(p, xs)
+      eq <- equalTo(p, xs)
+      hi <- above(p, xs)
+      (k < length(lo)) match
+        true   =>  try quickSelect(k, lo)
+        false  =>
+          (k < length(lo) + length(eq)) match
+            true   =>  p
+            false  =>  try quickSelect(k - length(lo) - length(eq), hi)
+
+selectText(k: Num, xs: List[Num]) : Text  <-
+  quickSelect(k, xs) match
+    ok n    =>  "{n}"
+    fail _  =>  "empty"
+
+main : () !console  <-
+  nums <- [9, 1, 8, 2, 7, 3, 6]
+  show!console "select k=0 = {selectText(0, nums)}"
+  show!console "select k=3 = {selectText(3, nums)}"
+  show!console "select empty = {selectText(0, [])}"

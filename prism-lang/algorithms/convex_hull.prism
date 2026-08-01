@@ -1,0 +1,46 @@
+-- Algorithms in Prism :: monotone-chain hull pieces.
+-- Points are pre-sorted by x. The hull stack is kept with the newest point at the front.
+
+Pt : P{ x: Num, y: Num }
+
+cross(a: Pt, b: Pt, c: Pt) : Num  <-
+  (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
+
+reverse(xs: List[Pt]) : List[Pt]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  append(reverse(t), [h])
+
+append(xs: List[Pt], ys: List[Pt]) : List[Pt]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+
+pushHull(p: Pt, hull: List[Pt]) : List[Pt]  <-
+  hull match
+    [b, a, ..rest]  =>
+      (cross(a, b, p) <= 0) match
+        true   =>  pushHull(p, [a, ..rest])
+        false  =>  [p, ..hull]
+    _  =>  [p, ..hull]
+
+buildHull(points: List[Pt], hull: List[Pt]) : List[Pt]  <-
+  points match
+    []        =>  hull
+    [h, ..t]  =>  buildHull(t, pushHull(h, hull))
+
+lowerHull(points: List[Pt]) : List[Pt]  <-  reverse(buildHull(points, []))
+upperHull(points: List[Pt]) : List[Pt]  <-  reverse(buildHull(reverse(points), []))
+
+points : List[Pt]  <-
+  [
+    P{ x: 0, y: 0 },
+    P{ x: 1, y: 1 },
+    P{ x: 2, y: 0 },
+    P{ x: 3, y: 2 },
+    P{ x: 4, y: 0 }
+  ]
+
+main : () !console  <-
+  show!console "lower hull = {lowerHull(points)}"
+  show!console "upper hull = {upperHull(points)}"

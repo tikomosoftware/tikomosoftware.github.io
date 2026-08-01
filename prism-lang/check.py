@@ -24,6 +24,117 @@ class Fal:                       # a fallible result: success type + the failure
 
 def fmt_set(xs): return "{" + ", ".join(sorted(xs)) + "}"
 
+# Extra teaching text for `check --explain`.  These rules only classify messages
+# already emitted by the checker; they never change checking or program meaning.
+def explain_error(error):
+    if "performs effect" in error and "signature declares no effects" in error:
+        return (
+            "本体が外の世界に作用していますが、署名は純粋な計算だと約束しています。",
+            "作用が必要なら署名に `!console` などを宣言します。純粋にしたいなら作用する呼び出しを外へ移します。",
+            "ERROR_MUSEUM_JA.md の「副作用の書き忘れ」",
+        )
+    if "performs effect" in error and "signature declares" in error:
+        return (
+            "本体から漏れる作用を、署名が許す作用の範囲で覆えていません。`!io` から `!console` への包含は一方向です。",
+            "実際の作用まで署名を広げるか、呼び出す処理をより細かな作用へ分けます。",
+            "ERROR_MUSEUM_JA.md の「効果の粒度リーク」",
+        )
+    if "can fail with" in error and "signature declares no failures" in error:
+        return (
+            "本体は失敗を返せますが、呼び出し側から見ると必ず成功する契約になっています。",
+            "失敗を外へ渡すなら署名に `?Failure` を加え、ここで終わらせるなら `match` や `attempt/rescue` で処理します。",
+            "ERROR_MUSEUM_JA.md の「失敗の書き忘れ」",
+        )
+    if "unhandled failure" in error:
+        return (
+            "失敗しうる値を、成功した普通の値としてそのまま使っています。",
+            "`try` で契約どおり外へ伝えるか、`match` で `ok` と `fail` の両方を処理します。",
+            "showcase/02-failure-as-data.prism",
+        )
+    if "non-exhaustive match" in error:
+        return (
+            "入力として来られるケースの一部に、答えが用意されていません。",
+            "表示された不足ケースを追加します。無限に値がある型では、意図が明確な場合だけ `_` を使います。",
+            "ERROR_MUSEUM_JA.md の「OR型の分岐漏れ」",
+        )
+    if "is not a variant of" in error:
+        return (
+            "この `match` に、そのOR型が持っていないケースが混ざっています。",
+            "型宣言にあるケース名へ直すか、本当に必要なら型宣言そのものへ新しいケースを加えます。",
+            "examples/nonexhaustive.prism",
+        )
+    if "missing field" in error:
+        return (
+            "レコードの契約にあるフィールドが、値を作るときに渡されていません。",
+            "エラーに表示されたフィールドを正しい型の値で追加します。",
+            "examples/incomplete-record.prism",
+        )
+    if "missing method" in error and "required by" in error:
+        return (
+            "`provides` が、capability の約束する操作をすべて実装していません。",
+            "不足しているメソッドを capability の署名どおりに実装します。",
+            "ERROR_MUSEUM_JA.md の「capability の未充足」",
+        )
+    if "is not a method of" in error:
+        return (
+            "`provides` に、capability が要求していない名前のメソッドがあります。",
+            "名前の誤りを直すか、その操作が契約の一部なら capability 側にも宣言します。",
+            "examples/incapable.prism",
+        )
+    if "duplicate instance" in error:
+        return (
+            "同じ型と capability の組に実装候補が複数あり、どちらを使うか一意に決まりません。",
+            "インスタンスを一つに統合します。別の意味が必要なら別の型として表します。",
+            "examples/incapable.prism",
+        )
+    if "does not provide" in error:
+        return (
+            "呼び出した処理が必要とする能力を、この型が提供していません。",
+            "対応する `provides` を実装するか、能力を持つ型を渡します。ジェネリック関数なら `given` を上位へ伝えます。",
+            "showcase/03-capability-contract.prism",
+        )
+    if "defined more than once" in error:
+        return (
+            "`include` 後は一つの名前空間になるため、同じトップレベル名が衝突しています。",
+            "どちらかを意味の分かる別名にします。Prism は後から読み込んだ定義で黙って上書きしません。",
+            "ERROR_MUSEUM_JA.md の「include の名前衝突」",
+        )
+    if "orders a step, but this step is pure" in error:
+        return (
+            "純粋な計算には観測できる実行順がないため、時間の矢印 `~>` を付ける理由がありません。",
+            "依存だけを表す `<-` に戻します。実際に順序が必要な作用だけを `~>` で結びます。",
+            "examples/badtime.prism",
+        )
+    if "returns " in error and "signature declares" in error:
+        return (
+            "本体から得られる値の型と、署名が約束する戻り値の型が違います。",
+            "本体を契約に合わせるか、契約が誤りなら署名を実際の戻り値へ合わせます。",
+            "ERROR_MUSEUM_JA.md の「型・フィールドの違い」",
+        )
+    if "differing types" in error:
+        return (
+            "一つにまとめる必要がある複数の値が、同じ型になっていません。",
+            "リスト要素または `match` の各結果を、共通の型へ揃えます。",
+            "examples/mistyped.prism",
+        )
+    if "expected " in error and "got " in error:
+        return (
+            "呼び出し側が渡した値の型が、関数の引数契約と一致しません。",
+            "期待された型の値を渡すか、関数の契約と用途を見直します。",
+            "examples/mistyped.prism",
+        )
+    if "arithmetic needs Num" in error or "mixes Num and Text" in error:
+        return (
+            "数値演算に文字列などが混ざっています。Prism は暗黙の型変換をしません。",
+            "数値として計算するか、文字列を作るなら `\"{value}\"` の補間を使います。",
+            "examples/mistyped-field.prism",
+        )
+    return (
+        "検査器が、署名・型・本体の間に一致しない部分を見つけました。",
+        "エラー行の署名と本体を並べ、型 `:`・作用 `!`・失敗 `?` のどの約束が違うか確認します。",
+        "ERROR_MUSEUM_JA.md",
+    )
+
 BUILTINS = {
     "parseNum": ("fn", [TName("Text")], TName("Num"), Row(), Row(["BadNumber"]), []),
     "sin":  ("fn", [TName("Num")], TName("Num"), Row(), Row(), []),
@@ -722,7 +833,7 @@ class Checker:
             for p in pat.items: s.bind_pattern(p, TName("?"), env)
             if pat.rest: env[pat.rest] = TName("?")
 
-def check_file(path):
+def check_file(path, explain=False):
     with open(path, encoding="utf-8") as f:
         src = f.read()
     defs = parse_program_with_includes(src)
@@ -733,6 +844,11 @@ def check_file(path):
     print(f"FAIL  {path}  -- {len(errors)} problem(s):")
     for e in errors:
         print(f"  - {e}")
+        if explain:
+            why, fix, learn = explain_error(e)
+            print(f"      なぜ: {why}")
+            print(f"      直し方: {fix}")
+            print(f"      学ぶ: {learn}")
     return 1
 
 def reveal_file(path):
@@ -752,8 +868,9 @@ if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     flags = {a for a in sys.argv[1:] if a.startswith("--")}
     if not args:
-        print("usage: python check.py [--reveal] <file.prism>"); sys.exit(2)
+        print("usage: python check.py [--reveal | --explain] <file.prism>"); sys.exit(2)
     try:
-        sys.exit(reveal_file(args[0]) if "--reveal" in flags else check_file(args[0]))
+        sys.exit(reveal_file(args[0]) if "--reveal" in flags else
+                 check_file(args[0], explain="--explain" in flags))
     except (SyntaxError, RuntimeError) as e:
         print(f"[parse error] {e}", file=sys.stderr); sys.exit(2)

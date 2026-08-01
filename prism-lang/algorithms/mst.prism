@@ -1,0 +1,72 @@
+-- Algorithms in Prism :: Kruskal minimum spanning tree.
+-- Edges are supplied sorted by weight; union-find is rebuilt immutably.
+
+Edge : E{ a: Num, b: Num, w: Num }
+Parent : Par{ node: Num, parent: Num }
+
+makeParents(nodes: List[Num]) : List[Parent]  <-
+  nodes match
+    []        =>  []
+    [h, ..t]  =>  [Par{ node: h, parent: h }, ..makeParents(t)]
+
+lookupParent(x: Num, parents: List[Parent]) : Num  <-
+  parents match
+    []        =>  x
+    [p, ..t]  =>
+      p match
+        Par{node, parent}  =>  if node == x then parent else lookupParent(x, t)
+
+findRoot(x: Num, parents: List[Parent]) : Num  <-
+  p <- lookupParent(x, parents)
+  if p == x then x else findRoot(p, parents)
+
+setParent(x: Num, newParent: Num, parents: List[Parent]) : List[Parent]  <-
+  parents match
+    []        =>  []
+    [p, ..t]  =>
+      p match
+        Par{node, parent}  =>
+          if node == x then [Par{ node: node, parent: newParent }, ..t] else [p, ..setParent(x, newParent, t)]
+
+union(a: Num, b: Num, parents: List[Parent]) : List[Parent]  <-
+  ra <- findRoot(a, parents)
+  rb <- findRoot(b, parents)
+  if ra == rb then parents else setParent(ra, rb, parents)
+
+connected(a: Num, b: Num, parents: List[Parent]) : Bool  <-  findRoot(a, parents) == findRoot(b, parents)
+
+kruskal(edges: List[Edge], parents: List[Parent]) : List[Edge]  <-
+  edges match
+    []        =>  []
+    [e, ..t]  =>
+      e match
+        E{a, b, w}  =>
+          connected(a, b, parents) match
+            true   =>  kruskal(t, parents)
+            false  =>  [e, ..kruskal(t, union(a, b, parents))]
+
+totalWeight(edges: List[Edge]) : Num  <-
+  edges match
+    []        =>  0
+    [e, ..t]  =>
+      e match
+        E{a, b, w}  =>  w + totalWeight(t)
+
+edgeCount(edges: List[Edge]) : Num  <-
+  edges match
+    []        =>  0
+    [h, ..t]  =>  1 + edgeCount(t)
+
+edges : List[Edge]  <-
+  [
+    E{ a: 1, b: 2, w: 1 },
+    E{ a: 2, b: 3, w: 2 },
+    E{ a: 1, b: 3, w: 3 },
+    E{ a: 3, b: 4, w: 4 },
+    E{ a: 2, b: 4, w: 5 }
+  ]
+
+main : () !console  <-
+  tree <- kruskal(edges, makeParents([1, 2, 3, 4]))
+  show!console "mst edge count = {edgeCount(tree)}"
+  show!console "mst weight     = {totalWeight(tree)}"

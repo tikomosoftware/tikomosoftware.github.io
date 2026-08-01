@@ -1,0 +1,36 @@
+-- Algorithms in Prism :: sliding window sums.
+-- Window starts are advanced by taking the tail of the immutable list.
+
+maxN(a: Num, b: Num) : Num  <-  if a < b then b else a
+
+length(xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  1 + length(t)
+
+sumFirst(k: Num, xs: List[Num]) : Num  <-
+  (k == 0) match
+    true   =>  0
+    false  =>
+      xs match
+        []        =>  0
+        [h, ..t]  =>  h + sumFirst(k - 1, t)
+
+windowSums(k: Num, xs: List[Num]) : List[Num]  <-
+  (length(xs) < k) match
+    true   =>  []
+    false  =>
+      xs match
+        []        =>  []
+        [h, ..t]  =>  [sumFirst(k, xs), ..windowSums(k, t)]
+
+maxList(xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h]       =>  h
+    [h, ..t]  =>  maxN(h, maxList(t))
+
+main : () !console  <-
+  wins <- windowSums(3, [3, 1, 4, 1, 5, 9])
+  show!console "window sums = {wins}"
+  show!console "window max  = {maxList(wins)}"

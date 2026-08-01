@@ -1,0 +1,53 @@
+-- Algorithms in Prism :: greedy choices.
+-- These examples assume the input is already sorted in the order the greedy rule needs.
+
+Activity : Act{ id: Num, start: Num, finish: Num }
+
+selectActivities(lastFinish: Num, acts: List[Activity]) : List[Num]  <-
+  acts match
+    []        =>  []
+    [a, ..t]  =>
+      a match
+        Act{id, start, finish}  =>
+          (start >= lastFinish) match
+            true   =>  [id, ..selectActivities(finish, t)]
+            false  =>  selectActivities(lastFinish, t)
+
+greedyCoins(amount: Num, coins: List[Num]) : List[Num]  <-
+  (amount == 0) match
+    true   =>  []
+    false  =>
+      coins match
+        []        =>  []
+        [c, ..cs]  =>
+          (amount >= c) match
+            true   =>  [c, ..greedyCoins(amount - c, coins)]
+            false  =>  greedyCoins(amount, cs)
+
+sum(xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  h + sum(t)
+
+length(xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  1 + length(t)
+
+activities : List[Activity]  <-
+  [
+    Act{ id: 1, start: 1, finish: 4 },
+    Act{ id: 2, start: 3, finish: 5 },
+    Act{ id: 3, start: 0, finish: 6 },
+    Act{ id: 4, start: 5, finish: 7 },
+    Act{ id: 5, start: 8, finish: 9 },
+    Act{ id: 6, start: 5, finish: 9 }
+  ]
+
+main : () !console  <-
+  selected <- selectActivities(0, activities)
+  coins    <- greedyCoins(87, [25, 10, 5, 1])
+  show!console "activity selection = {selected}"
+  show!console "activity count     = {length(selected)}"
+  show!console "greedy coins 87    = {coins}"
+  show!console "coin sum           = {sum(coins)}"

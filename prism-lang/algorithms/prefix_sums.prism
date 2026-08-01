@@ -1,0 +1,33 @@
+-- Algorithms in Prism :: prefix sums and Kadane's maximum subarray.
+-- Prefix sums use indexed reads only after the immutable prefix list is built.
+
+maxN(a: Num, b: Num) : Num  <-  if a < b then b else a
+
+prefixFrom(acc: Num, xs: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>  [acc + h, ..prefixFrom(acc + h, t)]
+
+prefixSums(xs: List[Num]) : List[Num]  <-  [0, ..prefixFrom(0, xs)]
+
+rangeSum(xs: List[Num], lo: Num, hi: Num) : Num  <-
+  ps <- prefixSums(xs)
+  at(ps, hi + 1) - at(ps, lo)
+
+kadane(best: Num, current: Num, xs: List[Num]) : Num  <-
+  xs match
+    []        =>  best
+    [h, ..t]  =>
+      next <- maxN(h, current + h)
+      kadane(maxN(best, next), next, t)
+
+maxSubarray(xs: List[Num]) : Num  <-
+  xs match
+    []        =>  0
+    [h, ..t]  =>  kadane(h, h, t)
+
+main : () !console  <-
+  nums <- [3, 1, 4, 1, 5, 9]
+  show!console "prefix sums   = {prefixSums(nums)}"
+  show!console "range 1..3    = {rangeSum(nums, 1, 3)}"
+  show!console "max subarray  = {maxSubarray([0 - 2, 1, 0 - 3, 4, 0 - 1, 2, 1, 0 - 5, 4])}"

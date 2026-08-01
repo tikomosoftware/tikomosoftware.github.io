@@ -1,0 +1,64 @@
+-- Algorithms in Prism :: backtracking graph coloring.
+-- Count all proper colorings for a small graph.
+
+Edge : GEdge{ a: Num, b: Num }
+Coloring : Color{ node: Num, color: Num }
+
+colorOf(n: Num, cs: List[Coloring]) : Num  ?Uncolored  <-
+  cs match
+    []        =>  fail Uncolored
+    [c, ..t]  =>
+      c match
+        Color{node, color}  =>
+          (node == n) match
+            true   =>  color
+            false  =>  try colorOf(n, t)
+
+edgeSafe(n: Num, color: Num, e: Edge, cs: List[Coloring]) : Bool  <-
+  e match
+    GEdge{a, b}  =>
+      (a == n) match
+        true   =>
+          colorOf(b, cs) match
+            ok c    =>  c != color
+            fail _  =>  true
+        false  =>
+          (b == n) match
+            true   =>
+              colorOf(a, cs) match
+                ok c    =>  c != color
+                fail _  =>  true
+            false  =>  true
+
+safeColor(n: Num, color: Num, edges: List[Edge], cs: List[Coloring]) : Bool  <-
+  edges match
+    []        =>  true
+    [e, ..t]  =>
+      edgeSafe(n, color, e, cs) match
+        true   =>  safeColor(n, color, t, cs)
+        false  =>  false
+
+countWithColors(n: Num, colors: List[Num], rest: List[Num], allColors: List[Num], edges: List[Edge], cs: List[Coloring]) : Num  <-
+  colors match
+    []        =>  0
+    [c, ..t]  =>
+      safeColor(n, c, edges, cs) match
+        true   =>  countColorings(rest, allColors, edges, [Color{ node: n, color: c }, ..cs]) + countWithColors(n, t, rest, allColors, edges, cs)
+        false  =>  countWithColors(n, t, rest, allColors, edges, cs)
+
+countColorings(nodes: List[Num], colors: List[Num], edges: List[Edge], cs: List[Coloring]) : Num  <-
+  nodes match
+    []        =>  1
+    [n, ..t]  =>  countWithColors(n, colors, t, colors, edges, cs)
+
+edges : List[Edge]  <-
+  [
+    GEdge{ a: 1, b: 2 },
+    GEdge{ a: 2, b: 3 },
+    GEdge{ a: 3, b: 1 },
+    GEdge{ a: 3, b: 4 }
+  ]
+
+main : () !console  <-
+  show!console "3-colorings = {countColorings([1, 2, 3, 4], [1, 2, 3], edges, [])}"
+  show!console "2-colorings = {countColorings([1, 2, 3], [1, 2], edges, [])}"

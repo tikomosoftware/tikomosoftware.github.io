@@ -1,0 +1,95 @@
+-- Algorithms in Prism :: graph reachability and shortest distance.
+-- A graph is just data: a list of directed edges. DFS and BFS differ only in how the
+-- frontier list is threaded through recursion.
+
+Edge : Link{ from: Num, to: Num }
+
+append(xs: List[Num], ys: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  ys
+    [h, ..t]  =>  [h, ..append(t, ys)]
+
+member(x: Num, xs: List[Num]) : Bool  <-
+  xs match
+    []        =>  false
+    [h, ..t]  =>
+      (x == h) match
+        true   =>  true
+        false  =>  member(x, t)
+
+neighborsOf(n: Num, edges: List[Edge]) : List[Num]  <-
+  edges match
+    []        =>  []
+    [e, ..t]  =>
+      e match
+        Link{from, to}  =>
+          (from == n) match
+            true   =>  [to, ..neighborsOf(n, t)]
+            false  =>  neighborsOf(n, t)
+
+fresh(xs: List[Num], seen: List[Num]) : List[Num]  <-
+  xs match
+    []        =>  []
+    [h, ..t]  =>
+      member(h, seen) match
+        true   =>  fresh(t, seen)
+        false  =>  [h, ..fresh(t, seen)]
+
+dfs(goal: Num, stack: List[Num], edges: List[Edge], seen: List[Num]) : Bool  <-
+  stack match
+    []        =>  false
+    [h, ..t]  =>
+      (h == goal) match
+        true   =>  true
+        false  =>
+          member(h, seen) match
+            true   =>  dfs(goal, t, edges, seen)
+            false  =>  dfs(goal, append(fresh(neighborsOf(h, edges), seen), t), edges, [h, ..seen])
+
+bfs(goal: Num, queue: List[Num], edges: List[Edge], seen: List[Num]) : Bool  <-
+  queue match
+    []        =>  false
+    [h, ..t]  =>
+      (h == goal) match
+        true   =>  true
+        false  =>
+          member(h, seen) match
+            true   =>  bfs(goal, t, edges, seen)
+            false  =>  bfs(goal, append(t, fresh(neighborsOf(h, edges), seen)), edges, [h, ..seen])
+
+expand(frontier: List[Num], edges: List[Edge], seen: List[Num]) : List[Num]  <-
+  frontier match
+    []        =>  []
+    [h, ..t]  =>  append(fresh(neighborsOf(h, edges), seen), expand(t, edges, [h, ..seen]))
+
+shortestDistance(goal: Num, frontier: List[Num], edges: List[Edge], seen: List[Num], depth: Num) : Num  ?NoPath  <-
+  frontier match
+    []  =>  fail NoPath
+    _   =>
+      member(goal, frontier) match
+        true   =>  depth
+        false  =>  try shortestDistance(goal, expand(frontier, edges, seen), edges, append(frontier, seen), depth + 1)
+
+distanceText(start: Num, goal: Num, edges: List[Edge]) : Text  <-
+  shortestDistance(goal, [start], edges, [], 0) match
+    ok d    =>  "{d}"
+    fail _  =>  "no path"
+
+sampleGraph : List[Edge]  <-
+  [
+    Link{ from: 1, to: 2 },
+    Link{ from: 1, to: 3 },
+    Link{ from: 2, to: 4 },
+    Link{ from: 3, to: 5 },
+    Link{ from: 4, to: 6 },
+    Link{ from: 5, to: 6 },
+    Link{ from: 7, to: 8 }
+  ]
+
+main : () !console  <-
+  g <- sampleGraph
+  show!console "DFS 1 -> 6      = {dfs(6, [1], g, [])}"
+  show!console "BFS 1 -> 6      = {bfs(6, [1], g, [])}"
+  show!console "distance 1 -> 6 = {distanceText(1, 6, g)}"
+  show!console "distance 1 -> 9 = {distanceText(1, 9, g)}"
+  show!console "neighbors of 1  = {neighborsOf(1, g)}"
