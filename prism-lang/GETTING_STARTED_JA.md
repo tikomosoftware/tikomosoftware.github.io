@@ -101,7 +101,7 @@ prism serve     # 起動後に開く:
 ```
 
 - **`index.html`** — ランディングページ（遊び場／概要への導線、英日切替）。
-- **`docs.html?p=NAME.md`** — ナビゲーション付きでドキュメントを表示。概要・Getting started・Tutorial は英日を切り替えられ、文書内の `.md` リンクも `docs.html` 内で開きます。
+- **`docs.html?p=NAME.md`** — ナビゲーション付きでドキュメントを表示。概要・Getting started・Tutorial・Reference は英日を切り替えられ、文書内の `.md` リンクも `docs.html` 内で開きます。
 - **`playground.html`** — ライブエディタとキャンバス。
 
 **公開方法。** フォルダ全体は静的です。GitHub Pages や Netlify など、任意の静的ホストに置けます。ビルドはありません。エンジン（`prism.py`、`check.py`）、ギャラリーの `.prism` ファイル、ドキュメントの `.md` は実行時に取得されます。Pyodide と Markdown レンダラは CDN から来るため、公開サイトにはインターネット接続が必要です。完全オフライン・自己完結の配布にするなら、先に `prism fetch-pyodide` を実行して遊び場が同梱コピーを優先するようにします。（`pyodide/` は Git 管理外なので、通常の静的ホストでは遊び場は CDN を使います。）
